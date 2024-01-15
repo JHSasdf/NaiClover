@@ -5,7 +5,7 @@ import * as path from 'path';
 const app: Express = express();
 const PORT: number = 8080;
 
-app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../build'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
