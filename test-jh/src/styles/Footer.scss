@@ -1,0 +1,26 @@
+.footer {
+    // padding: 10px 27px;
+    padding: 10px;
+    border: 1px solid red;
+    width: 390px;
+    height: 67px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .footer-div {
+        border: 1px solid black;
+        width: 48px;
+        // height: 47px;
+        align-items: center; /* 수직 정렬을 위해 추가 */
+        text-align: center;
+        font-size: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .footer-div:hover {
+        color: rgb(36, 195, 36);
+    }
+
+}
