@@ -1,29 +1,37 @@
 //fetch
 //axios
-
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import MainPage from './pages/MainPage.tsx';
+import NewPage from './pages/NewPage.tsx';
+import Header from './components/Header.tsx';
+import { TodoItemProp } from './types/types.ts';
 function App() {
   // 객체로 설정된 초기 상태값을 배열로 변경
-  const [todoList, setTodoList] = useState(null);
-
+  const [todoList, setTodoList] = useState<TodoItemProp[]>([]);
   useEffect(() => {
     fetch('http://localhost:4000/api/todo')
       .then((response) => response.json())
-      .then((data) => setTodoList(data));
+      .then((data) => {
+        setTodoList(data);
+      });
   }, []);
 
   return (
     <div className="App">
-      <h1>TodoList</h1>
-      {todoList &&
-        todoList.map((todo) => (
-          <div key={todo.id}>
-            <div>{todo.id}</div>
-            <div>{todo.text}</div>
-            <div>{todo.done ? 'Y' : 'N'}</div>
-          </div>
-        ))}
+      <p>{todoList[0]}</p>
+      <BrowserRouter>
+        <Header></Header>
+        <Routes>
+          <Route
+            path="/"
+            element={<MainPage todoList={todoList}></MainPage>}
+          ></Route>
+          <Route path="/new" element={<NewPage></NewPage>}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
