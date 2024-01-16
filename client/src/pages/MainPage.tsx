@@ -1,11 +1,11 @@
 import { TodoItemProp } from '../types/types';
 
-function MainPage(todoList: { todoList: TodoItemProp[] }) {
+function MainPage(todoList: { todoList: React.ReactNode[] }) {
   console.log(todoList);
   return (
     <>
       <ul>{}</ul>
-      <h1>main page!</h1>
+      <h1>main page!sf</h1>
     </>
   );
 }

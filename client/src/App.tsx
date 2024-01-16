@@ -10,7 +10,8 @@ import Header from './components/Header.tsx';
 import { TodoItemProp } from './types/types.ts';
 function App() {
   // 객체로 설정된 초기 상태값을 배열로 변경
-  const [todoList, setTodoList] = useState<TodoItemProp[]>([]);
+  // 서버에서 가져온 데이터는 React.ReactNode라는 속성이 되는 것 같음
+  const [todoList, setTodoList] = useState<React.ReactNode[]>([]);
   useEffect(() => {
     fetch('http://localhost:4000/api/todo')
       .then((response) => response.json())
@@ -21,7 +22,15 @@ function App() {
 
   return (
     <div className="App">
-      <p>{todoList[0]}</p>
+      {todoList.map((elem: any) => {
+        return (
+          <ul>
+            <li>{elem.text} </li>
+            <li>{elem.id}</li>
+            <li>{JSON.stringify(elem.done)}</li>
+          </ul>
+        );
+      })}
       <BrowserRouter>
         <Header></Header>
         <Routes>
