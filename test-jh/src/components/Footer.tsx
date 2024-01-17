@@ -9,8 +9,8 @@ function Footer() {
     const navMessageColor = "images/ChatsColor.png";
     const navPosts = "images/globesimple.png"
     const navPostsColor = "images/globesimpleColor.png"
-    const navSearch = "images/magnifyingglass.png"
-    const navSearchColor = "images/magnifyingglassColor.png"
+    const navusersfour = "images/UsersFour.png"
+    const navusersfourColor = "images/UsersFourColor.png"
     const navFavorites = "images/bookmarks.png"
     const navFavoritesColor = "images/bookmarksColor.png"
     const navMypage = "images/user.png"
@@ -41,11 +41,11 @@ function Footer() {
         <img src={hoveredDiv === 'posts' ? navPostsColor : navPosts} alt="" />
         <div>Posts</div>
       </div>
-      <div className={`footer-div search ${hoveredDiv === 'search' && 'hovered'}`}
-        onMouseOver={() => onMouseOver('search')}
+      <div className={`footer-div usersfour ${hoveredDiv === 'usersfour' && 'hovered'}`}
+        onMouseOver={() => onMouseOver('usersfour')}
         onMouseLeave={() => onMouseLeave()}>
-        <img src={hoveredDiv === 'search' ? navSearchColor : navSearch} alt="" />
-        <div>Search</div>
+        <img src={hoveredDiv === 'usersfour' ? navusersfourColor : navusersfour} alt="" />
+        <div>MonoChat</div>
       </div>
       <div className={`footer-div favorites ${hoveredDiv === 'favorites' && 'hovered'}`}
         onMouseOver={() => onMouseOver('favorites')}
