@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import MainPage from './pages/MainPage.tsx';
 import NewPage from './pages/NewPage.tsx';
 import Header from './components/Header.tsx';
+import PostsPage from './pages/PostsPage.tsx';
 import { TodoItemProp } from './types/types.ts';
 function App() {
   // 객체로 설정된 초기 상태값을 배열로 변경
@@ -39,6 +40,9 @@ function App() {
             element={<MainPage todoList={todoList}></MainPage>}
           ></Route>
           <Route path="/new" element={<NewPage></NewPage>}></Route>
+          <Route
+            path='/posts'
+            element={<PostsPage></PostsPage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
