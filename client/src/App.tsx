@@ -3,13 +3,14 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 
 import MainPage from './pages/MainPage.tsx';
 import NewPage from './pages/NewPage.tsx';
 import Header from './components/Header.tsx';
-import { TodoItemProp } from './types/types.ts';
 import { v4 as uuidv4 } from 'uuid';
+
+import { useCookies } from 'react-cookie';
+import { cookieConfig } from './utils/cookieConfig.ts';
 
 export const generateUniqueId = () => {
   return uuidv4();
@@ -27,8 +28,22 @@ function App() {
       });
   }, []);
 
+  const [cookies, setCookies, removeCookies] = useCookies(['id']);
+
+  function login() {
+    setCookies('id', true, cookieConfig);
+  }
+
+  function logout() {
+    removeCookies('id', cookieConfig);
+  }
+  function check() {
+    console.log(cookies.id);
+  }
+
   return (
     <div className="App">
+      <button onClick={check}>로그아웃</button>
       {todoList.map((elem: any) => {
         return (
           <ul key={elem.id}>
