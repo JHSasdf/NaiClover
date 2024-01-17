@@ -1,5 +1,6 @@
 export const cookieConfig: Object = {
   path: '/',
-  maxAge: 60 * 1000,
+  // 단위는 초
+  maxAge: 10,
   httponly: true,
 };
