@@ -3,6 +3,8 @@ import cors from 'cors';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 
+import { authRouter } from './routes/auth.routes';
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -17,6 +19,8 @@ app.use(express.json());
 app.use(cors());
 
 const connectedClients: Record<string, Socket> = {};
+
+app.use(authRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/App.tsx');
