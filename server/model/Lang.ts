@@ -2,8 +2,13 @@ export const LangModel = (sequelize: any, DataTypes: any) => {
     const Lang = sequelize.define(
         'Lang',
         {
-            learningLang: {
+            index: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
                 primaryKey: true,
+                autoincrement: true,
+            },
+            learningLang: {
                 type: DataTypes.STRING(30),
             },
             userid: {
