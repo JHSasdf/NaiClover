@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as bcrypt from 'bcrypt';
+import { db } from '../model';
+const User = db.User;
 
 export async function login(
   req: Request,
@@ -23,21 +25,25 @@ export async function login(
       userid: null,
     });
   }
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ where: { userid: userid } });
+  } catch (err) {
+    return res.json({ msg: 'gsggs', err: err });
+  }
+  if (!existingUser) {
+    return res.json({
+      msg: '아이디 혹은 비밀번호가 다릅니다.',
+      isLoggedin: false,
+    });
+  }
 
-  //   const existingUser = await User.findOne({ where: { userid: userid } });
-  //   if (!existingUser) {
-  //     return res.json({
-  //       msg: '아이디 혹은 비밀번호가 다릅니다.',
-  //       isLoggedin: false,
-  //     });
-  //   }
-
-  //   if (!bcrypt.compareSync(password, existingUser.password)) {
-  //     return res.json({
-  //       msg: '아이디 혹은 비밀번호가 다릅니다.',
-  //       isLoggedin: false,
-  //     });
-  //   }
+  if (!bcrypt.compareSync(password, existingUser.password)) {
+    return res.json({
+      msg: '아이디 혹은 비밀번호가 다릅니다.',
+      isLoggedin: false,
+    });
+  }
 
   res.json({ msg: '로그인 성공', isLoggedin: true, userid: userid });
 }
@@ -61,13 +67,13 @@ export async function signup(
 
   let existingUser;
 
-  //   try {
-  //     existingUser = await User.findOne({
-  //       where: { userid: req.body.userid },
-  //     });
-  //   } catch (err) {
-  //     return next(err);
-  //   }
+  try {
+    existingUser = await User.findOne({
+      where: { userid: req.body.userid },
+    });
+  } catch (err) {
+    return next(err);
+  }
 
   if (!isUnique || JSON.parse(isUnique) == false || existingUser) {
     return res.json({
@@ -105,19 +111,19 @@ export async function signup(
   }
 
   const hashPW: string = bcrypt.hashSync(password, 12);
-  //   try {
-  //     const result = await User.create({
-  //       userid: userid,
-  //       name: name,
-  //       password: hashPW,
-  //       gender: gender,
-  //       country: country,
-  //       firLang: firLang,
-  //       learnLang: learnLang,
-  //     });
-  //   } catch (err) {
-  //     return next(err);
-  //   }
+  try {
+    const result = await User.create({
+      userid: userid,
+      name: name,
+      password: hashPW,
+      gender: gender,
+      country: country,
+      firLang: firLang,
+      learnLang: learnLang,
+    });
+  } catch (err) {
+    return next(err);
+  }
   return res.json({ msg: '완료.', isError: false });
 }
 
@@ -134,14 +140,13 @@ export async function existAlready(
     });
   }
   let existingUser;
-  //   try {
-  //     // sequalizer로 user table 가져오기 우리형이 완료하기만을 기다린다...
-  //     existingUser = await User.findOne({
-  //       where: { userid: userid },
-  //     });
-  //   } catch (err) {
-  //     return next(err);
-  //   }
+  try {
+    existingUser = await User.findOne({
+      where: { userid: userid },
+    });
+  } catch (err) {
+    return next(err);
+  }
   if (existingUser) {
     res.json({ msg: '이미 존재하는 아이디입니다.', isUnique: false });
   } else {
