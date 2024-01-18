@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import { db } from './model';
 
 const app = express();
 const server = http.createServer(app);
