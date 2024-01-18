@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 
@@ -46,6 +47,14 @@ app.get('/', function (req: Request, res: Response) {
 });
 
 const PORT = 4000;
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+
+db.sequelize
+    .sync({ force: false })
+    .then(() => {
+        server.listen(PORT, () => {
+          console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    })
+    .catch((err: Error) => {
+        console.log(err);
+    });

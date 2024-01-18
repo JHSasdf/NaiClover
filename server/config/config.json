@@ -1,0 +1,11 @@
+{
+    "development": {
+        "username": "user",
+        "password": "hypeboy",
+        "database": "nai-clover",
+        "host": "3.36.62.47",
+        "dialect": "mysql"
+    },
+    "production": {},
+    "test": {}
+}
