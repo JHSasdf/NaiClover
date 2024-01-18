@@ -1,4 +1,4 @@
-import '../../styles/PostTopbar.scss';
+import '../styles/PostTopbar.scss';
 
 function Topbar() {
     return ( 
