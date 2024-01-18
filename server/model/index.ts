@@ -3,19 +3,22 @@ import { Sequelize } from 'sequelize';
 const config = require(__dirname + '/../config/config.json')['development'];
 
 const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
+    config.database,
+    config.username,
+    config.password,
+    config
 );
 import { UserModel } from './User';
-const User = UserModel(sequelize, Sequelize);
+import { LangModel } from './Lang';
+import { PostModel } from './Post';
+import { CommentModel } from './Comment';
+import { FollowModel } from './Follow';
 
-const User = require('./User')(sequelize, Sequelize);
-const Lang = require('./Lang')(sequelize, Sequelize);
-const Post = require('./Post')(sequelize, Sequelize);
-const Comment = require('./Comment')(sequelize, Sequelize);
-const Follow = require('./Follow')(sequelize, Sequelize);
+const User = UserModel(sequelize, Sequelize);
+const Lang = LangModel(sequelize, Sequelize);
+const Post = PostModel(sequelize, Sequelize);
+const Comment = CommentModel(sequelize, Sequelize);
+const Follow = FollowModel(sequelize, Sequelize);
 
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
@@ -48,6 +51,7 @@ Post.hasMany(Comment, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
 });
+
 Comment.belongsTo(Post, {
     foreignKey: 'postId',
     targetKey: 'postId',
@@ -83,4 +87,3 @@ export const db = { User, Lang, Post, Comment, Follow, sequelize, Sequelize };
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-

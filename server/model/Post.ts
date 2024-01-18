@@ -1,4 +1,4 @@
-const PostModel = (sequelize: any, DataTypes: any) => {
+export const PostModel = (sequelize: any, DataTypes: any) => {
     const Post = sequelize.define(
         'Post',
         {

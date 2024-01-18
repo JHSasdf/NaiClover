@@ -1,4 +1,4 @@
-const UserModel = (sequelize: any, DataTypes: any) => {
+export const UserModel = (sequelize: any, DataTypes: any) => {
     const User = sequelize.define(
         'User',
         {

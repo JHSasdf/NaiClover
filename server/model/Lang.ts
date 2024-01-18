@@ -1,4 +1,4 @@
-const LangModel = (sequelize: any, DataTypes: any) => {
+export const LangModel = (sequelize: any, DataTypes: any) => {
     const Lang = sequelize.define(
         'Lang',
         {
