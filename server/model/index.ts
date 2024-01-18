@@ -15,3 +15,4 @@ export const db = { User, sequelize, Sequelize };
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
