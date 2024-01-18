@@ -29,6 +29,7 @@ export const UserModel = (sequelize: any, DataTypes: any) => {
         },
         {
             freezeTableName: true,
+            timestamps: false,
         }
     );
     return User;

@@ -6,7 +6,7 @@ export const PostModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoincrement: true,
+                autoIncrement: true,
             },
             userid: {
                 type: DataTypes.STRING(30),
