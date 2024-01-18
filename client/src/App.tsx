@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useCookies } from 'react-cookie';
 import { cookieConfig } from './utils/cookieConfig.ts';
+import Mypage from './components/Mypage/Mypage.tsx';
 
 export const generateUniqueId = () => {
   return uuidv4();
@@ -32,7 +33,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/posts" element={<PostsPage></PostsPage>}></Route>
+          <Route path="/posts" element={<PostsPage />}></Route>
+          <Route path="/mypage" element={<Mypage />} />
         </Routes>
       </BrowserRouter>
     </div>
