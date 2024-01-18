@@ -4,4 +4,4 @@ export const authRouter = express();
 
 authRouter.post('/login', controller.login);
 
-authRouter.post('/signin', controller.signin);
+authRouter.post('/signin', controller.signup);

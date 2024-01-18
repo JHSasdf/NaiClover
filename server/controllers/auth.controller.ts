@@ -9,11 +9,19 @@ export async function login(
   const { userid, password } = req.body;
 
   if (!userid || userid.trim().length === 0) {
-    return res.json({ msg: '아이디를 입력해주세요.', isLoggedin: false });
+    return res.json({
+      msg: '아이디를 입력해주세요.',
+      isLoggedin: false,
+      userid: null,
+    });
   }
 
   if (!password || password.trim().length === 0) {
-    return res.json({ msg: '비밀번호를 입력해주세요.', isLoggedin: false });
+    return res.json({
+      msg: '비밀번호를 입력해주세요.',
+      isLoggedin: false,
+      userid: null,
+    });
   }
 
   //   const existingUser = await User.findOne({ where: { userid: userid } });
@@ -31,10 +39,10 @@ export async function login(
   //     });
   //   }
 
-  res.json({ msg: '로그인 성공', isLoggedin: true });
+  res.json({ msg: '로그인 성공', isLoggedin: true, userid: userid });
 }
 
-export async function signin(
+export async function signup(
   req: Request,
   res: Response,
   next: NextFunction
