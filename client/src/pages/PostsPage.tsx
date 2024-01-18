@@ -1,8 +1,8 @@
 import Post from '../components/postspage/Post';
 import Search from '../components/postspage/Search';
-import Header from '../components/postspage/Header';
+import Header from '../components/postspage/PostsHeader';
 import Category from '../components/postspage/Category';
-import Topbar from '../components/postspage/Topbar';
+import Topbar from '../components/Topbar';
 import '../styles/PostsPage.scss';
 import Footer from '../components/Footer';
 

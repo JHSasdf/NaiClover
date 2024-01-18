@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import PostsPage from './pages/PostsPage.tsx';
+import NewPostPage from './pages/NewPostPage.tsx';
+import { TodoItemProp } from './types/types.ts';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useCookies } from 'react-cookie';
@@ -33,6 +35,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route
+            path='/newpost'
+            element={<NewPostPage></NewPostPage>}>
+          </Route>
           <Route path="/posts" element={<PostsPage />}></Route>
           <Route path="/mypage" element={<Mypage />} />
         </Routes>
