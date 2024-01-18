@@ -111,7 +111,7 @@ export async function signup(
         });
     }
 
-    if (!gender || gender.trim().length < 2) {
+    if (!(gender === 'm' || gender === 'f')) {
         return res.json({
             msg: '성별을 입력해주세요.',
             isError: true,
@@ -131,7 +131,7 @@ export async function signup(
         });
     }
 
-    if (!learningLang || Object.keys(learningLang).length < 2) {
+    if (!learningLang || learningLang.length < 1) {
         return res.json({
             msg: '배우는 언어를 입력해주세요',
             isError: true,
@@ -150,10 +150,11 @@ export async function signup(
             nation: nation,
             firLang: firLang,
         });
-        for (const key in learningLang) {
+        for (const lang of learningLang) {
+            console.log(lang);
             await Lang.create({
                 userid: userid,
-                learningLang: learningLang[key],
+                learningLang: lang,
             });
         }
     } catch (err) {

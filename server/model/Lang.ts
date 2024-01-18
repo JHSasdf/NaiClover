@@ -6,7 +6,7 @@ export const LangModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoincrement: true,
+                autoIncrement: true,
             },
             learningLang: {
                 type: DataTypes.STRING(30),
