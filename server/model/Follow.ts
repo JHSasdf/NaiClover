@@ -1,4 +1,4 @@
-const FollowModel = (sequelize: any, DataTypes: any) => {
+export const FollowModel = (sequelize: any, DataTypes: any) => {
     const Follow = sequelize.define(
         'Follow',
         {

@@ -1,4 +1,4 @@
-const CommentModel = (sequelize: any, DataTypes: any) => {
+export const CommentModel = (sequelize: any, DataTypes: any) => {
     const Comment = sequelize.define(
         'Comment',
         {
