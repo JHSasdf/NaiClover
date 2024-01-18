@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import MainPage from './pages/MainPage.tsx';
 import NewPage from './pages/NewPage.tsx';
 import Header from './components/Header.tsx';
+import PostsPage from './pages/PostsPage.tsx';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useCookies } from 'react-cookie';
@@ -61,6 +62,7 @@ function App() {
             element={<MainPage todoList={todoList}></MainPage>}
           ></Route>
           <Route path="/new" element={<NewPage></NewPage>}></Route>
+          <Route path="/posts" element={<PostsPage></PostsPage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,9 +1,11 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 
 import { authRouter } from './routes/auth.routes';
+import { db } from './model';
 
 const app = express();
 const server = http.createServer(app);
@@ -16,7 +18,13 @@ const io = new Server(server, {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  })
+);
 
 const connectedClients: Record<string, Socket> = {};
 
@@ -24,6 +32,13 @@ app.use(authRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/App.tsx');
+});
+
+app.post('/something', (req, res) => {
+  const data = req.cookies;
+  const data2 = req.signedCookies;
+  const readdata = req.body.data1;
+  res.json({ data1: data, data2: data2, data4: readdata, data3: 'sfsf' });
 });
 
 io.on('connection', (socket: Socket) => {
@@ -50,6 +65,14 @@ app.get('/', function (req: Request, res: Response) {
 });
 
 const PORT = 4000;
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+
+db.sequelize
+  .sync({ force: false })
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err: Error) => {
+    console.log(err);
+  });
