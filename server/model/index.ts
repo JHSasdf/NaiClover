@@ -3,11 +3,13 @@ import { Sequelize } from 'sequelize';
 const config = require(__dirname + '/../config/config.json')['development'];
 
 const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
+  config.database,
+  config.username,
+  config.password,
+  config
 );
+import { UserModel } from './User';
+const User = UserModel(sequelize, Sequelize);
 
 const User = require('./User')(sequelize, Sequelize);
 const Lang = require('./Lang')(sequelize, Sequelize);
@@ -81,3 +83,4 @@ export const db = { User, Lang, Post, Comment, Follow, sequelize, Sequelize };
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
