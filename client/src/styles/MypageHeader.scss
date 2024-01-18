@@ -1,0 +1,44 @@
+@import './Common.scss';
+
+.mypageHeaderC {
+  width: $all-width;
+  height: 188px;
+  top: 44px;
+  border: 1px solid blue;
+
+  .logoC {
+    border: 1px solid blueviolet;
+    height: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .followC {
+    // border: 2px solid green;
+    height: 164px;
+    margin-top: 32px;
+    margin-left: 40px;
+    margin-right: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .aDiv {
+      width: 88px;
+      height: 68px;
+      border: 1px solid black;
+    }
+    .bDiv {
+      width: 100px;
+      height: 132px;
+
+      border: 1px solid black;
+    }
+    .cDiv {
+      width: 88px;
+      height: 68px;
+      border: 1px solid black;
+    }
+  }
+}
