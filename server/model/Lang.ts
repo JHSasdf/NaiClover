@@ -17,5 +17,3 @@ export const LangModel = (sequelize: any, DataTypes: any) => {
     );
     return Lang;
 };
-
-module.exports = LangModel;

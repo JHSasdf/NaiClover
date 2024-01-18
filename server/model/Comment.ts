@@ -23,5 +23,3 @@ export const CommentModel = (sequelize: any, DataTypes: any) => {
     );
     return Comment;
 };
-
-module.exports = CommentModel;

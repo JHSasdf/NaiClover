@@ -25,5 +25,3 @@ export const PostModel = (sequelize: any, DataTypes: any) => {
     );
     return Post;
 };
-
-module.exports = PostModel;
