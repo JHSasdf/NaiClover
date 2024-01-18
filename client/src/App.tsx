@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useCookies } from 'react-cookie';
 import { cookieConfig } from './utils/cookieConfig.ts';
-import Mypage from './components/Mypage/Mypage.tsx';
+import Mypage from './pages/Mypage.tsx';
 
 export const generateUniqueId = () => {
   return uuidv4();
