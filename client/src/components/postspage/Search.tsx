@@ -1,4 +1,4 @@
-import '../../styles/Search.scss'
+import '../../styles/PostSearch.scss'
 
 function Search() {
     return(

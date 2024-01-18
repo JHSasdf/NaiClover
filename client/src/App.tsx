@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 
 import MainPage from './pages/MainPage.tsx';
 import NewPage from './pages/NewPage.tsx';
-import Header from './components/Header.tsx';
 import PostsPage from './pages/PostsPage.tsx';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -55,7 +54,6 @@ function App() {
         );
       })}
       <BrowserRouter>
-        <Header></Header>
         <Routes>
           <Route
             path="/"

@@ -11,7 +11,9 @@ const sequelize = new Sequelize(
 import { UserModel } from './User';
 const User = UserModel(sequelize, Sequelize);
 
+
 export const db = { User, sequelize, Sequelize };
 
-db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+

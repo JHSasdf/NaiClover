@@ -34,13 +34,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/App.tsx');
 });
 
-app.post('/something', (req, res) => {
-  const data = req.cookies;
-  const data2 = req.signedCookies;
-  const readdata = req.body.data1;
-  res.json({ data1: data, data2: data2, data4: readdata, data3: 'sfsf' });
-});
-
 io.on('connection', (socket: Socket) => {
   console.log('a user connected');
 
