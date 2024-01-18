@@ -13,12 +13,16 @@ import { LangModel } from './Lang';
 import { PostModel } from './Post';
 import { CommentModel } from './Comment';
 import { FollowModel } from './Follow';
+import { ChatModel } from './Chat';
+import { RoomModel } from './Room';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Comment = CommentModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
+const Chat = ChatModel(sequelize, Sequelize);
+const Room = RoomModel(sequelize, Sequelize);
 
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
@@ -81,6 +85,19 @@ User.belongsToMany(User, {
     as: 'Follower',
     foreignKey: 'followerId', // 중간테이블 Follow의 외래키 followerId
     sourceKey: 'userid', // User의 userid를 source로 참조한다.
+});
+
+//룸:chat = 1:N
+Room.hasMany(Chat, {
+    foreignKey: 'roomNum',
+    sourceKey: 'roomNum',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Chat.belongsTo(Room, {
+    foreignKey: 'roomNum',
+    targetKey: 'roomNum',
 });
 
 export const db = { User, Lang, Post, Comment, Follow, sequelize, Sequelize };
