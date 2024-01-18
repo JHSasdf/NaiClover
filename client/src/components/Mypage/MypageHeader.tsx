@@ -11,7 +11,11 @@ function MypageHeader() {
           <img src="images/Gear.png" alt="" />
         </div>
       </div>
-      <div></div>
+      <div className="followC">
+        <div className="aDiv">1</div>
+        <div className="bDiv">2</div>
+        <div className="cDiv">3</div>
+      </div>
     </div>
   );
 }
