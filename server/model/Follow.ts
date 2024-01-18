@@ -17,5 +17,3 @@ export const FollowModel = (sequelize: any, DataTypes: any) => {
     );
     return Follow;
 };
-
-module.exports = FollowModel;
