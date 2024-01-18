@@ -5,7 +5,6 @@ const UserModel = (sequelize: any, DataTypes: any) => {
             userid: {
                 primaryKey: true,
                 type: DataTypes.STRING(30),
-                allowNull: false,
             },
             password: {
                 type: DataTypes.STRING(1000),
