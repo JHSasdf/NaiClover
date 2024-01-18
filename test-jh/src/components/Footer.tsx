@@ -15,6 +15,8 @@ function Footer() {
   const navMypageColor = 'images/userColor.png';
 
   const [hoveredDiv, setHoverdDiv] = useState('');
+  const [clickedDiv, setClickedDiv] = useState('');
+
   const onMouseOver = (divName: string) => {
     setHoverdDiv(divName);
   };
@@ -23,77 +25,111 @@ function Footer() {
     setHoverdDiv('');
   };
 
+  // 클릭 시 변경된 이미지 고정.
+  const clickMouse = (divName: string) => {
+    setClickedDiv(divName);
+  };
+
   return (
     <footer className="footer">
       <Link to={'/'}>
         <div
           className={`footer-div message ${
             hoveredDiv === 'message' && 'hovered'
-          }`}
+          } ${clickedDiv === 'message' && 'text-change'}`} // 클래스가 message 이면 hovered, text-change 클래스를 가진다.
           onMouseOver={() => onMouseOver('message')}
           onMouseLeave={() => onMouseLeave()}
+          onClick={() => clickMouse('message')}
         >
           <img
             className="footer-div-message-img"
-            src={hoveredDiv === 'message' ? navMessageColor : navMessage}
+            src={
+              hoveredDiv === 'message' || clickedDiv === 'message'
+                ? navMessageColor
+                : navMessage
+            }
             alt=""
           />
-          <div>Message</div>
+          <div className="text">Message</div>
         </div>
       </Link>
       <Link to={'/'}>
         <div
-          className={`footer-div posts ${hoveredDiv === 'posts' && 'hovered'}`}
+          className={`footer-div posts ${hoveredDiv === 'posts' && 'hovered'}
+          ${clickedDiv === 'posts' && 'text-change'}`}
           onMouseOver={() => onMouseOver('posts')}
           onMouseLeave={() => onMouseLeave()}
+          onClick={() => clickMouse('posts')}
         >
-          <img src={hoveredDiv === 'posts' ? navPostsColor : navPosts} alt="" />
-          <div>Posts</div>
+          <img
+            src={
+              hoveredDiv === 'posts' || clickedDiv === 'posts'
+                ? navPostsColor
+                : navPosts
+            }
+            alt=""
+          />
+          <div className="text">Posts</div>
         </div>
       </Link>
       <Link to={'/'}>
         <div
           className={`footer-div usersfour ${
             hoveredDiv === 'usersfour' && 'hovered'
-          }`}
+          } ${clickedDiv === 'usersfour' && 'text-change'}`}
           onMouseOver={() => onMouseOver('usersfour')}
           onMouseLeave={() => onMouseLeave()}
+          onClick={() => clickMouse('usersfour')}
         >
           <img
-            src={hoveredDiv === 'usersfour' ? navusersfourColor : navusersfour}
+            src={
+              hoveredDiv === 'usersfour' || clickedDiv === 'usersfour'
+                ? navusersfourColor
+                : navusersfour
+            }
             alt=""
           />
-          <div>MonoChat</div>
+          <div className="text">MonoChat</div>
         </div>
       </Link>
       <Link to={'/'}>
         <div
           className={`footer-div favorites ${
             hoveredDiv === 'favorites' && 'hovered'
-          }`}
+          } ${clickedDiv === 'favorites' && 'text-change'}`}
           onMouseOver={() => onMouseOver('favorites')}
           onMouseLeave={() => onMouseLeave()}
+          onClick={() => clickMouse('favorites')}
         >
           <img
-            src={hoveredDiv === 'favorites' ? navFavoritesColor : navFavorites}
+            src={
+              hoveredDiv === 'favorites' || clickedDiv === 'favorites'
+                ? navFavoritesColor
+                : navFavorites
+            }
             alt=""
           />
-          <div>Favorites</div>
+          <div className="text">Favorites</div>
         </div>
       </Link>
       <Link to={'/mypage'}>
         <div
           className={`footer-div mypage ${
             hoveredDiv === 'mypage' && 'hovered'
-          }`}
+          } ${clickedDiv === 'mypage' && 'text-change'}`}
           onMouseOver={() => onMouseOver('mypage')}
           onMouseLeave={() => onMouseLeave()}
+          onClick={() => clickMouse('mypage')}
         >
           <img
-            src={hoveredDiv === 'mypage' ? navMypageColor : navMypage}
+            src={
+              hoveredDiv === 'mypage' || clickedDiv === 'mypage'
+                ? navMypageColor
+                : navMypage
+            }
             alt=""
           />
-          <div>My Page</div>
+          <div className="text">My Page</div>
         </div>
       </Link>
 
