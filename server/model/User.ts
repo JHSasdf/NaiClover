@@ -2,33 +2,28 @@ const UserModel = (sequelize: any, DataTypes: any) => {
     const User = sequelize.define(
         'User',
         {
-            user_id: {
-                type: DataTypes.INTEGER,
+            userid: {
                 primaryKey: true,
+                type: DataTypes.STRING(30),
                 allowNull: false,
-                autoIncrement: true,
+            },
+            password: {
+                type: DataTypes.STRING(1000),
+                allowNull: false,
             },
             name: {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
-            id: {
-                type: DataTypes.STRING(30),
-                allowNull: false,
-            },
-            password: {
-                type: DataTypes.STRING(30),
-                allowNull: false,
-            },
             gender: {
-                type: DataTypes.BOOLEAN,
+                type: DataTypes.STRING(1),
                 allowNull: false,
             },
             nation: {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
-            native_lang: {
+            firLang: {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },

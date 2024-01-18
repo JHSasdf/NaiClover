@@ -13,5 +13,5 @@ const User = require('./User')(sequelize, Sequelize);
 
 export const db = { User, sequelize, Sequelize };
 
-db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
