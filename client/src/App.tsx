@@ -32,25 +32,24 @@ function App() {
 
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
 
-
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path='/newpost'
-            element={<NewPostPage></NewPostPage>}>
-          </Route>
-          <Route path="/posts" element={<PostsPage />}></Route>
-          <Route path="/mypage" element={<Mypage />} />
-          <Route
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/newpost"
+                        element={<NewPostPage></NewPostPage>}
+                    ></Route>
+                    <Route path="/posts" element={<PostsPage />}></Route>
+                    <Route path="/mypage" element={<Mypage />} />
+                    <Route
                         path="/signup"
                         element={<SignupPage></SignupPage>}
                     ></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
