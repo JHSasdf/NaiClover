@@ -2,7 +2,6 @@ export const LangModel = (sequelize: any, DataTypes: any) => {
     const Lang = sequelize.define(
         'Lang',
         {
-
             index: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
