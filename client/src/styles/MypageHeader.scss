@@ -1,20 +1,4 @@
 @import './Common.scss';
-@mixin flex-center() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-@mixin flex-around() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-@mixin flex-space-between() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
 
 .mypageHeaderC {
     width: $all-width;

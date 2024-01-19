@@ -5,7 +5,7 @@ function MypageHeader() {
         <div className="mypageHeaderC">
             <div className="logoC">
                 <div>
-                    <img src="images/Cell.png" alt="" />
+                    <img src="images/MypageLogo.png" alt="" />
                 </div>
                 <div>
                     <img src="images/Gear.png" alt="" />

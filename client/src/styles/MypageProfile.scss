@@ -1,3 +1,119 @@
-.MypageProfile-C {
-    border: 1px solid black;
+@import '../styles/Common.scss';
+
+@mixin C-Header() {
+    @include flex();
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+@mixin modify-C() {
+    margin-left: auto;
+    @include flex();
+    .modifyImg {
+        width: 24px;
+        height: 24px;
+        padding-bottom: 2px;
+    }
+    .modify-title {
+        color: $primary-color;
+    }
+}
+
+.mypageProfile-C {
+    border: 1px solid blue;
+    padding: 0 16px;
+    .introduce-C {
+        margin-top: 39px;
+
+        .introduce-C-Header {
+            @include C-Header();
+
+            .introduce-title {
+                color: $sub-color;
+            }
+
+            .modify-C {
+                margin-left: auto;
+                @include flex();
+                .modifyImg {
+                    width: 24px;
+                    height: 24px;
+                    padding-bottom: 2px;
+                }
+                .modify-title {
+                    color: $primary-color;
+                }
+            }
+        }
+
+        .textarea-C {
+            padding: 12px;
+            background-color: #e9ffee;
+            @include flex-center();
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+            border-radius: 5px;
+
+            #introduce-textarea {
+                width: 319px;
+                height: 91px;
+                background-color: #e9ffee;
+                border: none;
+                // outline: none;
+                resize: none;
+            }
+            &:focus {
+                border-color: blue;
+            }
+        }
+    }
+    .navtivLang-C {
+        border: 1px solid black;
+        margin-top: 39px;
+
+        .navtivLang-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+            }
+        }
+        .navtive-result-C {
+            @include flex();
+            .nativeResultDiv {
+                border: 1px solid green;
+                border-radius: 20px;
+                width: fit-content;
+                height: fit-content;
+                padding: 8px;
+                margin-right: 12px;
+            }
+        }
+    }
+    .learnLang-C {
+        border: 1px solid black;
+        margin-top: 39px;
+        .learnLang-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+            }
+        }
+        .learn-result-C {
+            // @extend .native-result-C;
+        }
+    }
+    .location-C {
+        border: 1px solid black;
+        margin-top: 39px;
+        .location-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+            }
+        }
+    }
 }
