@@ -1,8 +1,23 @@
 @import './Common.scss';
 
 .mypage-container {
-  border: 1px solid red;
-  width: $all-width;
-  top: 56px;
-  height: 684px;
+    border: 1px solid red;
+    width: $all-width;
+    top: 56px;
+    height: 684px;
+
+    .clickDiv {
+        @include flex-center();
+        text-align: center;
+
+        .profileClick {
+            border-bottom: 1px solid lightgray;
+            width: 163px;
+            height: 32px;
+            @include flex-center();
+        }
+        .postClick {
+            @extend .profileClick;
+        }
+    }
 }
