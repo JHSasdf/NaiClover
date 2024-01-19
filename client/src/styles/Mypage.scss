@@ -9,6 +9,7 @@
     .clickDiv {
         @include flex-center();
         text-align: center;
+        cursor: pointer;
 
         .profileClick {
             border-bottom: 1px solid lightgray;
@@ -18,6 +19,15 @@
         }
         .postClick {
             @extend .profileClick;
+        }
+
+        .colorChange {
+            color: $primary-color;
+            font-weight: bolder;
+            font-size: large;
+        }
+        .divChange {
+            border-bottom: 3px solid $primary-color;
         }
     }
 }

@@ -13,6 +13,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useCookies } from 'react-cookie';
 import { cookieConfig } from './utils/cookieConfig.ts';
 import Mypage from './pages/Mypage.tsx';
+import MypageProfile from './components/Mypage/MypageProfile.tsx';
+import MypagePost from './components/Mypage/MypagePost.tsx';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -46,6 +48,8 @@ function App() {
                         path="/signup"
                         element={<SignupPage></SignupPage>}
                     ></Route>
+                    <Route path="/mypageProfile" element={<MypageProfile />} />
+                    <Route path="/mypagePost" element={<MypagePost />} />
                 </Routes>
             </BrowserRouter>
         </div>

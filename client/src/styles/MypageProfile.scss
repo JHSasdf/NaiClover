@@ -1,5 +1,6 @@
 @import '../styles/Common.scss';
 
+// 각 컨테이너 헤더 부분
 @mixin C-Header() {
     @include flex();
     font-weight: bold;
@@ -7,6 +8,7 @@
     margin-bottom: 8px;
 }
 
+// 수정 이미지 & text
 @mixin modify-C() {
     margin-left: auto;
     @include flex();
@@ -20,30 +22,33 @@
     }
 }
 
+// 언어 결과 div
+@mixin lang-result() {
+    border: 1px solid green;
+    border-radius: 20px;
+    width: fit-content;
+    height: fit-content;
+    padding: 8px;
+    margin-right: 12px;
+}
+
 .mypageProfile-C {
-    border: 1px solid blue;
     padding: 0 16px;
+    height: 464px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    // 자기 소개 부분
     .introduce-C {
         margin-top: 39px;
 
         .introduce-C-Header {
             @include C-Header();
 
-            .introduce-title {
-                color: $sub-color;
-            }
-
             .modify-C {
-                margin-left: auto;
-                @include flex();
-                .modifyImg {
-                    width: 24px;
-                    height: 24px;
-                    padding-bottom: 2px;
-                }
-                .modify-title {
-                    color: $primary-color;
-                }
+                @include modify-C();
             }
         }
 
@@ -52,47 +57,39 @@
             background-color: #e9ffee;
             @include flex-center();
             box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-
             border-radius: 5px;
 
-            #introduce-textarea {
+            .introduce-textarea {
                 width: 319px;
                 height: 91px;
                 background-color: #e9ffee;
                 border: none;
-                // outline: none;
+                outline: none;
                 resize: none;
-            }
-            &:focus {
-                border-color: blue;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
         }
     }
-    .navtivLang-C {
-        border: 1px solid black;
+    // 모국어 부분
+    .nativLang-C {
         margin-top: 39px;
 
-        .navtivLang-C-Header {
+        .nativLang-C-Header {
             @include C-Header();
-
-            .modify-C {
-                @include modify-C();
-            }
         }
-        .navtive-result-C {
+        .native-result-c {
             @include flex();
             .nativeResultDiv {
-                border: 1px solid green;
-                border-radius: 20px;
-                width: fit-content;
-                height: fit-content;
-                padding: 8px;
-                margin-right: 12px;
+                @include lang-result();
             }
         }
     }
+    // 학습 언어 부분
     .learnLang-C {
-        border: 1px solid black;
         margin-top: 39px;
         .learnLang-C-Header {
             @include C-Header();
@@ -101,10 +98,14 @@
                 @include modify-C();
             }
         }
-        .learn-result-C {
-            // @extend .native-result-C;
+        .learn-result-c {
+            @include flex();
+            .learnResultDiv {
+                @include lang-result();
+            }
         }
     }
+    // 위치 부분
     .location-C {
         border: 1px solid black;
         margin-top: 39px;
@@ -116,4 +117,8 @@
             }
         }
     }
+}
+
+.header-title {
+    color: $sub-color;
 }
