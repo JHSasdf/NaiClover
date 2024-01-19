@@ -1,44 +1,97 @@
 @import './Common.scss';
+@mixin flex-center() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex-around() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+@mixin flex-space-between() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .mypageHeaderC {
-  width: $all-width;
-  height: 188px;
-  top: 44px;
-  border: 1px solid blue;
+    width: $all-width;
+    height: 188px;
+    top: 44px;
+    // border: 1px solid blue;
 
-  .logoC {
-    border: 1px solid blueviolet;
-    height: 24px;
-    padding-left: 24px;
-    padding-right: 24px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .followC {
-    // border: 2px solid green;
-    height: 164px;
-    margin-top: 32px;
-    margin-left: 40px;
-    margin-right: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    .aDiv {
-      width: 88px;
-      height: 68px;
-      border: 1px solid black;
+    .logoC {
+        height: 24px;
+        padding-left: 24px;
+        padding-right: 24px;
+        @include flex-space-between();
     }
-    .bDiv {
-      width: 100px;
-      height: 132px;
+    .followC {
+        height: 164px;
+        margin-top: 32px;
+        margin-left: 40px;
+        margin-right: 40px;
+        @include flex-space-between();
+        .aDiv {
+            width: 88px;
+            height: 68px;
+            @include flex-center();
+        }
+        .bDiv {
+            width: 100px;
+            height: 132px;
+            @include flex-center();
 
-      border: 1px solid black;
+            .imageC {
+                position: relative;
+
+                .profile-image {
+                    width: 56px;
+                    height: 56px;
+                    background-color: lightgrey;
+                    border: 1px solid lightgray;
+                    border-radius: 50%;
+                }
+                .flag-image {
+                    width: 22px;
+                    height: 16px;
+                    position: absolute;
+                    background-color: white;
+                    border: 1px solid black;
+                    bottom: -2px;
+                }
+            }
+
+            .contentC {
+                width: 100px;
+                height: 60px;
+
+                .nameInfo {
+                    @include flex-center();
+                }
+
+                .countryInfo {
+                    font-weight: 500;
+                    font-size: 10px;
+                    @include flex-around();
+                }
+
+                .languageInfo {
+                    @include flex-around();
+
+                    .arrowImage {
+                        @include flex-center();
+                    }
+                    .languageDiv {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+        .cDiv {
+            @extend .aDiv;
+        }
     }
-    .cDiv {
-      width: 88px;
-      height: 68px;
-      border: 1px solid black;
-    }
-  }
 }

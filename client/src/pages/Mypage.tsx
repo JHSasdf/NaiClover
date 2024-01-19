@@ -9,8 +9,10 @@ function Mypage() {
             <Topbar />
             <div className="mypage-container">
                 <MypageHeader />
-                <div></div>
-                <div></div>
+                <div className="clickDiv">
+                    <div className="profileClick">프로필</div>
+                    <div className="postClick">POST</div>
+                </div>
             </div>
             <Footer />
         </>
