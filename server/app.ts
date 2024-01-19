@@ -5,7 +5,9 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 
 import { authRouter } from './routes/auth.routes';
+import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
+
 import { db } from './model';
 import { error } from 'console';
 
@@ -31,6 +33,7 @@ app.use(
 const connectedClients: Record<string, Socket> = {};
 
 app.use(authRouter);
+app.use(myPageRouter);
 app.use(followRouter);
 
 app.get('/', (req, res) => {
