@@ -1,44 +1,44 @@
 @import './Common.scss';
 
 .footer {
-  box-shadow: inset 0px 1px 0px rgba(192, 191, 191, 0.5);
-  width: $all-width;
-  height: 107px;
-  top: 737px;
-  display: flex;
-  position: fixed;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-
-  a {
-    width: 48px;
-    height: 67px;
-    align-items: center; // 수직 정렬
-    text-align: center;
-    font-size: 12px;
+    box-shadow: inset 0px 1px 0px rgba(192, 191, 191, 0.5);
+    width: $all-width;
+    height: 107px;
+    top: 737px;
     display: flex;
+    position: fixed;
     flex-wrap: wrap;
-    justify-content: center;
-    text-decoration-line: none; // a 링크 밑줄 제거
-    color: inherit; // a 링크 글자색 없애기
+    justify-content: space-evenly;
 
-    .footer-div {
-      img {
-        margin-bottom: 5px;
-      }
-    }
+    a {
+        width: 48px;
+        height: 67px;
+        align-items: center; // 수직 정렬
+        text-align: center;
+        font-size: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-decoration-line: none; // a 링크 밑줄 제거
+        color: inherit; // a 링크 글자색 없애기
 
-    .text-change {
-      color: #37af6a;
-    }
+        .footer-div {
+            img {
+                margin-bottom: 5px;
+            }
+        }
 
-    .footer-div:hover {
-      color: #37af6a;
+        .text-change {
+            color: $primary-color;
+        }
+
+        .footer-div:hover {
+            color: $primary-color;
+        }
     }
-  }
 }
 .edge {
-  // border: 1px solid black;
-  width: $all-width;
-  height: 40px;
+    // border: 1px solid black;
+    width: $all-width;
+    height: 40px;
 }

@@ -30,12 +30,17 @@ export async function login(
     try {
         existingUser = await User.findOne({ where: { userid: userid } });
     } catch (err) {
-        return res.json({ msg: '오류가 발생하였습니다', isLoggedin: false });
+        return res.json({
+            msg: '오류가 발생하였습니다',
+            isLoggedin: false,
+            userid: null,
+        });
     }
     if (!existingUser) {
         return res.json({
             msg: '아이디 혹은 비밀번호가 다릅니다.',
             isLoggedin: false,
+            userid: null,
         });
     }
 
@@ -43,10 +48,11 @@ export async function login(
         return res.json({
             msg: '아이디 혹은 비밀번호가 다릅니다.',
             isLoggedin: false,
+            userid: null,
         });
     }
 
-    res.json({ msg: '로그인 성공', isLoggedin: true, userid: userid });
+    res.json({ msg: null, isLoggedin: true, userid: userid });
 }
 
 export async function signup(
@@ -160,7 +166,7 @@ export async function signup(
     } catch (err) {
         return next(err);
     }
-    return res.json({ msg: '완료.', isError: false });
+    return res.json({ msg: null, isError: false });
 }
 
 export async function existAlready(
