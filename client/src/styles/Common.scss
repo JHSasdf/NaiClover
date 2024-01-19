@@ -1,1 +1,22 @@
+// 아이폰 13
 $all-width: 390px;
+
+// 메인 컬러
+$primary-color: #37af6a;
+
+@mixin flex-center() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex-around() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+@mixin flex-space-between() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
