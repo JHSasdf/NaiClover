@@ -5,6 +5,7 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 
 import { authRouter } from './routes/auth.routes';
+import { followRouter } from './routes/follow.routes';
 import { db } from './model';
 import { error } from 'console';
 
@@ -26,10 +27,11 @@ app.use(
         methods: ['GET', 'POST', 'patch', 'delete'],
     })
 );
-
+``;
 const connectedClients: Record<string, Socket> = {};
 
 app.use(authRouter);
+app.use(followRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');

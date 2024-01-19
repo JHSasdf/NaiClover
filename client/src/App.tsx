@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import PostsPage from './pages/PostsPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
 import NewPostPage from './pages/NewPostPage.tsx';
+import FollowPage from './pages/FollowPage.tsx';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -45,6 +46,10 @@ function App() {
                     <Route
                         path="/signup"
                         element={<SignupPage></SignupPage>}
+                    ></Route>
+                    <Route
+                        path="/follow"
+                        element={<FollowPage></FollowPage>}
                     ></Route>
                 </Routes>
             </BrowserRouter>
