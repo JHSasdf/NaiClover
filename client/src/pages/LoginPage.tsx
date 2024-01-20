@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useRef } from 'react';
 import { useState } from 'react';
 import '../styles/conditions.scss';
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 
 function LoginPage() {
     const [errormsg, setErrorMsg] = useState();
@@ -36,20 +36,29 @@ function LoginPage() {
     };
 
     return (
-        <div>
+        <div className="logincontainer">
+            <img
+                className="loginlogo"
+                src="/images/loginPageLogo.png"
+                alt="logo-img"
+            />
             <form>
-                <input type="text" placeholder="ID" ref={idRef} />
+                <input type="text" placeholder="ID" ref={idRef} /> <br />
                 <input
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
                     ref={passwordRef}
-                />
-                <button
+                />{' '}
+                <br />
+                <img
+                    src="/images/signinBtn.png"
+                    alt="login-btn"
                     onClick={(e: React.MouseEvent<HTMLElement>) => login(e)}
-                >
-                    Login
-                </button>
+                />
             </form>
+            <p>
+                Don't have an account? <a href="/signup">Sign up</a>
+            </p>
             {!(
                 errormsg === '' ||
                 errormsg === undefined ||

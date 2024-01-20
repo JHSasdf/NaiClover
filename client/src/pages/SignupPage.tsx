@@ -28,6 +28,9 @@ function SignupPage() {
 
     const Toggle = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        if (!isUnique) {
+            return setPasswordsNotSameMsg('Please check the ID validity');
+        }
         if (
             passwordRef.current?.value === undefined ||
             passwordRef.current?.value.length < 6
@@ -90,7 +93,7 @@ function SignupPage() {
             navigate('/');
         }
     };
-    const existAlready = async (e: React.MouseEvent<HTMLElement>) => {
+    const existAlready = async (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
         const res = await axios({
             method: 'post',
@@ -99,112 +102,107 @@ function SignupPage() {
                 userid: idRef.current?.value,
             },
         });
-        console.log(res.data);
         setIsUnique(res.data.isUnique);
         setExistErrorMsg(res.data.msg);
     };
     return (
-        <div>
-            <form>
-                <fieldset className={displayToggle ? 'dblock' : 'dnone'}>
-                    <input type="text" name="id" placeholder="id" ref={idRef} />
-                    <button
-                        onClick={(e: React.MouseEvent<HTMLElement>) => {
-                            existAlready(e);
-                        }}
-                    >
-                        중복검사
-                    </button>
-                    <div className={isUnique ? 'getgreen' : 'getred'}>
-                        {existErrorMsg}
-                    </div>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="password"
-                        ref={passwordRef}
-                    />
-                    <input
-                        type="password"
-                        name="confirmpassword"
-                        placeholder="confirmpassword"
-                        ref={confirmPasswordRef}
-                    />
-                    <div className="getred">
-                        {passwordsNotSameMsg !== '' && passwordsNotSameMsg}
-                    </div>
-                    <button
-                        onClick={(e: React.MouseEvent<HTMLElement>) => {
-                            Toggle(e);
-                        }}
-                    >
-                        next
-                    </button>
-                </fieldset>
-                <fieldset className={!displayToggle ? 'dblock' : 'dnone'}>
-                    <button
-                        onClick={(e: React.MouseEvent<HTMLElement>) => {
-                            Toggle(e);
-                        }}
-                    >
-                        이전
-                    </button>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="name"
-                        ref={nameRef}
-                    />
-                    <select name="gender" defaultValue="" ref={genderRef}>
-                        <option value="">Select</option>
-                        <option value="m">Male</option>
-                        <option value="f">Female</option>
-                    </select>
-                    <select
-                        name="learninglang2"
-                        defaultValue=""
-                        ref={nationRef}
-                    >
-                        <option value="">Select</option>
-                        <option value="Chinese">China</option>
-                        <option value="America">America</option>
-                        <option value="France">France</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Korea">Korea</option>
-                    </select>
-                    <select name="firlang" defaultValue="" ref={firLangRef}>
-                        <option value="">Select</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="English">English</option>
-                        <option value="French">French</option>
-                        <option value="German">German</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Korean">Korean</option>
-                    </select>
-                    <select
-                        name="learninglang1"
-                        defaultValue=""
-                        ref={learningLang1Ref}
-                    >
-                        <option value="">Select</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="English">English</option>
-                        <option value="French">French</option>
-                        <option value="German">German</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Korean">Korean</option>
-                    </select>
-                    <span onClick={() => setLearningLang2Toggle(true)}>
-                        <img src="/images/elementplus.png" alt="plus" />
-                    </span>
-                    <fieldset
-                        className={learningLang2Toggle ? 'dblock' : 'dnone'}
-                    >
+        <>
+            <header>
+                <img
+                    src="/images/backBtn.png"
+                    alt="back"
+                    className={
+                        !displayToggle ? 'dblock backbtn' : 'dnone backbtn'
+                    }
+                    onClick={(e: React.MouseEvent<HTMLElement>) => {
+                        Toggle(e);
+                    }}
+                />
+                <img src="/images/loginPageLogo.png" alt="logo" />
+            </header>
+            <div className="signupcontainer">
+                <form>
+                    <fieldset className={displayToggle ? 'dblock' : 'dnone'}>
+                        <input
+                            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+                                existAlready(e)
+                            }
+                            type="text"
+                            name="id"
+                            placeholder="id"
+                            ref={idRef}
+                        />
+                        <br />
+                        {existErrorMsg.length > 0 && (
+                            <div className={isUnique ? 'getgreen' : 'getred'}>
+                                {existErrorMsg}
+                            </div>
+                        )}
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="password"
+                            ref={passwordRef}
+                        />
+                        <br />
+                        <input
+                            type="password"
+                            name="confirmpassword"
+                            placeholder="confirmpassword"
+                            ref={confirmPasswordRef}
+                        />
+                        {passwordsNotSameMsg.length > 0 && (
+                            <div className="getred">{passwordsNotSameMsg}</div>
+                        )}
+                        <img
+                            src="/images/nextBtn.png"
+                            alt="next-btn"
+                            onClick={(e: React.MouseEvent<HTMLElement>) => {
+                                Toggle(e);
+                            }}
+                        />
+                        <p>
+                            Already have an account? <a href="/login">Log In</a>
+                        </p>
+                    </fieldset>
+                    <fieldset className={!displayToggle ? 'dblock' : 'dnone'}>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="name"
+                            ref={nameRef}
+                        />
+                        <select name="gender" defaultValue="" ref={genderRef}>
+                            <option value="">Select</option>
+                            <option value="m">Male</option>
+                            <option value="f">Female</option>
+                        </select>
                         <select
                             name="learninglang2"
                             defaultValue=""
-                            ref={learningLang2Ref}
+                            ref={nationRef}
+                        >
+                            <option value="">Select</option>
+                            <option value="Chinese">China</option>
+                            <option value="America">America</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Korea">Korea</option>
+                        </select>
+                        <select name="firlang" defaultValue="" ref={firLangRef}>
+                            <option value="">Select</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="English">English</option>
+                            <option value="French">French</option>
+                            <option value="German">German</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Korean">Korean</option>
+                        </select>
+                        <select
+                            name="learninglang1"
+                            defaultValue=""
+                            ref={learningLang1Ref}
                         >
                             <option value="">Select</option>
                             <option value="Chinese">Chinese</option>
@@ -214,44 +212,70 @@ function SignupPage() {
                             <option value="Japanese">Japanese</option>
                             <option value="Korean">Korean</option>
                         </select>
-                        <span onClick={() => setLearningLang2Toggle(false)}>
-                            <img src="/images/elementminus.png" alt="minus" />
-                        </span>
-                        <span onClick={() => setLearningLang3Toggle(true)}>
+                        <span onClick={() => setLearningLang2Toggle(true)}>
                             <img src="/images/elementplus.png" alt="plus" />
                         </span>
-                    </fieldset>
-                    <fieldset
-                        className={learningLang3Toggle ? 'dblock' : 'dnone'}
-                    >
-                        <select
-                            name="learninglang3"
-                            defaultValue=""
-                            ref={learningLang3Ref}
+                        <fieldset
+                            className={learningLang2Toggle ? 'dblock' : 'dnone'}
                         >
-                            <option value="">Select</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="English">English</option>
-                            <option value="French">French</option>
-                            <option value="German">German</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="Korean">Korean</option>
-                        </select>
-                        <span onClick={() => setLearningLang3Toggle(false)}>
-                            <img src="/images/elementminus.png" alt="minus" />
-                        </span>
+                            <select
+                                name="learninglang2"
+                                defaultValue=""
+                                ref={learningLang2Ref}
+                            >
+                                <option value="">Select</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="English">English</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                            </select>
+                            <span onClick={() => setLearningLang2Toggle(false)}>
+                                <img
+                                    src="/images/elementminus.png"
+                                    alt="minus"
+                                />
+                            </span>
+                            <span onClick={() => setLearningLang3Toggle(true)}>
+                                <img src="/images/elementplus.png" alt="plus" />
+                            </span>
+                        </fieldset>
+                        <fieldset
+                            className={learningLang3Toggle ? 'dblock' : 'dnone'}
+                        >
+                            <select
+                                name="learninglang3"
+                                defaultValue=""
+                                ref={learningLang3Ref}
+                            >
+                                <option value="">Select</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="English">English</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                            </select>
+                            <span onClick={() => setLearningLang3Toggle(false)}>
+                                <img
+                                    src="/images/elementminus.png"
+                                    alt="minus"
+                                />
+                            </span>
+                        </fieldset>
+                        <button
+                            onClick={(e: React.MouseEvent<HTMLElement>) =>
+                                submitForm(e)
+                            }
+                        >
+                            회원가입
+                        </button>
+                        <div className="getred">{signupErrorMsg}</div>
                     </fieldset>
-                    <button
-                        onClick={(e: React.MouseEvent<HTMLElement>) =>
-                            submitForm(e)
-                        }
-                    >
-                        회원가입
-                    </button>
-                    <div className="getred">{signupErrorMsg}</div>
-                </fieldset>
-            </form>
-        </div>
+                </form>
+            </div>
+        </>
     );
 }
 
