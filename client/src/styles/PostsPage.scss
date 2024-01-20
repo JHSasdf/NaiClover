@@ -1,12 +1,23 @@
-.posts-container{
+.language-posts-container{
     width: 390px;
     height: 512px;
     overflow: auto;
 }
 
-.posts-container::-webkit-scrollbar{
+.language-posts-container::-webkit-scrollbar{
     display: none;
 }
+
+.culture-posts-container{
+    width: 390px;
+    height: 512px;
+    overflow: auto;
+}
+
+.culture-posts-container::-webkit-scrollbar{
+    display: none;
+}
+
 
 .postspage-container{
     width: 390px;
