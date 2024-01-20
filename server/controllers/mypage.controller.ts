@@ -20,7 +20,7 @@ export const getmyPage = async (
     let postDatas;
 
     if (!userid || userid == '' || userid === null) {
-        return res.json({ msg: '에러가 발생했습니다', isError: true });
+        return res.json({ msg: 'An Error occurred', isError: true });
     }
 
     try {
@@ -33,7 +33,7 @@ export const getmyPage = async (
     }
 
     if (!userDataObj) {
-        return res.json({ msg: '에러가 발생했습니다1', isError: true });
+        return res.json({ msg: 'An Error occurred', isError: true });
     }
     try {
         learningLangObjArr = await Lang.findAll({
@@ -45,7 +45,7 @@ export const getmyPage = async (
     }
 
     if (!learningLangObjArr) {
-        return res.json({ msg: '에러가 발생했습니다2', isError: true });
+        return res.json({ msg: 'An Error occurred', isError: true });
     }
 
     let learningLang: Array<string> = [];
@@ -64,7 +64,7 @@ export const getmyPage = async (
 
     // if (!followDatas) {
     //     return res.json({
-    //         msg: '에러가 발생했습니다3',
+    //         msg: 'An Error occurred',
     //         isError: true,
     //     });
     // }
@@ -79,7 +79,7 @@ export const getmyPage = async (
 
     // if (!postDatas) {
     //     return res.json({
-    //         msg: '에러가 발생했습니다4',
+    //         msg: 'An Error occurred',
     //         isError: true,
     //     });
     // }
@@ -107,19 +107,22 @@ export const changeUserPassword = async (
 
     const result = bcrypt.compareSync(currentPassword, userPassword.password);
     if (!result) {
-        return res.json({ msg: '현재 비밀번호가 다릅니다.', isError: true });
+        return res.json({
+            msg: 'Existing password is incorrect.',
+            isError: true,
+        });
     }
 
     if (newPassword.trim().length < 6 || !newPassword) {
         return res.json({
-            msg: '비밀번호를 6자 이상으로 입력해주세요.',
+            msg: 'Password should be at least 6 characters long.',
             isError: true,
         });
     }
 
     if (!(newPassword === confirmPassword)) {
         return res.json({
-            msg: '새 비밀번호와 확인 비밀번호가 다릅니다.',
+            msg: `There's a differenct between new Password and confirm Password`,
             isError: true,
         });
     }
@@ -133,7 +136,7 @@ export const changeUserPassword = async (
 
     if (isSame) {
         return res.json({
-            msg: '이전 비밀번호와 동일한 비밀번호입니다.',
+            msg: 'Existing password and New password are same.',
             isError: true,
         });
     }
@@ -154,12 +157,12 @@ export const changeUserPassword = async (
             }
         );
         return res.json({
-            msg: '비밀번호 변경이 완료되었습니다.',
+            msg: 'Password change completed.',
             isError: false,
         });
     } catch (err) {
         return res.json({
-            msg: '오류가 발생하였습니다. 새로고침 후 다시 시도해주세요',
+            msg: 'An Erorr Occurred. Please try Later.',
             isError: true,
         });
     }
@@ -189,10 +192,13 @@ export const changeUserLang = async (
         } catch (err) {
             next(err);
         }
-        res.json({ msg: '학습 언어 변경이 완료되었습니다.', isError: false });
+        res.json({
+            msg: 'Learning Languages change completed.',
+            isError: false,
+        });
     } else {
         res.json({
-            msg: '오류가 발생하였습니다. 새로고침 후 다시 시도해주세요',
+            msg: 'An Erorr Occurred. Please try Later.',
             isError: true,
         });
     }
@@ -206,10 +212,10 @@ export const changeUserName = async (
     const { userid, name } = req.body;
     try {
         await User.update({ name: name }, { where: { userid: userid } });
-        res.json({ msg: '이름 변경이 완료되었습니다.', isError: false });
+        res.json({ msg: 'name change completed.', isError: false });
     } catch (err) {
         res.json({
-            msg: '오류가 발생하여습니다. 새로고침 후 다시 시도해주세요',
+            msg: 'An Erorr Occurred. Please try Later.',
             isError: true,
         });
     }
@@ -226,12 +232,12 @@ export const deleteUser = async (
             where: { userid: userid },
         });
         res.json({
-            msg: '삭제 완료',
+            msg: 'Deletion completed',
             isError: false,
         });
     } catch (err) {
         res.json({
-            msg: '오류가 발생하였습니다. 새로고침 후 다시 시도해주세요',
+            msg: 'An Erorr Occurred. Please try Later.',
             isError: true,
         });
     }
