@@ -21,12 +21,11 @@
             @extend .profileClick;
         }
 
-        .colorChange {
+        // 컴포넌트 변경시
+        .changed {
             color: $primary-color;
             font-weight: bolder;
             font-size: large;
-        }
-        .divChange {
             border-bottom: 3px solid $primary-color;
         }
     }
