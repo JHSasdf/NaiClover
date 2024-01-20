@@ -151,6 +151,7 @@ function SignupPage() {
                             placeholder="confirmpassword"
                             ref={confirmPasswordRef}
                         />
+                        <br />
                         {passwordsNotSameMsg.length > 0 && (
                             <div className="getred">{passwordsNotSameMsg}</div>
                         )}
