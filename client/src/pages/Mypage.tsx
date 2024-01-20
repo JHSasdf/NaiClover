@@ -25,7 +25,7 @@ function Mypage() {
                     {/* click 이벤트 추가 */}
                     <div
                         className={`profileClick ${
-                            showProfile ? 'active colorChange divChange' : ''
+                            showProfile ? 'active changed' : ''
                         } `}
                         onClick={() => toggleView(true)}
                     >
@@ -33,7 +33,7 @@ function Mypage() {
                     </div>
                     <div
                         className={`postClick ${
-                            !showProfile ? 'active colorChange divChange' : ''
+                            !showProfile ? 'active changed' : ''
                         } `}
                         onClick={() => toggleView(false)}
                     >
