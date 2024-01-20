@@ -1,7 +1,20 @@
+fieldset {
+    outline: none;
+    border: none;
+}
+
 .getgreen {
     color: green;
 }
 
 .getred {
     color: red;
+}
+
+.dnone {
+    display: none;
+}
+
+.dblock {
+    display: block;
 }
