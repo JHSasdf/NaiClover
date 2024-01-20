@@ -28,10 +28,6 @@
             }
         }
 
-        .text-change {
-            color: $primary-color;
-        }
-
         .footer-div:hover {
             color: $primary-color;
         }
@@ -41,4 +37,7 @@
     // border: 1px solid black;
     width: $all-width;
     height: 40px;
+}
+.text-change {
+    color: $primary-color;
 }

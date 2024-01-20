@@ -9,6 +9,8 @@ import FollowPage from './pages/FollowPage.tsx';
 import { v4 as uuidv4 } from 'uuid';
 
 import Mypage from './pages/Mypage.tsx';
+import MypageProfile from './components/Mypage/MypageProfile.tsx';
+import MypagePost from './components/Mypage/MypagePost.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 
 export const generateUniqueId = () => {
@@ -30,6 +32,8 @@ function App() {
                         path="/follow"
                         element={<FollowPage></FollowPage>}
                     ></Route>
+                    <Route path="/mypageProfile" element={<MypageProfile />} />
+                    <Route path="/mypagePost" element={<MypagePost />} />
                     <Route path="/signup" element={<SignupPage />}></Route>
                     <Route path="/login" element={<LoginPage />}></Route>
                 </Routes>

@@ -1,20 +1,4 @@
 @import './Common.scss';
-@mixin flex-center() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-@mixin flex-around() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-@mixin flex-space-between() {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
 
 .mypageHeaderC {
     width: $all-width;
@@ -29,7 +13,7 @@
         @include flex-space-between();
     }
     .followC {
-        height: 164px;
+        height: 132px;
         margin-top: 32px;
         margin-left: 40px;
         margin-right: 40px;
