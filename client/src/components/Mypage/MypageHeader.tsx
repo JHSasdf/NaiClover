@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 
 function MypageHeader() {
@@ -7,9 +8,11 @@ function MypageHeader() {
                 <div>
                     <img src="images/MypageLogo.png" alt="" />
                 </div>
-                <div>
-                    <img src="images/Gear.png" alt="" />
-                </div>
+                <Link to={'/mypageoption'}>
+                    <div>
+                        <img src="images/Gear.png" alt="" />
+                    </div>
+                </Link>
             </div>
             <div className="followC">
                 <div className="aDiv">
@@ -18,11 +21,12 @@ function MypageHeader() {
                     <div>000</div>
                 </div>
                 <div className="bDiv">
+                    {/* 프로필 이미지 */}
                     <div className="imageC">
                         <div className="profile-image"></div>
                         <div className="flag-image"></div>
                     </div>
-
+                    {/* 프로필 요약정보 */}
                     <div className="contentC">
                         <div className="nameInfo">
                             <div>

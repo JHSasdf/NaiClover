@@ -26,3 +26,20 @@ $sub-color: #888888;
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+@mixin profile-image() {
+    width: 56px;
+    height: 56px;
+    background-color: lightgrey;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+}
+
+@mixin flag-image() {
+    width: 22px;
+    height: 16px;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    bottom: -2px;
+}
