@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useRef } from 'react';
 import { useState } from 'react';
 import '../styles/conditions.scss';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
     const navigate = useNavigate();
@@ -19,15 +19,7 @@ function SignupPage() {
     const learningLang1Ref = useRef<HTMLInputElement>(null);
     const learningLang2Ref = useRef<HTMLInputElement>(null);
     const learningLang3Ref = useRef<HTMLInputElement>(null);
-    // userid,
-    // password,
-    // confirmPassword,
-    // name,
-    // gender,
-    // isUnique,
-    // nation,
-    // firLang,
-    // learningLang,
+
     const submitForm = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         const learningLangs: Array<string | null | undefined> = [];
@@ -99,13 +91,13 @@ function SignupPage() {
                     {existErrorMsg}
                 </div>
                 <input
-                    type="text"
+                    type="password"
                     name="password"
                     placeholder="password"
                     ref={passwordRef}
                 />
                 <input
-                    type="text"
+                    type="password"
                     name="confirmpassword"
                     placeholder="confirmpassword"
                     ref={confirmPasswordRef}
