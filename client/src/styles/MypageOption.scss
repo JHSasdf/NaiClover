@@ -7,7 +7,6 @@
 
     .myPageOption-C-Header {
         @include flex();
-        border: 1px solid black;
         padding: 12px 16px;
         height: 24px;
 
@@ -22,7 +21,6 @@
         }
     }
     .settingProfile {
-        border: 1px solid blue;
         height: 56px;
         padding: 0 5px;
         margin: 16px 0;
@@ -62,14 +60,13 @@
     }
 
     .settingDetail {
-        border: 1px solid red;
-
         .myInformation-container {
-            border: 1px solid rgb(0, 0, 0);
+            padding: 0 16px;
         }
     }
 }
 
+// 공통으로 적용 시킬 부분
 .settingDetail-Header {
     margin-top: 24px;
     height: 32px;
@@ -84,27 +81,29 @@
 
 .settingDetail-Content {
     margin-top: 16px;
-    border: 1px solid coral;
     padding: 0 16px;
     @include flex();
     flex-direction: column;
 
     .settingDetail-Content-items {
         @include flex();
-        width: $all-width - 32px;
         height: 24px;
+        width: $all-width - 64px;
         margin-top: 16px;
-        &div {
+
+        .rightPointImgDiv {
             height: 24px;
         }
-
         &:first-child {
             margin-top: 0px;
         }
+
         .result-Content-items {
             margin-left: auto;
-            // 여기에 꼭 직접 입력을 해야만 하는가?
-            height: 24px;
         }
     }
+}
+
+.withdrawal {
+    color: red;
 }
