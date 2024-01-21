@@ -19,7 +19,7 @@ function SignupPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
-    const genderRef = useRef<HTMLSelectElement>(null);
+    const genderRef = useRef<HTMLInputElement>(null);
     const nationRef = useRef<HTMLSelectElement>(null);
     const firLangRef = useRef<HTMLSelectElement>(null);
     const learningLang1Ref = useRef<HTMLSelectElement>(null);
@@ -120,6 +120,7 @@ function SignupPage() {
                 />
                 <img src="/images/loginPageLogo.png" alt="logo" />
             </header>
+            <h1 className="getgreen">User Information</h1>
             <div className="signupcontainer">
                 <form>
                     <fieldset className={displayToggle ? 'dblock' : 'dnone'}>
@@ -129,7 +130,7 @@ function SignupPage() {
                             }
                             type="text"
                             name="id"
-                            placeholder="id"
+                            placeholder="ID"
                             ref={idRef}
                         />
                         <br />
@@ -156,6 +157,7 @@ function SignupPage() {
                             <div className="getred">{passwordsNotSameMsg}</div>
                         )}
                         <img
+                            className="next-btn"
                             src="/images/nextBtn.png"
                             alt="next-btn"
                             onClick={(e: React.MouseEvent<HTMLElement>) => {
@@ -167,23 +169,53 @@ function SignupPage() {
                         </p>
                     </fieldset>
                     <fieldset className={!displayToggle ? 'dblock' : 'dnone'}>
+                        <label htmlFor="">User Name</label>
                         <input
                             type="text"
                             name="name"
-                            placeholder="name"
+                            placeholder="Type here..."
                             ref={nameRef}
                         />
-                        <select name="gender" defaultValue="" ref={genderRef}>
-                            <option value="">Select</option>
-                            <option value="m">Male</option>
-                            <option value="f">Female</option>
-                        </select>
-                        <select
-                            name="learninglang2"
-                            defaultValue=""
-                            ref={nationRef}
-                        >
-                            <option value="">Select</option>
+                        <label htmlFor="">Gender</label>
+                        <div className="radio-btns-flex">
+                            <div className="radio-btn-flex">
+                                <input
+                                    className="radio-btn"
+                                    type="radio"
+                                    name="gender"
+                                    value="m"
+                                    id="male-btn"
+                                    ref={genderRef}
+                                    checked
+                                />
+                                <label
+                                    htmlFor="male-btn"
+                                    className="gender-label"
+                                >
+                                    Male
+                                </label>
+                            </div>
+                            <div className="radio-btn-flex">
+                                <input
+                                    className="radio-btn"
+                                    type="radio"
+                                    name="gender"
+                                    value="m"
+                                    id="female-btn"
+                                    ref={genderRef}
+                                />
+                                <label
+                                    htmlFor="female-btn"
+                                    className="gender-label"
+                                >
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <label htmlFor="">Nation</label>
+                        <select name="nation" defaultValue="" ref={nationRef}>
+                            <option value="">Choose here...</option>
                             <option value="Chinese">China</option>
                             <option value="America">America</option>
                             <option value="France">France</option>
@@ -191,8 +223,9 @@ function SignupPage() {
                             <option value="Japan">Japan</option>
                             <option value="Korea">Korea</option>
                         </select>
+                        <label htmlFor="">First Language</label>
                         <select name="firlang" defaultValue="" ref={firLangRef}>
-                            <option value="">Select</option>
+                            <option value="">Choose here...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="English">English</option>
                             <option value="French">French</option>
@@ -200,31 +233,41 @@ function SignupPage() {
                             <option value="Japanese">Japanese</option>
                             <option value="Korean">Korean</option>
                         </select>
-                        <select
-                            name="learninglang1"
-                            defaultValue=""
-                            ref={learningLang1Ref}
-                        >
-                            <option value="">Select</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="English">English</option>
-                            <option value="French">French</option>
-                            <option value="German">German</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="Korean">Korean</option>
-                        </select>
-                        <span onClick={() => setLearningLang2Toggle(true)}>
-                            <img src="/images/elementplus.png" alt="plus" />
-                        </span>
+                        <label htmlFor="">Leaning Language</label>
+                        <fieldset className="learning-langs-select">
+                            <select
+                                name="learninglang1"
+                                defaultValue=""
+                                ref={learningLang1Ref}
+                            >
+                                <option value="">Choose here...</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="English">English</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                            </select>
+                            <span
+                                className="plus-and-minus-btn"
+                                onClick={() => setLearningLang2Toggle(true)}
+                            >
+                                <img src="/images/elementplus.png" alt="plus" />
+                            </span>
+                        </fieldset>
                         <fieldset
-                            className={learningLang2Toggle ? 'dblock' : 'dnone'}
+                            className={
+                                learningLang2Toggle
+                                    ? 'dblock learning-langs-select'
+                                    : 'dnone learning-langs-select'
+                            }
                         >
                             <select
                                 name="learninglang2"
                                 defaultValue=""
                                 ref={learningLang2Ref}
                             >
-                                <option value="">Select</option>
+                                <option value="">Choose here...</option>
                                 <option value="Chinese">Chinese</option>
                                 <option value="English">English</option>
                                 <option value="French">French</option>
@@ -232,25 +275,34 @@ function SignupPage() {
                                 <option value="Japanese">Japanese</option>
                                 <option value="Korean">Korean</option>
                             </select>
-                            <span onClick={() => setLearningLang2Toggle(false)}>
+                            <span className="plus-and-minus-btn">
                                 <img
+                                    onClick={() =>
+                                        setLearningLang2Toggle(false)
+                                    }
                                     src="/images/elementminus.png"
                                     alt="minus"
                                 />
-                            </span>
-                            <span onClick={() => setLearningLang3Toggle(true)}>
-                                <img src="/images/elementplus.png" alt="plus" />
+                                <img
+                                    onClick={() => setLearningLang3Toggle(true)}
+                                    src="/images/elementplus.png"
+                                    alt="plus"
+                                />
                             </span>
                         </fieldset>
                         <fieldset
-                            className={learningLang3Toggle ? 'dblock' : 'dnone'}
+                            className={
+                                learningLang3Toggle
+                                    ? 'dblock learning-langs-select'
+                                    : 'dnone learning-langs-select'
+                            }
                         >
                             <select
                                 name="learninglang3"
                                 defaultValue=""
                                 ref={learningLang3Ref}
                             >
-                                <option value="">Select</option>
+                                <option value="">Choose here...</option>
                                 <option value="Chinese">Chinese</option>
                                 <option value="English">English</option>
                                 <option value="French">French</option>
@@ -258,20 +310,25 @@ function SignupPage() {
                                 <option value="Japanese">Japanese</option>
                                 <option value="Korean">Korean</option>
                             </select>
-                            <span onClick={() => setLearningLang3Toggle(false)}>
+                            <span
+                                className="plus-and-minus-btn"
+                                onClick={() => setLearningLang3Toggle(false)}
+                            >
                                 <img
                                     src="/images/elementminus.png"
                                     alt="minus"
                                 />
                             </span>
                         </fieldset>
-                        <button
+                        <br />
+                        <img
+                            className="next-btn"
+                            src="/images/signupBtn.png"
+                            alt="Sign up Btn"
                             onClick={(e: React.MouseEvent<HTMLElement>) =>
                                 submitForm(e)
                             }
-                        >
-                            회원가입
-                        </button>
+                        />
                         <div className="getred">{signupErrorMsg}</div>
                     </fieldset>
                 </form>

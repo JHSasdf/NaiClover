@@ -2,9 +2,28 @@
     box-sizing: border-box;
     color: #888888;
 }
+
+h1 {
+    font-size: 1rem;
+    margin-top: 10vh;
+    text-align: center;
+}
+
 fieldset {
     outline: none;
     border: none;
+    width: 346px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    width: 300px;
+    text-align: left;
+    color: rgb(68, 68, 68);
+    margin-bottom: 0.5rem;
+    margin: 0 auto 0.5rem auto;
 }
 
 header {
@@ -32,7 +51,7 @@ header {
 }
 .logincontainer,
 .signupcontainer {
-    margin-top: 25vh;
+    margin-top: 8vh;
     text-align: center;
 
     .loginlogo {
@@ -42,7 +61,6 @@ header {
     input {
         width: 300px;
         margin: 0;
-
         padding: 0 1rem;
         height: 40px;
         line-height: 40px;
@@ -67,6 +85,50 @@ header {
         background-color: transparent;
         border-bottom: 1px solid #e0e0e0;
         border-radius: 0;
+    }
+
+    select {
+        width: 250px;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 1rem;
+    }
+
+    .radio-btns-flex {
+        display: flex;
+        justify-content: space-evenly;
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    .radio-btn {
+        width: 16px;
+        height: 16px;
+        margin-right: 3px;
+    }
+
+    .learning-langs-select {
+        height: 40px;
+    }
+
+    .gender-label {
+        display: inline;
+    }
+
+    .plus-and-minus-btn {
+        position: relative;
+        display: flex;
+        transform: translate(290px, -35px);
+        width: 40px;
+        gap: 2px;
+    }
+
+    .next-btn {
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 

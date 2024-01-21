@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useRef } from 'react';
 import { useState } from 'react';
 import '../styles/conditions.scss';
-import { Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
     const [errormsg, setErrorMsg] = useState();
