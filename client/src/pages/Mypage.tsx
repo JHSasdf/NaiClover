@@ -29,7 +29,7 @@ function Mypage() {
                         } `}
                         onClick={() => toggleView(true)}
                     >
-                        프로필
+                        Profile
                     </div>
                     <div
                         className={`postClick ${

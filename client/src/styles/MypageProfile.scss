@@ -107,14 +107,20 @@
     }
     // 위치 부분
     .location-C {
-        border: 1px solid black;
         margin-top: 39px;
+        margin-bottom: 20px;
         .location-C-Header {
             @include C-Header();
 
             .modify-C {
                 @include modify-C();
             }
+        }
+        iframe {
+            width: calc(100%);
+            height: 350px;
+            border: none;
+            border-radius: 5%;
         }
     }
 }

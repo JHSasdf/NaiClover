@@ -1,7 +1,16 @@
+import { Link } from 'react-router-dom';
 import '../../styles/MypagePost.scss';
 
 function MypagePost() {
-    return <div>안녕하세요</div>;
+    return (
+        <div>
+            <div className="addPostImg">
+                <Link to={'/newpost'}>
+                    <img src="/images/addpost.png" alt="" />
+                </Link>
+            </div>
+        </div>
+    );
 }
 
 export default MypagePost;

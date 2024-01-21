@@ -32,19 +32,10 @@
                 position: relative;
 
                 .profile-image {
-                    width: 56px;
-                    height: 56px;
-                    background-color: lightgrey;
-                    border: 1px solid lightgray;
-                    border-radius: 50%;
+                    @include profile-image();
                 }
                 .flag-image {
-                    width: 22px;
-                    height: 16px;
-                    position: absolute;
-                    background-color: white;
-                    border: 1px solid black;
-                    bottom: -2px;
+                    @include flag-image();
                 }
             }
 
