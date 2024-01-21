@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Mypage from './pages/Mypage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import MypageOption from './components/Mypage/MypageOption.tsx';
+import MypageEditPassword from './components/Mypage/MypageEditPassword.tsx';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -27,7 +28,11 @@ function App() {
                     <Route path="/follow" element={<FollowPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/mypageoption" element={<MypageOption />} />
+                    <Route path="/mypage/option" element={<MypageOption />} />
+                    <Route
+                        path="/mypage/edit/password"
+                        element={<MypageEditPassword />}
+                    />
                 </Routes>
             </BrowserRouter>
         </div>

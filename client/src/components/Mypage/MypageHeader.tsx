@@ -8,7 +8,7 @@ function MypageHeader() {
                 <div>
                     <img src="images/MypageLogo.png" alt="" />
                 </div>
-                <Link to={'/mypageoption'}>
+                <Link to={'/mypage/option'}>
                     <div>
                         <img src="images/Gear.png" alt="" />
                     </div>

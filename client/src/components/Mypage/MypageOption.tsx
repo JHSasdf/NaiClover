@@ -68,9 +68,14 @@ function MypageOption() {
                                 <div className="result-Content-items">
                                     Change
                                 </div>
-                                <div className="rightPointImgDiv">
-                                    <img src="/images/RightPoint.png" alt="" />
-                                </div>
+                                <Link to={'/mypage/edit/password'}>
+                                    <div className="rightPointImgDiv">
+                                        <img
+                                            src="/images/RightPoint.png"
+                                            alt=""
+                                        />
+                                    </div>
+                                </Link>
                             </div>
                             <div className="settingDetail-Content-items">
                                 <div>Gender</div>
