@@ -24,6 +24,12 @@ function App() {
                 <Routes>
                     <Route path="/newpost" element={<NewPostPage />} />
                     <Route path="/posts" element={<PostsPage />} />
+                    <Route path="/" element={<LoginPage />} />
+                    <Route
+                        path="/newpost"
+                        element={<NewPostPage></NewPostPage>}
+                    ></Route>
+                    <Route path="/posts" element={<PostsPage />}></Route>
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
                     <Route path="/signup" element={<SignupPage />} />
