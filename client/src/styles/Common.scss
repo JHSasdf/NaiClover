@@ -1,0 +1,45 @@
+// 아이폰 13
+$all-width: 390px;
+
+// 메인 컬러
+$primary-color: #37af6a;
+$sub-color: #888888;
+
+@mixin flex() {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+@mixin flex-center() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex-around() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+@mixin flex-space-between() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+@mixin profile-image() {
+    width: 56px;
+    height: 56px;
+    background-color: lightgrey;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+}
+
+@mixin flag-image() {
+    width: 22px;
+    height: 16px;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    bottom: -2px;
+}

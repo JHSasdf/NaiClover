@@ -1,0 +1,72 @@
+@import './Common.scss';
+
+.mypageHeaderC {
+    width: $all-width;
+    height: 188px;
+    top: 44px;
+    // border: 1px solid blue;
+
+    .logoC {
+        height: 24px;
+        padding-left: 24px;
+        padding-right: 24px;
+        @include flex-space-between();
+    }
+    .followC {
+        height: 132px;
+        margin-top: 32px;
+        margin-left: 40px;
+        margin-right: 40px;
+        @include flex-space-between();
+        .aDiv {
+            width: 88px;
+            height: 68px;
+            @include flex-center();
+        }
+        .bDiv {
+            width: 100px;
+            height: 132px;
+            @include flex-center();
+
+            .imageC {
+                position: relative;
+
+                .profile-image {
+                    @include profile-image();
+                }
+                .flag-image {
+                    @include flag-image();
+                }
+            }
+
+            .contentC {
+                width: 100px;
+                height: 60px;
+
+                .nameInfo {
+                    @include flex-center();
+                }
+
+                .countryInfo {
+                    font-weight: 500;
+                    font-size: 10px;
+                    @include flex-around();
+                }
+
+                .languageInfo {
+                    @include flex-around();
+
+                    .arrowImage {
+                        @include flex-center();
+                    }
+                    .languageDiv {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+        .cDiv {
+            @extend .aDiv;
+        }
+    }
+}

@@ -1,0 +1,243 @@
+$main-color: #37AF6A;
+$secondary-color: #888;
+
+.lang-image-container{
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin-top: 6px;
+}
+
+.lang-profile-image{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid lightgrey;
+    background-color: lightgrey;
+}
+
+.lang-flag-image{
+    width: 16px;
+    height: 12px;
+    border: 1px solid lightgrey;
+    position: absolute;
+    background-color: white;
+    right: 0px;
+    bottom: -4px;
+}
+
+//성별 아이콘 
+
+.lang-gender{
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+}
+
+.lang-male{
+    background-image: url('../img/male.png');
+}
+
+//이름과 성별 = info
+
+.lang-info{
+    display: flex;
+    flex-direction: row;
+    width: 97px;
+    height: 24px;
+}
+
+.lang-name{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+//이름, 장소, 언어
+//info-container
+
+.lang-info-container{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 52px;
+}
+
+.lang-location{
+    font-size: 10px;
+    color: grey;;
+    font-weight: 600;
+}
+
+
+// language-container(EN->KR 부분)
+
+.lang-language-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.lang-native-language{
+    font-size: 10px;
+    font-weight: 600;
+    color: $main-color;
+}
+
+.lang-learning-language{
+    font-size: 10px;
+    font-weight: 600;
+    color: $main-color;
+}
+
+.lang-arrow{
+    margin-top: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    background-image: url('../img/arrow.png');
+    width: 12px;
+    height: 8px;
+}
+
+//프로필 컨테이너 (팔로우 버튼 빼고 윗부분)
+.lang-profile-container{
+    display: flex;
+    flex-direction: row;
+    width: 156px;
+    height: 52px;
+    justify-content: space-between;
+}
+
+.lang-follow{
+    width: 72px;
+    height: 32px;
+    border: 1px solid $main-color;
+    color: $main-color;
+    background-color: white;
+    border-radius: 99px;
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 10px;
+}
+
+// 포스트 작성 부분
+
+.lang-time{
+    font-size: 12px;
+    color: $secondary-color;
+}
+
+.lang-more{
+    width: 16px;
+    height: 16px;
+    background-image: url('../img/more.png');
+    cursor: pointer;
+}
+
+//작성시간 + 더보기 버튼
+.lang-more-container{
+    margin-top: 8px;
+    width: 358px;
+    height: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+//포스팅 글자
+.lang-content-text{
+    margin-top: 8px;
+    width: 358px;
+    height: fit-content;
+    font-size: 14px;
+}
+
+
+//reaction-container = heart + comment
+
+.lang-likes-container{
+    width: 48px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.lang-likes{
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/heart.png');
+}
+
+.lang-likes-count{
+    font-size: 12px;
+}
+
+.lang-comments-container{
+    width: 48px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.lang-comments{
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/comment.png');
+}
+
+.lang-comments-count{
+    font-size: 12px;
+}
+
+.lang-bookmark-container{
+    width: 24px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 224px;
+    cursor: pointer;
+}
+
+.lang-bookmark{
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/bookmark.png');
+}
+
+.lang-bookmark-text{
+    font-size: 12px;
+}
+
+.lang-reaction-container{
+    width: 358px;
+    height: 42px;
+    display: flex;
+    margin-top: 8px;
+}
+
+//포스트 전체
+.lang-post{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.lang-line{
+    width: 390px;
+    height: 0.5px;
+    background-color: lightgrey;
+    margin-top: 34px;
+    margin-bottom: 17.5px;
+}
+
+
+
+
+

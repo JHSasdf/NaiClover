@@ -1,0 +1,25 @@
+.language-posts-container{
+    width: 390px;
+    height: 512px;
+    overflow: auto;
+}
+
+.language-posts-container::-webkit-scrollbar{
+    display: none;
+}
+
+.culture-posts-container{
+    width: 390px;
+    height: 512px;
+    overflow: auto;
+}
+
+.culture-posts-container::-webkit-scrollbar{
+    display: none;
+}
+
+
+.postspage-container{
+    width: 390px;
+    height: 844px;
+}
