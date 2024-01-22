@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { cookieConfig } from './utils/cookieConfig.ts';
+import { useCookies } from 'react-cookie';
 
 import PostsPage from './pages/PostsPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
@@ -18,13 +20,21 @@ export const generateUniqueId = () => {
 };
 
 function App() {
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _unusedCookies = setCookies;
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
                     <Route path="/newpost" element={<NewPostPage />} />
                     <Route path="/posts" element={<PostsPage />} />
-                    <Route path="/" element={<LoginPage />} />
+                    {cookies['id'] && cookies['id'].length > 3 ? (
+                        <Route path="/" element={<PostsPage />} />
+                    ) : (
+                        <Route path="/" element={<LoginPage />} />
+                    )}
                     <Route
                         path="/newpost"
                         element={<NewPostPage></NewPostPage>}
