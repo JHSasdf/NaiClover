@@ -26,12 +26,11 @@ function LoginPage() {
                 password: passwordRef.current?.value,
             },
         });
-        console.log(res.data);
         const { msg, isLoggedin, userid } = res.data;
         setErrorMsg(msg);
         if (isLoggedin) {
             setCookies('id', userid, cookieConfig);
-            navigate(-1);
+            navigate('/');
         }
     };
 
