@@ -6,3 +6,25 @@
     flex-direction: column;
     align-items: center;
 }
+
+.lang-comments-container{
+    width: 390px;
+    max-height: 385px;
+    height: fit-content;
+    overflow: scroll;
+}
+
+.lang-comments-container::-webkit-scrollbar{
+    display: none;
+}
+
+.cul-comments-container{
+    width: 390px;
+    max-height: 385px;
+    height: fit-content;
+    overflow: scroll;
+}
+
+.cul-comments-container::-webkit-scrollbar{
+    display: none;
+}
