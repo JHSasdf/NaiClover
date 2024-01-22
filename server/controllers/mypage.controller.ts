@@ -8,6 +8,7 @@ const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
 
+// mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
     req: Request,
     res: Response,
@@ -20,7 +21,10 @@ export const getmyPage = async (
     let postDatas;
 
     if (!userid || userid == '' || userid === null) {
-        return res.json({ msg: 'An Error occurred', isError: true });
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
     }
 
     try {
@@ -89,12 +93,21 @@ export const getmyPage = async (
     res.json({ userDataObj: userDataObj, learningLang: learningLang });
 };
 
+// userPassword를 변경하는 버튼을 눌렀을 때 실행되는 함수
 export const changeUserPassword = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const { userid, currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!userid || userid == '' || userid === null) {
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
+    }
+
     let userPassword;
     try {
         userPassword = await User.findOne({
@@ -168,12 +181,21 @@ export const changeUserPassword = async (
     }
 };
 
+// user learning Language를 수정했을 때 실행되는 함수
 export const changeUserLang = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const { userid, learningLangs } = req.body;
+
+    if (!userid || userid == '' || userid === null) {
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
+    }
+
     if (
         learningLangs &&
         learningLangs.length > 0 &&
@@ -204,12 +226,21 @@ export const changeUserLang = async (
     }
 };
 
+// user name을 수정했을 때 실행되는 함수
 export const changeUserName = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const { userid, name } = req.body;
+
+    if (!userid || userid == '' || userid === null) {
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
+    }
+
     try {
         await User.update({ name: name }, { where: { userid: userid } });
         res.json({ msg: 'name change completed.', isError: false });
@@ -221,12 +252,21 @@ export const changeUserName = async (
     }
 };
 
+// 회원 탈퇴 시 실행되는 함수
 export const deleteUser = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const { userid } = req.body;
+
+    if (!userid || userid == '' || userid === null) {
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
+    }
+
     try {
         await User.destroy({
             where: { userid: userid },
