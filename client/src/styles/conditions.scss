@@ -1,8 +1,3 @@
-* {
-    box-sizing: border-box;
-    color: #888888;
-}
-
 h1 {
     font-size: 1rem;
     margin-top: 10vh;
@@ -49,6 +44,14 @@ header {
         left: 0;
     }
 }
+
+.signup-or-login {
+    * {
+        box-sizing: border-box;
+        color: #888888;
+    }
+}
+
 .logincontainer,
 .signupcontainer {
     text-align: center;
