@@ -10,6 +10,8 @@ import { followRouter } from './routes/follow.routes';
 
 import { db } from './model';
 import { error } from 'console';
+import handleErrors from './middlewares/errorHandler.middleware';
+import notFoundHandler from './middlewares/notFound.middleware';
 
 const app = express();
 const server = http.createServer(app);
@@ -62,6 +64,10 @@ io.on('connection', (socket: Socket) => {
 app.get('/', function (req: Request, res: Response) {
     res.send('hello');
 });
+
+// 에러처리 핸들러, 요청, 응답의 제일 아래가야함.
+app.use(notFoundHandler);
+app.use(handleErrors);
 
 const PORT = 4000;
 
