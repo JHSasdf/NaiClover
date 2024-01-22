@@ -4,7 +4,8 @@
         "password": "hypeboy",
         "database": "nai-clover",
         "host": "3.36.62.47",
-        "dialect": "mysql"
+        "dialect": "mysql",
+        "timezone": "+09:00"
     },
     "production": {},
     "test": {}

@@ -11,7 +11,7 @@ function handleErrors(
     if (error.code === 404) {
         return res
             .status(404)
-            .json({ msg: 'resources are not found', isError: true });
+            .json({ msg: 'resources are not founded', isError: true });
     }
 
     return res.status(500).json({

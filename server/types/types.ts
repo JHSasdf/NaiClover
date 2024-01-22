@@ -12,3 +12,10 @@ export interface userDataInterface {
     nation: string;
     firLang: string;
 }
+
+export interface postsInterface {
+    postId: number;
+    userid: string;
+    content: string;
+    createdAt: Date;
+}
