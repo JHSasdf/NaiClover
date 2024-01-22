@@ -35,7 +35,7 @@ function LoginPage() {
     };
 
     return (
-        <div className="logincontainer">
+        <div className="logincontainer signup-or-login">
             <img
                 className="loginlogo"
                 src="/images/loginPageLogo.png"

@@ -106,7 +106,7 @@ function SignupPage() {
         setExistErrorMsg(res.data.msg);
     };
     return (
-        <>
+        <div className="signup-or-login">
             <header>
                 <img
                     src="/images/backBtn.png"
@@ -333,7 +333,7 @@ function SignupPage() {
                     </fieldset>
                 </form>
             </div>
-        </>
+        </div>
     );
 }
 
