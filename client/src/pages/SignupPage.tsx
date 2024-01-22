@@ -52,6 +52,7 @@ function SignupPage() {
 
     const submitForm = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        // 빈 배열 learningLangs 만들어서 value 있는 language만 push 해주기
         const learningLangs: Array<string | null | undefined> = [];
         if (
             learningLang1Ref.current?.value.trim() !== '' &&
