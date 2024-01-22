@@ -188,6 +188,7 @@ function SignupPage() {
                                     id="male-btn"
                                     ref={genderRef}
                                     checked
+                                    readOnly
                                 />
                                 <label
                                     htmlFor="male-btn"
