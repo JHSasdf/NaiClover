@@ -14,7 +14,6 @@ import FollowPage from './pages/FollowPage.tsx';
 import MainPage from './pages/MainPage.tsx';
 import NewPage from './pages/NewPage.tsx';
 import ChatRoomPage from './pages/NewPage.tsx'; // ChatRoomPage 추가
-import Header from './components/Header.tsx';
 import { v4 as uuidv4 } from 'uuid';
 
 import Mypage from './pages/Mypage.tsx';
