@@ -7,8 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
+    methods: '*',
   },
 });
 
@@ -17,32 +16,92 @@ app.use(express.json());
 app.use(cors());
 
 const connectedClients: Record<string, Socket> = {};
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/App.tsx');
-});
+const chatRooms: Record<
+  string,
+  { id: string; name: string; inviteCode: string }
+> = {};
 
 io.on('connection', (socket: Socket) => {
-  console.log('a user connected');
-
-  // 클라이언트 소켓 저장
-  connectedClients[socket.id] = socket;
-
-  // 클라이언트로부터 받은 메시지를 모든 클라이언트에게 전송
-  socket.on('chat message', (msg: string) => {
-    io.emit('chat message', { id: socket.id, message: msg });
+  socket.on('joinRoom', (room) => {
+    socket.join(room);
   });
 
-  // 클라이언트가 연결을 끊을 때
+  connectedClients[socket.id] = socket;
+
+  socket.on('chat message', (msg) => {
+    if (msg.text.startsWith('You:')) {
+      console.log(`You: ${msg.text}`);
+    } else {
+      console.log(`Server: ${msg.text}`);
+    }
+
+    if (msg.room) {
+      const serverMessage = `Server: ${msg.text}`;
+      const isSentByMe = msg.isSentByMe || false;
+
+      io.to(msg.room).emit('chat message', {
+        ...msg,
+        text: serverMessage,
+        isSentByMe,
+      });
+
+      console.log(serverMessage);
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
-    // 연결이 끊긴 클라이언트 소켓 삭제
     delete connectedClients[socket.id];
+  });
+
+  const generateUniqueId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
+
+  socket.on('createRoom', ({ roomName }) => {
+    const roomId = generateUniqueId();
+    const inviteCode = generateInviteCode();
+    chatRooms[roomId] = { id: roomId, name: roomName, inviteCode };
+
+    socket.emit('roomCreated', { roomId, roomName });
+    io.emit('roomCreated', { roomId, roomName });
+  });
+
+  socket.on('joinRoomByInviteCode', (inviteCode) => {
+    const room = findRoomByInviteCode(inviteCode);
+
+    if (room) {
+      socket.join(room.id);
+      socket.emit('joinedRoom', room.id);
+    } else {
+      socket.emit('invalidInviteCode');
+    }
   });
 });
 
-app.get('/', function (req: Request, res: Response) {
-  res.send('hello');
+const generateInviteCode = () => {
+  return Math.random().toString(36).substr(2, 8);
+};
+
+const findRoomByInviteCode = (inviteCode: string) => {
+  return Object.values(chatRooms).find(
+    (room) => room.inviteCode === inviteCode
+  );
+};
+
+app.get('/api/chatRooms', (req: Request, res: Response) => {
+  res.json(Object.values(chatRooms));
+});
+
+app.get('/api/chatRooms/:roomId', (req: Request, res: Response) => {
+  const roomId = req.params.roomId;
+  const room = chatRooms[roomId];
+
+  if (room) {
+    res.json(room);
+  } else {
+    res.status(404).json({ error: 'Room not found' });
+  }
 });
 
 const PORT = 4000;
