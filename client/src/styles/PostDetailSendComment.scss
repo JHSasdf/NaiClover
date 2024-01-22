@@ -1,0 +1,38 @@
+.send-comment-container{
+    width: 390px;
+    min-height: 45px;
+    height: fit-content;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 34px;
+    
+
+    input{
+        width: 330px;
+        min-height: 32px;
+        height: fit-content;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        border-radius: 8px;
+        border: 1px solid lightgrey;
+    }
+
+    input:focus{
+        outline: none;
+    }
+
+    .send-comment{
+        width: 24px;
+        height: 24px;
+        background-image: url('../img/Send.png');
+        margin-left: 12px;
+        cursor: pointer;
+    }
+}
+
+.entire-comment-container{
+    position: absolute;
+    bottom: 0px;
+}
