@@ -1,8 +1,11 @@
 import '../../styles/LanguagePost.scss'
+import {useNavigate} from 'react-router-dom';
 
 function LanguagePost() {
+
+    const navigate = useNavigate();
     return(
-    <>
+    <div className='lang-post-container'>
         <div className='lang-post'>
             <div className='lang-profile-container'>
                 <div className='lang-image-container'>
@@ -30,7 +33,7 @@ function LanguagePost() {
                 <div className='lang-more'></div>
             </div>
 
-            <div className='lang-content-text'>Hello. I am a Korean-American who wants to learn Korean. If you are a Korean who wants to learn English, study together!</div>
+            <div className='lang-content-text' onClick={()=>navigate('/l-postdetail')}>Hello. I am a Korean-American who wants to learn Korean. If you are a Korean who wants to learn English, study together!</div>
 
             <div className='lang-reaction-container'>
                 <div className='lang-likes-container'>
@@ -38,7 +41,7 @@ function LanguagePost() {
                     <div className='lang-likes-count'>524</div>
                 </div>
 
-                <div className='lang-comments-container'>
+                <div className='lang-comments-container' onClick={()=>navigate('/l-postdetail')}>
                     <div className='lang-comments'></div>
                     <div className='lang-comments-count'>8</div>
                 </div>
@@ -50,7 +53,7 @@ function LanguagePost() {
             </div>
         </div>
         <div className='lang-line'></div>
-    </>
+    </div>
     )
 }
 
