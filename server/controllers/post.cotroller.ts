@@ -14,7 +14,10 @@ export const getPosts = async (
 ) => {
     let allPosts: Array<postsInterface> = [];
 
-    const { userid: myUserid } = req.body;
+    let { userid: myUserid } = req.body;
+    if (!myUserid) {
+        myUserid = '';
+    }
     try {
         allPosts = await Post.findAll({
             attributes: ['postId', 'userid', 'content', 'createdAt'],
@@ -32,7 +35,7 @@ export const getPosts = async (
         return res.json({ msg: `Maybe there's no post here!`, isError: true });
     }
     let likeCountArr = [];
-    let myLikeDataArr = [];
+    let PostsDatas = [];
     for (let i = 0; i < allPosts.length; i++) {
         try {
             const likeCount = await PostLikes.count({
@@ -50,19 +53,17 @@ export const getPosts = async (
             });
 
             if (myLikeData) {
-                myLikeDataArr.push(true);
+                PostsDatas.push([allPosts[i], likeCount, true]);
             } else {
-                myLikeDataArr.push(false);
+                PostsDatas.push([allPosts[i], likeCount, false]);
             }
         } catch (err) {
             return next(err);
         }
     }
-
+    // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
     res.json({
-        allPosts: allPosts,
-        likeCountArr: likeCountArr,
-        myLikeDataArr: myLikeDataArr,
+        PostsDatas: PostsDatas,
         idError: false,
     });
 };
@@ -198,6 +199,15 @@ export const getSinglePost = async (
 ) => {
     const postId = parseInt(req.params.id);
     let singlePost;
+    let likeCount;
+    let didLike = false;
+
+    let { userid: myUserid } = req.body;
+
+    if (!myUserid) {
+        myUserid = '';
+    }
+
     try {
         singlePost = await Post.findOne({
             where: { postId: postId },
@@ -208,6 +218,22 @@ export const getSinglePost = async (
                 },
             ],
         });
+
+        likeCount = await PostLikes.count({
+            where: {
+                PostId: postId,
+            },
+        });
+
+        const myLikeData = await PostLikes.findOne({
+            where: {
+                PostId: postId,
+                userid: myUserid,
+            },
+        });
+        if (myLikeData) {
+            didLike = true;
+        }
     } catch (err) {
         return next(err);
     }
@@ -218,7 +244,12 @@ export const getSinglePost = async (
             isError: true,
         });
     }
-    return res.json({ posts: singlePost, isError: false });
+    return res.json({
+        posts: singlePost,
+        likeCount: likeCount,
+        didLike: didLike,
+        isError: false,
+    });
 };
 
 // 게시글 좋아요 기능 post
@@ -228,6 +259,8 @@ export const togglePostLike = async (
     next: NextFunction
 ) => {
     // postId를 params에 넣을지 body에 넣을지.. 지금은 일단 params에 넣음
+    // axios Url에 해당 routes 넣어주시면 됩니다.
+
     const { userid } = req.body;
     const postId = parseInt(req.params.id);
     let pushLike;
