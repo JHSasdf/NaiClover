@@ -1,4 +1,3 @@
-import { SassColor } from 'sass';
 import '../../styles/MypageOption.scss';
 import Topbar from '../Topbar';
 import { Link } from 'react-router-dom';
