@@ -15,6 +15,7 @@ import { CommentModel } from './Comment';
 import { FollowModel } from './Follow';
 import { ChatModel } from './Chat';
 import { RoomModel } from './Room';
+import { AlarmModel } from './Alarm';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
@@ -23,6 +24,7 @@ const Comment = CommentModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
 const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
+const Alarm = AlarmModel(sequelize, Sequelize);
 
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
@@ -32,6 +34,19 @@ User.hasMany(Lang, {
     onUpdate: 'CASCADE',
 });
 Lang.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+//User당 갖고있는 Alarm들(1:N)
+User.hasMany(Alarm, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Alarm.belongsTo(User, {
     foreignKey: 'userid',
     targetKey: 'userid',
 });
@@ -100,7 +115,16 @@ Chat.belongsTo(Room, {
     targetKey: 'roomNum',
 });
 
-export const db = { User, Lang, Post, Comment, Follow, sequelize, Sequelize };
+export const db = {
+    User,
+    Lang,
+    Post,
+    Comment,
+    Follow,
+    Alarm,
+    sequelize,
+    Sequelize,
+};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;

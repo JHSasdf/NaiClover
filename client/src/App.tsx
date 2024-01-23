@@ -7,6 +7,7 @@ import PostsPage from './pages/PostsPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
 import NewPostPage from './pages/NewPostPage.tsx';
 import FollowPage from './pages/FollowPage.tsx';
+import AlarmPage from './pages/AlarmPage.tsx';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/posts" element={<PostsPage />}></Route>
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
+                    <Route path="/alarm" element={<AlarmPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/mypage/option" element={<MypageOption />} />

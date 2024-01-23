@@ -12,6 +12,7 @@ function FollowPage() {
     const [followerNum, setFollowerNum] = useState<Number>(0);
     const [followingList, setFollowingList] = useState<User[]>([]);
     const [followerList, setFollowerList] = useState<User[]>([]);
+    const [newAlarmNum, setNewAlarmNum] = useState<Number>(0);
     const idCookie = cookies['id'];
 
     const followNumGet = async () => {
@@ -44,9 +45,24 @@ function FollowPage() {
             console.log('error:', error);
         }
     };
+    const newAlarmNumGet = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: 'newAlarmNumGet',
+                params: {
+                    userid: idCookie,
+                },
+            });
+            setNewAlarmNum(res.data.newAlarmNumber);
+        } catch (error) {
+            console.log('error:', error);
+        }
+    };
     useEffect(() => {
         followNumGet();
         followListGet();
+        newAlarmNumGet();
     }, []);
     const followinput = useRef<HTMLInputElement>(null);
     const follow = async () => {
@@ -85,11 +101,9 @@ function FollowPage() {
             <br />
             팔로잉 수 : {followingNum}
             <br />
-            팔로잉리스트 :
-            {followingList.forEach((element) => {
-                <div>{element.userid}</div>;
-            })}
-            ;
+            알람갯수: {newAlarmNum}
+            <br />
+            <a href="alarm">알람페이지</a>
         </>
     );
 }
