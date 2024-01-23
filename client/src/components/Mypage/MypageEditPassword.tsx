@@ -7,7 +7,6 @@ import { useCookies } from 'react-cookie';
 
 function MypageEditPassword() {
     const [cookies] = useCookies(['id']);
-
     // cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
     const idCookie = cookies['id'];
 

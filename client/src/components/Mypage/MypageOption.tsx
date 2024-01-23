@@ -105,9 +105,14 @@ function MypageOption() {
                                 <div className="result-Content-items">
                                     English
                                 </div>
-                                <div>
-                                    <img src="/images/RightPoint.png" alt="" />
-                                </div>
+                                <Link to={'/mypage/edit/language'}>
+                                    <div>
+                                        <img
+                                            src="/images/RightPoint.png"
+                                            alt=""
+                                        />
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -235,7 +235,7 @@ function SignupPage() {
                             <option value="Japanese">Japanese</option>
                             <option value="Korean">Korean</option>
                         </select>
-                        <label htmlFor="">Leaning Language</label>
+                        <label htmlFor="">Learning Language</label>
                         <fieldset className="learning-langs-select">
                             <select
                                 name="learninglang1"
