@@ -19,13 +19,24 @@ function MypageEditPassword() {
 
                 {/* 내용 */}
                 <div className="editPassword-Container">
-                    <div>Password</div>
-                    <div>변경해주세요</div>
-                    <form action="">
+                    <div className="editContainer-title">Password</div>
+                    <div className="editContainer-smalltitle">
+                        Please enter the password to be modified
+                    </div>
+                    <form action="" className="editPassword-Form">
+                        <label htmlFor="">현재 비밀번호</label>
+                        <br />
                         <input className="" type="password" name="" id="" />
+                        <br />
+                        <label htmlFor="">변경할 비밀번호</label>
+                        <br />
                         <input type="password" name="" id="" />
+                        <br />
+                        <label htmlFor="">변경할 비밀번호 재확인</label>
+                        <br />
                         <input type="password" name="" id="" />
-                        <button></button>
+                        <br />
+                        <button className="edit-ConfirmBtn">Confirm</button>
                     </form>
                 </div>
             </div>

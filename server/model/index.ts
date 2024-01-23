@@ -15,12 +15,15 @@ import { CommentModel } from './Comment';
 import { FollowModel } from './Follow';
 import { ChatModel } from './Chat';
 import { RoomModel } from './Room';
+
 import { AlarmModel } from './Alarm';
+import { PostLikeModel } from './PostLikes';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Comment = CommentModel(sequelize, Sequelize);
+const PostLike = PostLikeModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
 const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
@@ -76,6 +79,36 @@ Comment.belongsTo(Post, {
     targetKey: 'postId',
 });
 
+// Post and Likes (1 : N)
+// User and Likes (1 : N)
+Post.hasMany(PostLike, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+PostLike.belongsTo(Post, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(PostLike, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+PostLike.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+Comment.belongsTo(Post, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
 // Follow (N:M)
 Follow.belongsTo(User, {
     foreignKey: 'userid',
@@ -122,6 +155,7 @@ export const db = {
     Comment,
     Follow,
     Alarm,
+    PostLike,
     sequelize,
     Sequelize,
 };

@@ -1,6 +1,17 @@
 $main-color: #37AF6A;
 $secondary-color: #888;
 
+.lang-post-container{
+    width: 390px;
+    height: fit-content;
+    background-color: white;
+    margin-bottom: 24px;
+}
+
+.lang-post{
+    background-color: white;
+}
+
 .lang-image-container{
     width: 40px;
     height: 40px;
@@ -233,8 +244,7 @@ $secondary-color: #888;
     width: 390px;
     height: 0.5px;
     background-color: lightgrey;
-    margin-top: 34px;
-    margin-bottom: 17.5px;
+    margin-top: 24px;
 }
 
 

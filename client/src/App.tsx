@@ -15,6 +15,9 @@ import Mypage from './pages/Mypage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import MypageOption from './components/Mypage/MypageOption.tsx';
 import MypageEditPassword from './components/Mypage/MypageEditPassword.tsx';
+import PostDetailPage from './pages/LanguagePostDetailPage.tsx';
+import CulturePostDetailPage from './pages/CulturePostDetailPage.tsx';
+import LanguagePostDetailPage from './pages/LanguagePostDetailPage.tsx';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -41,6 +44,9 @@ function App() {
                         element={<NewPostPage></NewPostPage>}
                     ></Route>
                     <Route path="/posts" element={<PostsPage />}></Route>
+                    <Route path="/c-postdetail" element={<CulturePostDetailPage/>}></Route>
+                    <Route path="/l-postdetail" element={<LanguagePostDetailPage/>}></Route>
+
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
                     <Route path="/alarm" element={<AlarmPage />} />

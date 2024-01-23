@@ -10,6 +10,9 @@ import { followRouter } from './routes/follow.routes';
 
 import { db } from './model';
 import { error } from 'console';
+import handleErrors from './middlewares/errorHandler.middleware';
+import notFoundHandler from './middlewares/notFound.middleware';
+import { postsRouter } from './routes/post.routes';
 
 const app = express();
 const server = http.createServer(app);
@@ -35,6 +38,7 @@ const connectedClients: Record<string, Socket> = {};
 app.use(authRouter);
 app.use(myPageRouter);
 app.use(followRouter);
+app.use(postsRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
@@ -62,6 +66,10 @@ io.on('connection', (socket: Socket) => {
 app.get('/', function (req: Request, res: Response) {
     res.send('hello');
 });
+
+// 에러처리 핸들러, 요청, 응답의 제일 아래가야함.
+app.use(handleErrors);
+app.use(notFoundHandler);
 
 const PORT = 4000;
 
