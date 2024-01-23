@@ -3,30 +3,30 @@ import { Link } from 'react-router-dom';
 import Topbar from '../Topbar';
 import '../../styles/MypageEditPassword.scss';
 import { useRef } from 'react';
-import { error } from 'console';
 import { cookieConfig } from '../../utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 
-const [cookies, setCookies] = useCookies(['id']);
-// cookie set
-setCookies('id', '유저아이디', cookieConfig);
-
-// cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
-const idCookie = cookies['id'];
-
 function MypageEditPassword() {
+    const [cookies, setCookies] = useCookies(['id']);
+    // cookie set
+    setCookies('id', '유저아이디', cookieConfig);
+
+    // cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
+    const idCookie = cookies['id'];
+
     const inputCurrentPasswordRef = useRef<HTMLInputElement>(null);
     const inputNewPasswordRef = useRef<HTMLInputElement>(null);
     const inputConfirmNewPasswordRef = useRef<HTMLInputElement>(null);
 
-    const submitEditForm = async () => {
+    const submitEditForm = async (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
         const currentPassword = inputCurrentPasswordRef.current?.value;
         const newPassword = inputNewPasswordRef.current?.value;
         const confirmNewPassword = inputConfirmNewPasswordRef.current?.value;
 
         try {
             const res = await axios({
-                method: 'post',
+                method: 'patch',
                 url: '/mypage/changeuserpassword',
                 data: {
                     userid: idCookie,
@@ -36,8 +36,8 @@ function MypageEditPassword() {
                 },
             });
             console.log(res.data);
-        } catch {
-            console.error(error);
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -83,7 +83,9 @@ function MypageEditPassword() {
                         <br />
                         <button
                             className="edit-ConfirmBtn"
-                            onClick={() => submitEditForm()}
+                            onClick={(e: React.MouseEvent<HTMLElement>) =>
+                                submitEditForm(e)
+                            }
                         >
                             Confirm
                         </button>
