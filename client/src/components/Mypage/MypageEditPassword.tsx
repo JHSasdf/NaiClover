@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom';
 import Topbar from '../Topbar';
 import '../../styles/MypageEditPassword.scss';
 import { useRef } from 'react';
-import { cookieConfig } from '../../utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 
 function MypageEditPassword() {
-    const [cookies, setCookies] = useCookies(['id']);
-    // cookie set
-    setCookies('id', '유저아이디', cookieConfig);
+    const [cookies] = useCookies(['id']);
 
     // cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
     const idCookie = cookies['id'];
