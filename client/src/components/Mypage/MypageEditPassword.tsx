@@ -1,8 +1,46 @@
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Topbar from '../Topbar';
 import '../../styles/MypageEditPassword.scss';
+import { useRef } from 'react';
+import { error } from 'console';
+import { cookieConfig } from '../../utils/cookieConfig';
+import { useCookies } from 'react-cookie';
+
+const [cookies, setCookies] = useCookies(['id']);
+// cookie set
+setCookies('id', '유저아이디', cookieConfig);
+
+// cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
+const idCookie = cookies['id'];
 
 function MypageEditPassword() {
+    const inputCurrentPasswordRef = useRef<HTMLInputElement>(null);
+    const inputNewPasswordRef = useRef<HTMLInputElement>(null);
+    const inputConfirmNewPasswordRef = useRef<HTMLInputElement>(null);
+
+    const submitEditForm = async () => {
+        const currentPassword = inputCurrentPasswordRef.current?.value;
+        const newPassword = inputNewPasswordRef.current?.value;
+        const confirmNewPassword = inputConfirmNewPasswordRef.current?.value;
+
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/mypage/changeuserpassword',
+                data: {
+                    userid: idCookie,
+                    currentPassword,
+                    newPassword,
+                    confirmPassword: confirmNewPassword,
+                },
+            });
+            console.log(res.data);
+        } catch {
+            console.error(error);
+        }
+    };
+
     return (
         <>
             <Topbar />
@@ -26,17 +64,29 @@ function MypageEditPassword() {
                     <form action="" className="editPassword-Form">
                         <label htmlFor="">현재 비밀번호</label>
                         <br />
-                        <input className="" type="password" name="" id="" />
+                        <input
+                            className=""
+                            type="password"
+                            ref={inputCurrentPasswordRef}
+                        />
                         <br />
                         <label htmlFor="">변경할 비밀번호</label>
                         <br />
-                        <input type="password" name="" id="" />
+                        <input type="password" ref={inputNewPasswordRef} />
                         <br />
                         <label htmlFor="">변경할 비밀번호 재확인</label>
                         <br />
-                        <input type="password" name="" id="" />
+                        <input
+                            type="password"
+                            ref={inputConfirmNewPasswordRef}
+                        />
                         <br />
-                        <button className="edit-ConfirmBtn">Confirm</button>
+                        <button
+                            className="edit-ConfirmBtn"
+                            onClick={() => submitEditForm()}
+                        >
+                            Confirm
+                        </button>
                     </form>
                 </div>
             </div>
