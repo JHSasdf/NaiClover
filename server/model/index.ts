@@ -66,19 +66,6 @@ Post.belongsTo(User, {
     targetKey: 'userid',
 });
 
-// Post에 달린 댓글들(1:N)
-Post.hasMany(Comment, {
-    foreignKey: 'postId',
-    sourceKey: 'postId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-});
-
-Comment.belongsTo(Post, {
-    foreignKey: 'postId',
-    targetKey: 'postId',
-});
-
 // Post and Likes (1 : N)
 // User and Likes (1 : N)
 Post.hasMany(PostLike, {
@@ -105,10 +92,32 @@ PostLike.belongsTo(User, {
     targetKey: 'userid',
 });
 
+// Post and comments (1 : N)
+// User and comments (1 : N)
+Post.hasMany(Comment, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
 Comment.belongsTo(Post, {
     foreignKey: 'postId',
     targetKey: 'postId',
 });
+
+User.hasMany(Comment, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Comment.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
 // Follow (N:M)
 Follow.belongsTo(User, {
     foreignKey: 'userid',

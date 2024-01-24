@@ -14,7 +14,7 @@ export const getmyPage = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const { userid } = req.query;
     let userDataObj: userDataInterface;
     let learningLangObjArr: Array<existingLangInterface> = [];
     let followDatas;
