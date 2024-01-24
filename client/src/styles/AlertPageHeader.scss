@@ -1,0 +1,20 @@
+.alert-header-container{
+    width: 390px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+
+    .back-arrow{
+        width: 24px;
+        height: 24px;
+        background-image: url('../img/backarrow.png');
+        margin-left: 16px;
+    }
+
+    .alert-header-text{
+        margin-left: 8px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+}

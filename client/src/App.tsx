@@ -18,6 +18,7 @@ import MypageEditPassword from './components/Mypage/MypageEditPassword.tsx';
 import PostDetailPage from './pages/LanguagePostDetailPage.tsx';
 import CulturePostDetailPage from './pages/CulturePostDetailPage.tsx';
 import LanguagePostDetailPage from './pages/LanguagePostDetailPage.tsx';
+import AlertPage from './pages/AlertPage.tsx';
 import MypageEditLanguage from './components/Mypage/MypageEditLanguage.tsx';
 
 export const generateUniqueId = () => {
@@ -25,6 +26,7 @@ export const generateUniqueId = () => {
 };
 
 function App() {
+    
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,14 +47,9 @@ function App() {
                         element={<NewPostPage></NewPostPage>}
                     ></Route>
                     <Route path="/posts" element={<PostsPage />}></Route>
-                    <Route
-                        path="/c-postdetail"
-                        element={<CulturePostDetailPage />}
-                    ></Route>
-                    <Route
-                        path="/l-postdetail"
-                        element={<LanguagePostDetailPage />}
-                    ></Route>
+                    <Route path="/c-postdetail" element={<CulturePostDetailPage/>}></Route>
+                    <Route path="/l-postdetail" element={<LanguagePostDetailPage/>}></Route>
+                    <Route path='/alert' element={<AlertPage/>}></Route>
 
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
