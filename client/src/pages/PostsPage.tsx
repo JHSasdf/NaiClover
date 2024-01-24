@@ -8,6 +8,8 @@ import Topbar from '../components/Topbar';
 import '../styles/PostsPage.scss';
 import Footer from '../components/Footer';
 
+
+
 function PostsPage() {
     const [showLanguagePosts, setShowLanguagePosts] = useState(true);
     const [showCulturePosts, setShowCulturePosts] = useState(false);
@@ -36,7 +38,7 @@ function PostsPage() {
                     }`}
                     onClick={handleLanguageClick}
                 >
-                    언어
+                    Language
                 </div>
                 <br />
                 <div
@@ -47,7 +49,7 @@ function PostsPage() {
                     }`}
                     onClick={handleCultureClick}
                 >
-                    문화
+                    Culture
                 </div>
                 <br />
             </div>

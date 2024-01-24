@@ -1,4 +1,5 @@
-import '../../styles/LanguagePost.scss'
+import '../../styles/LanguagePost.scss';
+import '../../styles/Font.scss';
 import {useNavigate} from 'react-router-dom';
 
 function LanguagePost() {
