@@ -50,7 +50,7 @@ function MypageEditLanguage() {
             url: '/mypage/changeuserlang',
             data: {
                 userid: idCookie,
-                learningLangs,
+                learningLangs: learningLangs,
             },
         });
         console.log(res.data);
