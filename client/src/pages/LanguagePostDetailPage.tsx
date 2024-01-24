@@ -1,5 +1,6 @@
 import Topbar from "../components/Topbar";
 import Comment from "../components/postdetailpage/Comment";
+import CommentsList from "../components/postdetailpage/CommentsList";
 import PostDetailHeader from "../components/postdetailpage/PostDetailHeader";
 import SendComment from "../components/postdetailpage/SendComment";
 import LanguagePost from "../components/postspage/LanguagePost";
@@ -12,13 +13,7 @@ function LanguagePostDetailPage() {
                 <Topbar/>
                 <PostDetailHeader/>
                 <LanguagePost/>
-                <div className='lang-comments-container'>
-                    <Comment />
-                    <Comment />
-                    <Comment />
-                    <Comment />
-                    <Comment />
-                </div>
+                <CommentsList />
                 <SendComment/>
             </div>
         </>

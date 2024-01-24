@@ -1,6 +1,6 @@
 import '../../styles/PostDetailComment.scss';
 
-function Comment() {
+function Comment(props: any) {
     return ( 
         <>
             <div className='comment-container'>
@@ -11,10 +11,10 @@ function Comment() {
 
                 <div className='comment-inside-container'>
                     <div className='comment-header-container'>
-                        <div className='comment-username'>Username</div>
+                        <div className='comment-username'>{props.name}</div>
                         <div className='comment-more'></div>
                     </div>
-                    <div className='comment-content'>Comment content</div>
+                    <div className='comment-content'>{props.content}</div>
                     <div className='comment-footer-container'>
                         <div className='comment-date'>2024-01-22</div>
                     </div>

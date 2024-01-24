@@ -9,7 +9,7 @@ function Header() {
         <>
             <div className='header-container'>
                 <div className='posts-title'></div>
-                <div className='alert'></div>
+                <div className='alert' onClick={()=>navigate('/alert')}></div>
                 <button className='create-post' onClick={() => navigate('/newpost')}></button>
             </div>
         </>
