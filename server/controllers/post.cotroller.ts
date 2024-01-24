@@ -15,7 +15,7 @@ export const getPosts = async (
 ) => {
     let allPosts: Array<postsInterface> = [];
 
-    let { userid: myUserid } = req.body;
+    let { userid: myUserid } = req.query;
     if (!myUserid) {
         myUserid = '';
     }
@@ -203,7 +203,7 @@ export const getSinglePost = async (
     let likeCount;
     let didLike = false;
 
-    let { userid: myUserid } = req.body;
+    let { userid: myUserid } = req.query;
 
     if (!myUserid) {
         myUserid = '';
@@ -312,6 +312,40 @@ export const createComment = async (
     }
     res.json({
         msg: 'Comment created!',
+        isError: false,
+    });
+};
+
+export const getComments = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const postId = parseInt(req.params.id);
+
+    let result;
+    try {
+        result = await Comment.findAll({
+            postId: postId,
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+            ],
+        });
+    } catch (err) {
+        return next(err);
+    }
+    if (!result || result.length < 1) {
+        res.json({
+            msg: `There's no Comment here! Why don't you try some?`,
+            isError: true,
+        });
+    }
+    res.json({
+        msg: 'fetching data completed',
+        Comments: result,
         isError: false,
     });
 };

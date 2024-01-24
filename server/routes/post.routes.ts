@@ -15,3 +15,5 @@ postsRouter.delete('/posts/:id', controller.deletePost);
 postsRouter.post('/posts/:id', controller.togglePostLike);
 
 postsRouter.post('/comments/createcomment/:id', controller.createComment);
+
+postsRouter.get('/comments/:id', controller.getComments);
