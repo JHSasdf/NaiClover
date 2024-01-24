@@ -4,6 +4,7 @@ import '../../styles/MypageEditLanguage.scss';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import ConfirmModal from '../Modals/ConfirmModal';
 
 function MypageEditLanguage() {
     const [cookies] = useCookies(['id']);
@@ -14,6 +15,9 @@ function MypageEditLanguage() {
         useState<boolean>(false);
     const [displaySelectBoxDiv3, setDisplaySelectBoxDiv3] =
         useState<boolean>(false);
+
+    // 모달 창 상태 변화
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
     // useRef hook으로 요소 선택
     const chooseLangRef = useRef<HTMLSelectElement>(null);
@@ -44,16 +48,30 @@ function MypageEditLanguage() {
         }
         // 추출된 언어 배열 확인.
         console.log(learningLangs);
+        try {
+            const res = await axios({
+                method: 'patch',
+                url: '/mypage/changeuserlang',
+                data: {
+                    userid: idCookie,
+                    learningLangs: learningLangs,
+                },
+            });
+            console.log(res.data);
 
-        const res = await axios({
-            method: 'patch',
-            url: '/mypage/changeuserlang',
-            data: {
-                userid: idCookie,
-                learningLangs: learningLangs,
-            },
-        });
-        console.log(res.data);
+            if (res.data.sucess) {
+                // 서버 응답이 성공적일 때 모달 띄우기
+                setShowConfirmModal(true);
+            } else {
+                console.error('Failed to update language');
+            }
+        } catch (err) {
+            console.error('Error: ', err);
+        }
+    };
+    // 모달 닫는 함수
+    const handleCloseConfrimModal = () => {
+        setShowConfirmModal(false);
     };
 
     return (
@@ -185,6 +203,7 @@ function MypageEditLanguage() {
                     </form>
                 </div>
             </div>
+            <ConfirmModal />
         </>
     );
 }
