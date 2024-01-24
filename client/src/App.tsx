@@ -1,32 +1,31 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { cookieConfig } from './utils/cookieConfig.ts';
+import { cookieConfig } from './utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 
-import PostsPage from './pages/PostsPage.tsx';
-import SignupPage from './pages/SignupPage.tsx';
-import NewPostPage from './pages/NewPostPage.tsx';
-import FollowPage from './pages/FollowPage.tsx';
-import AlarmPage from './pages/AlarmPage.tsx';
+import PostsPage from './pages/PostsPage';
+import SignupPage from './pages/SignupPage';
+import NewPostPage from './pages/NewPostPage';
+import FollowPage from './pages/FollowPage';
+import AlarmPage from './pages/AlarmPage';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import Mypage from './pages/Mypage.tsx';
-import LoginPage from './pages/LoginPage.tsx';
-import MypageOption from './components/Mypage/MypageOption.tsx';
-import MypageEditPassword from './components/Mypage/MypageEditPassword.tsx';
-import PostDetailPage from './pages/LanguagePostDetailPage.tsx';
-import CulturePostDetailPage from './pages/CulturePostDetailPage.tsx';
-import LanguagePostDetailPage from './pages/LanguagePostDetailPage.tsx';
-import AlertPage from './pages/AlertPage.tsx';
-import MypageEditLanguage from './components/Mypage/MypageEditLanguage.tsx';
+import Mypage from './pages/Mypage';
+import LoginPage from './pages/LoginPage';
+import MypageOption from './components/Mypage/MypageOption';
+import MypageEditPassword from './components/Mypage/MypageEditPassword';
+import PostDetailPage from './pages/LanguagePostDetailPage';
+import CulturePostDetailPage from './pages/CulturePostDetailPage';
+import LanguagePostDetailPage from './pages/LanguagePostDetailPage';
+import AlertPage from './pages/AlertPage';
+import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
 
 export const generateUniqueId = () => {
     return uuidv4();
 };
 
 function App() {
-    
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,9 +46,15 @@ function App() {
                         element={<NewPostPage></NewPostPage>}
                     ></Route>
                     <Route path="/posts" element={<PostsPage />}></Route>
-                    <Route path="/c-postdetail" element={<CulturePostDetailPage/>}></Route>
-                    <Route path="/l-postdetail" element={<LanguagePostDetailPage/>}></Route>
-                    <Route path='/alert' element={<AlertPage/>}></Route>
+                    <Route
+                        path="/c-postdetail"
+                        element={<CulturePostDetailPage />}
+                    ></Route>
+                    <Route
+                        path="/l-postdetail"
+                        element={<LanguagePostDetailPage />}
+                    ></Route>
+                    <Route path="/alert" element={<AlertPage />}></Route>
 
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
