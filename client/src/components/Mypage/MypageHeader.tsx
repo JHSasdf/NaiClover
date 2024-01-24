@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 
-function MypageHeader() {
+function MypageHeader(props: any) {
+    const { followingNum, followerNum, userData } = props;
     return (
         <div className="mypageHeaderC">
             <div className="logoC">
@@ -18,7 +19,7 @@ function MypageHeader() {
                 <div className="aDiv">
                     <div>팔로워</div>
                     <img src="/images/Divider.png" alt="" />
-                    <div>000</div>
+                    <div>{followerNum}</div>
                 </div>
                 <div className="bDiv">
                     {/* 프로필 이미지 */}
@@ -30,9 +31,16 @@ function MypageHeader() {
                     <div className="contentC">
                         <div className="nameInfo">
                             <div>
-                                <img src="images/menIcon.png" alt="" />
+                                {/* {userData.gender == 'm' ? (
+                                    <img src="images/manIcon.png" alt="man" />
+                                ) : (
+                                    <img
+                                        src="images/womanIcon.png"
+                                        alt="woman"
+                                    />
+                                )} */}
                             </div>
-                            <div>Sam</div>
+                            {/* <div>{userData.name}</div> */}
                         </div>
                         {/* db랑 연동해보고 글자 사이즈 및 간격 조절 해야할듯. */}
                         <div className="countryInfo">
@@ -54,7 +62,7 @@ function MypageHeader() {
                 <div className="cDiv">
                     <div>팔로잉</div>
                     <img src="/images/Divider.png" alt="" />
-                    <div>000</div>
+                    <div>{followingNum}</div>
                 </div>
             </div>
         </div>
