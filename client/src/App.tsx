@@ -20,6 +20,7 @@ import CulturePostDetailPage from './pages/CulturePostDetailPage';
 import LanguagePostDetailPage from './pages/LanguagePostDetailPage';
 import AlertPage from './pages/AlertPage';
 import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const generateUniqueId = () => {
     return uuidv4();
