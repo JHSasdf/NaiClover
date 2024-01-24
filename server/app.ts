@@ -1,7 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 
-
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 
@@ -14,7 +13,6 @@ import { error } from 'console';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { postsRouter } from './routes/post.routes';
-
 
 const app = express();
 const server = http.createServer(app);

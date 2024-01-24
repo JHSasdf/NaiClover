@@ -1,4 +1,4 @@
-import { cookieConfig } from '../utils/cookieConfig.ts';
+import { cookieConfig } from '../utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useRef } from 'react';
