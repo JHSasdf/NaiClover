@@ -10,7 +10,6 @@ export async function login(
     next: NextFunction
 ): Promise<void | Response> {
     const { userid, password } = req.body;
-
     if (!userid || userid.trim().length === 0) {
         return res.json({
             msg: 'Please input ID.',
@@ -52,6 +51,8 @@ export async function login(
         });
     }
 
+    req.session.userid = userid;
+    console.log(req.session);
     res.json({ msg: null, isLoggedin: true, userid: userid });
 }
 

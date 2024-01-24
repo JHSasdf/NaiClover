@@ -88,7 +88,6 @@ function SignupPage() {
                 learningLang: learningLangs,
             },
         });
-        console.log(res.data);
         setSignupErrorMsg(res.data.msg);
         if (!res.data.isError) {
             navigate('/');

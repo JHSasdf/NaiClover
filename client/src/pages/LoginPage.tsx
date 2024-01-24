@@ -25,6 +25,7 @@ function LoginPage() {
                 userid: idRef.current?.value,
                 password: passwordRef.current?.value,
             },
+            withCredentials: true,
         });
         const { msg, isLoggedin, userid } = res.data;
         setErrorMsg(msg);

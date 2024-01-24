@@ -292,6 +292,7 @@ export const togglePostLike = async (
     return res.json({ msg: 'Like deleted', isError: false });
 };
 
+// 댓글 작성 기능
 export const createComment = async (
     req: Request,
     res: Response,
@@ -316,17 +317,17 @@ export const createComment = async (
     });
 };
 
+// 게시글의 댓글 불러오기 기능
 export const getComments = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const postId = parseInt(req.params.id);
-
     let result;
     try {
         result = await Comment.findAll({
-            postId: postId,
+            where: { postId: postId },
             include: [
                 {
                     model: User,
@@ -338,7 +339,7 @@ export const getComments = async (
         return next(err);
     }
     if (!result || result.length < 1) {
-        res.json({
+        return res.json({
             msg: `There's no Comment here! Why don't you try some?`,
             isError: true,
         });
@@ -346,6 +347,100 @@ export const getComments = async (
     res.json({
         msg: 'fetching data completed',
         Comments: result,
+        isError: false,
+    });
+};
+
+// 댓글 업데이트 기능 commentIndex는 Comment 테이블의 index
+export const updateComment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const commentIndex = parseInt(req.params.commentindex);
+    const { userid, content } = req.body;
+
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
+
+    let existingUserid;
+    try {
+        existingUserid = await Comment.findOne({
+            where: { index: commentIndex },
+            attributes: ['userid'],
+        });
+    } catch (err) {
+        return next(err);
+    }
+
+    if (userid !== existingUserid.userid) {
+        return res.json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
+
+    try {
+        await Comment.update(
+            {
+                content: content,
+            },
+            {
+                where: { index: commentIndex },
+            }
+        );
+    } catch (err) {
+        return next(err);
+    }
+    return res.json({
+        msg: 'Comment update succeed',
+        isError: false,
+    });
+};
+
+// 댓글 삭제 기능. commentIndex는 댓글의 index
+export const deleteComment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { userid } = req.body;
+    const commentIndex = parseInt(req.params.commentindex);
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
+    let existingUserid;
+    try {
+        existingUserid = await Comment.findOne({
+            where: { index: commentIndex },
+            attributes: ['userid'],
+        });
+    } catch (err) {
+        return next(err);
+    }
+
+    if (userid !== existingUserid.userid) {
+        return res.json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
+    try {
+        await Comment.destroy({
+            where: { index: commentIndex },
+        });
+    } catch (err) {
+        return next(err);
+    }
+    return res.json({
+        msg: 'comment deletion succeed',
         isError: false,
     });
 };

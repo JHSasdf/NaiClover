@@ -1,6 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 
+import session from 'express-session';
+
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 
@@ -13,6 +15,7 @@ import { error } from 'console';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { postsRouter } from './routes/post.routes';
+import { getSessionConfig } from './config/session.config';
 
 const app = express();
 const server = http.createServer(app);
@@ -22,6 +25,8 @@ const io = new Server(server, {
         methods: ['GET', 'POST'],
     },
 });
+
+app.use(session(getSessionConfig()));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
