@@ -1,12 +1,13 @@
 import '../../styles/PostCategory.scss';
+import '../../styles/Font.scss';
 
 function Category() {
     return (
         <>
             <div className="category-component">
-                <div className="btn_lang">언어</div>
+                <div className="btn_lang">Language</div>
                 <br />
-                <div className="btn_culture">문화</div>
+                <div className="btn_culture">Culture</div>
                 <br />
             </div>
         </>

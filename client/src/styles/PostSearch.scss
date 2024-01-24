@@ -1,6 +1,6 @@
 .search-container {
     button {
-        width: 40px;
+        width: fit-content;;
         height: 28px;
         background-color: white;
         color: #808080;
@@ -10,6 +10,7 @@
         margin-left: 12px;
         margin-right: 12px;
         cursor: pointer;
+        font-family: "Poppins", sans-serif;
     }
 }
 
@@ -22,6 +23,7 @@
     color: #808080;
     margin-left: 42px;
     margin-top: 6px;
+    font-family: "Poppins", sans-serif;
 }
 
 .searchbar-input:focus {
@@ -42,4 +44,8 @@
     height: 32px;
     background-image: url('../img/searchbar.png');
     margin-left: 12px;
+}
+
+.create-post{
+    background-color: white;
 }

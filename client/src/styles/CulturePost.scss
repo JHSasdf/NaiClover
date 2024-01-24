@@ -6,9 +6,11 @@ $secondary-color: #888;
     height: fit-content;
     background-color: white;
     margin-bottom: 24px;
+    
 }
 .cul-post{
     background-color: white;
+    font-family: "Poppins", sans-serif;
 }
 
 .cul-image-container{
@@ -53,7 +55,7 @@ $secondary-color: #888;
 .cul-info{
     display: flex;
     flex-direction: row;
-    width: 97px;
+    width: fit-content;
     height: 24px;
 }
 

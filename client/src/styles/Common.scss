@@ -1,9 +1,12 @@
+
 // 아이폰 13
 $all-width: 390px;
 
 // 메인 컬러
 $primary-color: #37af6a;
 $sub-color: #888888;
+
+
 
 @mixin flex() {
     display: flex;

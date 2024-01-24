@@ -1,4 +1,5 @@
 import '../../styles/CulturePost.scss'
+import '../../styles/Font.scss';
 import {useNavigate} from 'react-router-dom';
 
 function CulturePost() {

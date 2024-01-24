@@ -10,6 +10,7 @@ $secondary-color: #888;
 
 .lang-post{
     background-color: white;
+    font-family: "Poppins", sans-serif;
 }
 
 .lang-image-container{
@@ -54,7 +55,7 @@ $secondary-color: #888;
 .lang-info{
     display: flex;
     flex-direction: row;
-    width: 97px;
+    width: fit-content;
     height: 24px;
 }
 
