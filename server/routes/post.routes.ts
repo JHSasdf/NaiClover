@@ -13,3 +13,5 @@ postsRouter.patch('/posts/:id', controller.updatePost);
 postsRouter.delete('/posts/:id', controller.deletePost);
 
 postsRouter.post('/posts/:id', controller.togglePostLike);
+
+postsRouter.post('/comments/createcomment/:id', controller.createComment);

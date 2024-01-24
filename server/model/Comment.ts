@@ -2,6 +2,12 @@ export const CommentModel = (sequelize: any, DataTypes: any) => {
     const Comment = sequelize.define(
         'Comment',
         {
+            index: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                primaryKey: true,
+                autoIncrement: true,
+            },
             postId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -12,9 +18,11 @@ export const CommentModel = (sequelize: any, DataTypes: any) => {
             },
             content: {
                 type: DataTypes.STRING(2000),
+                allowNull: false,
             },
-            likes: {
-                type: DataTypes.INTEGER,
+            isrevised: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
             },
         },
         {

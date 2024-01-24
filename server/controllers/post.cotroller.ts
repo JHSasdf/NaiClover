@@ -3,6 +3,7 @@ import { db } from '../model';
 const User = db.User;
 const Post = db.Post;
 const PostLikes = db.PostLike;
+const Comment = db.Comment;
 
 import { postsInterface } from '../types/types';
 
@@ -258,9 +259,6 @@ export const togglePostLike = async (
     res: Response,
     next: NextFunction
 ) => {
-    // postId를 params에 넣을지 body에 넣을지.. 지금은 일단 params에 넣음
-    // axios Url에 해당 routes 넣어주시면 됩니다.
-
     const { userid } = req.body;
     const postId = parseInt(req.params.id);
     let pushLike;
@@ -292,4 +290,28 @@ export const togglePostLike = async (
     }
 
     return res.json({ msg: 'Like deleted', isError: false });
+};
+
+export const createComment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { userid, content, isrevised } = req.body;
+    const postId = parseInt(req.params.id);
+
+    try {
+        await Comment.create({
+            userid: userid,
+            content: content,
+            postId: postId,
+            isrevised: isrevised,
+        });
+    } catch (err) {
+        return next(err);
+    }
+    res.json({
+        msg: 'Comment created!',
+        isError: false,
+    });
 };
