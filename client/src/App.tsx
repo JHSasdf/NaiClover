@@ -7,6 +7,7 @@ import PostsPage from './pages/PostsPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
 import NewPostPage from './pages/NewPostPage.tsx';
 import FollowPage from './pages/FollowPage.tsx';
+import AlarmPage from './pages/AlarmPage.tsx';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,6 +19,7 @@ import PostDetailPage from './pages/LanguagePostDetailPage.tsx';
 import CulturePostDetailPage from './pages/CulturePostDetailPage.tsx';
 import LanguagePostDetailPage from './pages/LanguagePostDetailPage.tsx';
 import AlertPage from './pages/AlertPage.tsx';
+import MypageEditLanguage from './components/Mypage/MypageEditLanguage.tsx';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -51,12 +53,17 @@ function App() {
 
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
+                    <Route path="/alarm" element={<AlarmPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/mypage/option" element={<MypageOption />} />
                     <Route
                         path="/mypage/edit/password"
                         element={<MypageEditPassword />}
+                    />
+                    <Route
+                        path="/mypage/edit/Language"
+                        element={<MypageEditLanguage />}
                     />
                 </Routes>
             </BrowserRouter>
