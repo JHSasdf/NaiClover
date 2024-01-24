@@ -20,6 +20,7 @@ export const getmyPage = async (
     let followDatas;
     let postDatas;
 
+    console.log('really??');
     if (!userid || userid == '' || userid === null) {
         return res.json({
             msg: 'Something went wrong! please try it later!',
