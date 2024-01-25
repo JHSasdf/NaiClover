@@ -1,3 +1,8 @@
+declare module 'express-session' {
+    interface SessionData {
+        userid: String;
+    }
+}
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 
