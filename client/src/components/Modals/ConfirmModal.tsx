@@ -1,28 +1,28 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Link } from 'react-router-dom';
 
-function ConfirmModal() {
+function ConfirmModal({ show, setShow }: any) {
+    const handleClose = () => {
+        setShow({ show: false });
+    };
+
     return (
-        <div
-            className="modal show"
-            style={{ display: 'block', position: 'initial' }}
-        >
-            <Modal.Dialog>
+        <>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Success</Modal.Title>
                 </Modal.Header>
-
-                <Modal.Body>
-                    <p>Modal body text goes here.</p>
-                </Modal.Body>
-
+                <Modal.Body>Learning Languages change completed.</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Link to="/mypage/option">
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                    </Link>
                 </Modal.Footer>
-            </Modal.Dialog>
-        </div>
+            </Modal>
+        </>
     );
 }
 

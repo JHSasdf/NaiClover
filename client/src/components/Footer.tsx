@@ -133,7 +133,7 @@ function Footer() {
                         }
                         alt=""
                     />
-                    <div className="text">My Page</div>
+                    <div className="text">MyPage</div>
                 </div>
             </Link>
 

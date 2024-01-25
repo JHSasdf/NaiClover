@@ -17,7 +17,10 @@ function MypageEditLanguage() {
         useState<boolean>(false);
 
     // 모달 창 상태 변화
-    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+    const [showConfirmModal, setShowConfirmModal] = useState<any>({
+        // 모달 초기 상태 false!
+        show: false,
+    });
 
     // useRef hook으로 요소 선택
     const chooseLangRef = useRef<HTMLSelectElement>(null);
@@ -57,26 +60,30 @@ function MypageEditLanguage() {
                     learningLangs: learningLangs,
                 },
             });
-            console.log(res.data);
-
-            if (res.data.sucess) {
-                // 서버 응답이 성공적일 때 모달 띄우기
-                setShowConfirmModal(true);
-            } else {
-                console.error('Failed to update language');
+            if (res.data.isError == false) {
+                handleConfirmModal();
             }
+            console.log(res.data);
         } catch (err) {
             console.error('Error: ', err);
         }
     };
-    // 모달 닫는 함수
-    const handleCloseConfrimModal = () => {
-        setShowConfirmModal(false);
+
+    // 모달 창 실행 함수
+    const handleConfirmModal = () => {
+        // 실행 되면 모달 상태를 true로!
+        setShowConfirmModal({ show: true });
     };
 
     return (
         <>
             <Topbar />
+            {/* 모달 컴포넌트 */}
+            <ConfirmModal
+                show={showConfirmModal.show}
+                setShow={setShowConfirmModal}
+            />
+
             <div className="myPageOption-container">
                 {/* 설정 헤드 부분 */}
                 <div className="myPageOption-C-Header">
@@ -203,7 +210,6 @@ function MypageEditLanguage() {
                     </form>
                 </div>
             </div>
-            <ConfirmModal />
         </>
     );
 }
