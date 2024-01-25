@@ -1,17 +1,17 @@
-.monotalkalert-container{
+.monotalkalert-container {
     width: 342px;
     height: fit-content;
     padding: 20px 24px;
-    background-color: #E9FFEE;
+    background-color: #e9ffee;
 
-    .monotalkalert-title{
+    .monotalkalert-title {
         width: 390px;
         height: fit-content;
         font-size: 14px;
         color: #000;
     }
 
-    .monotalkalert-content{
+    .monotalkalert-content {
         width: 390px;
         height: fit-content;
         font-size: 14px;
@@ -19,6 +19,27 @@
     }
 }
 
-.monotalkalert-username{
+.monotalkalert-oldcontainer {
+    width: 342px;
+    height: fit-content;
+    padding: 20px 24px;
+    background-color: white;
+
+    .monotalkalert-title {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .monotalkalert-content {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #888;
+    }
+}
+
+.monotalkalert-username {
     font-weight: bold;
 }
