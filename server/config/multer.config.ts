@@ -1,6 +1,5 @@
 import multer from 'multer';
 import path from 'path';
-import { randomUUID } from 'crypto';
 
 export const getPostMulterConfig = () => {
     return {
@@ -27,10 +26,7 @@ export const getMyPageMulterConfig = () => {
             },
             filename(req, file, done) {
                 const ext = path.extname(file.originalname);
-                done(
-                    null,
-                    (req.session.userid || randomUUID()) + Date.now() + ext
-                );
+                done(null, (req.session.userid || 'userid') + Date.now() + ext);
             },
         }),
         limits: {
