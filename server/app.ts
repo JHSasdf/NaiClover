@@ -1,12 +1,13 @@
 declare module 'express-session' {
     interface SessionData {
-        userid: String;
+        userid: string;
     }
 }
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import http from 'http';
+import multer from 'multer';
 import { Server, Socket } from 'socket.io';
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
@@ -28,6 +29,7 @@ const io = new Server(server, {
     },
 });
 
+app.use('/public', express.static(__dirname + '/public'));
 app.use(session(getSessionConfig()));
 
 app.use(express.urlencoded({ extended: true }));

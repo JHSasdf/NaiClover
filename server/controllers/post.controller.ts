@@ -450,3 +450,15 @@ export const deleteComment = async (
         isError: false,
     });
 };
+
+export const multerTest = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    console.log('req.body:', req.body);
+    console.log('req.file: ', req.files, typeof req.files);
+    // for (let i = 0; i < req.files.length; i++) {
+
+    // }
+};
