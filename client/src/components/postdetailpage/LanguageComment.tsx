@@ -1,6 +1,8 @@
 import '../../styles/PostDetailComment.scss';
 
 function LanguageComment(props:any) {
+
+    
     return ( 
         <>
             <div className='comment-container'>

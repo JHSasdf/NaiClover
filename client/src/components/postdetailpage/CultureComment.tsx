@@ -1,4 +1,4 @@
-
+import '../../styles/PostDetailComment.scss';
 
 function CultureComment(props: any) {
     return ( 

@@ -10,12 +10,15 @@
     flex-direction: column;
     align-items: flex-start;
 
-    div{
+    .wirtepost-title{
         margin-left: 12px;
         margin-bottom: 8px;
         font-size: 14px;
         font-weight: bold;
         color: #808080;
+    }
+    .writepost-inner-container{
+        display: flex;
     }
     textarea{
         margin: 0;
