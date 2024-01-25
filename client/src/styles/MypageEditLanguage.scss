@@ -30,6 +30,11 @@
         .chooseSelectBoxDiv3 {
             @extend .chooseSelectBoxDiv;
         }
+
+        .editErrorMsg {
+            text-align: center;
+            margin-top: 25px;
+        }
     }
 }
 
