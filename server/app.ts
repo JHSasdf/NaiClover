@@ -5,12 +5,9 @@ declare module 'express-session' {
 }
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-
 import session from 'express-session';
-
 import http from 'http';
 import { Server, Socket } from 'socket.io';
-
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -18,7 +15,6 @@ import { postsRouter } from './routes/post.routes';
 import { langPostsRouter } from './routes/langPost.routes';
 
 import { db } from './model';
-import { error } from 'console';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { getSessionConfig } from './config/session.config';
@@ -49,8 +45,8 @@ const connectedClients: Record<string, Socket> = {};
 app.use(authRouter);
 app.use(myPageRouter);
 app.use(followRouter);
-app.use('/cul', postsRouter);
-app.use('/lang', langPostsRouter);
+app.use(postsRouter);
+app.use(langPostsRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');

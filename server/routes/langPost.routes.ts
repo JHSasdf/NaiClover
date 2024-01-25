@@ -2,22 +2,28 @@ import express from 'express';
 import * as controller from '../controllers/langPost.controller';
 export const langPostsRouter = express();
 
-langPostsRouter.get('/posts', controller.getPosts);
+langPostsRouter.get('/lang/posts', controller.getPosts);
 
-langPostsRouter.post('/posts/createpost', controller.createPost);
+langPostsRouter.post('/lang/posts/createpost', controller.createPost);
 
-langPostsRouter.get('/posts/:id', controller.getSinglePost);
+langPostsRouter.get('/lang/posts/:id', controller.getSinglePost);
 
-langPostsRouter.patch('/posts/:id', controller.updatePost);
+langPostsRouter.patch('/lang/posts/:id', controller.updatePost);
 
-langPostsRouter.delete('/posts/:id', controller.deletePost);
+langPostsRouter.delete('/lang/posts/:id', controller.deletePost);
 
-langPostsRouter.post('/posts/:id', controller.togglePostLike);
+langPostsRouter.post('/lang/posts/:id', controller.togglePostLike);
 
-langPostsRouter.post('/comments/createcomment/:id', controller.createComment);
+langPostsRouter.post(
+    '/lang/comments/createcomment/:id',
+    controller.createComment
+);
 
-langPostsRouter.get('/comments/:id', controller.getComments);
+langPostsRouter.get('/lang/comments/:id', controller.getComments);
 
-langPostsRouter.patch('/comments/:commentindex', controller.updateComment);
+langPostsRouter.patch('/lang/comments/:commentindex', controller.updateComment);
 
-langPostsRouter.delete('/comments/:commentindex', controller.deleteComment);
+langPostsRouter.delete(
+    '/lang/comments/:commentindex',
+    controller.deleteComment
+);
