@@ -35,7 +35,6 @@ export const getPosts = async (
     if (!allPosts || allPosts.length < 1) {
         return res.json({ msg: `Maybe there's no post here!`, isError: true });
     }
-    let likeCountArr = [];
     let PostsDatas = [];
     for (let i = 0; i < allPosts.length; i++) {
         try {
@@ -44,7 +43,6 @@ export const getPosts = async (
                     PostId: allPosts[i].postId,
                 },
             });
-            likeCountArr.push(likeCount);
 
             const commentCount = await Comment.count({
                 where: {
