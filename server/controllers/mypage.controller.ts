@@ -3,10 +3,12 @@ import * as bcrypt from 'bcrypt';
 import { db } from '../model';
 import { existingLangInterface } from '../types/types';
 import { userDataInterface } from '../types/types';
+import { randomUUID } from 'crypto';
 const User = db.User;
 const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
+const MypageImage = db.MypageImages;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -142,7 +144,7 @@ export const changeUserPassword = async (
 
     if (!(newPassword === confirmPassword)) {
         return res.json({
-            msg: `There's a differenct between new Password and confirm Password`,
+            msg: `There's a difference between new Password and confirm Password`,
             isError: true,
         });
     }
@@ -331,4 +333,43 @@ export const logout = async (
     } else {
         res.json({ msg: 'Already being logoutted', idError: true });
     }
+};
+
+export const multerMypage = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    console.log('req.body:', req.body);
+    console.log('req.file: ', req.file, typeof req.file);
+    let existingProfile;
+    try {
+        existingProfile = await MypageImage.findOne({
+            where: { userid: req.session.userid },
+        });
+    } catch (err) {
+        return next(err);
+    }
+    if (!existingProfile) {
+        try {
+            await MypageImage.create({
+                userid: req.session.userid || randomUUID(),
+                path: `/${req.file?.path}`,
+            });
+        } catch (err) {
+            return next(err);
+        }
+    } else {
+        try {
+            await MypageImage.update(
+                {
+                    path: `/${req.file?.path}`,
+                },
+                { where: { userid: req.session.userid } }
+            );
+        } catch (err) {
+            return next(err);
+        }
+    }
+    res.json({ path: `/${req.file?.path}` });
 };
