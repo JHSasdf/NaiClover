@@ -6,6 +6,8 @@ function CulturePost() {
 
     const navigate = useNavigate();
 
+    
+
     return(
     <div className='cul-post-container'>
         <div className='cul-post'>

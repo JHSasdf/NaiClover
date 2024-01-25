@@ -11,7 +11,13 @@ function WritePost() {
     return ( 
         <>
             <div className='writepost-container'>
-                <div>포스트 내용</div>
+                <div className='writepost-inner-container'>
+                <div className='writepost-title'>포스트 내용</div>
+                    <select name="category" id="">
+                        <option value="language">language</option>
+                        <option value="culture">culture</option>
+                    </select>
+                </div>
                 <textarea placeholder='포스트 내용을 작성해 주세요...' ref={textarea} onChange={handleResizeHeight} rows={1}></textarea>
             </div>
 

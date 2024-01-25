@@ -1,7 +1,4 @@
 // ChoosePhotos
-
-import React, { useState } from 'react';
-import ImageUploader from './ImageUploader';
 import '../../styles/NewPostPhotos.scss';
 import '../../styles/NewPostButton.scss';
 
@@ -16,8 +13,6 @@ function ChoosePhotos() {
                 <div className="image"></div>
                 <div className="image"></div>
             </div>
-
-            <ImageUploader />
         </>
     );
 }

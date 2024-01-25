@@ -1,6 +1,7 @@
 .comment-container{
-    width: 342px;
-    height: fit-content;
+    width: 390px;
+    min-height: fit-content;
+    max-height: none;
     background-color: white;
     display: flex;
     align-items: center;
@@ -50,6 +51,8 @@
         font-size: 14px;
         font-weight: bold;
         margin-right: 200px;
+        width: 60px;
+        height: fit-content;
     }
 
     .comment-more{
@@ -60,9 +63,12 @@
 }
 
 .comment-content{
-    width: 286px;
-    height: fit-content;
+    min-width: 286px;
+    max-width: 286px;
+    height: auto;
     font-size: 14px;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .comment-footer-container{
