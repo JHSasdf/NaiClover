@@ -13,3 +13,5 @@ myPageRouter.patch('/mypage/changeuserlang', controller.changeUserLang);
 myPageRouter.patch('/mypage/editIntroduction', controller.editIntroduction);
 
 myPageRouter.delete('/mypage/deleteuser', controller.deleteUser);
+
+myPageRouter.post('/mypage/logout', controller.logout);

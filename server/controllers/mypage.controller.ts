@@ -319,3 +319,16 @@ export const editIntroduction = async (
         });
     }
 };
+
+export const logout = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    if (req.session.userid !== '') {
+        req.session.userid = '';
+        res.json({ msg: 'logout completed', idError: false });
+    } else {
+        res.json({ msg: 'Already being logoutted', idError: true });
+    }
+};
