@@ -23,7 +23,7 @@ function MypageEditLanguage() {
         show: false,
     });
 
-    const [editErrorMsg, setEditErrorMsg] = useState<String>('');
+    const [editlangErrorMsg, setEditlangErrorMsg] = useState<String>('');
 
     // useRef hook으로 요소 선택
     const chooseLangRef = useRef<HTMLSelectElement>(null);
@@ -66,7 +66,7 @@ function MypageEditLanguage() {
             if (res.data.isError == false) {
                 handleConfirmModal();
             } else if (res.data.isError == true) {
-                setEditErrorMsg(res.data.msg);
+                setEditlangErrorMsg(res.data.msg);
             }
             console.log(res.data);
         } catch (err) {
@@ -207,8 +207,8 @@ function MypageEditLanguage() {
                                 />
                             </div>
                         </div>
-                        <div className="getred editErrorMsg">
-                            {editErrorMsg}
+                        <div className="getred editlangErrorMsg">
+                            {editlangErrorMsg}
                         </div>
                         <button
                             className="edit-ConfirmBtn"
