@@ -18,7 +18,9 @@ function MypageHeader(props: any) {
             <div className="followC">
                 <div className="aDiv">
                     <div>팔로워</div>
-                    <img src="/images/Divider.png" alt="" />
+                    <div>
+                        <img src="/images/Divider.png" alt="" />
+                    </div>
                     <div>{followerNum}</div>
                 </div>
                 <div className="bDiv">

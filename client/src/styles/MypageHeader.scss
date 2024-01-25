@@ -22,6 +22,11 @@
             width: 88px;
             height: 68px;
             @include flex-center();
+
+            > div {
+                @include flex-center();
+                width: 88px;
+            }
         }
         .bDiv {
             width: 100px;
