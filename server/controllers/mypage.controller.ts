@@ -20,7 +20,6 @@ export const getmyPage = async (
     let followDatas;
     let postDatas;
 
-    console.log('really??');
     if (!userid || userid == '' || userid === null) {
         return res.json({
             msg: 'Something went wrong! please try it later!',
@@ -31,7 +30,14 @@ export const getmyPage = async (
     try {
         userDataObj = await User.findOne({
             where: { userid: userid },
-            attributes: ['userid', 'name', 'gender', 'nation', 'firLang'],
+            attributes: [
+                'userid',
+                'name',
+                'gender',
+                'nation',
+                'introduction',
+                'firLang',
+            ],
         });
     } catch (err) {
         return next(err);
@@ -276,6 +282,36 @@ export const deleteUser = async (
             msg: 'Deletion completed',
             isError: false,
         });
+    } catch (err) {
+        res.json({
+            msg: 'An Erorr Occurred. Please try Later.',
+            isError: true,
+        });
+    }
+};
+
+export const editIntroduction = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { userid, content } = req.body;
+
+    if (!userid || userid == '' || userid === null) {
+        return res.json({
+            msg: 'Something went wrong! please try it later!',
+            isError: true,
+        });
+    }
+    try {
+        await User.update(
+            { introduction: content },
+            { where: { userid: userid }, returning: true, plain: true }
+        );
+
+        console.log(content);
+        console.log(userid);
+        res.json({ msg: 'introduction change completed.', isError: false });
     } catch (err) {
         res.json({
             msg: 'An Erorr Occurred. Please try Later.',

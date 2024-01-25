@@ -22,6 +22,10 @@ export const UserModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
+            introduction: {
+                type: DataTypes.STRING(2000),
+                allowNull: true,
+            },
             firLang: {
                 type: DataTypes.STRING(30),
                 allowNull: false,
