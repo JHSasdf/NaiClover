@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "circular-json": "^0.5.9",
-    "react-cookie": "^7.0.1",
-    "sass": "^1.69.7"
-  }
-}

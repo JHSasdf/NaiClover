@@ -2,15 +2,17 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { cookieConfig } from './utils/cookieConfig';
 import { useCookies } from 'react-cookie';
-
-import PostsPage from './pages/PostsPage';
-import SignupPage from './pages/SignupPage';
-import NewPostPage from './pages/NewPostPage';
-import FollowPage from './pages/FollowPage';
-import AlarmPage from './pages/AlarmPage';
+import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import PostsPage from './pages/PostsPage';
+import AlarmPage from './pages/AlarmPage';
+import SignupPage from './pages/SignupPage';
+import NewPostPage from './pages/NewPostPage';
+import FollowPage from './pages/FollowPage';
+import MainPage from './pages/MainPage';
+import ChatRoomPage from './pages/NewPage'; // ChatRoomPage 추가
 import Mypage from './pages/Mypage';
 import LoginPage from './pages/LoginPage';
 import MypageOption from './components/Mypage/MypageOption';
@@ -57,6 +59,9 @@ function App() {
                     ></Route>
                     <Route path="/alert" element={<AlertPage />}></Route>
 
+                    <Route path="/mainpage" element={<MainPage />} />
+                    <Route path="/chat/:roomId" element={<ChatRoomPage />} />
+                    <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
                     <Route path="/alarm" element={<AlarmPage />} />
