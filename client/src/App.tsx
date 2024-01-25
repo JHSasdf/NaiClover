@@ -4,7 +4,6 @@ import { cookieConfig } from './utils/cookieConfig.ts';
 import { useCookies } from 'react-cookie';
 
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 
 import PostsPage from './pages/PostsPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
@@ -12,7 +11,6 @@ import NewPostPage from './pages/NewPostPage.tsx';
 import FollowPage from './pages/FollowPage.tsx';
 
 import MainPage from './pages/MainPage.tsx';
-import NewPage from './pages/NewPage.tsx';
 import ChatRoomPage from './pages/NewPage.tsx'; // ChatRoomPage 추가
 import { v4 as uuidv4 } from 'uuid';
 
@@ -45,9 +43,10 @@ function App() {
                         path="/newpost"
                         element={<NewPostPage></NewPostPage>}
                     ></Route>
-                    <Route path="/mainpage" element={<MainPage />} />
-                    <Route path="/newpage" element={<NewPage />} />
                     <Route path="/posts" element={<PostsPage />}></Route>
+                    <Route path="/mainpage" element={<MainPage />} />
+                    <Route path="/chat/:roomId" element={<ChatRoomPage />} />
+                    <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
                     <Route path="/signup" element={<SignupPage />} />

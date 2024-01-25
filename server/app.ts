@@ -29,7 +29,7 @@ app.use(
         methods: ['GET', 'POST', 'patch', 'delete'],
     })
 );
-``;
+
 const connectedClients: Record<string, Socket> = {};
 
 app.use(authRouter);
@@ -52,6 +52,9 @@ io.on('connection', (socket: Socket) => {
 
     connectedClients[socket.id] = socket;
 
+    // 여기서 사용자의 ID를 전달합니다.
+    socket.emit('userId', socket.id);
+
     socket.on('chat message', (msg) => {
         if (msg.text.startsWith('You:')) {
             console.log(`You: ${msg.text}`);
@@ -63,13 +66,16 @@ io.on('connection', (socket: Socket) => {
             const serverMessage = `Server: ${msg.text}`;
             const isSentByMe = msg.isSentByMe || false;
 
+            // userId 추가
             io.to(msg.room).emit('chat message', {
                 ...msg,
                 text: serverMessage,
                 isSentByMe,
+                userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
 
             console.log(serverMessage);
+            console.log(msg.userId); // userId 출력
         }
     });
 
@@ -88,7 +94,12 @@ io.on('connection', (socket: Socket) => {
         chatRooms[roomId] = { id: roomId, name: roomName, inviteCode };
 
         socket.emit('roomCreated', { roomId, roomName });
-        io.emit('roomCreated', { roomId, roomName });
+        // userId 추가
+        io.to(roomId).emit('roomCreated', {
+            roomId,
+            roomName,
+            userId: socket.id,
+        });
     });
 
     socket.on('joinRoomByInviteCode', (inviteCode) => {
@@ -102,7 +113,6 @@ io.on('connection', (socket: Socket) => {
         }
     });
 });
-
 const generateInviteCode = () => {
     return Math.random().toString(36).substr(2, 8);
 };
