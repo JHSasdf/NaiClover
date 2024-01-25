@@ -36,7 +36,6 @@ function Mypage() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
-            console.log('userData>>>>>??>>>>>>>>>', res.data.userDataObj);
         } catch (error) {
             console.log('error', error);
         }
@@ -62,6 +61,11 @@ function Mypage() {
         getMyPage();
         followNumGet();
     }, []);
+
+    if (!userData) {
+        return null; // 또는 로딩 스피너 등을 보여줄 수 있음.
+    }
+
     return (
         <>
             <Topbar />
@@ -90,7 +94,14 @@ function Mypage() {
                         POST
                     </div>
                 </div>
-                {showProfile ? <MypageProfile /> : <MypagePost />}
+                {showProfile ? (
+                    <MypageProfile
+                        userData={userData}
+                        learningLang={learningLang}
+                    />
+                ) : (
+                    <MypagePost />
+                )}
             </div>
             <Footer />
         </>

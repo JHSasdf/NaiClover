@@ -31,24 +31,20 @@ function MypageHeader(props: any) {
                     <div className="contentC">
                         <div className="nameInfo">
                             <div>
-                                {/* {userData.gender == 'm' ? (
+                                {userData.gender == 'm' ? (
                                     <img src="images/manIcon.png" alt="man" />
                                 ) : (
                                     <img
                                         src="images/womanIcon.png"
                                         alt="woman"
                                     />
-                                )} */}
+                                )}
                             </div>
-                            {/* <div>{userData.name}</div> */}
+                            <div>{userData.name}</div>
                         </div>
                         {/* db랑 연동해보고 글자 사이즈 및 간격 조절 해야할듯. */}
                         <div className="countryInfo">
-                            <div>Seoul</div>
-                            <div>
-                                <img src="images/Label.png" alt="" />
-                            </div>
-                            <div>South Korea</div>
+                            <div>{userData.nation}</div>
                         </div>
                         <div className="languageInfo">
                             <div className="languageDiv">EN</div>
