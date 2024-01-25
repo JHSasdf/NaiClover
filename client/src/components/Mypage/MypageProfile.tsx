@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import '../../styles/MypageProfile.scss';
+import { Link } from 'react-router-dom';
 
 function MypageProfile(props: any) {
     const { userData, learningLang } = props;
@@ -72,11 +73,15 @@ function MypageProfile(props: any) {
             <div className="learnLang-C">
                 <div className="learnLang-C-Header">
                     <div className="header-title">학습 언어</div>
+
                     <div className="modify-C">
                         <div className="modifyImg">
                             <img src="/images/ModifyLogo.png" alt="" />
                         </div>
-                        <div className="modify-title">수정</div>
+
+                        <Link to={'/mypage/edit/language'}>
+                            <div className="modify-title">수정</div>
+                        </Link>
                     </div>
                 </div>
                 <div className="learn-result-c">
