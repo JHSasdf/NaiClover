@@ -7,6 +7,7 @@ import '../styles/conditions.scss';
 function SignupPage() {
     const navigate = useNavigate();
     const [isUnique, setIsUnique] = useState<boolean>(false);
+    const [gender, setGender] = useState<string | null>(null);
     const [existErrorMsg, setExistErrorMsg] = useState<string>('');
     const [passwordsNotSameMsg, setPasswordsNotSameMsg] = useState('');
     const [signupErrorMsg, setSignupErrorMsg] = useState<string>('');
@@ -19,13 +20,14 @@ function SignupPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
-    const genderRef = useRef<HTMLInputElement>(null);
     const nationRef = useRef<HTMLSelectElement>(null);
     const firLangRef = useRef<HTMLSelectElement>(null);
     const learningLang1Ref = useRef<HTMLSelectElement>(null);
     const learningLang2Ref = useRef<HTMLSelectElement>(null);
     const learningLang3Ref = useRef<HTMLSelectElement>(null);
-
+    const changeGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGender(e.target.value);
+    };
     const Toggle = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         if (!isUnique) {
@@ -81,7 +83,7 @@ function SignupPage() {
                 password: passwordRef.current?.value,
                 confirmPassword: confirmPasswordRef.current?.value,
                 name: nameRef.current?.value,
-                gender: genderRef.current?.value,
+                gender: gender,
                 isUnique: isUnique,
                 nation: nationRef.current?.value,
                 firLang: firLangRef.current?.value,
@@ -185,8 +187,7 @@ function SignupPage() {
                                     name="gender"
                                     value="m"
                                     id="male-btn"
-                                    ref={genderRef}
-                                    checked
+                                    onChange={(e) => changeGender(e)}
                                     readOnly
                                 />
                                 <label
@@ -201,9 +202,10 @@ function SignupPage() {
                                     className="radio-btn"
                                     type="radio"
                                     name="gender"
-                                    value="m"
+                                    value="f"
                                     id="female-btn"
-                                    ref={genderRef}
+                                    onChange={(e) => changeGender(e)}
+                                    readOnly
                                 />
                                 <label
                                     htmlFor="female-btn"
