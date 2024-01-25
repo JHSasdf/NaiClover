@@ -1,23 +1,28 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { cookieConfig } from './utils/cookieConfig.ts';
+import { cookieConfig } from './utils/cookieConfig';
 import { useCookies } from 'react-cookie';
-
 import { useEffect, useState } from 'react';
 
-import PostsPage from './pages/PostsPage.tsx';
-import SignupPage from './pages/SignupPage.tsx';
-import NewPostPage from './pages/NewPostPage.tsx';
-import FollowPage from './pages/FollowPage.tsx';
-
-import MainPage from './pages/MainPage.tsx';
-import ChatRoomPage from './pages/NewPage.tsx'; // ChatRoomPage 추가
 import { v4 as uuidv4 } from 'uuid';
 
-import Mypage from './pages/Mypage.tsx';
-import LoginPage from './pages/LoginPage.tsx';
-import MypageOption from './components/Mypage/MypageOption.tsx';
-import MypageEditPassword from './components/Mypage/MypageEditPassword.tsx';
+import PostsPage from './pages/PostsPage';
+import AlarmPage from './pages/AlarmPage';
+import SignupPage from './pages/SignupPage';
+import NewPostPage from './pages/NewPostPage';
+import FollowPage from './pages/FollowPage';
+import MainPage from './pages/MainPage';
+import ChatRoomPage from './pages/NewPage'; // ChatRoomPage 추가
+import Mypage from './pages/Mypage';
+import LoginPage from './pages/LoginPage';
+import MypageOption from './components/Mypage/MypageOption';
+import MypageEditPassword from './components/Mypage/MypageEditPassword';
+import PostDetailPage from './pages/LanguagePostDetailPage';
+import CulturePostDetailPage from './pages/CulturePostDetailPage';
+import LanguagePostDetailPage from './pages/LanguagePostDetailPage';
+import AlertPage from './pages/AlertPage';
+import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -44,17 +49,32 @@ function App() {
                         element={<NewPostPage></NewPostPage>}
                     ></Route>
                     <Route path="/posts" element={<PostsPage />}></Route>
+                    <Route
+                        path="/c-postdetail"
+                        element={<CulturePostDetailPage />}
+                    ></Route>
+                    <Route
+                        path="/l-postdetail"
+                        element={<LanguagePostDetailPage />}
+                    ></Route>
+                    <Route path="/alert" element={<AlertPage />}></Route>
+
                     <Route path="/mainpage" element={<MainPage />} />
                     <Route path="/chat/:roomId" element={<ChatRoomPage />} />
                     <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
+                    <Route path="/alarm" element={<AlarmPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/mypage/option" element={<MypageOption />} />
                     <Route
                         path="/mypage/edit/password"
                         element={<MypageEditPassword />}
+                    />
+                    <Route
+                        path="/mypage/edit/Language"
+                        element={<MypageEditLanguage />}
                     />
                 </Routes>
             </BrowserRouter>

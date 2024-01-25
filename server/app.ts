@@ -1,15 +1,23 @@
+declare module 'express-session' {
+    interface SessionData {
+        userid: String;
+    }
+}
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-
+import session from 'express-session';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
-
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
+import { postsRouter } from './routes/post.routes';
+import { langPostsRouter } from './routes/langPost.routes';
 
 import { db } from './model';
-import { error } from 'console';
+import handleErrors from './middlewares/errorHandler.middleware';
+import notFoundHandler from './middlewares/notFound.middleware';
+import { getSessionConfig } from './config/session.config';
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +27,8 @@ const io = new Server(server, {
         methods: '*',
     },
 });
+
+app.use(session(getSessionConfig()));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,6 +45,8 @@ const connectedClients: Record<string, Socket> = {};
 app.use(authRouter);
 app.use(myPageRouter);
 app.use(followRouter);
+app.use(postsRouter);
+app.use(langPostsRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
@@ -137,6 +149,10 @@ app.get('/api/chatRooms/:roomId', (req: Request, res: Response) => {
         res.status(404).json({ error: 'Room not found' });
     }
 });
+
+// 에러처리 핸들러, 요청, 응답의 제일 아래가야함.
+app.use(handleErrors);
+app.use(notFoundHandler);
 
 const PORT = 4000;
 

@@ -1,4 +1,4 @@
-import { cookieConfig } from '../utils/cookieConfig.ts';
+import { cookieConfig } from '../utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useRef } from 'react';
@@ -25,11 +25,12 @@ function LoginPage() {
                 userid: idRef.current?.value,
                 password: passwordRef.current?.value,
             },
+            withCredentials: true,
         });
         const { msg, isLoggedin, userid } = res.data;
         setErrorMsg(msg);
         if (isLoggedin) {
-            setCookies('id', userid, cookieConfig);
+            setCookies('id', JSON.stringify(userid), cookieConfig);
             navigate('/');
         }
     };

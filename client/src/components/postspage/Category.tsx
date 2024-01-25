@@ -1,15 +1,17 @@
 import '../../styles/PostCategory.scss';
+import '../../styles/Font.scss';
 
 function Category() {
-    return ( 
+    return (
         <>
-        <div className='category-component'>
-            <button className='btn_all'>전체</button><br/>
-            <button className='btn_lang'>언어</button><br/>
-            <button className='btn_culture'>문화</button><br/>
-        </div>
+            <div className="category-component">
+                <div className="btn_lang">Language</div>
+                <br />
+                <div className="btn_culture">Culture</div>
+                <br />
+            </div>
         </>
-     );
+    );
 }
 
 export default Category;

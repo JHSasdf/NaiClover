@@ -1,8 +1,15 @@
 import '../../styles/CulturePost.scss'
+import '../../styles/Font.scss';
+import {useNavigate} from 'react-router-dom';
 
 function CulturePost() {
+
+    const navigate = useNavigate();
+
+    
+
     return(
-    <>
+    <div className='cul-post-container'>
         <div className='cul-post'>
             <div className='cul-profile-container'>
                 <div className='cul-image-container'>
@@ -30,7 +37,7 @@ function CulturePost() {
                 <div className='cul-more'></div>
             </div>
 
-            <div className='cul-content-text'>Hello. I am a Korean-American who wants to learn Korean. If you are a Korean who wants to learn English, study together!</div>
+            <div className='cul-content-text' onClick={()=>navigate('/c-postdetail')}>Hello. I am a Korean-American who wants to learn Korean. If you are a Korean who wants to learn English, study together!</div>
 
             <div className='cul-reaction-container'>
                 <div className='cul-likes-container'>
@@ -38,7 +45,7 @@ function CulturePost() {
                     <div className='cul-likes-count'>524</div>
                 </div>
 
-                <div className='cul-comments-container'>
+                <div className='cul-comments-container' onClick={()=>navigate('/c-postdetail')}>
                     <div className='cul-comments'></div>
                     <div className='cul-comments-count'>8</div>
                 </div>
@@ -50,7 +57,7 @@ function CulturePost() {
             </div>
         </div>
         <div className='cul-line'></div>
-    </>
+    </div>
     )
 }
 

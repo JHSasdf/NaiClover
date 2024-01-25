@@ -16,13 +16,24 @@ import { FollowModel } from './Follow';
 import { ChatModel } from './Chat';
 import { RoomModel } from './Room';
 
+import { AlarmModel } from './Alarm';
+import { PostLikeModel } from './PostLikes';
+import { LangPostModel } from './LangPost';
+import { LangCommentModel } from './LangComment';
+import { LangPostLikeModel } from './LangPostLikes';
+
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Comment = CommentModel(sequelize, Sequelize);
+const PostLike = PostLikeModel(sequelize, Sequelize);
+const LangPost = LangPostModel(sequelize, Sequelize);
+const LangComment = LangCommentModel(sequelize, Sequelize);
+const LangPostLike = LangPostLikeModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
 const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
+const Alarm = AlarmModel(sequelize, Sequelize);
 
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
@@ -32,6 +43,19 @@ User.hasMany(Lang, {
     onUpdate: 'CASCADE',
 });
 Lang.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+//User당 갖고있는 Alarm들(1:N)
+User.hasMany(Alarm, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Alarm.belongsTo(User, {
     foreignKey: 'userid',
     targetKey: 'userid',
 });
@@ -48,7 +72,34 @@ Post.belongsTo(User, {
     targetKey: 'userid',
 });
 
-// Post에 달린 댓글들(1:N)
+// Post and Likes (1 : N)
+// User and Likes (1 : N)
+Post.hasMany(PostLike, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+PostLike.belongsTo(Post, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(PostLike, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+PostLike.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// Post and comments (1 : N)
+// User and comments (1 : N)
 Post.hasMany(Comment, {
     foreignKey: 'postId',
     sourceKey: 'postId',
@@ -59,6 +110,83 @@ Post.hasMany(Comment, {
 Comment.belongsTo(Post, {
     foreignKey: 'postId',
     targetKey: 'postId',
+});
+
+User.hasMany(Comment, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Comment.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+//
+// User가 작성한 Lang 게시물들(1:N)
+User.hasMany(LangPost, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+LangPost.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// LangPost and LangLikes (1 : N)
+// User and LangLikes (1 : N)
+LangPost.hasMany(LangPostLike, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangPostLike.belongsTo(LangPost, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(LangPostLike, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangPostLike.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// LangPost and Langcomments (1 : N)
+// User and Langcomments (1 : N)
+LangPost.hasMany(LangComment, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangComment.belongsTo(LangPost, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(LangComment, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangComment.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
 });
 
 // Follow (N:M)
@@ -100,7 +228,20 @@ Chat.belongsTo(Room, {
     targetKey: 'roomNum',
 });
 
-export const db = { User, Lang, Post, Comment, Follow, sequelize, Sequelize };
+export const db = {
+    User,
+    Lang,
+    Post,
+    Comment,
+    Follow,
+    Alarm,
+    PostLike,
+    LangPost,
+    LangPostLike,
+    LangComment,
+    sequelize,
+    Sequelize,
+};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;

@@ -1,8 +1,37 @@
+import { AlarmModel } from './../model/Alarm';
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
 const Follow = db.Follow;
+const Alarm = db.Alarm;
 import { User } from '../../client/src/types/types';
+
+const setAlarm = async (
+    userid: String,
+    otherUserId: String,
+    alarmType: Number
+) => {
+    console.log(
+        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        userid,
+        otherUserId,
+        alarmType
+    );
+    try {
+        await Alarm.create({
+            userid: userid,
+            otherUserId: otherUserId,
+            alarmType: alarmType,
+            checked: false,
+        });
+    } catch (error) {
+        console.log(
+            'ghdfasdfjsakldfjasdklfjasdkljfasdlkfjsl????????????',
+            error
+        );
+        return error;
+    }
+};
 
 export async function follow(
     req: Request,
@@ -19,6 +48,7 @@ export async function follow(
         if (!followCheck) {
             try {
                 await Follow.create({ userid: followId, followerId: userid });
+                await setAlarm(followId, userid, 1);
                 return res.json({
                     msg: 'complete',
                     result: true,
@@ -134,6 +164,61 @@ export async function followListGet(
         return res.json({
             followingList,
             followerList,
+            result: true,
+        });
+    } catch (error) {
+        return res.json({
+            msg: error,
+            result: false,
+        });
+    }
+}
+
+export async function getAlarmList(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void | Response> {
+    let { userid } = req.query;
+    try {
+        let checkedList = await Alarm.findAll({
+            where: { userid: userid },
+        });
+        let uncheckedList = [...checkedList];
+        for (const element of checkedList) {
+            await Alarm.update(
+                { checked: true },
+                { where: { index: element.index } }
+            );
+        }
+        return res.json({
+            list: uncheckedList,
+            result: true,
+        });
+    } catch (error) {
+        return res.json({
+            msg: error,
+            result: false,
+        });
+    }
+}
+
+export async function newAlarmNumGet(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void | Response> {
+    let { userid } = req.query;
+    try {
+        let tempObj = await Alarm.findAll({
+            where: { userid: userid, checked: false },
+        });
+        let newAlarmNumber: number = 0;
+        tempObj.forEach((obj: any) => {
+            newAlarmNumber++;
+        });
+        return res.json({
+            newAlarmNumber,
             result: true,
         });
     } catch (error) {

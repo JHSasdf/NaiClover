@@ -1,36 +1,22 @@
-.category-component{
-    width: 171*2px;
+@import './Common.scss';
+.category-component {
+    width: 171 * 2px;
     margin-left: 24px;
     margin-right: 24px;
     display: flex;
+    font-family: "Poppins", sans-serif;
 }
 
-.category-component{
-    button{
-        width:171px;
-        height: 32px;
-        color: #808080;
-        border-color: transparent;
-        border-bottom-color: #808080;
-        border-radius: 0;
-        margin: 0;
-        padding: 0;
-        margin-bottom: 34px;
-        cursor: pointer;
-        background-color: white;
-    }
-}
+// .btn_lang:hover {
+//     border-bottom-color: #000;
+//     border-bottom: 2px solid;
+//     color: #000;
+//     background-color: white;
+// }
 
-.btn_lang:hover{
-    border-bottom-color: #000;
-    border-bottom: 2px solid;
-    color: #000;
-    background-color: white;
-}
-
-.btn_culture:hover{
-    border-bottom-color: #000;
-    border-bottom: 2px solid;
-    color: #000;
-    background-color: white;
-}
+// .btn_culture:hover {
+//     border-bottom-color: #000;
+//     border-bottom: 2px solid;
+//     color: #000;
+//     background-color: white;
+// }

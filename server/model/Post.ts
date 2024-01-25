@@ -15,9 +15,6 @@ export const PostModel = (sequelize: any, DataTypes: any) => {
             content: {
                 type: DataTypes.STRING(2000),
             },
-            likes: {
-                type: DataTypes.INTEGER,
-            },
         },
         {
             freezeTableName: true,

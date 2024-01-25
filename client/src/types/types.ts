@@ -11,5 +11,6 @@ export interface User {
     name: string;
     gender: string;
     nation: string;
+    introduction: string;
     firLang: string;
 }

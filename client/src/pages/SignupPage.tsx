@@ -7,6 +7,7 @@ import '../styles/conditions.scss';
 function SignupPage() {
     const navigate = useNavigate();
     const [isUnique, setIsUnique] = useState<boolean>(false);
+    const [gender, setGender] = useState<string | null>(null);
     const [existErrorMsg, setExistErrorMsg] = useState<string>('');
     const [passwordsNotSameMsg, setPasswordsNotSameMsg] = useState('');
     const [signupErrorMsg, setSignupErrorMsg] = useState<string>('');
@@ -19,13 +20,14 @@ function SignupPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
-    const genderRef = useRef<HTMLInputElement>(null);
     const nationRef = useRef<HTMLSelectElement>(null);
     const firLangRef = useRef<HTMLSelectElement>(null);
     const learningLang1Ref = useRef<HTMLSelectElement>(null);
     const learningLang2Ref = useRef<HTMLSelectElement>(null);
     const learningLang3Ref = useRef<HTMLSelectElement>(null);
-
+    const changeGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGender(e.target.value);
+    };
     const Toggle = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         if (!isUnique) {
@@ -52,6 +54,7 @@ function SignupPage() {
 
     const submitForm = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        // 빈 배열 learningLangs 만들어서 value 있는 language만 push 해주기
         const learningLangs: Array<string | null | undefined> = [];
         if (
             learningLang1Ref.current?.value.trim() !== '' &&
@@ -80,14 +83,13 @@ function SignupPage() {
                 password: passwordRef.current?.value,
                 confirmPassword: confirmPasswordRef.current?.value,
                 name: nameRef.current?.value,
-                gender: genderRef.current?.value,
+                gender: gender,
                 isUnique: isUnique,
                 nation: nationRef.current?.value,
                 firLang: firLangRef.current?.value,
                 learningLang: learningLangs,
             },
         });
-        console.log(res.data);
         setSignupErrorMsg(res.data.msg);
         if (!res.data.isError) {
             navigate('/');
@@ -185,8 +187,8 @@ function SignupPage() {
                                     name="gender"
                                     value="m"
                                     id="male-btn"
-                                    ref={genderRef}
-                                    checked
+                                    onChange={(e) => changeGender(e)}
+                                    readOnly
                                 />
                                 <label
                                     htmlFor="male-btn"
@@ -200,9 +202,10 @@ function SignupPage() {
                                     className="radio-btn"
                                     type="radio"
                                     name="gender"
-                                    value="m"
+                                    value="f"
                                     id="female-btn"
-                                    ref={genderRef}
+                                    onChange={(e) => changeGender(e)}
+                                    readOnly
                                 />
                                 <label
                                     htmlFor="female-btn"
@@ -233,7 +236,7 @@ function SignupPage() {
                             <option value="Japanese">Japanese</option>
                             <option value="Korean">Korean</option>
                         </select>
-                        <label htmlFor="">Leaning Language</label>
+                        <label htmlFor="">Learning Language</label>
                         <fieldset className="learning-langs-select">
                             <select
                                 name="learninglang1"

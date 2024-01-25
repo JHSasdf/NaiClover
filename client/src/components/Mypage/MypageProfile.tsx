@@ -1,6 +1,33 @@
+import axios from 'axios';
+import { useRef, useState } from 'react';
 import '../../styles/MypageProfile.scss';
 
-function MypageProfile() {
+function MypageProfile(props: any) {
+    const { userData, learningLang } = props;
+    const intro = useRef<HTMLTextAreaElement>(null);
+    const [isEdited, setIsEdited] = useState(false);
+    const editIntroduction = () => {
+        setIsEdited(true);
+        intro.current?.toggleAttribute('readOnly');
+        intro.current?.focus();
+    };
+    const submitIntroduction = async () => {
+        setIsEdited(false);
+        intro.current?.toggleAttribute('readOnly');
+        try {
+            const res = await axios({
+                method: 'patch',
+                url: '/mypage/editIntroduction',
+                data: {
+                    userid: userData.userid,
+                    content: intro.current?.value,
+                },
+                withCredentials: true,
+            });
+        } catch (error) {
+            console.error('error', error);
+        }
+    };
     return (
         <div className="mypageProfile-C">
             <div className="introduce-C">
@@ -10,13 +37,27 @@ function MypageProfile() {
                         <div className="modifyImg">
                             <img src="/images/ModifyLogo.png" alt="" />
                         </div>
-                        <div className="modify-title">수정</div>
+                        <div
+                            className="modify-title"
+                            onClick={() => {
+                                {
+                                    isEdited
+                                        ? submitIntroduction()
+                                        : editIntroduction();
+                                }
+                            }}
+                        >
+                            {isEdited ? '수정 완료' : '수정'}
+                        </div>
                     </div>
                 </div>
                 <div className="textarea-C">
                     <textarea
                         className="introduce-textarea"
                         readOnly
+                        ref={intro}
+                        placeholder="自己紹介してください"
+                        defaultValue={userData.introduction || ''}
                     ></textarea>
                 </div>
             </div>
@@ -25,7 +66,7 @@ function MypageProfile() {
                     <div className="header-title">모국어</div>
                 </div>
                 <div className="native-result-c">
-                    <div className="nativeResultDiv">Korean</div>
+                    <div className="nativeResultDiv">{userData.firLang}</div>
                 </div>
             </div>
             <div className="learnLang-C">
@@ -39,8 +80,11 @@ function MypageProfile() {
                     </div>
                 </div>
                 <div className="learn-result-c">
-                    <div className="learnResultDiv">Japanese</div>
-                    <div className="learnResultDiv">English</div>
+                    {learningLang.map((element: any, key: any) => (
+                        <div className="learnResultDiv" key={key}>
+                            {element}
+                        </div>
+                    ))}
                 </div>
             </div>
             {/* 구글 api 사용해보자 */}
