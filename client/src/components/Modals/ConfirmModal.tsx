@@ -1,10 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Link } from 'react-router-dom';
 
-function ConfirmModal({ show, setShow }: any) {
+function ConfirmModal({ show, setShow, navigate }: any) {
     const handleClose = () => {
         setShow({ show: false });
+        navigate('/mypage/option');
     };
 
     return (
@@ -15,11 +15,14 @@ function ConfirmModal({ show, setShow }: any) {
                 </Modal.Header>
                 <Modal.Body>Learning Languages change completed.</Modal.Body>
                 <Modal.Footer>
-                    <Link to="/mypage/option">
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                    </Link>
+                    <Button
+                        variant="secondary"
+                        onClick={() => {
+                            handleClose();
+                        }}
+                    >
+                        Close
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </>

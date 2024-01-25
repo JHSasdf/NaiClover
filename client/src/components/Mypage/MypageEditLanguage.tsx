@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Topbar from '../Topbar';
 import '../../styles/MypageEditLanguage.scss';
 import axios from 'axios';
@@ -11,6 +11,7 @@ function MypageEditLanguage() {
     // cookies call cookies는 객체라서 [] 접근법으로 불러옵니다.
     const idCookie = cookies['id'];
 
+    const navigate = useNavigate();
     const [displaySelectBoxDiv2, setDisplaySelectBoxDiv2] =
         useState<boolean>(false);
     const [displaySelectBoxDiv3, setDisplaySelectBoxDiv3] =
@@ -72,7 +73,9 @@ function MypageEditLanguage() {
     // 모달 창 실행 함수
     const handleConfirmModal = () => {
         // 실행 되면 모달 상태를 true로!
-        setShowConfirmModal({ show: true });
+        setShowConfirmModal({
+            show: true,
+        });
     };
 
     return (
@@ -82,6 +85,7 @@ function MypageEditLanguage() {
             <ConfirmModal
                 show={showConfirmModal.show}
                 setShow={setShowConfirmModal}
+                navigate={navigate}
             />
 
             <div className="myPageOption-container">
