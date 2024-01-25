@@ -33,6 +33,7 @@ function Mypage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
@@ -49,6 +50,7 @@ function Mypage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setFollowingNum(res.data.followingNumber);
             setFollowerNum(res.data.followerNumber);
