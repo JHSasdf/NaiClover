@@ -22,6 +22,7 @@ function MypageProfile(props: any) {
                     userid: userData.userid,
                     content: intro.current?.value,
                 },
+                withCredentials: true,
             });
         } catch (error) {
             console.error('error', error);

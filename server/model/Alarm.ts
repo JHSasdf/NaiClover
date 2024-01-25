@@ -16,6 +16,10 @@ export const AlarmModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.STRING(100),
                 allowNull: false,
             },
+            preview: {
+                type: DataTypes.STRING(100),
+                allowNull: true,
+            },
             alarmType: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
