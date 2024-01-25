@@ -1,5 +1,5 @@
 import express from 'express';
-import * as controller from '../controllers/post.cotroller';
+import * as controller from '../controllers/post.controller';
 export const postsRouter = express();
 
 postsRouter.get('/posts', controller.getPosts);

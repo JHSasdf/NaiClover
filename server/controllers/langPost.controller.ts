@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
-const Post = db.Post;
-const PostLikes = db.PostLike;
-const Comment = db.Comment;
+const Post = db.LangPost;
+const PostLikes = db.LangPostLike;
+const Comment = db.LangComment;
 
 import { postsInterface } from '../types/types';
 
@@ -53,10 +53,16 @@ export const getPosts = async (
                 },
             });
 
+            const commentCount = await Comment.count({
+                where: {
+                    PostId: allPosts[i].postId,
+                },
+            });
+
             if (myLikeData) {
-                PostsDatas.push([allPosts[i], likeCount, true]);
+                PostsDatas.push([allPosts[i], likeCount, true, commentCount]);
             } else {
-                PostsDatas.push([allPosts[i], likeCount, false]);
+                PostsDatas.push([allPosts[i], likeCount, false, commentCount]);
             }
         } catch (err) {
             return next(err);
@@ -65,7 +71,7 @@ export const getPosts = async (
     // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
     res.json({
         PostsDatas: PostsDatas,
-        idError: false,
+        isError: false,
     });
 };
 
@@ -105,7 +111,6 @@ export const updatePost = async (
     next: NextFunction
 ) => {
     const { userid, content } = req.body;
-
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
         return res.json({

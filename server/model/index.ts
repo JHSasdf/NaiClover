@@ -18,12 +18,18 @@ import { RoomModel } from './Room';
 
 import { AlarmModel } from './Alarm';
 import { PostLikeModel } from './PostLikes';
+import { LangPostModel } from './LangPost';
+import { LangCommentModel } from './LangComment';
+import { LangPostLikeModel } from './LangPostLikes';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Comment = CommentModel(sequelize, Sequelize);
 const PostLike = PostLikeModel(sequelize, Sequelize);
+const LangPost = LangPostModel(sequelize, Sequelize);
+const LangComment = LangCommentModel(sequelize, Sequelize);
+const LangPostLike = LangPostLikeModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
 const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
@@ -118,6 +124,71 @@ Comment.belongsTo(User, {
     targetKey: 'userid',
 });
 
+//
+// User가 작성한 Lang 게시물들(1:N)
+User.hasMany(LangPost, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+LangPost.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// LangPost and LangLikes (1 : N)
+// User and LangLikes (1 : N)
+LangPost.hasMany(LangPostLike, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangPostLike.belongsTo(LangPost, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(LangPostLike, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangPostLike.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// LangPost and Langcomments (1 : N)
+// User and Langcomments (1 : N)
+LangPost.hasMany(LangComment, {
+    foreignKey: 'postId',
+    sourceKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangComment.belongsTo(LangPost, {
+    foreignKey: 'postId',
+    targetKey: 'postId',
+});
+
+User.hasMany(LangComment, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+LangComment.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
 // Follow (N:M)
 Follow.belongsTo(User, {
     foreignKey: 'userid',
@@ -165,6 +236,9 @@ export const db = {
     Follow,
     Alarm,
     PostLike,
+    LangPost,
+    LangPostLike,
+    LangComment,
     sequelize,
     Sequelize,
 };
