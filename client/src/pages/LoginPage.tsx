@@ -30,7 +30,7 @@ function LoginPage() {
         const { msg, isLoggedin, userid } = res.data;
         setErrorMsg(msg);
         if (isLoggedin) {
-            setCookies('id', userid, cookieConfig);
+            setCookies('id', JSON.stringify(userid), cookieConfig);
             navigate('/');
         }
     };
