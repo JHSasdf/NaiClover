@@ -14,3 +14,12 @@ export interface User {
     introduction: string;
     firLang: string;
 }
+
+export interface Post {
+    cotent: string;
+    createdAt: string;
+    postId: number;
+    type: string;
+    updatedAt: string;
+    userid: string;
+}

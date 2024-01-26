@@ -14,6 +14,7 @@ import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
 import { postsRouter } from './routes/post.routes';
 import { langPostsRouter } from './routes/langPost.routes';
+import { userSearchRouter } from './routes/userSearch.routes';
 
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
@@ -49,6 +50,7 @@ app.use(myPageRouter);
 app.use(followRouter);
 app.use(postsRouter);
 app.use(langPostsRouter);
+app.use(userSearchRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
