@@ -28,9 +28,3 @@ postsRouter.get('/cul/comments/:id', controller.getComments);
 postsRouter.patch('/cul/comments/:commentindex', controller.updateComment);
 
 postsRouter.delete('/cul/comments/:commentindex', controller.deleteComment);
-
-postsRouter.post(
-    '/multertest',
-    postUploadDetail.array('files'),
-    controller.multerTest
-);
