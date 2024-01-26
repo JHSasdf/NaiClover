@@ -23,7 +23,7 @@ function Mypage() {
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
     const idCookie = cookies['id'];
-    
+
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const getMyPage = async () => {
@@ -38,6 +38,7 @@ function Mypage() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
+            console.log('res.data >', res.data);
         } catch (error) {
             console.log('error', error);
         }
