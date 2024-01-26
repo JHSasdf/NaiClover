@@ -8,10 +8,10 @@ function CommentAlert(props: any) {
     );
 
     useEffect(() => {
-        if (!(validTime && alarmObj.checked)) {
+        if (!validTime && alarmObj.checked) {
             setAlarmClassName('monotalkalert-oldcontainer');
         }
-    }, [validTime, alarmObj.checked]);
+    }, []);
     return (
         <>
             <div className={alarmClassName}>
