@@ -24,6 +24,8 @@ function NewPostPage() {
             textareaRef.current.scrollHeight + 'px';
     };
 
+    const [selectedCategory, setSelectedCategory] = React.useState('lang');
+
     let selectRef = useRef<any>(null);
 
     async function submitPost() {
@@ -65,7 +67,6 @@ function NewPostPage() {
             } catch (error) {
                 console.log(error);
             }
-        }
     }
 
     return (
@@ -83,7 +84,8 @@ function NewPostPage() {
                         name="category"
                         required
                         ref={selectRef}
-                        defaultValue={'lang'}
+                        value={selectedCategory}
+                        onChange={(e)=>setSelectedCategory(e.target.value)}
                     >
                         <option value="lang">language</option>
                         <option value="cul">culture</option>
@@ -97,6 +99,7 @@ function NewPostPage() {
                 ></textarea>
             </div>
 
+            {selectedCategory === 'cul' ? (
             <div className="newpost-photos-container">
                 <input
                     type="file"
@@ -111,7 +114,7 @@ function NewPostPage() {
                 <div className="image"></div>
                 <div className="image"></div>
                 <div className="image"></div>
-            </div>
+            </div> ) : null}
 
             <div className="newpost-button-container">
                 <button onClick={() => submitPost()}>포스팅</button>
