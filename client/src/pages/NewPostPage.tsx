@@ -17,6 +17,7 @@ function NewPostPage() {
     const navigate = useNavigate();
 
     const textareaRef = useRef<any>(null);
+    const images = useRef<any>(null);
     const handleResizeHeight = () => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height =
@@ -27,19 +28,43 @@ function NewPostPage() {
 
     async function submitPost() {
         const option = selectRef.current?.value;
-        try {
-            console.log(`/${option}/posts/createpost`);
-            const res = await axios({
-                method: 'post',
-                url: `/${option}/posts/createpost`,
-                data: {
-                    userid: idCookie,
-                    content: textareaRef.current?.value,
-                },
-            });
-            console.log(res.data);
-        } catch (error) {
-            console.log(error);
+        if (option === 'lang') {
+            try {
+                console.log(`/${option}/posts/createpost`);
+                const res = await axios({
+                    method: 'post',
+                    url: `/${option}/posts/createpost`,
+                    data: {
+                        userid: idCookie,
+                        content: textareaRef.current?.value,
+                    },
+                });
+                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                const formData = new FormData();
+                for (let i = 0; i < images.current.files.length; i++) {
+                    formData.append('files', images.current.files[i]);
+                }
+                formData.append('userid', idCookie);
+                formData.append('content', textareaRef.current?.value);
+                console.log(images.current.files);
+                const res = await axios({
+                    method: 'post',
+                    url: `/${option}/posts/createpost`,
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true,
+                });
+                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -73,6 +98,13 @@ function NewPostPage() {
             </div>
 
             <div className="newpost-photos-container">
+                <input
+                    type="file"
+                    multiple
+                    ref={images}
+                    accept=".jpg, .png, .jpeg"
+                />
+
                 <div className="camera"></div>
                 <div className="image"></div>
                 <div className="image"></div>

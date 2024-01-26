@@ -4,6 +4,7 @@ const User = db.User;
 const Post = db.Post;
 const PostLikes = db.PostLike;
 const Comment = db.Comment;
+const postImages = db.PostImages;
 
 import { postsInterface } from '../types/types';
 
@@ -25,7 +26,7 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });
@@ -79,23 +80,35 @@ export const createPost = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content } = req.body;
-
+    const { content } = req.body;
+    const userid = req.session.userid;
     if (!userid || userid.length < 4) {
         return res.json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
     }
-
     try {
-        await Post.create({
+        const result = await Post.create({
             userid: userid,
             content: content,
         });
+        const postId = result.postId;
+        const files = req.files as Express.Multer.File[];
+        if (files && files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const path = files[i].path;
+                await postImages.create({
+                    postId: postId,
+                    userid: req.session.userid,
+                    path: `/${path}`,
+                });
+            }
+        }
     } catch (err) {
         return next(err);
     }
+
     return res.json({
         msg: 'Post succeed',
         isError: false,
@@ -219,7 +232,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });
@@ -455,8 +468,12 @@ export const multerTest = async (
     next: NextFunction
 ) => {
     console.log('req.body:', req.body);
-    console.log('req.file: ', req.files, typeof req.files);
-    // for (let i = 0; i < req.files.length; i++) {
+    console.log('req.files: ', req.files, typeof req.files);
 
-    // }
+    if (req.files) {
+        const files: any = req.files;
+        for (let i = 0; i < files.length; i++) {
+            console.log(files[i]);
+        }
+    }
 };
