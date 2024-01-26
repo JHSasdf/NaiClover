@@ -1,5 +1,9 @@
-// CulturePostDetailPage.tsx
-import React, { useState } from 'react';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import { useCookies } from 'react-cookie';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import Topbar from "../components/Topbar";
 import CultureComment from "../components/postdetailpage/CultureComment";
 import PostDetailHeader from "../components/postdetailpage/PostDetailHeader";
@@ -13,6 +17,30 @@ interface CommentItem {
 }
 
 function CulturePostDetailPage() {
+
+    const {id} = useParams();
+
+    const [culturePost, setCulturePost] = useState<any>([]);
+
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
+    const getSingleCulturePost = async () => {
+        try{
+            const res = await axios({
+                method: 'get',
+                url: `/cul/posts/${id}`,
+                params: {
+                    userid: idCookie,
+                }
+            });
+            setCulturePost(res.data.posts);
+            console.log(culturePost);
+        }catch(error){
+            console.log('error', error);
+        }
+    }
+
     const [comments, setComments] = useState<CommentItem[]>([]);
 
     const addComment = (content: string) => {
@@ -23,12 +51,16 @@ function CulturePostDetailPage() {
         setComments((prevComments) => [...prevComments, newComment]);
     };
 
+    useEffect(()=>{
+        getSingleCulturePost();
+    }, []);
+
     return (
         <>
             <div className="postdetailpage-container">
                 <Topbar />
                 <PostDetailHeader />
-                <CulturePost />
+                <CulturePost content={culturePost.content}  createdAt={culturePost.createdAt} name={culturePost.User?.name}/>
                 <div className="culturecomment-container">
                     {comments.map((comment) => (
                         <CultureComment key={comment.id} content={comment.content} />

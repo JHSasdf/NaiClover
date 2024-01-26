@@ -36,7 +36,7 @@ function CulturePost(props : any) {
                 <div className='cul-more'></div>
             </div>
 
-            <div className='cul-content-text' onClick={()=>navigate('/c-postdetail')}>{props.content}</div>
+            <div className='cul-content-text' onClick={()=>navigate(`/c-postdetail/${props.id}`)}>{props.content}</div>
 
             <div className='cul-reaction-container'>
                 <div className='cul-likes-container'>

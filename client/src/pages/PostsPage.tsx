@@ -54,6 +54,7 @@ function PostsPage() {
                     userid: idCookie,
                 }
             });
+            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
             console.log(languagePosts);
         }catch(error){
@@ -123,7 +124,8 @@ function PostsPage() {
                             return <LanguagePost
                                 key={languagePostData[0].postId}
                                 name={languagePostData[0].User.name}
-                                nation={languagePostData[0].nation}
+                                id={languagePostData[0].postId}
+                                nation={languagePostData[0].User.nation}
                                 createdAt={languagePostData[0].createdAt}
                                 content={languagePostData[0].content}
                             />
@@ -140,8 +142,9 @@ function PostsPage() {
 
                             return <CulturePost
                                 key={culturePostData[0].postId}
+                                id={culturePostData[0].postId}
                                 name={culturePostData[0].User.name}
-                                nation={culturePostData[0].nation}
+                                nation={culturePostData[0].User.nation}
                                 createdAt={culturePostData[0].createdAt}
                                 content={culturePostData[0].content}
                             />
