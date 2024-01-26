@@ -7,7 +7,11 @@ import multer from 'multer';
 const postUploadDetail = multer(getPostMulterConfig());
 postsRouter.get('/cul/posts', controller.getPosts);
 
-postsRouter.post('/cul/posts/createpost', controller.createPost);
+postsRouter.post(
+    '/cul/posts/createpost',
+    postUploadDetail.array('files'),
+    controller.createPost
+);
 
 postsRouter.get('/cul/posts/:id', controller.getSinglePost);
 

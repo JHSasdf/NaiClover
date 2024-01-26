@@ -340,7 +340,7 @@ export const multerMypage = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('req.body:', req.body);
+    console.log('req.body:', req.body.userid);
     console.log('req.file: ', req.file, typeof req.file);
     let existingProfile;
     try {
