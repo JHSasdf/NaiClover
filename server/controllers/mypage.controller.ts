@@ -40,6 +40,12 @@ export const getmyPage = async (
                 'introduction',
                 'firLang',
             ],
+            include: [
+                {
+                    model: MypageImage,
+                    attributes: ['path'],
+                },
+            ],
         });
     } catch (err) {
         return next(err);

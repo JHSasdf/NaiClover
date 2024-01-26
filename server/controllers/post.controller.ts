@@ -28,6 +28,10 @@ export const getPosts = async (
                     model: User,
                     attributes: ['name', 'nation'],
                 },
+                {
+                    model: postImages,
+                    attributes: ['path'],
+                },
             ],
         });
     } catch (err) {
@@ -233,6 +237,10 @@ export const getSinglePost = async (
                 {
                     model: User,
                     attributes: ['name', 'nation'],
+                },
+                {
+                    model: postImages,
+                    attributes: ['path'],
                 },
             ],
         });
@@ -460,20 +468,4 @@ export const deleteComment = async (
         msg: 'comment deletion succeed',
         isError: false,
     });
-};
-
-export const multerTest = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    console.log('req.body:', req.body);
-    console.log('req.files: ', req.files, typeof req.files);
-
-    if (req.files) {
-        const files: any = req.files;
-        for (let i = 0; i < files.length; i++) {
-            console.log(files[i]);
-        }
-    }
 };

@@ -23,7 +23,6 @@ import LanguagePostDetailPage from './pages/LanguagePostDetailPage';
 import AlertPage from './pages/AlertPage';
 import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Multer from './pages/Multer';
 import MulterMypage from './pages/MulterMypage';
 
 export const generateUniqueId = () => {
@@ -40,7 +39,6 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/multermypage" element={<MulterMypage />} />
-                    <Route path="/multertest" element={<Multer />} />
                     <Route path="/newpost" element={<NewPostPage />} />
                     <Route path="/posts" element={<PostsPage />} />
                     {cookies['id'] && cookies['id'].length > 3 ? (
@@ -48,10 +46,6 @@ function App() {
                     ) : (
                         <Route path="/" element={<LoginPage />} />
                     )}
-                    <Route
-                        path="/newpost"
-                        element={<NewPostPage></NewPostPage>}
-                    ></Route>
                     <Route path="/posts" element={<PostsPage />}></Route>
                     <Route
                         path="/c-postdetail"
