@@ -48,11 +48,11 @@ function App() {
                     )}
                     <Route path="/posts" element={<PostsPage />}></Route>
                     <Route
-                        path="/c-postdetail"
+                        path="/c-postdetail/:id"
                         element={<CulturePostDetailPage />}
                     ></Route>
                     <Route
-                        path="/l-postdetail"
+                        path="/l-postdetail/:id"
                         element={<LanguagePostDetailPage />}
                     ></Route>
                     <Route path="/alert" element={<AlertPage />}></Route>

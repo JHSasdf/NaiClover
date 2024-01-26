@@ -1,4 +1,6 @@
 import {useState} from 'react';
+import {useEffect} from 'react';
+import axios from 'axios';
 
 import Topbar from "../components/Topbar";
 import LanguageComment from "../components/postdetailpage/LanguageComment";
@@ -6,6 +8,8 @@ import PostDetailHeader from "../components/postdetailpage/PostDetailHeader";
 import SendComment from "../components/postdetailpage/SendComment";
 import LanguagePost from "../components/postspage/LanguagePost";
 import '../styles/PostDetailPage.scss'
+import { useCookies } from 'react-cookie';
+import { useParams } from 'react-router-dom';
 
 interface CommentItem {
     id: number;
@@ -13,6 +17,28 @@ interface CommentItem {
 }
 
 function LanguagePostDetailPage() {
+    const {id} = useParams();
+
+    const [languagePost, setLanguagePost] = useState<any>([]);
+
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
+    const getSingleLanguagePost = async () => {
+        try{
+            const res = await axios({
+                method: 'get',
+                url: `/lang/posts/${id}`,
+                params: {
+                    userid: idCookie,
+                }
+            });
+            setLanguagePost(res.data.posts);
+            console.log(languagePost);
+        }catch(error){
+            console.log('error', error);
+        }
+    }
 
     const [comments, setComments] = useState<CommentItem[]>([]);
 
@@ -24,15 +50,19 @@ function LanguagePostDetailPage() {
         setComments((prevComments) => [...prevComments, newComment]);
     };
 
+    useEffect(()=>{
+        getSingleLanguagePost();
+    }, []);
+
     return ( 
         <>
             <div className="postdetailpage-container">
                 <Topbar/>
                 <PostDetailHeader/>
-                <LanguagePost/>
+                <LanguagePost content={languagePost.content} createdAt={languagePost.createdAt} name={languagePost.User?.name}/>
                 <div className="languagecomment-container">
                     {comments.map((comment) => (
-                        <LanguageComment key={comment.id} content={comment.content} />
+                        <LanguageComment key={comment.id} content={comment.content}/>
                     ))}
                 </div>
                 <SendComment onSendComment={addComment} />
