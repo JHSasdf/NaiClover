@@ -17,6 +17,7 @@ function NewPostPage() {
     const navigate = useNavigate();
 
     const textareaRef = useRef<any>(null);
+    const images = useRef<any>(null);
     const handleResizeHeight = () => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height =
@@ -29,28 +30,56 @@ function NewPostPage() {
 
     async function submitPost() {
         const option = selectRef.current?.value;
-        try {
-            console.log(`/${option}/posts/createpost`);
-            const res = await axios({
-                method: 'post',
-                url: `/${option}/posts/createpost`,
-                data: {
-                    userid: idCookie,
-                    content: textareaRef.current?.value,
-                },
-            });
-            if(res.data.isError === false) {
-                navigate('/posts')
+        if (option === 'lang') {
+            try {
+                console.log(`/${option}/posts/createpost`);
+                const res = await axios({
+                    method: 'post',
+                    url: `/${option}/posts/createpost`,
+                    data: {
+                        userid: idCookie,
+                        content: textareaRef.current?.value,
+                    },
+                });
+                console.log(res.data);
+                if (res.data.isError === false) {
+                    navigate('/posts');
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            try {
+                const formData = new FormData();
+                for (let i = 0; i < images.current.files.length; i++) {
+                    formData.append('files', images.current.files[i]);
+                }
+                formData.append('userid', idCookie);
+                formData.append('content', textareaRef.current?.value);
+                console.log(images.current.files);
+                const res = await axios({
+                    method: 'post',
+                    url: `/${option}/posts/createpost`,
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true,
+                });
+                console.log(res.data);
+                if (res.data.isError === false) {
+                    navigate('/posts');
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
-
     }
 
     return (
         <div className="newpostpage-container">
             <Topbar />
+            <img src="/public\\posts\\aaaa1706235325370.jpg" alt="" />
             <div className="newpost-header-container">
                 <div className="back-arrow" onClick={() => navigate(-1)}></div>
                 <div className="newpost-header-text">새 포스트</div>
@@ -64,7 +93,7 @@ function NewPostPage() {
                         required
                         ref={selectRef}
                         value={selectedCategory}
-                        onChange={(e)=>setSelectedCategory(e.target.value)}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
                     >
                         <option value="lang">language</option>
                         <option value="cul">culture</option>
@@ -79,14 +108,22 @@ function NewPostPage() {
             </div>
 
             {selectedCategory === 'cul' ? (
-            <div className="newpost-photos-container">
-                <div className="camera"></div>
-                <div className="image"></div>
-                <div className="image"></div>
-                <div className="image"></div>
-                <div className="image"></div>
-                <div className="image"></div>
-            </div> ) : null}
+                <div className="newpost-photos-container">
+                    <input
+                        type="file"
+                        multiple
+                        ref={images}
+                        accept=".jpg, .png, .jpeg"
+                    />
+
+                    <div className="camera"></div>
+                    <div className="image"></div>
+                    <div className="image"></div>
+                    <div className="image"></div>
+                    <div className="image"></div>
+                    <div className="image"></div>
+                </div>
+            ) : null}
 
             <div className="newpost-button-container">
                 <button onClick={() => submitPost()}>포스팅</button>
@@ -94,5 +131,4 @@ function NewPostPage() {
         </div>
     );
 }
-
 export default NewPostPage;

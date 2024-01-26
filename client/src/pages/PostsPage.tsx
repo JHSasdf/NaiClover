@@ -35,15 +35,15 @@ function PostsPage() {
                 method: 'get',
                 url: '/cul/posts',
                 params: {
-                    userid: idCookie,       
-                }
+                    userid: idCookie,
+                },
             });
             setCulturePosts(res.data.PostsDatas);
             console.log(culturePosts);
-        }catch(error){
-            console.log('error', error)
+        } catch (error) {
+            console.log('error', error);
         }
-    }
+    };
 
     const getLanguagePosts = async () => {
         try {
@@ -52,16 +52,15 @@ function PostsPage() {
                 url: '/lang/posts',
                 params: {
                     userid: idCookie,
-                }
+                },
             });
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
             console.log(languagePosts);
-        }catch(error){
-            console.log('error', error)
+        } catch (error) {
+            console.log('error', error);
         }
-    }
-
+    };
 
     const newAlarmNumGet = async () => {
         try {
@@ -106,9 +105,9 @@ function PostsPage() {
                             ? 'active category-component-changed'
                             : ''
                     }`}
-                    onClick={()=>{
-                    handleCultureClick();
-                    getCulturePosts();
+                    onClick={() => {
+                        handleCultureClick();
+                        getCulturePosts();
                     }}
                 >
                     Culture
@@ -118,6 +117,7 @@ function PostsPage() {
 
             {showLanguagePosts && (
                 <div className="language-posts-container">
+
                     {
                         languagePosts.slice(0).reverse().map((languagePostData:any)=>{
 
@@ -151,9 +151,9 @@ function PostsPage() {
                         })
 
                     }
+
                 </div>
             )}
-        
 
             <Footer />
         </div>

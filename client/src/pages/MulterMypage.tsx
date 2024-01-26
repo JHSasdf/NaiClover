@@ -2,12 +2,14 @@ import { useRef, useState } from 'react';
 import axios from 'axios';
 function MulterMypage() {
     const image = useRef<any>(null);
+    const userid = useRef<HTMLInputElement>(null);
     const [pathState, setPathState] = useState('');
 
     const postMulter = async () => {
         const formData = new FormData();
         console.log(image.current.files);
         formData.append('file', image.current.files[0]);
+        formData.append('userid', userid.current?.value || 'userid');
         const res = await axios({
             method: 'post',
             url: '/multermypage',
@@ -23,6 +25,7 @@ function MulterMypage() {
         <>
             <form action="">
                 <input type="file" ref={image} accept=".jpg, .png, .jpeg" />
+                <input type="text" ref={userid} />
                 <button type="button" onClick={postMulter}>
                     {' '}
                     전송

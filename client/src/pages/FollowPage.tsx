@@ -14,6 +14,8 @@ function FollowPage() {
     const [followerList, setFollowerList] = useState<User[]>([]);
     const [newAlarmNum, setNewAlarmNum] = useState<Number>(0);
     const idCookie = cookies['id'];
+    const target = useRef<any>();
+    const here = useRef<any>();
 
     const followNumGet = async () => {
         try {
@@ -85,9 +87,39 @@ function FollowPage() {
             },
         });
     };
+    const border = {
+        border: '5px solid black',
+    };
+    const correctionTrial = () => {
+        here.current.defaultValue = target.current?.innerText;
+    };
+    const identWord = (sen1: string, sen2: string): boolean | undefined => {
+        let i = 0;
+        for (let i = 0; i < sen1.length; i++) {
+            if (!sen2[i] || sen1[i] !== sen2[i]) return false;
+        }
+        return true;
+    };
+    const correctionExec = () => {
+        let i = 0;
+        let j = 0;
+        let pivot;
+        let origin: string = target.current.innerText;
+        let corrected: string = here.current.value;
 
+        console.log(origin);
+        console.log(corrected);
+    };
     return (
         <>
+            <div style={border} ref={target}>
+                ㅇㄹㅇㄹㅇㄹ
+            </div>
+            <button onClick={() => correctionTrial()}>수정</button>
+            <input type="text" ref={here} />
+            <button onClick={() => correctionExec()}>수정완료</button>
+            <br />
+            <textarea name="" id="" cols={30} rows={10}></textarea>
             나: {{ idCookie } ? <p>{idCookie}</p> : <p>로그인안됨</p>}
             <br />
             상대방 :{' '}

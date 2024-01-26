@@ -2,7 +2,22 @@ import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 
 function MypageHeader(props: any) {
-    const { followingNum, followerNum, userData } = props;
+    const shortName = (nation: string): string | undefined => {
+        if (nation === 'China') {
+            return 'CN';
+        } else if (nation === 'America') {
+            return 'US';
+        } else if (nation === 'France') {
+            return 'FR';
+        } else if (nation === 'Germany') {
+            return 'GM';
+        } else if (nation === 'Japan') {
+            return 'JP';
+        } else {
+            return 'KR';
+        }
+    };
+    const { followingNum, followerNum, userData, learningLang } = props;
     return (
         <div className="mypageHeaderC">
             <div className="logoC">
@@ -49,11 +64,15 @@ function MypageHeader(props: any) {
                             <div>{userData.nation}</div>
                         </div>
                         <div className="languageInfo">
-                            <div className="languageDiv">EN</div>
+                            <div className="languageDiv">
+                                {shortName(userData.nation)}
+                            </div>
                             <div className="arrowImage">
                                 <img src="images/Arrow.png" alt="" />
                             </div>
-                            <div className="languageDiv">KR</div>
+                            <div className="languageDiv">
+                                {shortName(learningLang[0])}
+                            </div>
                         </div>
                     </div>
                 </div>

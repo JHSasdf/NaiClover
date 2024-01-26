@@ -40,6 +40,12 @@ export const getmyPage = async (
                 'introduction',
                 'firLang',
             ],
+            include: [
+                {
+                    model: MypageImage,
+                    attributes: ['path'],
+                },
+            ],
         });
     } catch (err) {
         return next(err);
@@ -340,7 +346,7 @@ export const multerMypage = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('req.body:', req.body);
+    console.log('req.body:', req.body.userid);
     console.log('req.file: ', req.file, typeof req.file);
     let existingProfile;
     try {

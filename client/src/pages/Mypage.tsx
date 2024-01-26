@@ -23,7 +23,7 @@ function Mypage() {
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
     const idCookie = cookies['id'];
-    
+
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const getMyPage = async () => {
@@ -77,6 +77,7 @@ function Mypage() {
                     followingNum={followingNum}
                     followerNum={followerNum}
                     userData={userData}
+                    learningLang={learningLang}
                 />
                 <div className="clickDiv">
                     {/* click 이벤트 추가 */}
