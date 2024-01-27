@@ -68,7 +68,7 @@ const ChatRoomPage: React.FC = () => {
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         fetchChatLog();
-    });
+    }, [messages]);
 
     const handleSendMessage = () => {
         const message = `You: ${newMessage}`;
