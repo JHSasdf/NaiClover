@@ -17,6 +17,7 @@ function ConfirmModal({ show, setShow, navigate }: any) {
                 <Modal.Body>The change has been completed.</Modal.Body>
                 <Modal.Footer>
                     <Button
+                        style={{ backgroundColor: '#dabca8b3', color: 'black' }}
                         variant="secondary"
                         onClick={() => {
                             handleClose();

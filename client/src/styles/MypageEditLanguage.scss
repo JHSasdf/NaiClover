@@ -6,6 +6,8 @@
 
     .editLanguage-Form {
         @extend .editPassword-Form;
+
+        position: relative;
         text-align: start;
         .chooseSelectBoxDiv {
             @include flex();
