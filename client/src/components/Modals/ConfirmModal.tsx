@@ -1,28 +1,32 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-function ConfirmModal() {
+function ConfirmModal({ show, setShow, navigate }: any) {
+    const handleClose = () => {
+        setShow({ show: false });
+        navigate('/mypage/option');
+    };
+
     return (
-        <div
-            className="modal show"
-            style={{ display: 'block', position: 'initial' }}
-        >
-            <Modal.Dialog>
+        <>
+            {/* 변경 완료 되었을 시에 모달! */}
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Success</Modal.Title>
                 </Modal.Header>
-
-                <Modal.Body>
-                    <p>Modal body text goes here.</p>
-                </Modal.Body>
-
+                <Modal.Body>The change has been completed.</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => {
+                            handleClose();
+                        }}
+                    >
+                        Close
+                    </Button>
                 </Modal.Footer>
-            </Modal.Dialog>
-        </div>
+            </Modal>
+        </>
     );
 }
 

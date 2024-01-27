@@ -1,16 +1,25 @@
+import { useState, useEffect } from 'react';
 import '../../styles/AlertPageCommentAlert.scss';
 
 function CommentAlert(props: any) {
     const { alarmObj, validTime } = props;
+    const [alarmClassName, setAlarmClassName] = useState(
+        'monotalkalert-container'
+    );
+
+    useEffect(() => {
+        if (!validTime && alarmObj.checked) {
+            setAlarmClassName('monotalkalert-oldcontainer');
+        }
+    }, []);
     return (
         <>
-            <div className="commentalert-container">
+            <div className={alarmClassName}>
                 <div className="commentalert-title">
                     <span className="commentalert-username">
                         {alarmObj.otherUserId}
                     </span>
                     님이 댓글을 작성했습니다.
-                    {!validTime && alarmObj.checked ? 'old' : 'new'}
                 </div>
                 <div className="commentalert-content">{alarmObj.preview}</div>
             </div>

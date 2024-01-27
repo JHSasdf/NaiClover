@@ -16,15 +16,52 @@ function PostsPage() {
     const [showLanguagePosts, setShowLanguagePosts] = useState(true);
     const [showCulturePosts, setShowCulturePosts] = useState(false);
     const [newAlarmNum, setNewAlarmNum] = useState<Number>(0);
+    const [culturePosts, setCulturePosts] = useState([]);
+    const [languagePosts, setLanguagePosts] = useState([]);
+
     const handleLanguageClick = () => {
         setShowLanguagePosts(!showLanguagePosts);
         setShowCulturePosts(false);
     };
 
-    const handleCultureClick = () => {
+    const handleCultureClick = async () => {
         setShowLanguagePosts(false);
         setShowCulturePosts(!showCulturePosts);
     };
+
+    const getCulturePosts = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/cul/posts',
+                params: {
+                    userid: idCookie,
+                },
+            });
+            setCulturePosts(res.data.PostsDatas);
+            console.log(culturePosts);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const getLanguagePosts = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/lang/posts',
+                params: {
+                    userid: idCookie,
+                },
+            });
+            console.log(res.data);
+            setLanguagePosts(res.data.PostsDatas);
+            console.log(languagePosts);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
     const newAlarmNumGet = async () => {
         try {
             const res = await axios({
@@ -42,7 +79,9 @@ function PostsPage() {
     };
     useEffect(() => {
         newAlarmNumGet();
+        getLanguagePosts();
     }, []);
+
     return (
         <div className="postspage-container">
             <Topbar />
@@ -66,7 +105,10 @@ function PostsPage() {
                             ? 'active category-component-changed'
                             : ''
                     }`}
-                    onClick={handleCultureClick}
+                    onClick={() => {
+                        handleCultureClick();
+                        getCulturePosts();
+                    }}
                 >
                     Culture
                 </div>
@@ -75,15 +117,41 @@ function PostsPage() {
 
             {showLanguagePosts && (
                 <div className="language-posts-container">
-                    <LanguagePost />
-                    <LanguagePost />
-                    <LanguagePost />
+
+                    {
+                        languagePosts.slice(0).reverse().map((languagePostData:any)=>{
+
+                            return <LanguagePost
+                                key={languagePostData[0].postId}
+                                name={languagePostData[0].User.name}
+                                id={languagePostData[0].postId}
+                                nation={languagePostData[0].User.nation}
+                                createdAt={languagePostData[0].createdAt}
+                                content={languagePostData[0].content}
+                            />
+                        })
+
+                    }
                 </div>
             )}
 
             {showCulturePosts && (
                 <div className="culture-posts-container">
-                    <CulturePost />
+                    {
+                        culturePosts.slice(0).reverse().map((culturePostData:any)=>{
+
+                            return <CulturePost
+                                key={culturePostData[0].postId}
+                                id={culturePostData[0].postId}
+                                name={culturePostData[0].User.name}
+                                nation={culturePostData[0].User.nation}
+                                createdAt={culturePostData[0].createdAt}
+                                content={culturePostData[0].content}
+                            />
+                        })
+
+                    }
+
                 </div>
             )}
 

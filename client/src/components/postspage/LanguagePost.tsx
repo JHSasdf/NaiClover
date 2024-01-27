@@ -2,9 +2,9 @@ import '../../styles/LanguagePost.scss';
 import '../../styles/Font.scss';
 import {useNavigate} from 'react-router-dom';
 
-function LanguagePost() {
-
+function LanguagePost(props: any) {
     const navigate = useNavigate();
+
     return(
     <div className='lang-post-container'>
         <div className='lang-post'>
@@ -17,9 +17,9 @@ function LanguagePost() {
                 <div className='lang-info-container'>
                     <div className='lang-info'>
                         <div className='lang-gender lang-male'></div>
-                        <div className='lang-name'>Diam sem</div>
+                        <div className='lang-name'>{props.name}</div>
                     </div>
-                    <div className='lang-location'>Seoul | South Korea</div>
+                    <div className='lang-location'>{props.nation}</div>
 
                     <div className='lang-language-container'>
                         <div className='lang-native-language'>EN</div>
@@ -30,11 +30,11 @@ function LanguagePost() {
             </div>
 
             <div className='lang-more-container'>
-                <div className='lang-time'>Today 10:30</div>
+                <div className='lang-time'>{props.createdAt}</div>
                 <div className='lang-more'></div>
             </div>
 
-            <div className='lang-content-text' onClick={()=>navigate('/l-postdetail')}>Hello. I am a Korean-American who wants to learn Korean. If you are a Korean who wants to learn English, study together!</div>
+            <div className='lang-content-text' onClick={()=>navigate(`/l-postdetail/${props.id}`)}>{props.content}</div>
 
             <div className='lang-reaction-container'>
                 <div className='lang-likes-container'>

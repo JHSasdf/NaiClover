@@ -25,7 +25,7 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });
@@ -220,7 +220,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });
