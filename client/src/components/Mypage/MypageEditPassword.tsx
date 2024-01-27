@@ -41,9 +41,9 @@ function MypageEditPassword() {
                     confirmPassword: confirmNewPassword,
                 },
             });
-            if (res.data.isError == false) {
+            if (res.data.isError === false) {
                 handleConfirmModal();
-            } else if (res.data.isError == true) {
+            } else if (res.data.isError === true) {
                 setEditPasswordErrorMsg(res.data.msg);
             }
 
@@ -111,15 +111,15 @@ function MypageEditPassword() {
                         <div className="getred editPasswordErrorMsg">
                             {editPasswordErrorMsg}
                         </div>
-                        <button
-                            className="edit-ConfirmBtn"
-                            onClick={(e: React.MouseEvent<HTMLElement>) =>
-                                submitEditForm(e)
-                            }
-                        >
-                            Confirm
-                        </button>
                     </form>
+                    <button
+                        className="edit-ConfirmBtn"
+                        onClick={(e: React.MouseEvent<HTMLElement>) =>
+                            submitEditForm(e)
+                        }
+                    >
+                        Confirm
+                    </button>
                 </div>
             </div>
         </>

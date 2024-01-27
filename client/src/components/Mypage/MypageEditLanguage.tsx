@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Topbar from '../Topbar';
 import '../../styles/MypageEditLanguage.scss';
 import axios from 'axios';
@@ -63,9 +63,9 @@ function MypageEditLanguage() {
                     learningLangs: learningLangs,
                 },
             });
-            if (res.data.isError == false) {
+            if (res.data.isError === false) {
                 handleConfirmModal();
-            } else if (res.data.isError == true) {
+            } else if (res.data.isError === true) {
                 setEditlangErrorMsg(res.data.msg);
             }
             console.log(res.data);
@@ -210,15 +210,15 @@ function MypageEditLanguage() {
                         <div className="getred editlangErrorMsg">
                             {editlangErrorMsg}
                         </div>
-                        <button
-                            className="edit-ConfirmBtn"
-                            onClick={(e: React.MouseEvent<HTMLElement>) =>
-                                submitEditLangForm(e)
-                            }
-                        >
-                            Confirm
-                        </button>
                     </form>
+                    <button
+                        className="edit-ConfirmBtn"
+                        onClick={(e: React.MouseEvent<HTMLElement>) =>
+                            submitEditLangForm(e)
+                        }
+                    >
+                        Confirm
+                    </button>
                 </div>
             </div>
         </>
