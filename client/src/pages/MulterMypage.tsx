@@ -77,11 +77,7 @@ function MulterMypage() {
                     {/* 이미지 출력 공간 */}
                     <div className="profile-image">
                         {/* 조건부로 렌더링 이미지 표시 */}
-                        {pathState ? (
-                            <img src={pathState} alt="" />
-                        ) : (
-                            <img src={defaultImagePath} alt="" />
-                        )}
+                        <img src={pathState} alt="" />
                     </div>
                     <form action="">
                         <label

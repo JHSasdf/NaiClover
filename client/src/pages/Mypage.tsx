@@ -39,7 +39,7 @@ function Mypage() {
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
 
-            console.log('res.data >', res.data);
+            console.log('res.data >', res.data.userDataObj);
 
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
@@ -56,7 +56,6 @@ function Mypage() {
             });
             // 요거 찍어보십쇼
             console.log(sortedPostDatas);
-
         } catch (error) {
             console.log('error', error);
         }
