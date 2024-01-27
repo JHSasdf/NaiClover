@@ -7,6 +7,7 @@ interface SendCommentProps {
 }
 
 const SendComment: React.FC<SendCommentProps> = ({ onSendComment }) => {
+
     const [comment, setComment] = useState('');
 
     const handleSendComment = () => {
@@ -19,12 +20,14 @@ const SendComment: React.FC<SendCommentProps> = ({ onSendComment }) => {
     return (
         <div className='entire-comment-container'>
             <div className='send-comment-container'>
-                <input
+                <input 
                     type="text"
                     placeholder="Type something here..."
                     value={comment}
+                    className='type-comment'
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value)}
                 />
+                <input type="checkbox" className='revise-post' />
                 <div className="send-comment" onClick={handleSendComment}>
                     Send
                 </div>

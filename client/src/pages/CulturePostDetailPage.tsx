@@ -60,7 +60,7 @@ function CulturePostDetailPage() {
             <div className="postdetailpage-container">
                 <Topbar />
                 <PostDetailHeader />
-                <CulturePost content={culturePost.content}  createdAt={culturePost.createdAt} name={culturePost.User?.name}/>
+                <CulturePost content={culturePost.content} createdAt={culturePost.createdAt} name={culturePost.User?.name} images={culturePost}/>
                 <div className="culturecomment-container">
                     {comments.map((comment) => (
                         <CultureComment key={comment.id} content={comment.content} />

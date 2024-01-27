@@ -1,11 +1,39 @@
 import '../../styles/CulturePost.scss'
 import '../../styles/Font.scss';
 import {useNavigate} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import {useState} from 'react';
+
 
 function CulturePost(props : any) {
 
     const navigate = useNavigate();
 
+    const {id} = props;
+
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
+    const [isLiked, setIsLiked] = useState(false);
+
+    //문화 좋아요 버튼 토글
+    const culToggleLike = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/cul/posts/${id}`,
+                data: {
+                    userid: idCookie
+                }
+            });
+            console.log(res.data);
+
+            setIsLiked((prevIsLiked) => !prevIsLiked);
+        }catch(error){
+            console.log('error', error);
+        }
+    }
 
     return(
     <div className='cul-post-container'>
@@ -36,11 +64,17 @@ function CulturePost(props : any) {
                 <div className='cul-more'></div>
             </div>
 
+            <div className='cul-content-images'>
+          {props.images.PostImages?.map((image: string, index: number) => (
+            <img key={index} src={props.images.PostImages[index].path} alt={image} className='eachImage' />
+          ))}
+        </div>
+
             <div className='cul-content-text' onClick={()=>navigate(`/c-postdetail/${props.id}`)}>{props.content}</div>
 
             <div className='cul-reaction-container'>
                 <div className='cul-likes-container'>
-                    <div className='cul-likes'></div>
+                    <div className={`cul-likes' ${isLiked ? 'liked' : 'unliked'}`} onClick={culToggleLike}></div>
                     <div className='cul-likes-count'>524</div>
                 </div>
 
@@ -50,8 +84,6 @@ function CulturePost(props : any) {
                 </div>
 
                 <div className='cul-bookmark-container'>
-                    <div className='cul-bookmark'></div>
-                    <div className='cul-bookmark-text'>저장</div>
                 </div>
             </div>
         </div>
