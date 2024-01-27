@@ -3,8 +3,8 @@ import '../../styles/Font.scss';
 import {useNavigate} from 'react-router-dom';
 
 function LanguagePost(props: any) {
-
     const navigate = useNavigate();
+
     return(
     <div className='lang-post-container'>
         <div className='lang-post'>
@@ -34,7 +34,7 @@ function LanguagePost(props: any) {
                 <div className='lang-more'></div>
             </div>
 
-            <div className='lang-content-text' onClick={()=>navigate('/l-postdetail')}>{props.content}</div>
+            <div className='lang-content-text' onClick={()=>navigate(`/l-postdetail/${props.id}`)}>{props.content}</div>
 
             <div className='lang-reaction-container'>
                 <div className='lang-likes-container'>

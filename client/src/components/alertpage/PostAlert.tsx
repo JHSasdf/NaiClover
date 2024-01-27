@@ -8,10 +8,10 @@ function PostAlert(props: any) {
     );
 
     useEffect(() => {
-        if (!(validTime && alarmObj.checked)) {
+        if (!validTime && alarmObj.checked) {
             setAlarmClassName('monotalkalert-oldcontainer');
         }
-    }, [validTime, alarmObj.checked]);
+    }, []);
     return (
         <>
             <div className={alarmClassName}>
@@ -22,6 +22,7 @@ function PostAlert(props: any) {
                     님이 새 포스트를 작성했습니다
                 </div>
                 <div className="postalert-content">{alarmObj.preview}</div>
+                <div>{alarmObj.createdAt}</div>
             </div>
             <div className="bottom-line"></div>
         </>

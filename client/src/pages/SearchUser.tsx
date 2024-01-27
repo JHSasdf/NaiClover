@@ -7,11 +7,12 @@ import MypagePost from '../components/Mypage/MypagePost';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { ListFormat } from 'typescript';
 import { Post, User } from '../types/types';
+import { useParams } from 'react-router-dom';
 
-function Mypage() {
+function SearchUser() {
     const [showProfile, setShowProfile] = useState(true);
+    const userid = useParams().userid;
 
     function toggleView(isProfile: boolean) {
         if ((isProfile && showProfile) || (!isProfile && !showProfile)) {
@@ -30,17 +31,11 @@ function Mypage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
-                params: {
-                    userid: idCookie,
-                },
+                url: `/userinfo/${userid}`,
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
-
-            console.log('res.data >', res.data);
-
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
@@ -55,8 +50,8 @@ function Mypage() {
                 return bDate - aDate;
             });
             // 요거 찍어보십쇼
+            console.log(res.data);
             console.log(sortedPostDatas);
-
         } catch (error) {
             console.log('error', error);
         }
@@ -131,4 +126,4 @@ function Mypage() {
     );
 }
 
-export default Mypage;
+export default SearchUser;

@@ -24,6 +24,7 @@ import AlertPage from './pages/AlertPage';
 import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MulterMypage from './pages/MulterMypage';
+import SearchUser from './pages/SearchUser';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -48,17 +49,24 @@ function App() {
                     )}
                     <Route path="/posts" element={<PostsPage />}></Route>
                     <Route
-                        path="/c-postdetail"
+                        path="/searchuser/:userid"
+                        element={<SearchUser />}
+                    ></Route>
+
+                    <Route
+                        path="/c-postdetail/:id"
                         element={<CulturePostDetailPage />}
                     ></Route>
                     <Route
-                        path="/l-postdetail"
+                        path="/l-postdetail/:id"
                         element={<LanguagePostDetailPage />}
                     ></Route>
                     <Route path="/alert" element={<AlertPage />}></Route>
 
                     <Route path="/mainpage" element={<MainPage />} />
-                    <Route path="/chat/:roomId" element={<ChatRoomPage />} />
+                    <Route path="/chat/:roomId" element={<ChatRoomPage />}>
+                        {' '}
+                    </Route>
                     <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />

@@ -1,5 +1,3 @@
-// ChatRoomPage.tsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
@@ -19,12 +17,17 @@ const ChatRoomPage: React.FC = () => {
     const { roomId } = useParams<{ roomId: string }>();
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
+        // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
+        const userIdFromCookie = Cookies.get(USER_ID_COOKIE_KEY) || null;
+        setUserId(userIdFromCookie);
+
         socket.emit('joinRoom', roomId);
 
         socket.on('chat message', (msg: Message) => {
-            if (msg.userId !== Cookies.get(USER_ID_COOKIE_KEY)) {
+            if (msg.userId !== userIdFromCookie) {
                 setMessages((prevMessages) => [...prevMessages, msg]);
                 console.log(`You: ${msg.text}`);
             }
@@ -32,7 +35,7 @@ const ChatRoomPage: React.FC = () => {
         });
 
         // 여기서 사용자의 ID를 쿠키에서 읽어와서 socket.id로 전달합니다.
-        socket.emit('userId', Cookies.get(USER_ID_COOKIE_KEY));
+        socket.emit('userId', userIdFromCookie);
 
         return () => {
             socket.off('chat message');
@@ -45,14 +48,14 @@ const ChatRoomPage: React.FC = () => {
             room: roomId,
             text: message,
             isSentByMe: true,
-            userId: Cookies.get(USER_ID_COOKIE_KEY), // 사용자 ID 쿠키에서 읽어옴
+            userId: userId, // 이미 상단에 표시된 userId 사용
         });
         setMessages((prevMessages) => [
             ...prevMessages,
             {
                 text: message,
                 isSentByMe: false,
-                userId: Cookies.get(USER_ID_COOKIE_KEY),
+                userId: userId,
             },
         ]);
         setNewMessage('');
@@ -60,6 +63,11 @@ const ChatRoomPage: React.FC = () => {
 
     return (
         <div className="chat-room-container">
+            {/* 상단에 사용자 ID 표시 */}
+            {userId && (
+                <div className="user-id"> {userId} 님이 입장했습니다.</div>
+            )}
+
             <div className="messages-container">
                 <ul>
                     {messages.map((msg, index) => (
@@ -71,7 +79,7 @@ const ChatRoomPage: React.FC = () => {
                                     : 'received-message'
                             }`}
                         >
-                            {msg.isSentByMe ? msg.text : `Server: ${msg.text}`}
+                            {msg.isSentByMe ? msg.text : msg.text}
                         </li>
                     ))}
                 </ul>
