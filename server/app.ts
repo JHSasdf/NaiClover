@@ -1,9 +1,10 @@
 declare module 'express-session' {
     interface SessionData {
-        userid: String;
+        userid: string; // string으로 수정
     }
 }
-import express, { Express, Request, Response } from 'express';
+
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import http from 'http';
@@ -36,7 +37,7 @@ app.use(
     cors({
         credentials: true,
         origin: 'http://localhost:3000',
-        methods: ['GET', 'POST', 'patch', 'delete'],
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
 
@@ -52,14 +53,46 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
 });
 
+// 사용자의 채팅방 정보를 저장하는 변수
+const userChatRooms: Record<string, string[]> = {};
 const chatRooms: Record<
     string,
     { id: string; name: string; inviteCode: string }
-> = {};
+> = {}; // chatRooms 변수 선언
+
+// 사용자의 채팅방 정보를 저장하는 함수
+const saveUserChatRoom = (userId: string, roomId: string) => {
+    if (!userChatRooms[userId]) {
+        userChatRooms[userId] = [];
+    }
+
+    userChatRooms[userId].push(roomId);
+    // 여기에서 데이터베이스에도 저장할 수 있습니다.
+
+    console.log(`User ${userId} joined room ${roomId}`);
+};
+
+// 사용자의 채팅방 정보를 제거하는 함수
+const removeUserChatRoom = (userId: string, roomId: string) => {
+    if (userChatRooms[userId]) {
+        userChatRooms[userId] = userChatRooms[userId].filter(
+            (r) => r !== roomId
+        );
+        // 여기에서 데이터베이스에서도 제거할 수 있습니다.
+
+        console.log(`User ${userId} left room ${roomId}`);
+    }
+};
 
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
+    });
+
+    socket.on('leaveRoom', (room) => {
+        socket.leave(room);
+        removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
+        console.log(`User ${socket.id} left room ${room}`);
     });
 
     connectedClients[socket.id] = socket;
@@ -112,6 +145,10 @@ io.on('connection', (socket: Socket) => {
             roomName,
             userId: socket.id,
         });
+
+        saveUserChatRoom(socket.id, roomId); // 사용자의 채팅방 정보 저장
+
+        console.log(`User ${socket.id} created and joined room ${roomId}`);
     });
 
     socket.on('joinRoomByInviteCode', (inviteCode) => {
@@ -125,6 +162,7 @@ io.on('connection', (socket: Socket) => {
         }
     });
 });
+
 const generateInviteCode = () => {
     return Math.random().toString(36).substr(2, 8);
 };
