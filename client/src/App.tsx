@@ -64,7 +64,9 @@ function App() {
                     <Route path="/alert" element={<AlertPage />}></Route>
 
                     <Route path="/mainpage" element={<MainPage />} />
-                    <Route path="/chat/:roomId" element={<ChatRoomPage />} />
+                    <Route path="/chat/:roomId" element={<ChatRoomPage />}>
+                        {' '}
+                    </Route>
                     <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />
