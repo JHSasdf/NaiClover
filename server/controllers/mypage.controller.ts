@@ -8,6 +8,7 @@ const User = db.User;
 const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
+const LangPost = db.LangPost;
 const MypageImage = db.MypageImages;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
@@ -16,11 +17,9 @@ export const getmyPage = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.query;
+    const userid = req.session.userid;
     let userDataObj: userDataInterface;
     let learningLangObjArr: Array<existingLangInterface> = [];
-    let followDatas;
-    let postDatas;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -73,39 +72,26 @@ export const getmyPage = async (
         learningLang.push(existingLangsObj.learningLang);
     }
 
-    // try {
-    //     followDatas = await Follow.findAll({
-    //         where: { userid: userid },
-    //     });
-    // } catch (err) {
-    //     return next(err);
-    // }
+    let postCulDatas;
+    let postLangDatas;
 
-    // if (!followDatas) {
-    //     return res.json({
-    //         msg: 'An Error occurred',
-    //         isError: true,
-    //     });
-    // }
+    try {
+        postCulDatas = await Post.findAll({
+            where: { userid: userid },
+        });
+        postLangDatas = await LangPost.findAll({
+            where: { userid: userid },
+        });
+    } catch (err) {
+        return next(err);
+    }
 
-    // try {
-    //     postDatas = await Post.findAll({
-    //         where: { userid: userid },
-    //     });
-    // } catch (err) {
-    //     return next(err);
-    // }
-
-    // if (!postDatas) {
-    //     return res.json({
-    //         msg: 'An Error occurred',
-    //         isError: true,
-    //     });
-    // }
-    // json으로 post, follow datas 보내주기. 다만 userData는 객체 하나지만 나머지는 객체의 배열임에 주의
-    // console.log(postDatas, followDatas);
-
-    res.json({ userDataObj: userDataObj, learningLang: learningLang });
+    res.json({
+        userDataObj: userDataObj,
+        learningLang: learningLang,
+        postCulDatas: postCulDatas,
+        postLangDatas: postLangDatas,
+    });
 };
 
 // userPassword를 변경하는 버튼을 눌렀을 때 실행되는 함수
