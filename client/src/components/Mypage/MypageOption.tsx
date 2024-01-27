@@ -2,7 +2,41 @@ import '../../styles/MypageOption.scss';
 import Topbar from '../Topbar';
 import { Link } from 'react-router-dom';
 
+import '../../styles/Mypage.scss';
+import { useCookies } from 'react-cookie';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { User } from '../../types/types';
+
 function MypageOption() {
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
+    const [userData, setUserData] = useState<User>();
+    const [learningLang, setLearningLang] = useState('');
+    const getMyPage = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/getMyPage',
+                params: {
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
+            setUserData(res.data.userDataObj);
+            setLearningLang(res.data.learningLang);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+    useEffect(() => {
+        getMyPage();
+    }, []);
+
+    if (!userData) {
+        return null; // 또는 로딩 스피너 등을 보여줄 수 있음.
+    }
     return (
         <>
             <Topbar />
@@ -28,14 +62,10 @@ function MypageOption() {
                     </div>
                     <div className="contentC">
                         <div className="nameInfo">
-                            <div>Sam</div>
+                            <div>{userData.userid}</div>
                         </div>
                         <div className="countryInfo">
-                            <div>Seoul</div>
-                            <div>
-                                <img src="images/Label.png" alt="" />
-                            </div>
-                            <div>South Korea</div>
+                            <div>{userData.nation}</div>
                         </div>
                     </div>
                     <div className="editImage">
@@ -60,7 +90,9 @@ function MypageOption() {
                         <div className="settingDetail-Content">
                             <div className="settingDetail-Content-items">
                                 <div>Name</div>
-                                <div className="result-Content-items">Sam</div>
+                                <div className="result-Content-items">
+                                    {userData.name}
+                                </div>
                             </div>
                             <div className="settingDetail-Content-items">
                                 <div>Password</div>
@@ -78,7 +110,11 @@ function MypageOption() {
                             </div>
                             <div className="settingDetail-Content-items">
                                 <div>Gender</div>
-                                <div className="result-Content-items">Male</div>
+                                <div className="result-Content-items">
+                                    {userData.gender === 'm'
+                                        ? 'male'
+                                        : 'female'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,13 +133,13 @@ function MypageOption() {
                             <div className="settingDetail-Content-items">
                                 <div>Native Language</div>
                                 <div className="result-Content-items">
-                                    Korean
+                                    {userData.firLang}
                                 </div>
                             </div>
                             <div className="settingDetail-Content-items">
                                 <div>Learning Language</div>
                                 <div className="result-Content-items">
-                                    English
+                                    {learningLang[0]}
                                 </div>
                                 <Link to={'/mypage/edit/language'}>
                                     <div>
