@@ -70,8 +70,11 @@ $secondary-color: #888;
 .cul-info-container{
     display: flex;
     flex-direction: column;
-    width: 100px;
+    justify-content: center;
+    width: fit-content;
     height: 52px;
+    margin-right: auto;
+    padding-left: 12px;
 }
 
 .cul-location{
@@ -247,6 +250,13 @@ $secondary-color: #888;
     margin-top: 24px;
 }
 
+.eachImage{
+    width: 100px;
+    height: 100px;
+    margin-right: 16px;
+    margin-top: 16px;
+    border: 1px solid lightgrey;
+}
 
 
 

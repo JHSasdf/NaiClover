@@ -147,6 +147,9 @@ function PostsPage() {
                                 nation={culturePostData[0].User.nation}
                                 createdAt={culturePostData[0].createdAt}
                                 content={culturePostData[0].content}
+                                images={
+                                    culturePostData[0]
+                                }
                             />
                         })
 

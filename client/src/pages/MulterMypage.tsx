@@ -25,7 +25,7 @@ function MulterMypage() {
             console.log(URL.createObjectURL(image.current.files[0]));
         }
     };
-
+ 
     const postMulter = async () => {
         const formData = new FormData();
         console.log('이미지 파일 이름 출력', image.current.files[0].name);

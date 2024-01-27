@@ -76,7 +76,7 @@ $secondary-color: #888;
     width: fit-content;
     height: 52px;
     margin-right: auto;
-    padding-left: 8px;
+    padding-left: 12px;
 }
 
 .lang-location{
@@ -251,6 +251,18 @@ $secondary-color: #888;
     height: 0.5px;
     background-color: lightgrey;
     margin-top: 24px;
+}
+
+.liked{
+    background-image: url('../img/filledheart.png');
+    width: 24px;
+    height: 24px;
+}
+
+.unliked{
+    background-image: url('../img/heart.png');
+    width: 24px;
+    height: 24px;
 }
 
 
