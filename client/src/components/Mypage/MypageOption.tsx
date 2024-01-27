@@ -38,8 +38,11 @@ function MypageOption() {
                             <div>South Korea</div>
                         </div>
                     </div>
+
                     <div className="editImage">
-                        <img src="/images/EditButton.png" alt="" />
+                        <Link to={'/multermypage'}>
+                            <img src="/images/EditButton.png" alt="" />
+                        </Link>
                     </div>
                 </div>
 

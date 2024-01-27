@@ -38,6 +38,9 @@ function Mypage() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
+
+            console.log('res.data >', res.data);
+
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
@@ -53,6 +56,7 @@ function Mypage() {
             });
             // 요거 찍어보십쇼
             console.log(sortedPostDatas);
+
         } catch (error) {
             console.log('error', error);
         }
