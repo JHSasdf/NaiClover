@@ -42,7 +42,9 @@ function MypageHeader(props: any) {
                 <div className="bDiv">
                     {/* 프로필 이미지 */}
                     <div className="imageC">
-                        <div className="profile-image"></div>
+                        <div className="profile-image">
+                            <img src={''} alt="" />
+                        </div>
                         <div className="flag-image"></div>
                     </div>
                     {/* 프로필 요약정보 */}

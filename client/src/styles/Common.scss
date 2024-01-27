@@ -37,7 +37,7 @@ $--green--500: rgb(0, 48, 0);
 @mixin profile-image() {
     width: 56px;
     height: 56px;
-    background-color: lightgrey;
+    border: 1px solid lightgray !important;
     border-radius: 50%;
 }
 

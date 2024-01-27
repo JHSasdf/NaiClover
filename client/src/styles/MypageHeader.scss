@@ -37,7 +37,9 @@
                 position: relative;
 
                 .profile-image {
-                    @include profile-image();
+                    > img {
+                        @include profile-image();
+                    }
                 }
                 .flag-image {
                     @include flag-image();

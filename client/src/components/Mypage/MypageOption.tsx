@@ -57,7 +57,9 @@ function MypageOption() {
                 {/* 프로필 수정 */}
                 <div className="settingProfile">
                     <div className="imageC">
-                        <div className="profile-image"></div>
+                        <div className="profile-image">
+                            <img src="" alt="" />
+                        </div>
                         <div className="flag-image"></div>
                     </div>
                     <div className="contentC">
