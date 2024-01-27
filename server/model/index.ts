@@ -270,6 +270,31 @@ Chat.belongsTo(Room, {
     targetKey: 'roomNum',
 });
 
+User.hasMany(Room, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Room.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+// User: chat = 1 : N
+User.hasMany(Chat, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Chat.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
 export const db = {
     User,
     Lang,
@@ -283,6 +308,8 @@ export const db = {
     LangComment,
     PostImages,
     MypageImages,
+    Chat,
+    Room,
     sequelize,
     Sequelize,
 };

@@ -86,6 +86,51 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
         console.log(`User ${userId} left room ${roomId}`);
     }
 };
+//
+
+const User = db.User;
+const Chat = db.Chat;
+const Room = db.Room;
+let roomNum: string;
+const generateUniqueId = () => {
+    return Math.random().toString(36).substr(2, 9);
+};
+
+async function createRoomDb(userid: string) {
+    let result;
+    const genaratedUniqueId = generateUniqueId();
+    try {
+        result = await Room.create({
+            userid: userid,
+            roomNum: genaratedUniqueId,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    roomNum = result.roomNum;
+}
+
+async function createChatDb(roomNum: string, userid: string, content: string) {
+    let result;
+    try {
+        result = await Chat.create({
+            roomNum: roomNum,
+            userid: userid,
+            content: content,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+app.get('/dummy/:id', async function (req, res, next) {
+    const roomNum = req.params.id;
+    const result = await Chat.findAll({
+        where: { roomNum: roomNum },
+    });
+
+    res.json({ chatLog: result });
+});
 
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
@@ -115,7 +160,7 @@ io.on('connection', (socket: Socket) => {
             const isSentByMe = msg.isSentByMe || false;
 
             // userId 추가
-            io.to(msg.room).emit('chat message', {
+            socket.broadcast.to(msg.room).emit('chat message', {
                 ...msg,
                 text: serverMessage,
                 isSentByMe,
@@ -124,6 +169,7 @@ io.on('connection', (socket: Socket) => {
 
             console.log(serverMessage);
             console.log(msg.userId); // userId 출력
+            createChatDb(msg.room, msg.userId, msg.text);
         }
     });
 
@@ -132,26 +178,23 @@ io.on('connection', (socket: Socket) => {
         delete connectedClients[socket.id];
     });
 
-    const generateUniqueId = () => {
-        return Math.random().toString(36).substr(2, 9);
-    };
+    socket.on('createRoom', ({ roomName, userid }) => {
+        createRoomDb(userid).then(() => {
+            const inviteCode = generateInviteCode();
+            chatRooms[roomNum] = { id: roomNum, name: roomName, inviteCode };
 
-    socket.on('createRoom', ({ roomName }) => {
-        const roomId = generateUniqueId();
-        const inviteCode = generateInviteCode();
-        chatRooms[roomId] = { id: roomId, name: roomName, inviteCode };
+            socket.emit('roomCreated', { roomNum, roomName });
+            // userId 추가
+            io.to(roomNum).emit('roomCreated', {
+                roomNum,
+                roomName,
+                userId: socket.id,
+            });
 
-        socket.emit('roomCreated', { roomId, roomName });
-        // userId 추가
-        io.to(roomId).emit('roomCreated', {
-            roomId,
-            roomName,
-            userId: socket.id,
+            saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
+
+            console.log(`User ${socket.id} created and joined room ${roomNum}`);
         });
-
-        saveUserChatRoom(socket.id, roomId); // 사용자의 채팅방 정보 저장
-
-        console.log(`User ${socket.id} created and joined room ${roomId}`);
     });
 
     socket.on('joinRoomByInviteCode', (inviteCode) => {
