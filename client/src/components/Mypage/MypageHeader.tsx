@@ -3,21 +3,22 @@ import '../../styles/MypageHeader.scss';
 
 function MypageHeader(props: any) {
     const shortName = (nation: string): string | undefined => {
-        if (nation === 'China') {
+        if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
-        } else if (nation === 'America') {
+        } else if (nation === 'America' || nation === 'English') {
             return 'US';
-        } else if (nation === 'France') {
+        } else if (nation === 'France' || nation === 'French') {
             return 'FR';
-        } else if (nation === 'Germany') {
+        } else if (nation === 'Germany' || nation === 'German') {
             return 'GM';
-        } else if (nation === 'Japan') {
+        } else if (nation === 'Japan' || nation === 'Japanese') {
             return 'JP';
         } else {
             return 'KR';
         }
     };
     const { followingNum, followerNum, userData, learningLang } = props;
+    console.log(learningLang);
     return (
         <div className="mypageHeaderC">
             <div className="logoC">
@@ -65,7 +66,7 @@ function MypageHeader(props: any) {
                         </div>
                         <div className="languageInfo">
                             <div className="languageDiv">
-                                {shortName(userData.nation)}
+                                {shortName(userData.firLang)}
                             </div>
                             <div className="arrowImage">
                                 <img src="images/Arrow.png" alt="" />
