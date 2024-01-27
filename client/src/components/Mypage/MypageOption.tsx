@@ -11,6 +11,7 @@ import { User } from '../../types/types';
 function MypageOption() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
+    const [profileImg, setProfileImg] = useState<string>('');
 
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState('');
@@ -26,6 +27,7 @@ function MypageOption() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
         } catch (error) {
             console.log('error', error);
         }
@@ -58,7 +60,7 @@ function MypageOption() {
                 <div className="settingProfile">
                     <div className="imageC">
                         <div className="profile-image">
-                            <img src="" alt="" />
+                            <img src={profileImg} alt="" />
                         </div>
                         <div className="flag-image"></div>
                     </div>

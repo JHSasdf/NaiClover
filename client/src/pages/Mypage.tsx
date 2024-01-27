@@ -22,6 +22,7 @@ function Mypage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
+    const [profileImg, setProfileImg] = useState<string>('');
     const idCookie = cookies['id'];
 
     const [userData, setUserData] = useState<User>();
@@ -37,6 +38,7 @@ function Mypage() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
             setLearningLang(res.data.learningLang);
 
             console.log('res.data >', res.data.userDataObj);
@@ -96,6 +98,7 @@ function Mypage() {
                     followerNum={followerNum}
                     userData={userData}
                     learningLang={learningLang}
+                    profileImg={profileImg}
                 />
                 <div className="clickDiv">
                     {/* click 이벤트 추가 */}

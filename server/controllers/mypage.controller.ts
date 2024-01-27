@@ -332,36 +332,18 @@ export const multerMypage = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('req.body:', req.body.userid);
+    console.log('req.body:', req.session.userid);
     console.log('req.file: ', req.file, typeof req.file);
-    let existingProfile;
     try {
-        existingProfile = await MypageImage.findOne({
-            where: { userid: req.session.userid },
-        });
+        await MypageImage.update(
+            {
+                path: `/${req.file?.path}`,
+            },
+            { where: { userid: req.session.userid } }
+        );
     } catch (err) {
         return next(err);
     }
-    if (!existingProfile) {
-        try {
-            await MypageImage.create({
-                userid: req.session.userid || randomUUID(),
-                path: `/${req.file?.path}`,
-            });
-        } catch (err) {
-            return next(err);
-        }
-    } else {
-        try {
-            await MypageImage.update(
-                {
-                    path: `/${req.file?.path}`,
-                },
-                { where: { userid: req.session.userid } }
-            );
-        } catch (err) {
-            return next(err);
-        }
-    }
+
     res.json({ path: `/${req.file?.path}` });
 };
