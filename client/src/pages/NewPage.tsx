@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
 import './ChatRoomPage.css'; // Import the styling file
+import axios from 'axios';
 
 interface Message {
     text: string;
     isSentByMe?: boolean;
     userId?: string | null; // userId를 string 또는 null로 타입 정의
+}
+
+interface ChatLog {
+    chatIndex: number;
+    roomNum: string;
+    userid: string;
+    content: string;
+    createdAt: string;
+    updataedAt: string;
 }
 
 const socket = io('http://localhost:4000');
@@ -18,6 +29,10 @@ const ChatRoomPage: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
     const [userId, setUserId] = useState<string | null>(null);
+    const [chatLog, setChatLog] = useState<ChatLog[]>([]);
+
+    const [cookies] = useCookies(['id']);
+    const userid = cookies['id'];
 
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
@@ -42,20 +57,33 @@ const ChatRoomPage: React.FC = () => {
         };
     }, [roomId]);
 
+    const fetchChatLog = async () => {
+        const res = await axios({
+            url: `/dummy/${roomId}`,
+            method: 'get',
+        });
+        setChatLog(res.data.chatLog);
+        console.log(res.data);
+    };
+    useEffect(() => {
+        // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
+        fetchChatLog();
+    });
+
     const handleSendMessage = () => {
         const message = `You: ${newMessage}`;
         socket.emit('chat message', {
             room: roomId,
             text: message,
             isSentByMe: true,
-            userId: userId, // 이미 상단에 표시된 userId 사용
+            userId: userid, // 이미 상단에 표시된 userId 사용
         });
         setMessages((prevMessages) => [
             ...prevMessages,
             {
                 text: message,
                 isSentByMe: false,
-                userId: userId,
+                userId: userid,
             },
         ]);
         setNewMessage('');
@@ -69,20 +97,26 @@ const ChatRoomPage: React.FC = () => {
             )}
 
             <div className="messages-container">
-                <ul>
-                    {messages.map((msg, index) => (
-                        <li
-                            key={index}
-                            className={`message ${
-                                msg.isSentByMe
-                                    ? 'sent-message'
-                                    : 'received-message'
-                            }`}
-                        >
-                            {msg.isSentByMe ? msg.text : msg.text}
+                {chatLog.map((elem) => (
+                    <ul
+                        key={elem.chatIndex}
+                        className={`message ${
+                            elem.userid === userid
+                                ? 'sent-message'
+                                : 'received-message'
+                        }`}
+                    >
+                        <li>
+                            {userid}, {typeof userid}
                         </li>
-                    ))}
-                </ul>
+                        <li>
+                            {elem.userid}, {typeof elem.userid}
+                        </li>
+                        <li>{elem.userid}</li>
+                        <li>{elem.content}</li>
+                        <li>{elem.createdAt}</li>
+                    </ul>
+                ))}
             </div>
             <div className="message-input-container">
                 <input

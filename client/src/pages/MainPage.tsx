@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
+
 import './App.css'; // Import the styling file
 
 const socket = io('http://localhost:4000');
 
 const MainPage: React.FC = () => {
+    const [cookies] = useCookies(['id']);
+    const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
     const [chatRooms, setChatRooms] = useState<{ id: string; name: string }[]>(
         []
@@ -58,7 +62,10 @@ const MainPage: React.FC = () => {
 
     const handleAddRoom = () => {
         if (newRoomName.trim() !== '') {
-            socket.emit('createRoom', { roomName: newRoomName });
+            socket.emit('createRoom', {
+                roomName: newRoomName,
+                userid: userid,
+            });
             setNewRoomName('');
         }
     };

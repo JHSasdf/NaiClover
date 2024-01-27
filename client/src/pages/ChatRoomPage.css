@@ -21,11 +21,15 @@
 .sent-message {
     background-color: #0a5e6a;
     align-self: flex-start;
+    position: relative;
+    transform: translateX(50px);
 }
 
 .received-message {
+    position: relative;
     background-color: #a5d6a7;
     align-self: flex-end;
+    transform: translateX(-50px);
 }
 
 .message-input-container {
