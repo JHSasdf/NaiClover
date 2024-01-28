@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 
-function MypageHeader(props: any) {
+function SearchUserHeader(props: any) {
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -23,14 +23,7 @@ function MypageHeader(props: any) {
     return (
         <div className="mypageHeaderC">
             <div className="logoC">
-                <div>
-                    <img src="images/MypageLogo.png" alt="" />
-                </div>
-                <Link to={'/mypage/option'}>
-                    <div>
-                        <img src="images/Gear.png" alt="" />
-                    </div>
-                </Link>
+                <h1>{userData.userid}</h1>
             </div>
             <div className="followC">
                 <div className="aDiv">
@@ -53,12 +46,9 @@ function MypageHeader(props: any) {
                         <div className="nameInfo">
                             <div>
                                 {userData.gender == 'm' ? (
-                                    <img src="images/manIcon.png" alt="man" />
+                                    <img src="/images/manIcon.png" alt="man" />
                                 ) : (
-                                    <img
-                                        src="images/womenIcon.png"
-                                        alt="woman"
-                                    />
+                                    <img src="/images/womenIcon.png" alt="wo" />
                                 )}
                             </div>
                             <div>{userData.name}</div>
@@ -72,7 +62,7 @@ function MypageHeader(props: any) {
                                 {shortName(userData.firLang)}
                             </div>
                             <div className="arrowImage">
-                                <img src="images/Arrow.png" alt="" />
+                                <img src="/images/Arrow.png" alt="" />
                             </div>
                             <div className="languageDiv">
                                 {shortName(learningLang[0])}
@@ -90,4 +80,4 @@ function MypageHeader(props: any) {
     );
 }
 
-export default MypageHeader;
+export default SearchUserHeader;
