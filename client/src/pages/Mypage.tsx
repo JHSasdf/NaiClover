@@ -58,8 +58,9 @@ function Mypage() {
             });
             // 요거 찍어보십쇼
             console.log(sortedPostDatas);
+            console.log('>>>?', learningLang);
         } catch (error) {
-            console.log('error', error);
+            console.log('error???', error);
         }
     };
 

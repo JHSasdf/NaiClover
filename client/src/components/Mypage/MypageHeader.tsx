@@ -56,7 +56,7 @@ function MypageHeader(props: any) {
                                     <img src="images/manIcon.png" alt="man" />
                                 ) : (
                                     <img
-                                        src="images/womanIcon.png"
+                                        src="images/womenIcon.png"
                                         alt="woman"
                                     />
                                 )}
@@ -74,9 +74,9 @@ function MypageHeader(props: any) {
                             <div className="arrowImage">
                                 <img src="images/Arrow.png" alt="" />
                             </div>
-                            <div className="languageDiv">
+                            {/* <div className="languageDiv">
                                 {shortName(learningLang[0])}
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

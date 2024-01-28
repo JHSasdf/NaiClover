@@ -12,8 +12,9 @@ import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 
 interface CommentItem {
-    id: number;
+    index: number;
     content: string;
+    userid: string;
 }
 
 function LanguagePostDetailPage() {
@@ -50,19 +51,31 @@ function LanguagePostDetailPage() {
                 url: `/lang/comments/createcomment/${id}`,
                 data: {
                     content: content,
-                    userid: idCookie,
+                    //일단 isrevised는 디폴트로 false해둘게요.
+                    isrevised: false,
                 },
                 withCredentials: true,
             });
-
             const newComment: CommentItem = res.data.comment;
             setComments((prevComments) => [...prevComments, newComment]);
         } catch (error) {
             console.log('error', error);
         }
     };
-
+    const getComments = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: `/lang/comments/${id}`,
+                withCredentials: true,
+            });
+            setComments(res.data.Comments);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
     useEffect(() => {
+        getComments();
         getSingleLanguagePost();
     }, []);
 
@@ -72,6 +85,7 @@ function LanguagePostDetailPage() {
                 <Topbar />
                 <PostDetailHeader />
                 <LanguagePost
+                    key={languagePost.postId}
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
@@ -79,10 +93,12 @@ function LanguagePostDetailPage() {
                     name={languagePost.User?.name}
                 />
                 <div className="languagecomment-container">
-                    {comments.map((comment) => (
+                    {comments?.map((comment, index) => (
                         <LanguageComment
-                            key={comment.id}
+                            key={index}
+                            index={comment.index}
                             content={comment.content}
+                            name={comment.userid}
                         />
                     ))}
                 </div>
