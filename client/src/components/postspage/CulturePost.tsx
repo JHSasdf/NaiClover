@@ -5,6 +5,19 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import {Virtual} from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+
+
+import 'swiper/scss';
+import 'swiper/scss/pagination';
+import 'swiper/scss/navigation';
+
+import '../../styles/Swiper.scss';
+
+
+
 function CulturePost(props: any) {
     const navigate = useNavigate();
 
@@ -34,6 +47,9 @@ function CulturePost(props: any) {
         }
     };
 
+    const hasImages = props.images.PostImages && props.images.PostImages.length > 0;
+
+  
     return (
         <div className="cul-post-container">
             <div className="cul-post">
@@ -63,18 +79,17 @@ function CulturePost(props: any) {
                     <div className="cul-more"></div>
                 </div>
 
-                <div className="cul-content-images">
-                    {props.images.PostImages?.map(
-                        (image: string, index: number) => (
-                            <img
-                                key={index}
-                                src={props.images.PostImages[index].path}
-                                alt={image}
-                                className="eachImage"
-                            />
-                        )
-                    )}
-                </div>
+                {hasImages && (
+                    <div className='cul-content-images'>
+                        <Swiper modules={[Navigation, Pagination]} cssMode={true} navigation={true} pagination={true} spaceBetween={10} slidesPerView={1}>
+                            {props.images.PostImages?.map((image: string, index: number) => (
+                                <SwiperSlide key={index}>
+                                    <img src={props.images.PostImages[index].path} alt={image} className='eachImage' />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                )}
 
                 <div
                     className="cul-content-text"
