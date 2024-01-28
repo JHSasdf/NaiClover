@@ -6,8 +6,8 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {Virtual} from 'swiper/modules';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
+import {useEffect} from 'react';
 
 
 import 'swiper/scss';
@@ -35,10 +35,15 @@ function CulturePost(props: any) {
     };
     const { id } = props;
 
-    const [cookies, setCookies, removeCookies] = useCookies(['id']);
-    const idCookie = cookies['id'];
 
-    const [isLiked, setIsLiked] = useState(false);
+      // Load initial like status from local storage
+      const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
+      const [isLiked, setIsLiked] = useState(initialLikeStatus ? JSON.parse(initialLikeStatus) : false);
+  
+      useEffect(() => {
+          // Save the current like status to local storage
+          localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
+      }, [props.id, isLiked]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
@@ -53,7 +58,7 @@ function CulturePost(props: any) {
             });
             console.log(res.data);
 
-            setIsLiked((prevIsLiked) => !prevIsLiked);
+            setIsLiked((prevIsLiked: any) => !prevIsLiked);
         } catch (error) {
             console.log('error', error);
         }
