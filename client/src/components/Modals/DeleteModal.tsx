@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 
+import { useCookies } from 'react-cookie';
+
 function DeleteModal({ show, setShow, navigate }: any) {
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const handleClose = () => {
         setShow({ show: false });
+        removeCookies('id');
         navigate('/login');
         userdelete();
     };
