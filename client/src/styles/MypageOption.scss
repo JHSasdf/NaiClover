@@ -19,6 +19,7 @@
         }
         .settingLogoutImage {
             margin-left: 5px;
+            cursor: pointer;
         }
     }
     .settingProfile {
@@ -103,6 +104,9 @@
 
         .result-Content-items {
             margin-left: auto;
+        }
+        .userdelete-div {
+            cursor: pointer;
         }
     }
 }

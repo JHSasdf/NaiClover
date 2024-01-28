@@ -1,15 +1,19 @@
 import '../styles/MulterMypage.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Topbar from '../components/Topbar';
 import { Link, useNavigate } from 'react-router-dom';
 import ConfirmModal from '../components/Modals/ConfirmModal';
+import { useCookies } from 'react-cookie';
+import { User } from '../types/types';
 function MulterMypage() {
     const image = useRef<any>(null);
-    const [pathState, setPathState] = useState('');
-    // 기본 이미지
-    const defaultImagePath = '/images/basicIcon.png';
+    const [cookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
 
+    const [profileImg, setProfileImg] = useState<string>('');
+
+    const [userData, setUserData] = useState<User>();
     const navigate = useNavigate();
 
     // 모달 창 상태 변화
@@ -17,15 +21,46 @@ function MulterMypage() {
         // 모달 초기 상태 false!
         show: false,
     });
-    const change = () => {
-        // URL.createObjectURL 함수 사용하여 이미지 파일 업로드 시 바로 사진 변경
-        if (image.current.files.length > 0) {
-            // 이미지 파일이 선택된 경우에만 createObjectURL 함수 호출
-            setPathState(URL.createObjectURL(image.current.files[0]));
-            console.log(URL.createObjectURL(image.current.files[0]));
+
+    // 페이지 렌더시 실행
+    const getMyPage = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/getMyPage',
+                params: {
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
+            setUserData(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
+        } catch (error) {
+            console.log('error', error);
         }
     };
- 
+    // 페이지 렌더시 getMyPage 함수 실행
+    useEffect(() => {
+        getMyPage();
+    }, []);
+    // userData가 없으면 렌더링 X
+    if (!userData) {
+        return null; // 또는 로딩 스피너 등을 보여줄 수 있음.
+    }
+
+    // 이미지 파일 업로드시 변환
+    const change = () => {
+        // 이미지 파일이 선택된 경우에만 createObjectURL 함수 호출
+        if (image.current.files.length > 0) {
+            const file = image.current.files[0];
+
+            // URL.createObjectURL 함수 사용하여 이미지 파일 업로드 시 바로 사진 변경
+            // 이미지 파일이 업로드시 변경
+            setProfileImg(URL.createObjectURL(file));
+            console.log(URL.createObjectURL(file));
+        }
+    };
+
     const postMulter = async () => {
         const formData = new FormData();
         console.log('이미지 파일 이름 출력', image.current.files[0].name);
@@ -53,6 +88,7 @@ function MulterMypage() {
             show: true,
         });
     };
+
     return (
         <>
             <Topbar />
@@ -76,8 +112,8 @@ function MulterMypage() {
                 <div className="multer-form-container">
                     {/* 이미지 출력 공간 */}
                     <div className="profile-image">
-                        {/* 조건부로 렌더링 이미지 표시 */}
-                        <img src={pathState} alt="" />
+                        {/* 페이지 렌더링 시 가지고 있는 이미지 표시 */}
+                        <img src={profileImg} alt="" />
                     </div>
                     <form action="">
                         <label
