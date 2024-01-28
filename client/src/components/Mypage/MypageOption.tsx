@@ -39,6 +39,19 @@ function MypageOption() {
     if (!userData) {
         return null; // 또는 로딩 스피너 등을 보여줄 수 있음.
     }
+    // 로그아웃 요청
+    const userlogout = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/mypage/logout',
+            });
+            console.log('res.data > ', res.data);
+        } catch (err) {
+            console.log('error', err);
+        }
+    };
+
     return (
         <>
             <Topbar />
@@ -53,7 +66,15 @@ function MypageOption() {
                     <div className="settingBack">Setting</div>
                     <div className="settingLogout">Logout</div>
                     <div className="settingLogoutImage">
-                        <img src="/images/Logout.png" alt="" />
+                        <Link to={'/login'}>
+                            <img
+                                src="/images/Logout.png"
+                                alt=""
+                                onClick={() => {
+                                    userlogout();
+                                }}
+                            />
+                        </Link>
                     </div>
                 </div>
                 {/* 프로필 수정 */}
