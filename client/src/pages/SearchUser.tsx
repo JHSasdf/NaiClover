@@ -23,10 +23,10 @@ function SearchUser() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
-    const idCookie = cookies['id'];
-
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
+    const idCookie = cookies['id'];
+
     const getMyPage = async () => {
         try {
             const res = await axios({
@@ -35,6 +35,8 @@ function SearchUser() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
+            setFollowingNum(res.data.followingCount);
+            setFollowerNum(res.data.followerCount);
             setLearningLang(res.data.learningLang);
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
@@ -57,26 +59,8 @@ function SearchUser() {
         }
     };
 
-    const followNumGet = async () => {
-        try {
-            const res = await axios({
-                method: 'get',
-                url: '/followNumGet',
-                params: {
-                    userid: idCookie,
-                },
-                withCredentials: true,
-            });
-            setFollowingNum(res.data.followingNumber);
-            setFollowerNum(res.data.followerNumber);
-        } catch (error) {
-            console.log('error:', error);
-        }
-    };
-
     useEffect(() => {
         getMyPage();
-        followNumGet();
     }, []);
 
     if (!userData) {
