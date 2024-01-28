@@ -1,15 +1,15 @@
-import {useState} from 'react';
-import {useEffect} from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import Topbar from "../components/Topbar";
-import CultureComment from "../components/postdetailpage/CultureComment";
-import PostDetailHeader from "../components/postdetailpage/PostDetailHeader";
-import SendComment from "../components/postdetailpage/SendComment";
-import CulturePost from "../components/postspage/CulturePost";
-import '../styles/PostDetailPage.scss'
+import Topbar from '../components/Topbar';
+import CultureComment from '../components/postdetailpage/CultureComment';
+import PostDetailHeader from '../components/postdetailpage/PostDetailHeader';
+import SendComment from '../components/postdetailpage/SendComment';
+import CulturePost from '../components/postspage/CulturePost';
+import '../styles/PostDetailPage.scss';
 
 interface CommentItem {
     id: number;
@@ -17,8 +17,7 @@ interface CommentItem {
 }
 
 function CulturePostDetailPage() {
-
-    const {id} = useParams();
+    const { id } = useParams();
 
     const [culturePost, setCulturePost] = useState<any>([]);
 
@@ -26,20 +25,21 @@ function CulturePostDetailPage() {
     const idCookie = cookies['id'];
 
     const getSingleCulturePost = async () => {
-        try{
+        try {
             const res = await axios({
                 method: 'get',
                 url: `/cul/posts/${id}`,
                 params: {
                     userid: idCookie,
-                }
+                },
+                withCredentials: true,
             });
             setCulturePost(res.data.posts);
             console.log(culturePost);
-        }catch(error){
+        } catch (error) {
             console.log('error', error);
         }
-    }
+    };
 
     const [comments, setComments] = useState<CommentItem[]>([]);
 
@@ -51,7 +51,7 @@ function CulturePostDetailPage() {
         setComments((prevComments) => [...prevComments, newComment]);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         getSingleCulturePost();
     }, []);
 
@@ -60,10 +60,18 @@ function CulturePostDetailPage() {
             <div className="postdetailpage-container">
                 <Topbar />
                 <PostDetailHeader />
-                <CulturePost content={culturePost.content} createdAt={culturePost.createdAt} name={culturePost.User?.name} images={culturePost}/>
+                <CulturePost
+                    content={culturePost.content}
+                    createdAt={culturePost.createdAt}
+                    name={culturePost.User?.name}
+                    images={culturePost}
+                />
                 <div className="culturecomment-container">
                     {comments.map((comment) => (
-                        <CultureComment key={comment.id} content={comment.content} />
+                        <CultureComment
+                            key={comment.id}
+                            content={comment.content}
+                        />
                     ))}
                 </div>
                 <SendComment onSendComment={addComment} />

@@ -40,6 +40,7 @@ function MypageEditPassword() {
                     newPassword,
                     confirmPassword: confirmNewPassword,
                 },
+                withCredentials: true,
             });
             if (res.data.isError === false) {
                 handleConfirmModal();
