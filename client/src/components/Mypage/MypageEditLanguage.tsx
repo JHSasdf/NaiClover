@@ -62,6 +62,7 @@ function MypageEditLanguage() {
                     userid: idCookie,
                     learningLangs: learningLangs,
                 },
+                withCredentials: true,
             });
             if (res.data.isError === false) {
                 handleConfirmModal();

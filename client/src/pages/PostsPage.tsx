@@ -37,6 +37,7 @@ function PostsPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setCulturePosts(res.data.PostsDatas);
             console.log(culturePosts);
@@ -53,6 +54,7 @@ function PostsPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
@@ -117,44 +119,42 @@ function PostsPage() {
 
             {showLanguagePosts && (
                 <div className="language-posts-container">
-
-                    {
-                        languagePosts.slice(0).reverse().map((languagePostData:any)=>{
-
-                            return <LanguagePost
-                                key={languagePostData[0].postId}
-                                name={languagePostData[0].User.name}
-                                id={languagePostData[0].postId}
-                                nation={languagePostData[0].User.nation}
-                                createdAt={languagePostData[0].createdAt}
-                                content={languagePostData[0].content}
-                            />
-                        })
-
-                    }
+                    {languagePosts
+                        .slice(0)
+                        .reverse()
+                        .map((languagePostData: any) => {
+                            return (
+                                <LanguagePost
+                                    key={languagePostData[0].postId}
+                                    name={languagePostData[0].User.name}
+                                    id={languagePostData[0].postId}
+                                    nation={languagePostData[0].User.nation}
+                                    createdAt={languagePostData[0].createdAt}
+                                    content={languagePostData[0].content}
+                                />
+                            );
+                        })}
                 </div>
             )}
 
             {showCulturePosts && (
                 <div className="culture-posts-container">
-                    {
-                        culturePosts.slice(0).reverse().map((culturePostData:any)=>{
-
-                            return <CulturePost
-                                key={culturePostData[0].postId}
-                                id={culturePostData[0].postId}
-                                name={culturePostData[0].User.name}
-                                nation={culturePostData[0].User.nation}
-                                createdAt={culturePostData[0].createdAt}
-                                content={culturePostData[0].content}
-                                images={
-                                    culturePostData[0]
-                                }
-                            />
-                        })
-
-                    }
-
+                    {culturePosts
+                        .slice(0)
+                        .reverse()
+                        .map((culturePostData: any) => {
+                            return (
+                                <CulturePost
+                                    key={culturePostData[0].postId}
+                                    id={culturePostData[0].postId}
+                                    name={culturePostData[0].User.name}
+                                    nation={culturePostData[0].User.nation}
+                                    createdAt={culturePostData[0].createdAt}
+                                    content={culturePostData[0].content}
+                                    images={culturePostData[0]}
+                                />
+                            );
+                        })}
                 </div>
             )}
 
