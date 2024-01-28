@@ -1,12 +1,13 @@
 import '../../styles/MypageOption.scss';
 import Topbar from '../Topbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import '../../styles/Mypage.scss';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { User } from '../../types/types';
+import DeleteModal from '../Modals/DeleteModal';
 
 function MypageOption() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -15,6 +16,13 @@ function MypageOption() {
 
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState('');
+
+    // 모달 창
+    const navigate = useNavigate();
+    const [showDeleteModal, setShowDeleteModal] = useState<any>({
+        show: false,
+    });
+
     const getMyPage = async () => {
         try {
             const res = await axios({
@@ -52,9 +60,37 @@ function MypageOption() {
         }
     };
 
+    // 계정 탈퇴 요청
+    const userdelete = async () => {
+        try {
+            const res = await axios({
+                method: 'delete',
+                url: '/mypage/deleteuser',
+            });
+            if (res.data.isError === false) {
+                handleDeleteModal();
+            }
+            console.log('res.data >', res.data);
+        } catch (err) {
+            console.log('error >', err);
+        }
+    };
+
+    //  모달 창 실행 함수
+    const handleDeleteModal = () => {
+        setShowDeleteModal({
+            show: true,
+        });
+    };
+
     return (
         <>
             <Topbar />
+            <DeleteModal
+                show={showDeleteModal.show}
+                setShow={setShowDeleteModal}
+                navigate={navigate}
+            />
             <div className="myPageOption-container">
                 {/* 설정 헤드 부분 */}
                 <div className="myPageOption-C-Header">
@@ -196,8 +232,14 @@ function MypageOption() {
                             <div className="settingDetail-Content-items">
                                 <div className="withdrawal">Withdrawal</div>
                                 <div className="result-Content-items"></div>
-                                <div>
-                                    <img src="/images/RightPoint.png" alt="" />
+                                <div className="userdelete-div">
+                                    <img
+                                        src="/images/RightPoint.png"
+                                        alt=""
+                                        onClick={() => {
+                                            handleDeleteModal();
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-.newpost-photos-container{
+.newpost-photos-container {
     width: 370px;
     height: fit-content;
     overflow: scroll;
@@ -8,7 +8,7 @@
     display: flex;
     flex-flow: wrap;
 
-    .camera{
+    .camera {
         width: 104px;
         height: 104px;
         background-image: url('../img/camera.png');
@@ -18,7 +18,7 @@
         cursor: pointer;
     }
 
-    .image{
+    .image {
         width: 104px;
         height: 104px;
         border: 1px solid lightgrey;
@@ -27,14 +27,12 @@
     }
 }
 
-.newpost-photos-container::-webkit-scrollbar{
+.newpost-photos-container::-webkit-scrollbar {
     display: none;
 }
 
 @for $n from 1 through 4 {
-    .newpost-photos-container:nth-child(#{3n}){
+    .newpost-photos-container:nth-child(#{3n}) {
         margin-right: 0px;
     }
 }
-
-
