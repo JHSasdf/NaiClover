@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import {useEffect} from 'react';
 
-
 import 'swiper/scss';
 import 'swiper/scss/pagination';
 import 'swiper/scss/navigation';
@@ -45,6 +44,7 @@ function CulturePost(props: any) {
           localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
       }, [props.id, isLiked]);
 
+
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
         try {
@@ -64,7 +64,8 @@ function CulturePost(props: any) {
         }
     };
 
-    const hasImages = props.images.PostImages && props.images.PostImages.length > 0;
+    const hasImages =
+        props.images.PostImages && props.images.PostImages.length > 0;
 
     return (
         <div className="cul-post-container">
@@ -92,7 +93,7 @@ function CulturePost(props: any) {
 
                 <div className="cul-more-container">
                     <div className="cul-time">{props.createdAt}</div>
-                                        {idCookie === props.userid ? (
+                    {idCookie === props.userid ? (
                         <div
                             className="cul-more"
                             onClick={() => {
@@ -106,13 +107,29 @@ function CulturePost(props: any) {
                 </div>
 
                 {hasImages && (
-                    <div className='cul-content-images'>
-                        <Swiper modules={[Navigation, Pagination]} cssMode={true} navigation={true} pagination={true} spaceBetween={10} slidesPerView={1}>
-                            {props.images.PostImages?.map((image: string, index: number) => (
-                                <SwiperSlide key={index}>
-                                    <img src={props.images.PostImages[index].path} alt={image} className='eachImage' />
-                                </SwiperSlide>
-                            ))}
+                    <div className="cul-content-images">
+                        <Swiper
+                            modules={[Navigation, Pagination]}
+                            cssMode={true}
+                            navigation={true}
+                            pagination={true}
+                            spaceBetween={10}
+                            slidesPerView={1}
+                        >
+                            {props.images.PostImages?.map(
+                                (image: string, index: number) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={
+                                                props.images.PostImages[index]
+                                                    .path
+                                            }
+                                            alt={image}
+                                            className="eachImage"
+                                        />
+                                    </SwiperSlide>
+                                )
+                            )}
                         </Swiper>
                     </div>
                 )}
