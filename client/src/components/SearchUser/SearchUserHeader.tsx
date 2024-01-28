@@ -24,6 +24,7 @@ function SearchUserHeader(props: any) {
         <div className="mypageHeaderC">
             <div className="logoC">
                 <h1>{userData.userid}</h1>
+                <button>팔로우</button>
             </div>
             <div className="followC">
                 <div className="aDiv">
