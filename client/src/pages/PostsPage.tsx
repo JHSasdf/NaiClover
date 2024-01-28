@@ -58,7 +58,7 @@ function PostsPage() {
             });
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
-            console.log(languagePosts);
+            console.log('ㅇㅇ?', languagePosts);
         } catch (error) {
             console.log('error', error);
         }
@@ -126,9 +126,11 @@ function PostsPage() {
                             return (
                                 <LanguagePost
                                     key={languagePostData[0].postId}
+                                    userid={languagePostData[0].userid}
                                     name={languagePostData[0].User.name}
                                     id={languagePostData[0].postId}
                                     nation={languagePostData[0].User.nation}
+                                    firLang={languagePostData[0].User.firLang}
                                     createdAt={languagePostData[0].createdAt}
                                     content={languagePostData[0].content}
                                 />
@@ -147,8 +149,11 @@ function PostsPage() {
                                 <CulturePost
                                     key={culturePostData[0].postId}
                                     id={culturePostData[0].postId}
+                                    userid={culturePostData[0].userid}
                                     name={culturePostData[0].User.name}
                                     nation={culturePostData[0].User.nation}
+                                    firLang={culturePostData[0].User.firLang}
+                                    // learningLang={culturePostData[0].User.firLang}
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}

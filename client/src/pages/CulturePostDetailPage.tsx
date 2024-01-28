@@ -62,6 +62,8 @@ function CulturePostDetailPage() {
                 <PostDetailHeader />
                 <CulturePost
                     content={culturePost.content}
+                    userid={culturePost.userid}
+                    id={culturePost.postId}
                     createdAt={culturePost.createdAt}
                     name={culturePost.User?.name}
                     images={culturePost}

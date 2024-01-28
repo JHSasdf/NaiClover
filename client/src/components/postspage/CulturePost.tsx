@@ -15,12 +15,24 @@ import 'swiper/scss/pagination';
 import 'swiper/scss/navigation';
 
 import '../../styles/Swiper.scss';
-
-
-
 function CulturePost(props: any) {
     const navigate = useNavigate();
-
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+    const deletePost = async () => {
+        try {
+            const res = await axios({
+                method: 'delete',
+                url: `/cul/posts/${props.id}`,
+                data: {
+                    userid: props.userid,
+                },
+                withCredentials: true,
+            });
+        } catch (error) {
+            console.error('error', error);
+        }
+    };
     const { id } = props;
 
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -49,7 +61,6 @@ function CulturePost(props: any) {
 
     const hasImages = props.images.PostImages && props.images.PostImages.length > 0;
 
-  
     return (
         <div className="cul-post-container">
             <div className="cul-post">
@@ -76,7 +87,17 @@ function CulturePost(props: any) {
 
                 <div className="cul-more-container">
                     <div className="cul-time">{props.createdAt}</div>
-                    <div className="cul-more"></div>
+                                        {idCookie === props.userid ? (
+                        <div
+                            className="cul-more"
+                            onClick={() => {
+                                deletePost();
+                                window.location.reload();
+                            }}
+                        ></div>
+                    ) : (
+                        '수정해주기버튼'
+                    )}
                 </div>
 
                 {hasImages && (
@@ -108,7 +129,6 @@ function CulturePost(props: any) {
                         ></div>
                         <div className="cul-likes-count">524</div>
                     </div>
-
                     <div
                         className="cul-comments-container"
                         onClick={() => navigate('/c-postdetail')}
@@ -116,7 +136,6 @@ function CulturePost(props: any) {
                         <div className="cul-comments"></div>
                         <div className="cul-comments-count">8</div>
                     </div>
-
                     <div className="cul-bookmark-container"></div>
                 </div>
             </div>

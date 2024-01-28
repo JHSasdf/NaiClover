@@ -74,6 +74,8 @@ function LanguagePostDetailPage() {
                 <LanguagePost
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
+                    userid={languagePost.userid}
+                    id={languagePost.postId}
                     name={languagePost.User?.name}
                 />
                 <div className="languagecomment-container">

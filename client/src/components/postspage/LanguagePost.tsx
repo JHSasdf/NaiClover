@@ -15,7 +15,20 @@ function LanguagePost(props: any) {
     const idCookie = cookies['id'];
 
     const [isLiked, setIsLiked] = useState(false);
-
+    const deletePost = async () => {
+        try {
+            const res = await axios({
+                method: 'delete',
+                url: `/lang/posts/${props.id}`,
+                data: {
+                    userid: props.userid,
+                },
+                withCredentials: true,
+            });
+        } catch (error) {
+            console.error('error', error);
+        }
+    };
     //언어 좋아요 버튼 토글
     const langToggleLike = async () => {
         try {
@@ -61,7 +74,18 @@ function LanguagePost(props: any) {
 
                 <div className="lang-more-container">
                     <div className="lang-time">{props.createdAt}</div>
-                    <div className="lang-more"></div>
+                                        {idCookie === props.userid ? (
+                        <div
+                            className="lang-more"
+                            onClick={() => {
+                                deletePost();
+                                window.location.href = '/posts';
+                            }}
+                        ></div>
+                    ) : (
+                        <div>수정해주기버튼</div>
+                    )}
+
                 </div>
 
                 <div
@@ -91,7 +115,6 @@ function LanguagePost(props: any) {
                         <div className="lang-comments"></div>
                         <div className="lang-comments-count">8</div>
                     </div>
-
                     <div className="lang-bookmark-container"></div>
                 </div>
             </div>
