@@ -14,7 +14,16 @@ function LanguagePost(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
 
-    const [isLiked, setIsLiked] = useState(false);
+    // Load initial like status from local storage
+    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
+    const [isLiked, setIsLiked] = useState(initialLikeStatus ? JSON.parse(initialLikeStatus) : false);
+
+    useEffect(() => {
+        // Save the current like status to local storage
+        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
+    }, [props.id, isLiked]);
+
+    
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -42,7 +51,7 @@ function LanguagePost(props: any) {
             });
             console.log(res.data);
 
-            setIsLiked((prevIsLiked) => !prevIsLiked);
+            setIsLiked((prevIsLiked:any) => !prevIsLiked);
         } catch (error) {
             console.log('error', error);
         }

@@ -3,16 +3,16 @@ import '../styles/Footer.scss';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-    const navMessage = 'images/Chats.png';
-    const navMessageColor = 'images/ChatsColor.png';
-    const navPosts = 'images/globesimple.png';
-    const navPostsColor = 'images/globesimpleColor.png';
-    const navusersfour = 'images/UsersFour.png';
-    const navusersfourColor = 'images/UsersFourColor.png';
-    const navFavorites = 'images/bookmarks.png';
-    const navFavoritesColor = 'images/bookmarksColor.png';
-    const navMypage = 'images/user.png';
-    const navMypageColor = 'images/userColor.png';
+    const navMessage = '/images/Chats.png';
+    const navMessageColor = '/images/ChatsColor.png';
+    const navPosts = '/images/globesimple.png';
+    const navPostsColor = '/images/globesimpleColor.png';
+    const navusersfour = '/images/UsersFour.png';
+    const navusersfourColor = '/images/UsersFourColor.png';
+    const navFavorites = '/images/bookmarks.png';
+    const navFavoritesColor = '/images/bookmarksColor.png';
+    const navMypage = '/images/user.png';
+    const navMypageColor = '/images/userColor.png';
 
     const [hoveredDiv, setHoverdDiv] = useState('');
     const [clickedDiv, setClickedDiv] = useState('');

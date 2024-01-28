@@ -54,25 +54,11 @@ function MypageOption() {
                 method: 'post',
                 url: '/mypage/logout',
             });
+            removeCookies('id');
+            navigate('/login');
             console.log('res.data > ', res.data);
         } catch (err) {
             console.log('error', err);
-        }
-    };
-
-    // 계정 탈퇴 요청
-    const userdelete = async () => {
-        try {
-            const res = await axios({
-                method: 'delete',
-                url: '/mypage/deleteuser',
-            });
-            if (res.data.isError === false) {
-                handleDeleteModal();
-            }
-            console.log('res.data >', res.data);
-        } catch (err) {
-            console.log('error >', err);
         }
     };
 
@@ -102,15 +88,13 @@ function MypageOption() {
                     <div className="settingBack">Setting</div>
                     <div className="settingLogout">Logout</div>
                     <div className="settingLogoutImage">
-                        <Link to={'/login'}>
-                            <img
-                                src="/images/Logout.png"
-                                alt=""
-                                onClick={() => {
-                                    userlogout();
-                                }}
-                            />
-                        </Link>
+                        <img
+                            src="/images/Logout.png"
+                            alt=""
+                            onClick={() => {
+                                userlogout();
+                            }}
+                        />
                     </div>
                 </div>
                 {/* 프로필 수정 */}

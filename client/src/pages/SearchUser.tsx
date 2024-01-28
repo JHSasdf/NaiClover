@@ -1,8 +1,8 @@
 import '../styles/Mypage.scss';
 import Footer from '../components/Footer';
-import MypageHeader from '../components/Mypage/MypageHeader';
+import SearchUserHeader from '../components/SearchUser/SearchUserHeader';
 import Topbar from '../components/Topbar';
-import MypageProfile from '../components/Mypage/MypageProfile';
+import SearchUserProfile from '../components/SearchUser/SearchUserProfile';
 import MypagePost from '../components/Mypage/MypagePost';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
@@ -23,6 +23,7 @@ function SearchUser() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
+    const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const idCookie = cookies['id'];
@@ -37,6 +38,7 @@ function SearchUser() {
             setUserData(res.data.userDataObj);
             setFollowingNum(res.data.followingCount);
             setFollowerNum(res.data.followerCount);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
             setLearningLang(res.data.learningLang);
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
@@ -71,11 +73,12 @@ function SearchUser() {
         <>
             <Topbar />
             <div className="mypage-container">
-                <MypageHeader
+                <SearchUserHeader
                     followingNum={followingNum}
                     followerNum={followerNum}
                     userData={userData}
                     learningLang={learningLang}
+                    profileImg={profileImg}
                 />
                 <div className="clickDiv">
                     {/* click 이벤트 추가 */}
@@ -97,7 +100,7 @@ function SearchUser() {
                     </div>
                 </div>
                 {showProfile ? (
-                    <MypageProfile
+                    <SearchUserProfile
                         userData={userData}
                         learningLang={learningLang}
                     />

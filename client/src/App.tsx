@@ -26,6 +26,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MulterMypage from './pages/MulterMypage';
 import SearchUser from './pages/SearchUser';
 
+
 export const generateUniqueId = () => {
     return uuidv4();
 };

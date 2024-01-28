@@ -52,6 +52,7 @@
 
                 .nameInfo {
                     @include flex-center();
+                    flex-wrap: nowrap;
                 }
 
                 .countryInfo {
