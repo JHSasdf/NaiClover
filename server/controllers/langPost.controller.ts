@@ -15,7 +15,7 @@ export const getPosts = async (
 ) => {
     let allPosts: Array<postsInterface> = [];
 
-    let { userid: myUserid } = req.query;
+    let myUserid = req.session.userid;
     if (!myUserid) {
         myUserid = '';
     }
@@ -81,7 +81,8 @@ export const createPost = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content } = req.body;
+    const { content } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid.length < 4) {
         return res.json({
@@ -110,7 +111,8 @@ export const updatePost = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content } = req.body;
+    const { content } = req.body;
+    const userid = req.session.userid;
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
         return res.json({
@@ -160,7 +162,7 @@ export const deletePost = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
         return res.json({
@@ -208,7 +210,7 @@ export const getSinglePost = async (
     let likeCount;
     let didLike = false;
 
-    let { userid: myUserid } = req.query;
+    let myUserid = req.session.userid;
 
     if (!myUserid) {
         myUserid = '';
@@ -264,7 +266,13 @@ export const togglePostLike = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `Push like btn without login`,
+            isError: true,
+        });
+    }
     const postId = parseInt(req.params.id);
     let pushLike;
     try {
@@ -303,7 +311,14 @@ export const createComment = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content, isrevised } = req.body;
+    const { content, isrevised } = req.body;
+    let userid = req.session.userid;
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `You're trying to comment without login`,
+            isError: true,
+        });
+    }
     const postId = parseInt(req.params.id);
 
     try {
@@ -363,7 +378,8 @@ export const updateComment = async (
     next: NextFunction
 ) => {
     const commentIndex = parseInt(req.params.commentindex);
-    const { userid, content } = req.body;
+    const { content } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid.length < 4) {
         return res.json({
@@ -413,7 +429,7 @@ export const deleteComment = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
     const commentIndex = parseInt(req.params.commentindex);
     if (!userid || userid.length < 4) {
         return res.json({

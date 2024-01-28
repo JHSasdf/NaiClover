@@ -1,19 +1,28 @@
 import '../../styles/MypageOption.scss';
 import Topbar from '../Topbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import '../../styles/Mypage.scss';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { User } from '../../types/types';
+import DeleteModal from '../Modals/DeleteModal';
 
 function MypageOption() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
+    const [profileImg, setProfileImg] = useState<string>('');
 
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState('');
+
+    // 모달 창
+    const navigate = useNavigate();
+    const [showDeleteModal, setShowDeleteModal] = useState<any>({
+        show: false,
+    });
+
     const getMyPage = async () => {
         try {
             const res = await axios({
@@ -26,6 +35,7 @@ function MypageOption() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
         } catch (error) {
             console.log('error', error);
         }
@@ -37,9 +47,50 @@ function MypageOption() {
     if (!userData) {
         return null; // 또는 로딩 스피너 등을 보여줄 수 있음.
     }
+    // 로그아웃 요청
+    const userlogout = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/mypage/logout',
+            });
+            console.log('res.data > ', res.data);
+        } catch (err) {
+            console.log('error', err);
+        }
+    };
+
+    // 계정 탈퇴 요청
+    const userdelete = async () => {
+        try {
+            const res = await axios({
+                method: 'delete',
+                url: '/mypage/deleteuser',
+            });
+            if (res.data.isError === false) {
+                handleDeleteModal();
+            }
+            console.log('res.data >', res.data);
+        } catch (err) {
+            console.log('error >', err);
+        }
+    };
+
+    //  모달 창 실행 함수
+    const handleDeleteModal = () => {
+        setShowDeleteModal({
+            show: true,
+        });
+    };
+
     return (
         <>
             <Topbar />
+            <DeleteModal
+                show={showDeleteModal.show}
+                setShow={setShowDeleteModal}
+                navigate={navigate}
+            />
             <div className="myPageOption-container">
                 {/* 설정 헤드 부분 */}
                 <div className="myPageOption-C-Header">
@@ -51,13 +102,23 @@ function MypageOption() {
                     <div className="settingBack">Setting</div>
                     <div className="settingLogout">Logout</div>
                     <div className="settingLogoutImage">
-                        <img src="/images/Logout.png" alt="" />
+                        <Link to={'/login'}>
+                            <img
+                                src="/images/Logout.png"
+                                alt=""
+                                onClick={() => {
+                                    userlogout();
+                                }}
+                            />
+                        </Link>
                     </div>
                 </div>
                 {/* 프로필 수정 */}
                 <div className="settingProfile">
                     <div className="imageC">
-                        <div className="profile-image"></div>
+                        <div className="profile-image">
+                            <img src={profileImg} alt="" />
+                        </div>
                         <div className="flag-image"></div>
                     </div>
                     <div className="contentC">
@@ -171,8 +232,14 @@ function MypageOption() {
                             <div className="settingDetail-Content-items">
                                 <div className="withdrawal">Withdrawal</div>
                                 <div className="result-Content-items"></div>
-                                <div>
-                                    <img src="/images/RightPoint.png" alt="" />
+                                <div className="userdelete-div">
+                                    <img
+                                        src="/images/RightPoint.png"
+                                        alt=""
+                                        onClick={() => {
+                                            handleDeleteModal();
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>

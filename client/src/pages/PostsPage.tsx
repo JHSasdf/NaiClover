@@ -37,6 +37,7 @@ function PostsPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setCulturePosts(res.data.PostsDatas);
             console.log(culturePosts);
@@ -53,6 +54,7 @@ function PostsPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
@@ -154,6 +156,7 @@ function PostsPage() {
                                     // learningLang={culturePostData[0].User.firLang}
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
+                                    images={culturePostData[0]}
                                 />
                             );
                         })}

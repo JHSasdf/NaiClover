@@ -103,6 +103,7 @@ function SignupPage() {
             data: {
                 userid: idRef.current?.value,
             },
+            withCredentials: true,
         });
         setIsUnique(res.data.isUnique);
         setExistErrorMsg(res.data.msg);

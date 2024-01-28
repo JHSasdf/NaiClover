@@ -2,14 +2,14 @@ export const ChatModel = (sequelize: any, DataTypes: any) => {
     const Chat = sequelize.define(
         'Chat',
         {
-            chatId: {
+            chatIndex: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoincrement: true,
+                autoIncrement: true,
             },
             roomNum: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING(100),
                 allowNull: false,
             },
             userid: {
@@ -18,6 +18,7 @@ export const ChatModel = (sequelize: any, DataTypes: any) => {
             },
             content: {
                 type: DataTypes.STRING(2000),
+                allowNull: false,
             },
         },
         {

@@ -3,6 +3,7 @@ import Topbar from '../components/Topbar';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useCookies } from 'react-cookie';
+import { useState } from 'react';
 import axios from 'axios';
 import '../styles/NewPostButton.scss';
 import '../styles/NewPostHeader.scss';
@@ -17,14 +18,39 @@ function NewPostPage() {
     const navigate = useNavigate();
 
     const textareaRef = useRef<any>(null);
+
+    //multer 관련 코드
     const images = useRef<any>(null);
+
+    const handleCameraClick = () => {
+        images.current.click();
+    }
+
+    const [selectedCategory, setSelectedCategory] = React.useState('lang');
+    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+
     const handleResizeHeight = () => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height =
             textareaRef.current.scrollHeight + 'px';
     };
 
-    const [selectedCategory, setSelectedCategory] = React.useState('lang');
+    const handleImageChange = () => {
+        const selectedImages = images.current.files;
+        const imageUrls: string[] = [];
+
+        for(let i=0; i<selectedImages.length; i++){
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if(e.target && e.target.result) {
+                    imageUrls.push(e.target.result as string);
+                    setUploadedImages([...imageUrls]);
+                }
+            };
+            reader.readAsDataURL(selectedImages[i]);
+        }
+    }
+
 
     let selectRef = useRef<any>(null);
 
@@ -114,14 +140,14 @@ function NewPostPage() {
                         multiple
                         ref={images}
                         accept=".jpg, .png, .jpeg"
+                        onChange={handleImageChange}
+                        style={{display: 'none'}}
                     />
 
-                    <div className="camera"></div>
-                    <div className="image"></div>
-                    <div className="image"></div>
-                    <div className="image"></div>
-                    <div className="image"></div>
-                    <div className="image"></div>
+            <div className="camera" onClick={handleCameraClick}></div>
+            {uploadedImages.map((imageUrl, index) => (
+                        <img className='image' key={index} src={imageUrl} alt={`Uploaded ${index + 1}`} />
+             ))}
                 </div>
             ) : null}
 

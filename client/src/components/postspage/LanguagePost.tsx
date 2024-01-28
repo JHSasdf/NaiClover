@@ -3,11 +3,18 @@ import '../../styles/Font.scss';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
+
+    const { id } = props;
+
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
+
+    const [isLiked, setIsLiked] = useState(false);
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -22,6 +29,25 @@ function LanguagePost(props: any) {
             console.error('error', error);
         }
     };
+    //언어 좋아요 버튼 토글
+    const langToggleLike = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/lang/posts/${id}`,
+                data: {
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
+            console.log(res.data);
+
+            setIsLiked((prevIsLiked) => !prevIsLiked);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
     return (
         <div className="lang-post-container">
             <div className="lang-post">
@@ -48,7 +74,7 @@ function LanguagePost(props: any) {
 
                 <div className="lang-more-container">
                     <div className="lang-time">{props.createdAt}</div>
-                    {idCookie === props.userid ? (
+                                        {idCookie === props.userid ? (
                         <div
                             className="lang-more"
                             onClick={() => {
@@ -59,6 +85,7 @@ function LanguagePost(props: any) {
                     ) : (
                         <div>수정해주기버튼</div>
                     )}
+
                 </div>
 
                 <div
@@ -70,7 +97,14 @@ function LanguagePost(props: any) {
 
                 <div className="lang-reaction-container">
                     <div className="lang-likes-container">
-                        <div className="lang-likes"></div>
+                        <div
+                            className={`lang-likes' ${
+                                isLiked ? 'liked' : 'unliked'
+                            }`}
+                            onClick={() => {
+                                langToggleLike();
+                            }}
+                        ></div>
                         <div className="lang-likes-count">524</div>
                     </div>
 
@@ -81,11 +115,7 @@ function LanguagePost(props: any) {
                         <div className="lang-comments"></div>
                         <div className="lang-comments-count">8</div>
                     </div>
-
-                    <div className="lang-bookmark-container">
-                        <div className="lang-bookmark"></div>
-                        <div className="lang-bookmark-text">저장</div>
-                    </div>
+                    <div className="lang-bookmark-container"></div>
                 </div>
             </div>
             <div className="lang-line"></div>

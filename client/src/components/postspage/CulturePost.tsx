@@ -3,7 +3,18 @@ import '../../styles/Font.scss';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { useState } from 'react';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import {Virtual} from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+
+
+import 'swiper/scss';
+import 'swiper/scss/pagination';
+import 'swiper/scss/navigation';
+
+import '../../styles/Swiper.scss';
 function CulturePost(props: any) {
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -22,6 +33,33 @@ function CulturePost(props: any) {
             console.error('error', error);
         }
     };
+    const { id } = props;
+
+    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
+    const [isLiked, setIsLiked] = useState(false);
+
+    //문화 좋아요 버튼 토글
+    const culToggleLike = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/cul/posts/${id}`,
+                data: {
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
+            console.log(res.data);
+
+            setIsLiked((prevIsLiked) => !prevIsLiked);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const hasImages = props.images.PostImages && props.images.PostImages.length > 0;
 
     return (
         <div className="cul-post-container">
@@ -49,7 +87,7 @@ function CulturePost(props: any) {
 
                 <div className="cul-more-container">
                     <div className="cul-time">{props.createdAt}</div>
-                    {idCookie === props.userid ? (
+                                        {idCookie === props.userid ? (
                         <div
                             className="cul-more"
                             onClick={() => {
@@ -62,6 +100,18 @@ function CulturePost(props: any) {
                     )}
                 </div>
 
+                {hasImages && (
+                    <div className='cul-content-images'>
+                        <Swiper modules={[Navigation, Pagination]} cssMode={true} navigation={true} pagination={true} spaceBetween={10} slidesPerView={1}>
+                            {props.images.PostImages?.map((image: string, index: number) => (
+                                <SwiperSlide key={index}>
+                                    <img src={props.images.PostImages[index].path} alt={image} className='eachImage' />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                )}
+
                 <div
                     className="cul-content-text"
                     onClick={() => navigate(`/c-postdetail/${props.id}`)}
@@ -71,10 +121,14 @@ function CulturePost(props: any) {
 
                 <div className="cul-reaction-container">
                     <div className="cul-likes-container">
-                        <div className="cul-likes"></div>
+                        <div
+                            className={`cul-likes' ${
+                                isLiked ? 'liked' : 'unliked'
+                            }`}
+                            onClick={culToggleLike}
+                        ></div>
                         <div className="cul-likes-count">524</div>
                     </div>
-
                     <div
                         className="cul-comments-container"
                         onClick={() => navigate('/c-postdetail')}
@@ -82,11 +136,7 @@ function CulturePost(props: any) {
                         <div className="cul-comments"></div>
                         <div className="cul-comments-count">8</div>
                     </div>
-
-                    <div className="cul-bookmark-container">
-                        <div className="cul-bookmark"></div>
-                        <div className="cul-bookmark-text">저장</div>
-                    </div>
+                    <div className="cul-bookmark-container"></div>
                 </div>
             </div>
             <div className="cul-line"></div>

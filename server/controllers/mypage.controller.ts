@@ -3,10 +3,8 @@ import * as bcrypt from 'bcrypt';
 import { db } from '../model';
 import { existingLangInterface } from '../types/types';
 import { userDataInterface } from '../types/types';
-import { randomUUID } from 'crypto';
 const User = db.User;
 const Lang = db.Lang;
-const Follow = db.Follow;
 const Post = db.Post;
 const LangPost = db.LangPost;
 const MypageImage = db.MypageImages;
@@ -100,7 +98,8 @@ export const changeUserPassword = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, currentPassword, newPassword, confirmPassword } = req.body;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -188,7 +187,8 @@ export const changeUserLang = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, learningLangs } = req.body;
+    const { learningLangs } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -233,7 +233,8 @@ export const changeUserName = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, name } = req.body;
+    const { name } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -259,7 +260,7 @@ export const deleteUser = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -289,7 +290,8 @@ export const editIntroduction = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content } = req.body;
+    const { content } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -332,36 +334,20 @@ export const multerMypage = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('req.body:', req.body.userid);
-    console.log('req.file: ', req.file, typeof req.file);
-    let existingProfile;
+    const userid = req.session.userid;
+    if (!userid || userid.length < 4) {
+        return res.json({ msg: 'you did not log in.', isError: true });
+    }
     try {
-        existingProfile = await MypageImage.findOne({
-            where: { userid: req.session.userid },
-        });
+        await MypageImage.update(
+            {
+                path: `/${req.file?.path}`,
+            },
+            { where: { userid: req.session.userid } }
+        );
     } catch (err) {
         return next(err);
     }
-    if (!existingProfile) {
-        try {
-            await MypageImage.create({
-                userid: req.session.userid || randomUUID(),
-                path: `/${req.file?.path}`,
-            });
-        } catch (err) {
-            return next(err);
-        }
-    } else {
-        try {
-            await MypageImage.update(
-                {
-                    path: `/${req.file?.path}`,
-                },
-                { where: { userid: req.session.userid } }
-            );
-        } catch (err) {
-            return next(err);
-        }
-    }
+
     res.json({ path: `/${req.file?.path}` });
 };

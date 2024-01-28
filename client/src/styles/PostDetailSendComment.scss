@@ -9,8 +9,8 @@
     padding-bottom: 34px;
     
 
-    input{
-        width: 330px;
+    .type-comment{
+        width: 320px;
         min-height: 32px;
         height: fit-content;
         margin-top: 4px;
@@ -19,17 +19,24 @@
         border: 1px solid lightgrey;
     }
 
-    input:focus{
+    .type-comment:focus{
         outline: none;
+    }
+
+    .revise-post{
+        margin-left: 8px;
+        width: 16px;
+        height: 16px;
     }
 
     .send-comment{
         width: 24px;
         height: 24px;
         background-image: url('../img/Send.png');
-        margin-left: 12px;
+        margin-left: 8px;
         cursor: pointer;
     }
+
 }
 
 .entire-comment-container{

@@ -32,6 +32,7 @@ function LanguagePostDetailPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setLanguagePost(res.data.posts);
             console.log(languagePost);
@@ -42,12 +43,23 @@ function LanguagePostDetailPage() {
 
     const [comments, setComments] = useState<CommentItem[]>([]);
 
-    const addComment = (content: string) => {
-        const newComment: CommentItem = {
-            id: Date.now(), // Assuming unique identifier for each comment
-            content: content,
-        };
-        setComments((prevComments) => [...prevComments, newComment]);
+    const addComment = async (content: string) => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/lang/comments/createcomment/${id}`,
+                data: {
+                    content: content,
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
+
+            const newComment: CommentItem = res.data.comment;
+            setComments((prevComments) => [...prevComments, newComment]);
+        } catch (error) {
+            console.log('error', error);
+        }
     };
 
     useEffect(() => {

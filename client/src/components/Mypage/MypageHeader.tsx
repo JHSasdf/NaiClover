@@ -17,7 +17,8 @@ function MypageHeader(props: any) {
             return 'KR';
         }
     };
-    const { followingNum, followerNum, userData, learningLang } = props;
+    const { followingNum, followerNum, userData, learningLang, profileImg } =
+        props;
     console.log(learningLang);
     return (
         <div className="mypageHeaderC">
@@ -42,7 +43,9 @@ function MypageHeader(props: any) {
                 <div className="bDiv">
                     {/* 프로필 이미지 */}
                     <div className="imageC">
-                        <div className="profile-image"></div>
+                        <div className="profile-image">
+                            <img src={profileImg} alt="" />
+                        </div>
                         <div className="flag-image"></div>
                     </div>
                     {/* 프로필 요약정보 */}

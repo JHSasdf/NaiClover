@@ -25,6 +25,7 @@ function FollowPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setFollowingNum(res.data.followingNumber);
             setFollowerNum(res.data.followerNumber);
@@ -40,6 +41,7 @@ function FollowPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setFollowingList(res.data.followingList);
             setFollowerList(res.data.followerList);
@@ -55,6 +57,7 @@ function FollowPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setNewAlarmNum(res.data.newAlarmNumber);
         } catch (error) {
@@ -75,6 +78,7 @@ function FollowPage() {
                 userid: idCookie,
                 followId: followinput.current?.value,
             },
+            withCredentials: true,
         });
     };
     const unfollow = async () => {
@@ -85,6 +89,7 @@ function FollowPage() {
                 userid: idCookie,
                 followId: followinput.current?.value,
             },
+            withCredentials: true,
         });
     };
     const border = {

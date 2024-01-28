@@ -17,6 +17,7 @@ function AlarmPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setAlarmList(res.data.list);
         } catch (error) {

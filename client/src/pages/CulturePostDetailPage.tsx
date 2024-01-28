@@ -32,6 +32,7 @@ function CulturePostDetailPage() {
                 params: {
                     userid: idCookie,
                 },
+                withCredentials: true,
             });
             setCulturePost(res.data.posts);
             console.log(culturePost);
@@ -65,6 +66,7 @@ function CulturePostDetailPage() {
                     id={culturePost.postId}
                     createdAt={culturePost.createdAt}
                     name={culturePost.User?.name}
+                    images={culturePost}
                 />
                 <div className="culturecomment-container">
                     {comments.map((comment) => (
