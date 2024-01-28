@@ -322,19 +322,25 @@ export const createComment = async (
     const postId = parseInt(req.params.id);
 
     try {
-        await Comment.create({
+        const createdComment = await Comment.create({
             userid: userid,
             content: content,
             postId: postId,
             isrevised: isrevised,
         });
+        const createdCommentIndex = createdComment.getDataValue('index');
+        res.json({
+            msg: 'Comment created!',
+            comment: {
+                index: createdCommentIndex,
+                content: content,
+                userid: req.session.userid,
+            },
+            isError: false,
+        });
     } catch (err) {
         return next(err);
     }
-    res.json({
-        msg: 'Comment created!',
-        isError: false,
-    });
 };
 
 // 게시글의 댓글 불러오기 기능

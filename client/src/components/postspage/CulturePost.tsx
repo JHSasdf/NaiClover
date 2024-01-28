@@ -33,8 +33,6 @@ function CulturePost(props: any) {
         }
     };
     const { id } = props;
-
-
       // Load initial like status from local storage
       const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
       const [isLiked, setIsLiked] = useState(initialLikeStatus ? JSON.parse(initialLikeStatus) : false);
@@ -43,7 +41,6 @@ function CulturePost(props: any) {
           // Save the current like status to local storage
           localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
       }, [props.id, isLiked]);
-
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
