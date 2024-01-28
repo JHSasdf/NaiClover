@@ -95,7 +95,6 @@ export const getUserInfo = async (
             followerId: userid,
         },
     });
-
     res.json({
         userDataObj: userDataObj,
         learningLang: learningLang,

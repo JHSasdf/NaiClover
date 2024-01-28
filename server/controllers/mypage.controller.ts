@@ -273,6 +273,9 @@ export const deleteUser = async (
         await User.destroy({
             where: { userid: userid },
         });
+
+        req.session.id = '';
+
         res.json({
             msg: 'Deletion completed',
             isError: false,

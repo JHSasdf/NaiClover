@@ -7,7 +7,7 @@ import '../styles/conditions.scss';
 function SignupPage() {
     const navigate = useNavigate();
     const [isUnique, setIsUnique] = useState<boolean>(false);
-    const [gender, setGender] = useState<string | null>(null);
+    const [gender, setGender] = useState<string>('m');
     const [existErrorMsg, setExistErrorMsg] = useState<string>('');
     const [passwordsNotSameMsg, setPasswordsNotSameMsg] = useState('');
     const [signupErrorMsg, setSignupErrorMsg] = useState<string>('');
@@ -190,6 +190,7 @@ function SignupPage() {
                                     id="male-btn"
                                     onChange={(e) => changeGender(e)}
                                     readOnly
+                                    checked
                                 />
                                 <label
                                     htmlFor="male-btn"
