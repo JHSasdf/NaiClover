@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import {useRef} from 'react';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
@@ -23,6 +24,15 @@ function LanguagePost(props: any) {
         localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
     }, [props.id, isLiked]);
 
+    const deletemodal = useRef<any>();
+    const langdeletemodal = deletemodal.current;
+
+    const modalShow = () => {
+        langdeletemodal?.classList.remove('opacity');
+        setTimeout(()=>{
+            langdeletemodal?.classList.add('opacity');
+        }, 5000)
+    }
     
     const deletePost = async () => {
         try {
@@ -84,15 +94,19 @@ function LanguagePost(props: any) {
                 <div className="lang-more-container">
                     <div className="lang-time">{props.createdAt}</div>
                                         {idCookie === props.userid ? (
-                        <div
-                            className="lang-more"
-                            onClick={() => {
+                    <div>
+                        <div className="lang-more" onClick={()=>{modalShow();}}></div>
+                        <div className='modal-container opacity' ref={deletemodal}>
+                            <div className='edit-text'><span>수정하기</span></div>
+                            <div className='modal-line'></div>
+                            <div className='delete-text' onClick={() => {
                                 deletePost();
                                 window.location.href = '/posts';
-                            }}
-                        ></div>
+                            }}><span>삭제하기</span></div>
+                        </div>
+                    </div>   
                     ) : (
-                        <div>수정해주기버튼</div>
+                        <div className='correction'></div>
                     )}
 
                 </div>
@@ -114,15 +128,15 @@ function LanguagePost(props: any) {
                                 langToggleLike();
                             }}
                         ></div>
-                        <div className="lang-likes-count">524</div>
+                        <div className="lang-likes-count">{props.likecount}</div>
                     </div>
 
                     <div
                         className="lang-comments-container"
-                        onClick={() => navigate('/l-postdetail')}
+                        onClick={() => navigate(`/l-postdetail/${props.id}`)}
                     >
                         <div className="lang-comments"></div>
-                        <div className="lang-comments-count">8</div>
+                        <div className="lang-comments-count">{props.commentcount}</div>
                     </div>
                     <div className="lang-bookmark-container"></div>
                 </div>

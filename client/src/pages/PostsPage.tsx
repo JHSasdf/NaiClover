@@ -133,6 +133,8 @@ function PostsPage() {
                                     firLang={languagePostData[0].User.firLang}
                                     createdAt={languagePostData[0].createdAt}
                                     content={languagePostData[0].content}
+                                    likecount={languagePostData[1]}
+                                    commentcount={languagePostData[3]}
                                 />
                             );
                         })}
@@ -157,6 +159,8 @@ function PostsPage() {
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}
+                                    likecount={culturePostData[1]}
+                                    commentcount={culturePostData[3]}
                                 />
                             );
                         })}
