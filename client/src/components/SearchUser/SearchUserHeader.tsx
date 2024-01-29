@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
+import '../../styles/SearchUserHeader.scss';
 
 function SearchUserHeader(props: any) {
+    const { followingNum, followerNum, userData, learningLang, profileImg } =
+        props;
+
+    const currentFlag = userData.nation;
+
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -17,14 +23,12 @@ function SearchUserHeader(props: any) {
             return 'KR';
         }
     };
-    const { followingNum, followerNum, userData, learningLang, profileImg } =
-        props;
+
     console.log(learningLang);
     return (
         <div className="mypageHeaderC">
             <div className="logoC">
                 <h1>{userData.userid}</h1>
-                <button>팔로우</button>
             </div>
             <div className="followC">
                 <div className="aDiv">
@@ -40,7 +44,12 @@ function SearchUserHeader(props: any) {
                         <div className="profile-image">
                             <img src={profileImg} alt="" />
                         </div>
-                        <div className="flag-image"></div>
+                        <div className="flag-image">
+                            <img
+                                src={`/images/flag/${currentFlag}.png`}
+                                alt=""
+                            />
+                        </div>
                     </div>
                     {/* 프로필 요약정보 */}
                     <div className="contentC">
@@ -76,6 +85,10 @@ function SearchUserHeader(props: any) {
                     <img src="/images/Divider.png" alt="" />
                     <div>{followingNum}</div>
                 </div>
+            </div>
+            <div className="personal-container">
+                <button className="profile-followBtn">Follow</button>
+                <button className="profile-messageBtn">Message</button>
             </div>
         </div>
     );

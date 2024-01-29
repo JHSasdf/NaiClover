@@ -38,8 +38,10 @@
                 }
             }
             .flag-image {
-                @include flag-image();
-                bottom: 1px;
+                > img {
+                    @include flag-image();
+                    transform: translate(-58px, -2px);
+                }
             }
         }
 

@@ -40,7 +40,7 @@ function SearchUserProfile(props: any) {
                         className="introduce-textarea"
                         readOnly
                         ref={intro}
-                        placeholder="自己紹介してください"
+                        placeholder="Hello World!"
                         defaultValue={userData.introduction || ''}
                     ></textarea>
                 </div>

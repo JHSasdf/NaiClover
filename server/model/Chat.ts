@@ -20,6 +20,10 @@ export const ChatModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.STRING(2000),
                 allowNull: false,
             },
+            isrevised: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+            },
         },
         {
             freezeTableName: true,

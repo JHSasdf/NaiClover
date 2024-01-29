@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
+import axios from 'axios';
 
 import './App.css'; // Import the styling file
 
@@ -12,13 +13,39 @@ const MainPage: React.FC = () => {
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
+    const [useridTo, setUseridTo] = useState<string>('monoChat');
+    const [restrictedLang, setRestrictLang] = useState<String | null>(null);
     const [chatRooms, setChatRooms] = useState<{ id: string; name: string }[]>(
         []
     );
     const [enteredRoomUrl, setEnteredRoomUrl] = useState<string>('');
     const [userChatRooms, setUserChatRooms] = useState<string[]>([]);
+    const [personalRooms, setPersonalRooms] = useState<any>();
+    const [monoRooms, setMonoRooms] = useState<any>();
+
+    const fetchPersonalRooms = async () => {
+        const res = await axios({
+            url: '/fetch/personalrooms',
+            method: 'get',
+        });
+        console.log('personalRoomsData : ', res.data);
+        setPersonalRooms(res.data.personalRooms);
+    };
+
+    const fetchMonoRooms = async () => {
+        const res = await axios({
+            url: '/fetch/monorooms',
+            method: 'get',
+        });
+        console.log('monoRoomsData : ', res.data);
+        setMonoRooms(res.data.monoRooms);
+    };
 
     useEffect(() => {
+        // 데이터베이스에 있는 room 불러오기
+        fetchPersonalRooms();
+        fetchMonoRooms();
+
         const savedChatRooms = Cookies.get('chatRooms');
         const savedUserChatRooms = Cookies.get('userChatRooms');
 
@@ -60,11 +87,17 @@ const MainPage: React.FC = () => {
         };
     }, [chatRooms]);
 
+    // 방 생성 버튼 함수
+    // useridTo === 'monoChat' 일때
+    // 모노챗으로 생성
+
     const handleAddRoom = () => {
         if (newRoomName.trim() !== '') {
             socket.emit('createRoom', {
                 roomName: newRoomName,
                 userid: userid,
+                useridTo: useridTo,
+                restrictedLang: restrictedLang,
             });
             setNewRoomName('');
         }
@@ -131,6 +164,33 @@ const MainPage: React.FC = () => {
                     </Link>
                 </div>
             ))}
+            <div>
+                {/* DB 이용, personalRooms */}
+                {!(personalRooms === undefined) &&
+                    personalRooms.map((elem: any) => {
+                        return (
+                            <ul key={elem.roomNum}>
+                                <Link to={`/chat/${elem.roomNum}`}>
+                                    <li>{elem.roomName}</li>
+                                </Link>
+                            </ul>
+                        );
+                    })}
+            </div>
+            <div>
+                {/* DB 이용, monoRooms */}
+                {!(monoRooms === undefined) &&
+                    monoRooms.map((elem: any) => {
+                        return (
+                            <ul key={elem.roomNum}>
+                                <Link to={`/chat/${elem.roomNum}`}>
+                                    <li>{elem.roomName}</li>
+                                    <li>{elem.restrictedLang}</li>
+                                </Link>
+                            </ul>
+                        );
+                    })}
+            </div>
 
             {userChatRooms.map((roomUrl, index) => (
                 <div key={index} className="user-chat-room-item">
@@ -145,6 +205,17 @@ const MainPage: React.FC = () => {
                     placeholder="Enter new room name"
                     value={newRoomName}
                     onChange={(e) => setNewRoomName(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="to userid"
+                    value={useridTo}
+                    onChange={(e) => setUseridTo(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Restricted Lang"
+                    onChange={(e) => setRestrictLang(e.target.value)}
                 />
                 <button onClick={handleAddRoom} className="enter-button">
                     Create Room

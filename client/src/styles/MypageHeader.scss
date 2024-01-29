@@ -4,7 +4,7 @@
     width: $all-width;
     height: 188px;
     top: 44px;
-    // border: 1px solid blue;
+    // border-bottom: 1px solid lightgrey;
 
     .logoC {
         height: 24px;
@@ -42,7 +42,9 @@
                     }
                 }
                 .flag-image {
-                    @include flag-image();
+                    > img {
+                        @include flag-image();
+                    }
                 }
             }
 

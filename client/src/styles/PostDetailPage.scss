@@ -7,24 +7,22 @@
     align-items: center;
 }
 
-.lang-comments-container{
+.languagecomment-container{
     width: 390px;
     max-height: 385px;
-    height: fit-content;
-    overflow: scroll;
+    overflow: auto;
 }
 
-.lang-comments-container::-webkit-scrollbar{
+.languagecomment-container::-webkit-scrollbar{
     display: none;
 }
 
-.cul-comments-container{
+.culturecomment-container{
     width: 390px;
     max-height: 385px;
-    height: fit-content;
-    overflow: scroll;
+    overflow: auto;
 }
 
-.cul-comments-container::-webkit-scrollbar{
+.culturecomment-container::-webkit-scrollbar{
     display: none;
 }

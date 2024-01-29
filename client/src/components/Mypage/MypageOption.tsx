@@ -103,7 +103,12 @@ function MypageOption() {
                         <div className="profile-image">
                             <img src={profileImg} alt="" />
                         </div>
-                        <div className="flag-image"></div>
+                        <div className="flag-image">
+                            <img
+                                src={`/images/flag/${userData.nation}.png`}
+                                alt=""
+                            />
+                        </div>
                     </div>
                     <div className="contentC">
                         <div className="nameInfo">
