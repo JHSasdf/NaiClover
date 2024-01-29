@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
+import {useRef} from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -18,6 +19,17 @@ function CulturePost(props: any) {
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
+
+    const deletemodal = useRef<any>();
+    const culdeletemodal = deletemodal.current;
+
+    const modalShow = () => {
+        culdeletemodal?.classList.remove('opacity');
+        setTimeout(()=>{
+            culdeletemodal?.classList.add('opacity');
+        }, 5000)
+    }
+
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -91,15 +103,19 @@ function CulturePost(props: any) {
                 <div className="cul-more-container">
                     <div className="cul-time">{props.createdAt}</div>
                     {idCookie === props.userid ? (
-                        <div
-                            className="cul-more"
-                            onClick={() => {
+                        <div>
+                        <div className="cul-more" onClick={()=>{modalShow();}}></div>
+                        <div className='modal-container opacity' ref={deletemodal}>
+                            <div className='edit-text'><span>수정하기</span></div>
+                            <div className='modal-line'></div>
+                            <div className='delete-text' onClick={() => {
                                 deletePost();
-                                window.location.reload();
-                            }}
-                        ></div>
+                                window.location.href = '/posts';
+                            }}><span>삭제하기</span></div>
+                        </div>
+                    </div>   
                     ) : (
-                        '수정해주기버튼'
+                        <div className='correction'></div>
                     )}
                 </div>
 
@@ -146,14 +162,14 @@ function CulturePost(props: any) {
                             }`}
                             onClick={culToggleLike}
                         ></div>
-                        <div className="cul-likes-count">524</div>
+                        <div className="cul-likes-count">{props.likecount}</div>
                     </div>
                     <div
                         className="cul-comments-container"
-                        onClick={() => navigate('/c-postdetail')}
+                        onClick={() => navigate(`/c-postdetail/${props.id}`)}
                     >
                         <div className="cul-comments"></div>
-                        <div className="cul-comments-count">8</div>
+                        <div className="cul-comments-count">{props.commentcount}</div>
                     </div>
                     <div className="cul-bookmark-container"></div>
                 </div>
