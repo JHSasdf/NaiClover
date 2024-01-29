@@ -93,6 +93,7 @@ function SearchUserHeader(props: any) {
                 </div>
             </div>
             <div className="personal-container">
+
                 <button className="profile-followBtn">Follow</button>
                 <button className="profile-messageBtn" onClick={handleAddRoom}>
                     Message
