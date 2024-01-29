@@ -10,6 +10,16 @@ function LanguageComment(props: any) {
     const [userData, setUserData] = useState<User>();
     const [profileImg, setProfileImg] = useState<string>('');
 
+    const deletemodal = useRef<any>();
+    const langcommentdeletemodal = deletemodal.current;
+
+    const modalShow = () => {
+        langcommentdeletemodal?.classList.remove('opacity');
+        setTimeout(()=>{
+            langcommentdeletemodal?.classList.add('opacity');
+        }, 5000)
+    }
+
     const deleteComment = async () => {
         try {
             const res = await axios({
@@ -57,15 +67,19 @@ function LanguageComment(props: any) {
                 <div className="comment-inside-container">
                     <div className="comment-header-container">
                         <div className="comment-username">{props.name}</div>
-                        {props.name == idCookie ? (
-                            <div
-                                className="comment-more"
-                                onClick={() => {
-                                    deleteComment();
-                                    window.location.reload();
-                                }}
-                            ></div>
-                        ) : (
+                        {props.name === idCookie ? (
+                        <div className='modal-parent'>
+                        <div className="comment-more" onClick={()=>{modalShow();}}></div>
+                        <div className='modal-container opacity' ref={deletemodal}>
+                            <div className='edit-text'><span>수정하기</span></div>
+                            <div className='modal-line'></div>
+                            <div className='delete-text' onClick={() => {
+                                deleteComment();
+                                window.location.reload();
+                            }}><span>삭제하기</span></div>
+                        </div>
+                    </div>   
+                    ) : (
                             ''
                         )}
                     </div>
