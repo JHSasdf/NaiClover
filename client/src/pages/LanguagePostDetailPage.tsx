@@ -10,12 +10,14 @@ import LanguagePost from '../components/postspage/LanguagePost';
 import '../styles/PostDetailPage.scss';
 import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
+import { User } from '../types/types';
 
 interface CommentItem {
     index: number;
     content: string;
     userid: string;
     createdAt: string;
+    User: User;
 }
 
 function LanguagePostDetailPage() {
@@ -70,14 +72,15 @@ function LanguagePostDetailPage() {
                 withCredentials: true,
             });
             setComments(res.data.Comments);
+            console.log('?????', res.data);
         } catch (error) {
             console.log('error', error);
         }
     };
+
     useEffect(() => {
         getComments();
         getSingleLanguagePost();
-        console.log('?????', comments);
     }, []);
 
     return (
@@ -91,6 +94,7 @@ function LanguagePostDetailPage() {
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
                     id={languagePost.postId}
+                    nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                 />
                 <div className="languagecomment-container">
@@ -101,6 +105,8 @@ function LanguagePostDetailPage() {
                             content={comment.content}
                             name={comment.userid}
                             time={comment.createdAt}
+                            nation={comment.User?.nation}
+                            getcomment={getComments}
                         />
                     ))}
                 </div>

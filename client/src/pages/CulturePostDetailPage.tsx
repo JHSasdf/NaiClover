@@ -10,12 +10,14 @@ import PostDetailHeader from '../components/postdetailpage/PostDetailHeader';
 import SendComment from '../components/postdetailpage/SendComment';
 import CulturePost from '../components/postspage/CulturePost';
 import '../styles/PostDetailPage.scss';
+import { User } from '../types/types';
 
 interface CommentItem {
     index: number;
     content: string;
     userid: string;
     createdAt: string;
+    User: User;
 }
 
 function CulturePostDetailPage() {
@@ -90,6 +92,7 @@ function CulturePostDetailPage() {
                     id={culturePost.postId}
                     createdAt={culturePost.createdAt}
                     name={culturePost.User?.name}
+                    nation={culturePost.User?.nation}
                     images={culturePost}
                 />
                 <div className="culturecomment-container">
@@ -100,6 +103,8 @@ function CulturePostDetailPage() {
                             content={comment.content}
                             name={comment.userid}
                             time={comment.createdAt}
+                            nation={comment.User?.nation}
+                            getcomment={getComments}
                         />
                     ))}
                 </div>

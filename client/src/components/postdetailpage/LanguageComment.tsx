@@ -15,10 +15,10 @@ function LanguageComment(props: any) {
 
     const modalShow = () => {
         langcommentdeletemodal?.classList.remove('opacity');
-        setTimeout(()=>{
+        setTimeout(() => {
             langcommentdeletemodal?.classList.add('opacity');
-        }, 5000)
-    }
+        }, 5000);
+    };
 
     const deleteComment = async () => {
         try {
@@ -27,7 +27,7 @@ function LanguageComment(props: any) {
                 url: `/lang/comments/${props.index}`,
                 withCredentials: true,
             });
-            window.location.reload();
+            props.getcomment();
         } catch (error) {
             console.log('error', error);
         }
@@ -62,8 +62,11 @@ function LanguageComment(props: any) {
                     />
                     <img
                         className="comment-flag-pic"
-                        src={userData?.nation}
-                        alt={userData?.nation}
+                        src={`/images/flag/${
+                            idCookie == props.name
+                                ? userData?.nation
+                                : props.nation
+                        }.png`}
                     ></img>
                 </div>
 
@@ -71,18 +74,32 @@ function LanguageComment(props: any) {
                     <div className="comment-header-container">
                         <div className="comment-username">{props.name}</div>
                         {props.name === idCookie ? (
-                        <div className='modal-parent'>
-                        <div className="comment-more" onClick={()=>{modalShow();}}></div>
-                        <div className='modal-container opacity' ref={deletemodal}>
-                            <div className='edit-text'><span>수정하기</span></div>
-                            <div className='modal-line'></div>
-                            <div className='delete-text' onClick={() => {
-                                deleteComment();
-                                window.location.reload();
-                            }}><span>삭제하기</span></div>
-                        </div>
-                    </div>   
-                    ) : (
+                            <div className="modal-parent">
+                                <div
+                                    className="comment-more"
+                                    onClick={() => {
+                                        modalShow();
+                                    }}
+                                ></div>
+                                <div
+                                    className="modal-container opacity"
+                                    ref={deletemodal}
+                                >
+                                    <div className="edit-text">
+                                        <span>수정하기</span>
+                                    </div>
+                                    <div className="modal-line"></div>
+                                    <div
+                                        className="delete-text"
+                                        onClick={() => {
+                                            deleteComment();
+                                        }}
+                                    >
+                                        <span>삭제하기</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
                             ''
                         )}
                     </div>
