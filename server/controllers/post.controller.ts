@@ -323,23 +323,35 @@ export const createComment = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content, isrevised } = req.body;
+    const { content, isrevised } = req.body;
+    let userid = req.session.userid;
     const postId = parseInt(req.params.id);
-
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `You're trying to comment without login`,
+            isError: true,
+        });
+    }
     try {
-        await Comment.create({
+        const createdComment = await Comment.create({
             userid: userid,
             content: content,
             postId: postId,
             isrevised: isrevised,
         });
+        const createdCommentIndex = createdComment.getDataValue('index');
+        res.json({
+            msg: 'Comment created!',
+            comment: {
+                index: createdCommentIndex,
+                content: content,
+                userid: req.session.userid,
+            },
+            isError: false,
+        });
     } catch (err) {
         return next(err);
     }
-    res.json({
-        msg: 'Comment created!',
-        isError: false,
-    });
 };
 
 // 게시글의 댓글 불러오기 기능
@@ -433,7 +445,7 @@ export const deleteComment = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
     const commentIndex = parseInt(req.params.commentindex);
     if (!userid || userid.length < 4) {
         return res.json({

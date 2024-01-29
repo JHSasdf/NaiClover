@@ -15,6 +15,7 @@ interface CommentItem {
     index: number;
     content: string;
     userid: string;
+    createdAt: string;
 }
 
 function LanguagePostDetailPage() {
@@ -56,8 +57,7 @@ function LanguagePostDetailPage() {
                 },
                 withCredentials: true,
             });
-            const newComment: CommentItem = res.data.comment;
-            setComments((prevComments) => [...prevComments, newComment]);
+            getComments();
         } catch (error) {
             console.log('error', error);
         }
@@ -77,6 +77,7 @@ function LanguagePostDetailPage() {
     useEffect(() => {
         getComments();
         getSingleLanguagePost();
+        console.log('?????', comments);
     }, []);
 
     return (
@@ -99,6 +100,7 @@ function LanguagePostDetailPage() {
                             index={comment.index}
                             content={comment.content}
                             name={comment.userid}
+                            time={comment.createdAt}
                         />
                     ))}
                 </div>

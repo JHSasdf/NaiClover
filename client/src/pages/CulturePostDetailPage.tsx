@@ -12,8 +12,10 @@ import CulturePost from '../components/postspage/CulturePost';
 import '../styles/PostDetailPage.scss';
 
 interface CommentItem {
-    id: number;
+    index: number;
     content: string;
+    userid: string;
+    createdAt: string;
 }
 
 function CulturePostDetailPage() {
@@ -43,15 +45,37 @@ function CulturePostDetailPage() {
 
     const [comments, setComments] = useState<CommentItem[]>([]);
 
-    const addComment = (content: string) => {
-        const newComment: CommentItem = {
-            id: Date.now(), // Assuming unique identifier for each comment
-            content: content,
-        };
-        setComments((prevComments) => [...prevComments, newComment]);
+    const addComment = async (content: string) => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/cul/comments/createcomment/${id}`,
+                data: {
+                    content: content,
+                    //일단 isrevised는 디폴트로 false해둘게요.
+                    isrevised: false,
+                },
+                withCredentials: true,
+            });
+            getComments();
+        } catch (error) {
+            console.log('error', error);
+        }
     };
-
+    const getComments = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: `/cul/comments/${id}`,
+                withCredentials: true,
+            });
+            setComments(res.data.Comments);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
     useEffect(() => {
+        getComments();
         getSingleCulturePost();
     }, []);
 
@@ -69,10 +93,13 @@ function CulturePostDetailPage() {
                     images={culturePost}
                 />
                 <div className="culturecomment-container">
-                    {comments.map((comment) => (
+                    {comments?.map((comment, index) => (
                         <CultureComment
-                            key={comment.id}
+                            key={index}
+                            index={comment.index}
                             content={comment.content}
+                            name={comment.userid}
+                            time={comment.createdAt}
                         />
                     ))}
                 </div>
