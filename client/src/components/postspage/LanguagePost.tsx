@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { User } from '../../types/types';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
@@ -13,17 +14,52 @@ function LanguagePost(props: any) {
 
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
-
+    const [profileImg, setProfileImg] = useState<string>('');
+    const [userData, setUserData] = useState<User>();
+    const [learningLang, setLearningLang] = useState();
     // Load initial like status from local storage
     const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-    const [isLiked, setIsLiked] = useState(initialLikeStatus ? JSON.parse(initialLikeStatus) : false);
-
+    const [isLiked, setIsLiked] = useState(
+        initialLikeStatus ? JSON.parse(initialLikeStatus) : false
+    );
+    const shortName = (nation: string | undefined): string | undefined => {
+        if (nation === 'China' || nation === 'Chinese') {
+            return 'CN';
+        } else if (nation === 'America' || nation === 'English') {
+            return 'US';
+        } else if (nation === 'France' || nation === 'French') {
+            return 'FR';
+        } else if (nation === 'Germany' || nation === 'German') {
+            return 'GM';
+        } else if (nation === 'Japan' || nation === 'Japanese') {
+            return 'JP';
+        } else {
+            return 'KR';
+        }
+    };
+    const getMyPage = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/getMyPage',
+                params: {
+                    userid: props.name,
+                },
+                withCredentials: true,
+            });
+            setUserData(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setLearningLang(res.data.learningLang);
+        } catch (error) {
+            console.log('error???', error);
+        }
+    };
     useEffect(() => {
+        getMyPage();
         // Save the current like status to local storage
         localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
     }, [props.id, isLiked]);
 
-    
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -51,7 +87,7 @@ function LanguagePost(props: any) {
             });
             console.log(res.data);
 
-            setIsLiked((prevIsLiked:any) => !prevIsLiked);
+            setIsLiked((prevIsLiked: any) => !prevIsLiked);
         } catch (error) {
             console.log('error', error);
         }
@@ -62,7 +98,11 @@ function LanguagePost(props: any) {
             <div className="lang-post">
                 <div className="lang-profile-container">
                     <div className="lang-image-container">
-                        <div className="lang-profile-image"></div>
+                        <img
+                            className="lang-profile-image"
+                            src={profileImg}
+                            alt=""
+                        ></img>
                         <div className="lang-flag-image"></div>
                     </div>
 
@@ -74,16 +114,22 @@ function LanguagePost(props: any) {
                         <div className="lang-location">{props.nation}</div>
 
                         <div className="lang-language-container">
-                            <div className="lang-native-language">EN</div>
+                            <div className="lang-native-language">
+                                {shortName(props.firLang)}
+                            </div>
                             <div className="lang-arrow"></div>
-                            <div className="lang-learning-language">KR</div>
+                            <div className="lang-learning-language">
+                                {learningLang &&
+                                    learningLang[0] &&
+                                    shortName(learningLang[0])}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="lang-more-container">
                     <div className="lang-time">{props.createdAt}</div>
-                                        {idCookie === props.userid ? (
+                    {idCookie === props.userid ? (
                         <div
                             className="lang-more"
                             onClick={() => {
@@ -94,7 +140,6 @@ function LanguagePost(props: any) {
                     ) : (
                         <div>수정해주기버튼</div>
                     )}
-
                 </div>
 
                 <div
