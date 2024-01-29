@@ -9,7 +9,7 @@ import axios from 'axios';
 interface Message {
     text: string;
     isSentByMe?: boolean;
-    userId?: string | null; // userId를 string 또는 null로 타입 정의
+    userId?: string | null;
 }
 
 interface ChatLog {
@@ -22,7 +22,7 @@ interface ChatLog {
 }
 
 const socket = io('http://localhost:4000');
-const USER_ID_COOKIE_KEY = 'id'; // 사용자 ID를 저장한 쿠키의 키
+const USER_ID_COOKIE_KEY = 'id';
 
 const ChatRoomPage: React.FC = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -30,15 +30,18 @@ const ChatRoomPage: React.FC = () => {
     const [newMessage, setNewMessage] = useState<string>('');
     const [userId, setUserId] = useState<string | null>(null);
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
+    const [language, setLanguage] = useState<string>(''); // 언어 상태 추가
+    const [koreanButtonActive, setKoreanButtonActive] =
+        useState<boolean>(false); // 한국어 버튼 활성화 상태 추가
+    const [englishButtonActive, setEnglishButtonActive] =
+        useState<boolean>(false); // 영어 버튼 활성화 상태 추가
 
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
 
     useEffect(() => {
-        // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         const userIdFromCookie = Cookies.get(USER_ID_COOKIE_KEY) || null;
         setUserId(userIdFromCookie);
-
         socket.emit('joinRoom', roomId);
 
         socket.on('chat message', (msg: Message) => {
@@ -49,7 +52,6 @@ const ChatRoomPage: React.FC = () => {
             console.log(msg);
         });
 
-        // 여기서 사용자의 ID를 쿠키에서 읽어와서 socket.id로 전달합니다.
         socket.emit('userId', userIdFromCookie);
 
         return () => {
@@ -65,18 +67,26 @@ const ChatRoomPage: React.FC = () => {
         setChatLog(res.data.chatLog);
         console.log(res.data);
     };
+
     useEffect(() => {
-        // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         fetchChatLog();
     }, [messages]);
 
     const handleSendMessage = () => {
-        const message = `You: ${newMessage}`;
+        if (language === 'korean' && !isKorean(newMessage)) {
+            alert('한국어로 작성해주세요.');
+            return;
+        } else if (language === 'english' && !isEnglish(newMessage)) {
+            alert('영어로 작성해주세요.');
+            return;
+        }
+
+        const message = `${userId}: ${newMessage}`;
         socket.emit('chat message', {
             room: roomId,
             text: message,
             isSentByMe: true,
-            userId: userid, // 이미 상단에 표시된 userId 사용
+            userId: userid,
         });
         setMessages((prevMessages) => [
             ...prevMessages,
@@ -89,11 +99,28 @@ const ChatRoomPage: React.FC = () => {
         setNewMessage('');
     };
 
+    const handleLanguageChange = (selectedLanguage: string) => {
+        setLanguage(selectedLanguage);
+
+        // 버튼 활성화 상태 업데이트
+        setKoreanButtonActive(selectedLanguage === 'korean');
+        setEnglishButtonActive(selectedLanguage === 'english');
+    };
+
+    const isKorean = (text: string) => {
+        const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        return koreanRegex.test(text);
+    };
+
+    const isEnglish = (text: string) => {
+        const englishRegex = /^[a-zA-Z\s]*$/;
+        return englishRegex.test(text);
+    };
+
     return (
         <div className="chat-room-container">
-            {/* 상단에 사용자 ID 표시 */}
             {userId && (
-                <div className="user-id"> {userId} 님이 입장했습니다.</div>
+                <div className="user-id">{userId} 님이 입장했습니다.</div>
             )}
 
             <div className="messages-container">
@@ -106,18 +133,15 @@ const ChatRoomPage: React.FC = () => {
                                 : 'received-message'
                         }`}
                     >
-                        <li>
-                            {userid}, {typeof userid}
-                        </li>
-                        <li>
-                            {elem.userid}, {typeof elem.userid}
-                        </li>
+                        <li>{userid}</li>
+
                         <li>{elem.userid}</li>
                         <li>{elem.content}</li>
                         <li>{elem.createdAt}</li>
                     </ul>
                 ))}
             </div>
+
             <div className="message-input-container">
                 <input
                     type="text"
@@ -126,6 +150,25 @@ const ChatRoomPage: React.FC = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                 />
+
+                {/* 언어 선택 버튼에 동적 스타일 적용 */}
+                <button
+                    onClick={() => handleLanguageChange('korean')}
+                    className={`language-button ${
+                        koreanButtonActive ? 'active' : ''
+                    }`}
+                >
+                    한국어
+                </button>
+                <button
+                    onClick={() => handleLanguageChange('english')}
+                    className={`language-button ${
+                        englishButtonActive ? 'active' : ''
+                    }`}
+                >
+                    English
+                </button>
+
                 <button onClick={handleSendMessage} className="send-button">
                     Send
                 </button>
