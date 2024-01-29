@@ -1,10 +1,15 @@
 import '../../styles/PostDetailComment.scss';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import { User } from '../../types/types';
 
 function LanguageComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
+    const [userData, setUserData] = useState<User>();
+    const [profileImg, setProfileImg] = useState<string>('');
+
     const deleteComment = async () => {
         try {
             const res = await axios({
@@ -16,15 +21,37 @@ function LanguageComment(props: any) {
             console.log('error', error);
         }
     };
+    const getMyPage = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/getMyPage',
+                params: {
+                    userid: props.name,
+                },
+                withCredentials: true,
+            });
+            setUserData(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
+        } catch (error) {
+            console.log('error???', error);
+        }
+    };
+    useEffect(() => {
+        getMyPage();
+    }, []);
     return (
         <>
             <div className="comment-container">
                 <div className="comment-image-container">
-                    <div className="comment-profile-pic">
-                        {/* <img src={profileImg} alt="" /> */}
-                        {/* getSimpleUserInfo 함수 만들 예정. 해당 유저의 아이디, 프로필사진, 국기사진 가져옴. 댓글마다, 채팅마다 활용할 수 있게 사용 예정. */}
+                    <img
+                        className="comment-profile-pic"
+                        src={profileImg}
+                        alt=""
+                    />
+                    <div className="comment-flag-pic">
+                        <img src={userData?.nation} alt={userData?.nation} />
                     </div>
-                    <div className="comment-flag-pic"></div>
                 </div>
 
                 <div className="comment-inside-container">
