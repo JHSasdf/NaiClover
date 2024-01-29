@@ -20,7 +20,7 @@ export function getSessionConfig() {
         store: sessionStore,
         cookie: {
             httpOnly: true,
-            maxAge: 2 * 60 * 60 * 1000,
+            maxAge: 14 * 24 * 60 * 60 * 1000,
         },
     };
 }
