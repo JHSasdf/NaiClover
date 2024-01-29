@@ -128,6 +128,15 @@ async function createPersonalRoomDb(
     let result;
     const genaratedUniqueId = generateUniqueId();
     try {
+        const validCheck = await Room.findOne({
+            where: {
+                userid: userid,
+                useridTo: useridTo,
+            },
+        });
+        if (validCheck) {
+            return;
+        }
         result = await Room.create({
             roomNum: genaratedUniqueId,
             roomName: roomName,
@@ -259,7 +268,7 @@ io.on('connection', (socket: Socket) => {
                     saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
 
                     console.log(
-                        `User ${socket.id} created and joined room ${roomNum}`
+                        `User ${socket.id} created and joined room at ${roomNum}`
                     );
                 });
             }

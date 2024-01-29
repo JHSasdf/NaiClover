@@ -6,11 +6,15 @@ import SearchUserProfile from '../components/SearchUser/SearchUserProfile';
 import MypagePost from '../components/Mypage/MypagePost';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
+import io from 'socket.io-client';
 import axios from 'axios';
 import { Post, User } from '../types/types';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const socket = io('http://localhost:4000');
 
 function SearchUser() {
+    const navigate = useNavigate();
     const [showProfile, setShowProfile] = useState(true);
     const userid = useParams().userid;
 
@@ -38,6 +42,7 @@ function SearchUser() {
             setUserData(res.data.userDataObj);
             setFollowingNum(res.data.followingCount);
             setFollowerNum(res.data.followerCount);
+            console.log(res.data);
             setProfileImg(res.data.userDataObj.MypageImage.path);
             setLearningLang(res.data.learningLang);
             const { postCulDatas, postLangDatas } = res.data;
@@ -61,6 +66,23 @@ function SearchUser() {
         }
     };
 
+    const handleAddRoom = async () => {
+        socket.emit('createRoom', {
+            roomName: userid,
+            userid: idCookie,
+            useridTo: userid,
+            restrictedLang: '',
+        });
+
+        const res = await axios({
+            method: 'get',
+            url: `/getuserroomid/${userid}`,
+        });
+        if (res.data.isError === false) {
+            navigate(`/chat/${res.data.roomNum}`);
+        }
+    };
+
     useEffect(() => {
         getMyPage();
     }, []);
@@ -79,6 +101,7 @@ function SearchUser() {
                     userData={userData}
                     learningLang={learningLang}
                     profileImg={profileImg}
+                    handleAddRoom={handleAddRoom}
                 />
                 <div className="clickDiv">
                     {/* click 이벤트 추가 */}

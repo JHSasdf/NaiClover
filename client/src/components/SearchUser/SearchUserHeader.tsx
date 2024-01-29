@@ -3,8 +3,14 @@ import '../../styles/MypageHeader.scss';
 import '../../styles/SearchUserHeader.scss';
 
 function SearchUserHeader(props: any) {
-    const { followingNum, followerNum, userData, learningLang, profileImg } =
-        props;
+    const {
+        followingNum,
+        followerNum,
+        userData,
+        learningLang,
+        profileImg,
+        handleAddRoom,
+    } = props;
 
     const currentFlag = userData.nation;
 
@@ -87,12 +93,11 @@ function SearchUserHeader(props: any) {
                 </div>
             </div>
             <div className="personal-container">
-                <Link to={''}>
-                    <button className="profile-followBtn">Follow</button>
-                </Link>
-                <Link to={''}>
-                    <button className="profile-messageBtn">Message</button>
-                </Link>
+
+                <button className="profile-followBtn">Follow</button>
+                <button className="profile-messageBtn" onClick={handleAddRoom}>
+                    Message
+                </button>
             </div>
         </div>
     );

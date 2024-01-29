@@ -176,7 +176,7 @@ const MainPage: React.FC = () => {
                         return (
                             <ul key={elem.roomNum}>
                                 <Link to={`/chat/${elem.roomNum}`}>
-                                    <li>{elem.roomName}</li>
+                                    <li>{elem.realRoomName}</li>
                                 </Link>
                             </ul>
                         );
