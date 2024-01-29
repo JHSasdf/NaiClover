@@ -25,7 +25,7 @@ import MypageEditLanguage from './components/Mypage/MypageEditLanguage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MulterMypage from './pages/MulterMypage';
 import SearchUser from './pages/SearchUser';
-
+import PersonalChat from './components/Chats/PersonalChat';
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -68,6 +68,7 @@ function App() {
                     <Route path="/chat/:roomId" element={<ChatRoomPage />}>
                         {' '}
                     </Route>
+                    <Route path="/message" element={<PersonalChat />} />
                     <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/follow" element={<FollowPage />} />

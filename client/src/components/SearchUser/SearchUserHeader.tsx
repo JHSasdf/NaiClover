@@ -87,8 +87,12 @@ function SearchUserHeader(props: any) {
                 </div>
             </div>
             <div className="personal-container">
-                <button className="profile-followBtn">Follow</button>
-                <button className="profile-messageBtn">Message</button>
+                <Link to={''}>
+                    <button className="profile-followBtn">Follow</button>
+                </Link>
+                <Link to={''}>
+                    <button className="profile-messageBtn">Message</button>
+                </Link>
             </div>
         </div>
     );
