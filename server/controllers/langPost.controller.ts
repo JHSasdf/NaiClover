@@ -4,6 +4,7 @@ const User = db.User;
 const Post = db.LangPost;
 const PostLikes = db.LangPostLike;
 const Comment = db.LangComment;
+const Follow = db.Follow;
 
 import { postsInterface } from '../types/types';
 
@@ -53,6 +54,16 @@ export const getPosts = async (
                 },
             });
 
+            const followResult = await Follow.findOne({
+                where: { userid: allPosts[i].userid, followerId: myUserid },
+            });
+            let isFollowing;
+            if (followResult) {
+                isFollowing = true;
+            } else {
+                isFollowing = false;
+            }
+
             const commentCount = await Comment.count({
                 where: {
                     PostId: allPosts[i].postId,
@@ -60,17 +71,39 @@ export const getPosts = async (
             });
 
             if (myLikeData) {
-                PostsDatas.push([allPosts[i], likeCount, true, commentCount]);
+                PostsDatas.push([
+                    allPosts[i],
+                    likeCount,
+                    true,
+                    commentCount,
+                    isFollowing,
+                ]);
             } else {
-                PostsDatas.push([allPosts[i], likeCount, false, commentCount]);
+                PostsDatas.push([
+                    allPosts[i],
+                    likeCount,
+                    false,
+                    commentCount,
+                    isFollowing,
+                ]);
             }
         } catch (err) {
             return next(err);
         }
     }
+    let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
+        const aDate = new Date(a[0].createdAt).getTime();
+        const bDate = new Date(b[0].createdAt).getTime();
+        return aDate - bDate;
+    });
+    sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
+        const aIsFollowing = a[4];
+        const bIsFollowing = b[4];
+        return aIsFollowing - bIsFollowing;
+    });
     // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
     res.json({
-        PostsDatas: PostsDatas,
+        PostsDatas: sortedPostDatas,
         isError: false,
     });
 };
