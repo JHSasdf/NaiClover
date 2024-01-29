@@ -34,17 +34,18 @@ function Footer() {
         <footer className="footer">
             <Link to={'/message'}>
                 <div
-                    className={`footer-div message ${
-                        hoveredDiv === 'message' && 'hovered'
-                    } ${clickedDiv === 'message' && 'text-change'}`} // 클래스가 message 이면 hovered, text-change 클래스를 가진다.
-                    onMouseOver={() => onMouseOver('message')}
+                    className={`footer-div footerMessage ${
+                        hoveredDiv === 'footerMessage' && 'hovered'
+                    } ${clickedDiv === 'footerMessage' && 'text-change'}`} // 클래스가 footerMessage 이면 hovered, text-change 클래스를 가진다.
+                    onMouseOver={() => onMouseOver('footerMessage')}
                     onMouseLeave={() => onMouseLeave()}
-                    onClick={() => clickMouse('message')}
+                    onClick={() => clickMouse('footerMessage')}
                 >
                     <img
                         className="footer-div-message-img"
                         src={
-                            hoveredDiv === 'message' || clickedDiv === 'message'
+                            hoveredDiv === 'footerMessage' ||
+                            clickedDiv === 'footerMessage'
                                 ? navMessageColor
                                 : navMessage
                         }
@@ -113,7 +114,7 @@ function Footer() {
                         }
                         alt=""
                     />
-                    <div className="text">Favorites</div>
+                    <div className="text">ErrorLog</div>
                 </div>
             </Link>
             <Link to={'/mypage'}>
