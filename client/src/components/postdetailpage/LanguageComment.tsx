@@ -27,6 +27,7 @@ function LanguageComment(props: any) {
                 url: `/lang/comments/${props.index}`,
                 withCredentials: true,
             });
+            window.location.reload();
         } catch (error) {
             console.log('error', error);
         }
@@ -59,9 +60,11 @@ function LanguageComment(props: any) {
                         src={profileImg}
                         alt=""
                     />
-                    <div className="comment-flag-pic">
-                        <img src={userData?.nation} alt={userData?.nation} />
-                    </div>
+                    <img
+                        className="comment-flag-pic"
+                        src={userData?.nation}
+                        alt={userData?.nation}
+                    ></img>
                 </div>
 
                 <div className="comment-inside-container">
@@ -85,7 +88,7 @@ function LanguageComment(props: any) {
                     </div>
                     <div className="comment-content">{props.content}</div>
                     <div className="comment-footer-container">
-                        <div className="comment-date">2024-01-22</div>
+                        <div className="comment-date">{props.time}</div>
                     </div>
                 </div>
             </div>

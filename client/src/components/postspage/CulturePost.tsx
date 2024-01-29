@@ -1,5 +1,7 @@
 import '../../styles/CulturePost.scss';
 import '../../styles/Font.scss';
+import { User } from '../../types/types';
+
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -8,18 +10,21 @@ import {useRef} from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 import 'swiper/scss';
 import 'swiper/scss/pagination';
 import 'swiper/scss/navigation';
 
 import '../../styles/Swiper.scss';
+
 function CulturePost(props: any) {
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
-
+    const [profileImg, setProfileImg] = useState<string>('');
+    const [userData, setUserData] = useState<User>();
+    const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
 
@@ -29,7 +34,6 @@ function CulturePost(props: any) {
             culdeletemodal?.classList.add('opacity');
         }, 5000)
     }
-
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -45,14 +49,48 @@ function CulturePost(props: any) {
         }
     };
     const { id } = props;
-      // Load initial like status from local storage
-      const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-      const [isLiked, setIsLiked] = useState(initialLikeStatus ? JSON.parse(initialLikeStatus) : false);
-  
-      useEffect(() => {
-          // Save the current like status to local storage
-          localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
-      }, [props.id, isLiked]);
+    // Load initial like status from local storage
+    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
+    const [isLiked, setIsLiked] = useState(
+        initialLikeStatus ? JSON.parse(initialLikeStatus) : false
+    );
+    const shortName = (nation: string | undefined): string | undefined => {
+        if (nation === 'China' || nation === 'Chinese') {
+            return 'CN';
+        } else if (nation === 'America' || nation === 'English') {
+            return 'US';
+        } else if (nation === 'France' || nation === 'French') {
+            return 'FR';
+        } else if (nation === 'Germany' || nation === 'German') {
+            return 'GM';
+        } else if (nation === 'Japan' || nation === 'Japanese') {
+            return 'JP';
+        } else {
+            return 'KR';
+        }
+    };
+    const getMyPage = async () => {
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/getMyPage',
+                params: {
+                    userid: props.name,
+                },
+                withCredentials: true,
+            });
+            setUserData(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setLearningLang(res.data.learningLang);
+        } catch (error) {
+            console.log('error???', error);
+        }
+    };
+    useEffect(() => {
+        getMyPage();
+        // Save the current like status to local storage
+        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
+    }, [props.id, isLiked]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
@@ -81,8 +119,16 @@ function CulturePost(props: any) {
             <div className="cul-post">
                 <div className="cul-profile-container">
                     <div className="cul-image-container">
-                        <div className="cul-profile-image"></div>
-                        <div className="cul-flag-image"></div>
+                        <img
+                            className="cul-profile-image"
+                            src={profileImg}
+                            alt=""
+                        ></img>
+                        <img
+                            className="cul-flag-image"
+                            src={userData?.nation}
+                            alt={userData?.nation}
+                        ></img>
                     </div>
 
                     <div className="cul-info-container">
@@ -93,9 +139,16 @@ function CulturePost(props: any) {
                         <div className="cul-location">{props.nation}</div>
 
                         <div className="cul-language-container">
-                            <div className="cul-native-language">EN</div>
+                            <div className="cul-native-language">
+                                {shortName(props.firLang)}
+                            </div>
                             <div className="cul-arrow"></div>
-                            <div className="cul-learning-language">KR</div>
+                            <div className="cul-learning-language">
+                                {' '}
+                                {learningLang &&
+                                    learningLang[0] &&
+                                    shortName(learningLang[0])}
+                            </div>
                         </div>
                     </div>
                 </div>
