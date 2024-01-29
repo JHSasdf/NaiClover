@@ -357,7 +357,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });

@@ -6,6 +6,8 @@ import { User } from '../../types/types';
 
 function CultureComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const { id } = props;
+
     const idCookie = cookies['id'];
     const [userData, setUserData] = useState<User>();
     const [profileImg, setProfileImg] = useState<string>('');
@@ -16,7 +18,7 @@ function CultureComment(props: any) {
                 url: `/cul/comments/${props.index}`,
                 withCredentials: true,
             });
-            window.location.reload();
+            props.getcomment();
         } catch (error) {
             console.log('error', error);
         }
@@ -52,8 +54,9 @@ function CultureComment(props: any) {
                     />{' '}
                     <img
                         className="comment-flag-pic"
-                        src={userData?.nation}
-                        alt={userData?.nation}
+                        src={`/images/flag/${
+                            idCookie == id ? userData?.nation : props.nation
+                        }.png`}
                     ></img>
                 </div>
 
