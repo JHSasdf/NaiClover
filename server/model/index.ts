@@ -282,6 +282,18 @@ Room.belongsTo(User, {
     targetKey: 'userid',
 });
 
+User.hasMany(Room, {
+    foreignKey: 'useridTo',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+Room.belongsTo(User, {
+    foreignKey: 'useridTo',
+    targetKey: 'userid',
+});
+
 // User: chat = 1 : N
 User.hasMany(Chat, {
     foreignKey: 'userid',

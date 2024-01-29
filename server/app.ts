@@ -15,6 +15,7 @@ import { followRouter } from './routes/follow.routes';
 import { postsRouter } from './routes/post.routes';
 import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
+import { chatRouter } from './routes/chat.routes';
 
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
@@ -51,6 +52,7 @@ app.use(followRouter);
 app.use(postsRouter);
 app.use(langPostsRouter);
 app.use(userSearchRouter);
+app.use(chatRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
@@ -96,13 +98,41 @@ const generateUniqueId = () => {
     return Math.random().toString(36).substr(2, 9);
 };
 
-async function createRoomDb(userid: string) {
+async function createMonoRoomDb(
+    roomName: string,
+    userid: string,
+    useridTo: string,
+    restrictedLang: string
+) {
     let result;
     const genaratedUniqueId = generateUniqueId();
     try {
         result = await Room.create({
-            userid: userid,
             roomNum: genaratedUniqueId,
+            roomName: roomName,
+            userid: userid,
+            useridTo: useridTo,
+            restrictedLang: restrictedLang,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    roomNum = result.roomNum;
+}
+
+async function createPersonalRoomDb(
+    roomName: string,
+    userid: string,
+    useridTo: string
+) {
+    let result;
+    const genaratedUniqueId = generateUniqueId();
+    try {
+        result = await Room.create({
+            roomNum: genaratedUniqueId,
+            roomName: roomName,
+            userid: userid,
+            useridTo: useridTo,
         });
     } catch (err) {
         console.log(err);
@@ -178,24 +208,63 @@ io.on('connection', (socket: Socket) => {
         delete connectedClients[socket.id];
     });
 
-    socket.on('createRoom', ({ roomName, userid }) => {
-        createRoomDb(userid).then(() => {
-            const inviteCode = generateInviteCode();
-            chatRooms[roomNum] = { id: roomNum, name: roomName, inviteCode };
+    socket.on(
+        'createRoom',
+        ({ roomName, userid, useridTo, restrictedLang }) => {
+            if (useridTo === 'monoChat') {
+                createMonoRoomDb(
+                    roomName,
+                    userid,
+                    useridTo,
+                    restrictedLang
+                ).then(() => {
+                    const inviteCode = generateInviteCode();
+                    chatRooms[roomNum] = {
+                        id: roomNum,
+                        name: roomName,
+                        inviteCode,
+                    };
 
-            socket.emit('roomCreated', { roomNum, roomName });
-            // userId 추가
-            io.to(roomNum).emit('roomCreated', {
-                roomNum,
-                roomName,
-                userId: socket.id,
-            });
+                    socket.emit('roomCreated', { roomNum, roomName });
+                    // userId 추가
+                    io.to(roomNum).emit('roomCreated', {
+                        roomNum,
+                        roomName,
+                        userId: socket.id,
+                    });
 
-            saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
+                    saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
 
-            console.log(`User ${socket.id} created and joined room ${roomNum}`);
-        });
-    });
+                    console.log(
+                        `User ${socket.id} created and joined room ${roomNum}`
+                    );
+                });
+            } else {
+                createPersonalRoomDb(roomName, userid, useridTo).then(() => {
+                    const inviteCode = generateInviteCode();
+                    chatRooms[roomNum] = {
+                        id: roomNum,
+                        name: roomName,
+                        inviteCode,
+                    };
+
+                    socket.emit('roomCreated', { roomNum, roomName });
+                    // userId 추가
+                    io.to(roomNum).emit('roomCreated', {
+                        roomNum,
+                        roomName,
+                        userId: socket.id,
+                    });
+
+                    saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
+
+                    console.log(
+                        `User ${socket.id} created and joined room ${roomNum}`
+                    );
+                });
+            }
+        }
+    );
 
     socket.on('joinRoomByInviteCode', (inviteCode) => {
         const room = findRoomByInviteCode(inviteCode);
