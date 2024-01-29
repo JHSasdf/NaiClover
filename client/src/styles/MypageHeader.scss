@@ -42,7 +42,9 @@
                     }
                 }
                 .flag-image {
-                    @include flag-image();
+                    > img {
+                        @include flag-image();
+                    }
                 }
             }
 

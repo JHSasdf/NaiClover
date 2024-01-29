@@ -1,4 +1,4 @@
-.comment-container{
+.comment-container {
     width: 390px;
     min-height: fit-content;
     max-height: none;
@@ -9,14 +9,14 @@
     border-bottom: 1px solid lightgrey;
 }
 
-.comment-image-container{
+.comment-image-container {
     width: 40px;
     height: 40px;
     position: relative;
     margin-right: 16px;
 }
 
-.comment-profile-pic{
+.comment-profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -24,7 +24,7 @@
     border: 1px solid lightgrey;
 }
 
-.comment-flag-pic{
+.comment-flag-pic {
     width: 16px;
     height: 12px;
     background-color: white;
@@ -34,20 +34,20 @@
     right: 0px;
 }
 
-.comment-inside-container{
+.comment-inside-container {
     width: 286px;
     height: fit-content;
     display: flex;
     flex-direction: column;
 }
 
-.comment-header-container{
+.comment-header-container {
     width: 286px;
     height: 24px;
     display: flex;
     align-items: center;
 
-    .comment-username{
+    .comment-username {
         font-size: 14px;
         font-weight: bold;
         margin-right: 200px;
@@ -55,14 +55,14 @@
         height: fit-content;
     }
 
-    .comment-more{
+    .comment-more {
         width: 15px;
         height: 15px;
         background-image: url('../img/more.png');
     }
 }
 
-.comment-content{
+.comment-content {
     min-width: 286px;
     max-width: 286px;
     height: auto;
@@ -71,13 +71,13 @@
     word-wrap: break-word;
 }
 
-.comment-footer-container{
+.comment-footer-container {
     width: 286px;
     height: 28px;
     display: flex;
     align-items: center;
 
-    .comment-date{
+    .comment-date {
         font-size: 12px;
     }
 }

@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
+import { useState } from 'react';
 
 function MypageHeader(props: any) {
+    const { followingNum, followerNum, userData, learningLang, profileImg } =
+        props;
+    const currentFlag = userData.nation;
+
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -17,8 +22,6 @@ function MypageHeader(props: any) {
             return 'KR';
         }
     };
-    const { followingNum, followerNum, userData, learningLang, profileImg } =
-        props;
     console.log(learningLang);
     return (
         <div className="mypageHeaderC">
@@ -46,7 +49,12 @@ function MypageHeader(props: any) {
                         <div className="profile-image">
                             <img src={profileImg} alt="" />
                         </div>
-                        <div className="flag-image"></div>
+                        <div className="flag-image">
+                            <img
+                                src={`/images/flag/${currentFlag}.png`}
+                                alt=""
+                            />
+                        </div>
                     </div>
                     {/* 프로필 요약정보 */}
                     <div className="contentC">
@@ -74,9 +82,9 @@ function MypageHeader(props: any) {
                             <div className="arrowImage">
                                 <img src="images/Arrow.png" alt="" />
                             </div>
-                            {/* <div className="languageDiv">
+                            <div className="languageDiv">
                                 {shortName(learningLang[0])}
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
