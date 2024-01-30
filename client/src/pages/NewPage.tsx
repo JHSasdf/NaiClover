@@ -95,11 +95,9 @@ const ChatRoomPage: React.FC = () => {
             let regex;
 
             if (allowedLanguage.toLowerCase() === 'korean') {
-                // 한국어만 허용하는 정규식
                 regex =
-                    /[ㄱ-ㅎㅏ-ㅣ가-힣0-9!@#$%^&*()-_+=\[\]{}|;:'",.<>/?\\]*$/;
+                    /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9!@#$%^&*()-_+=\[\]{}|;:'",.<>/?\\]*$/;
             } else if (allowedLanguage.toLowerCase() === 'english') {
-                // 영어만 허용하는 정규식
                 regex = /^[a-zA-Z0-9\s!@#$%^&*()-_+=\[\]{}|;:'",.<>/?]*$/;
             }
 
