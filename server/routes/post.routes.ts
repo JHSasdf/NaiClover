@@ -15,7 +15,7 @@ postsRouter.post(
 
 postsRouter.get('/cul/posts/:id', controller.getSinglePost);
 
-// postsRouter.patch('/cul/posts/:id', controller.updatePost);
+postsRouter.patch('/cul/posts/:id', controller.updatePost);
 
 postsRouter.delete('/cul/posts/:id', controller.deletePost);
 
@@ -25,6 +25,6 @@ postsRouter.post('/cul/comments/createcomment/:id', controller.createComment);
 
 postsRouter.get('/cul/comments/:id', controller.getComments);
 
-// postsRouter.patch('/cul/comments/:commentindex', controller.updateComment);
+postsRouter.patch('/cul/comments/:commentindex', controller.updateComment);
 
 postsRouter.delete('/cul/comments/:commentindex', controller.deleteComment);
