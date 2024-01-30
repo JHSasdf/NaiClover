@@ -131,6 +131,9 @@ function PostsPage() {
                                     id={languagePostData[0].postId}
                                     nation={languagePostData[0].User.nation}
                                     firLang={languagePostData[0].User.firLang}
+                                    profileImgPath={
+                                        languagePostData[0].User.profileImgPath
+                                    }
                                     createdAt={languagePostData[0].createdAt}
                                     content={languagePostData[0].content}
                                     likecount={languagePostData[1]}
@@ -159,6 +162,9 @@ function PostsPage() {
                                         culturePostData[0].User.firLang
                                     }
                                     createdAt={culturePostData[0].createdAt}
+                                    profileImgPath={
+                                        culturePostData[0].User.profileImgPath
+                                    }
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}
                                     likecount={culturePostData[1]}

@@ -18,6 +18,7 @@ interface CommentItem {
     userid: string;
     createdAt: string;
     User: User;
+    profileImgPath: string;
 }
 
 function CulturePostDetailPage() {
@@ -39,7 +40,7 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setCulturePost(res.data.posts);
-            console.log(culturePost);
+            console.log('getSingleCulturePost', res.data.posts);
         } catch (error) {
             console.log('error', error);
         }
@@ -82,7 +83,9 @@ function CulturePostDetailPage() {
         getComments();
         getSingleCulturePost();
     }, []);
-
+    useEffect(() => {
+        console.log('???', culturePost); // culturePost가 변경될 때마다 로그 출력
+    }, [culturePost]);
     return (
         <>
             <div className="postdetailpage-container">
@@ -92,6 +95,7 @@ function CulturePostDetailPage() {
                     content={culturePost.content}
                     userid={culturePost.userid}
                     id={culturePost.postId}
+                    profileImgPath={culturePost?.User?.profileImgPath}
                     createdAt={culturePost.createdAt}
                     name={culturePost.User?.name}
                     nation={culturePost.User?.nation}
@@ -103,6 +107,7 @@ function CulturePostDetailPage() {
                             key={index}
                             index={comment.index}
                             content={comment.content}
+                            profileImgPath={comment.User?.profileImgPath}
                             userid={comment.userid}
                             time={comment.createdAt}
                             name={comment.User?.name}
