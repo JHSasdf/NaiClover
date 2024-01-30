@@ -70,8 +70,7 @@ const MainPage: React.FC = () => {
             roomName: string;
             userId: string;
         }) => {
-            fetchMonoRooms();
-            const isUniqueId = !chatRooms.some((room) => room.id === roomId);
+            const isUniqueId = !chatRooms.some((room) => room.id === roomNum);
 
             if (isUniqueId) {
                 const updatedChatRooms = [
@@ -178,7 +177,7 @@ const MainPage: React.FC = () => {
                         return (
                             <ul key={elem.roomNum}>
                                 <Link to={`/chat/${elem.roomNum}`}>
-                                    <li>{elem.realRoomName}</li>
+                                    <li>{elem.roomName}</li>
                                 </Link>
                             </ul>
                         );
