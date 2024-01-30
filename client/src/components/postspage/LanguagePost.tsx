@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { User } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ function LanguagePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.MypageImage.path); //here
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
@@ -114,6 +115,9 @@ function LanguagePost(props: any) {
                             className="lang-profile-image"
                             src={profileImg}
                             alt=""
+                            onClick={() => {
+                                window.location.href = `/searchUser/${props.userid}`;
+                            }}
                         ></img>
 
                         <img
@@ -127,7 +131,12 @@ function LanguagePost(props: any) {
                     <div className="lang-info-container">
                         <div className="lang-info">
                             <div className="lang-gender lang-male"></div>
-                            <div className="lang-name">{props.name}</div>
+                            <Link
+                                className="lang-name"
+                                to={`/searchUser/${props.userid}`}
+                            >
+                                {props.name}
+                            </Link>
                         </div>
                         <div className="lang-location">{props.nation}</div>
 

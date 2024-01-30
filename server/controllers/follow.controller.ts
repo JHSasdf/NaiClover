@@ -25,10 +25,7 @@ const setAlarm = async (
             checked: false,
         });
     } catch (error) {
-        console.log(
-            'ghdfasdfjsakldfjasdklfjasdkljfasdlkfjsl????????????',
-            error
-        );
+        console.log(error);
         return error;
     }
 };

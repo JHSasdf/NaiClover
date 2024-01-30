@@ -21,7 +21,9 @@ function MonotalkAlert(props: any) {
                     </span>
                     님이 새 모노톡을 개설했습니다{' '}
                 </div>
-                <div className="monotalkalert-content">{alarmObj.preview}</div>
+                <div className="monotalkalert-content">
+                    {alarmObj.createdAt}
+                </div>
             </div>
             <div className="bottom-line"></div>
         </>

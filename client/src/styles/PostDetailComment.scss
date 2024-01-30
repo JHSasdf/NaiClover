@@ -48,6 +48,8 @@
     align-items: center;
 
     .comment-username {
+        color: black;
+        text-decoration-line: none;
         font-size: 14px;
         font-weight: bold;
         margin-right: 200px;
@@ -83,8 +85,7 @@
     }
 }
 
-
-.modal-container{
+.modal-container {
     position: absolute;
     right: 0px;
     background-color: white;
@@ -94,31 +95,31 @@
     border-radius: 8px;
     z-index: 1000;
 
-    .edit-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .edit-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 
-    .modal-line{
+    .modal-line {
         width: 58px;
         height: 1px;
         background-color: lightgrey;
     }
 
-    .delete-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .delete-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 }
 
-.opacity{
+.opacity {
     display: none;
 }
 
-.modal-parent{
+.modal-parent {
     position: relative;
 }

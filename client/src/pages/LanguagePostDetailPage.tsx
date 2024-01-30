@@ -53,9 +53,11 @@ function LanguagePostDetailPage() {
                 method: 'post',
                 url: `/lang/comments/createcomment/${id}`,
                 data: {
+                    postUserId: languagePost.userid,
                     content: content,
                     //일단 isrevised는 디폴트로 false해둘게요.
                     isrevised: false,
+                    postType: languagePost.postType,
                 },
                 withCredentials: true,
             });
@@ -90,6 +92,7 @@ function LanguagePostDetailPage() {
                 <PostDetailHeader />
                 <LanguagePost
                     key={languagePost.postId}
+                    type={languagePost.postType}
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
@@ -102,15 +105,20 @@ function LanguagePostDetailPage() {
                         <LanguageComment
                             key={index}
                             index={comment.index}
+                            type={languagePost.postType}
                             content={comment.content}
-                            name={comment.userid}
+                            userid={comment.userid}
                             time={comment.createdAt}
+                            name={comment.User?.name}
                             nation={comment.User?.nation}
                             getcomment={getComments}
                         />
                     ))}
                 </div>
-                <SendComment onSendComment={addComment} />
+                <SendComment
+                    onSendComment={addComment}
+                    postUserId={languagePost.userid}
+                />
             </div>
         </>
     );
