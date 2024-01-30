@@ -61,7 +61,7 @@ const ChatRoomPage: React.FC = () => {
 
     const fetchChatLog = async () => {
         const res = await axios({
-            url: `/dummy/${roomId}`,
+            url: `/getchatlog/${roomId}`,
             method: 'get',
         });
         setChatLog(res.data.chatLog);
