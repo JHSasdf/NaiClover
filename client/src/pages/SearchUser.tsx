@@ -43,7 +43,7 @@ function SearchUser() {
             setFollowingNum(res.data.followingCount);
             setFollowerNum(res.data.followerCount);
             console.log(res.data);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {

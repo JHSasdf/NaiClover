@@ -52,12 +52,6 @@ export const getPersonalRooms = async (
                 return elem !== myUserName;
             });
             result.dataValues.realRoomName = final.toString();
-
-            const pathData = await User.findOne({
-                where: { name: result.dataValues.realRoomName },
-                attributes: ['name', 'profileImgPath'],
-            });
-            result.dataValues.path = pathData.dataValues.MypageImage;
         }
     } catch (err) {
         return next(err);

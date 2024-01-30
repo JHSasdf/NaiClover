@@ -24,8 +24,8 @@ export const UserModel = (sequelize: any, DataTypes: any) => {
             },
             profileImgPath: {
                 type: DataTypes.STRING(100),
-                allowNull: false,
-                default: '/public/mypage/default.png',
+                allowNull: true,
+                defaultValue: '/public/mypage/default.png',
             },
             introduction: {
                 type: DataTypes.STRING(2000),

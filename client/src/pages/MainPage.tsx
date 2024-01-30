@@ -71,19 +71,6 @@ const MainPage: React.FC = () => {
             userId: string;
         }) => {
             fetchMonoRooms();
-            const isUniqueId = !chatRooms.some((room) => room.id === roomId);
-
-            if (isUniqueId) {
-                const updatedChatRooms = [
-                    ...chatRooms,
-                    { id: roomNum, name: roomName },
-                ];
-                setChatRooms(updatedChatRooms);
-                Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
-
-                // 방이 생성되면 해당 방으로 이동
-                window.location.href = `/chat/${roomNum}`;
-            }
         };
 
         socket.on('roomCreated', handleRoomCreated);
@@ -107,28 +94,6 @@ const MainPage: React.FC = () => {
             });
             setNewRoomName('');
         }
-    };
-
-    const handleEnterRoom = (roomUrl: string) => {
-        // URL이 이미 채팅방 목록에 있는지 확인
-        const isRoomExist = chatRooms.some(
-            (room) => `/chat/${room.id}` === roomUrl
-        );
-
-        // URL이 채팅방 목록에 없을 경우에만 새로운 버튼 생성
-        if (!isRoomExist) {
-            const roomId = roomUrl.split('/').pop() || '';
-            const roomName = `Room ${roomId}`;
-            const updatedChatRooms = [
-                ...chatRooms,
-                { id: roomId, name: roomName },
-            ];
-            setChatRooms(updatedChatRooms);
-            Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
-        }
-
-        // 입력 필드 초기화t
-        setEnteredRoomUrl('');
     };
 
     const handleEnterUrl = () => {
