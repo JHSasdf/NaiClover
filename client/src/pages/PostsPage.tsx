@@ -155,7 +155,9 @@ function PostsPage() {
                                     name={culturePostData[0].User.name}
                                     nation={culturePostData[0].User.nation}
                                     firLang={culturePostData[0].User.firLang}
-                                    // learningLang={culturePostData[0].User.firLang}
+                                    learningLang={
+                                        culturePostData[0].User.firLang
+                                    }
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}

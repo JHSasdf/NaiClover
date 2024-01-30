@@ -62,11 +62,13 @@ const MainPage: React.FC = () => {
         }
 
         const handleRoomCreated = ({
-            roomId,
+            roomNum,
             roomName,
+            userId,
         }: {
-            roomId: string;
+            roomNum: string;
             roomName: string;
+            userId: string;
         }) => {
             fetchMonoRooms();
             const isUniqueId = !chatRooms.some((room) => room.id === roomId);
@@ -74,10 +76,13 @@ const MainPage: React.FC = () => {
             if (isUniqueId) {
                 const updatedChatRooms = [
                     ...chatRooms,
-                    { id: roomId, name: roomName },
+                    { id: roomNum, name: roomName },
                 ];
                 setChatRooms(updatedChatRooms);
                 Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
+
+                // 방이 생성되면 해당 방으로 이동
+                window.location.href = `/chat/${roomNum}`;
             }
         };
 
@@ -122,7 +127,7 @@ const MainPage: React.FC = () => {
             Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
         }
 
-        // 입력 필드 초기화
+        // 입력 필드 초기화t
         setEnteredRoomUrl('');
     };
 

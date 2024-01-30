@@ -59,6 +59,7 @@
         width: 15px;
         height: 15px;
         background-image: url('../img/more.png');
+        cursor: pointer;
     }
 }
 
@@ -80,4 +81,44 @@
     .comment-date {
         font-size: 12px;
     }
+}
+
+
+.modal-container{
+    position: absolute;
+    right: 0px;
+    background-color: white;
+    padding: 4px 8px;
+    font-size: 14px;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    z-index: 1000;
+
+    .edit-text:hover{
+        span{
+            background-color: #E9FFEE;
+            cursor: pointer;
+        }
+    }
+
+    .modal-line{
+        width: 58px;
+        height: 1px;
+        background-color: lightgrey;
+    }
+
+    .delete-text:hover{
+        span{
+            background-color: #E9FFEE;
+            cursor: pointer;
+        }
+    }
+}
+
+.opacity{
+    display: none;
+}
+
+.modal-parent{
+    position: relative;
 }
