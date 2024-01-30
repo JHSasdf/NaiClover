@@ -34,7 +34,7 @@ function MulterMypage() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.profileImgPath);
         } catch (error) {
             console.log('error', error);
         }

@@ -5,8 +5,9 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import {useRef} from 'react';
+import { useRef } from 'react';
 import { User } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ function LanguagePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.profileImgPath); //here
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
@@ -57,21 +58,21 @@ function LanguagePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
+        console.log('dddd', props.nation);
         // Save the current like status to local storage
         localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
     }, [props.id, isLiked]);
-
 
     const deletemodal = useRef<any>();
     const langdeletemodal = deletemodal.current;
 
     const modalShow = () => {
         langdeletemodal?.classList.remove('opacity');
-        setTimeout(()=>{
+        setTimeout(() => {
             langdeletemodal?.classList.add('opacity');
-        }, 5000)
-    }
-    
+        }, 5000);
+    };
+
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -114,14 +115,28 @@ function LanguagePost(props: any) {
                             className="lang-profile-image"
                             src={profileImg}
                             alt=""
+                            onClick={() => {
+                                window.location.href = `/searchUser/${props.userid}`;
+                            }}
                         ></img>
-                        <div className="lang-flag-image"></div>
+
+                        <img
+                            className="lang-flag-image"
+                            src={`/images/flag/${
+                                idCookie == id ? userData?.nation : props.nation
+                            }.png`}
+                        ></img>
                     </div>
 
                     <div className="lang-info-container">
                         <div className="lang-info">
                             <div className="lang-gender lang-male"></div>
-                            <div className="lang-name">{props.name}</div>
+                            <Link
+                                className="lang-name"
+                                to={`/searchUser/${props.userid}`}
+                            >
+                                {props.name}
+                            </Link>
                         </div>
                         <div className="lang-location">{props.nation}</div>
 
@@ -141,21 +156,36 @@ function LanguagePost(props: any) {
 
                 <div className="lang-more-container">
                     <div className="lang-time">{props.createdAt}</div>
-                  
-                                        {idCookie === props.userid ? (
-                    <div>
-                        <div className="lang-more" onClick={()=>{modalShow();}}></div>
-                        <div className='modal-container opacity' ref={deletemodal}>
-                            <div className='edit-text'><span>수정하기</span></div>
-                            <div className='modal-line'></div>
-                            <div className='delete-text' onClick={() => {
-                                deletePost();
-                                window.location.href = '/posts';
-                            }}><span>삭제하기</span></div>
+
+                    {idCookie === props.userid ? (
+                        <div>
+                            <div
+                                className="lang-more"
+                                onClick={() => {
+                                    modalShow();
+                                }}
+                            ></div>
+                            <div
+                                className="modal-container opacity"
+                                ref={deletemodal}
+                            >
+                                <div className="edit-text">
+                                    <span>수정하기</span>
+                                </div>
+                                <div className="modal-line"></div>
+                                <div
+                                    className="delete-text"
+                                    onClick={() => {
+                                        deletePost();
+                                        window.location.href = '/posts';
+                                    }}
+                                >
+                                    <span>삭제하기</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>   
                     ) : (
-                        <div className='correction'></div>
+                        <div className="correction"></div>
                     )}
                 </div>
 
@@ -176,7 +206,9 @@ function LanguagePost(props: any) {
                                 langToggleLike();
                             }}
                         ></div>
-                        <div className="lang-likes-count">{props.likecount}</div>
+                        <div className="lang-likes-count">
+                            {props.likecount}
+                        </div>
                     </div>
 
                     <div
@@ -184,7 +216,9 @@ function LanguagePost(props: any) {
                         onClick={() => navigate(`/l-postdetail/${props.id}`)}
                     >
                         <div className="lang-comments"></div>
-                        <div className="lang-comments-count">{props.commentcount}</div>
+                        <div className="lang-comments-count">
+                            {props.commentcount}
+                        </div>
                     </div>
                     <div className="lang-bookmark-container"></div>
                 </div>

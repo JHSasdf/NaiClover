@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
-import {useRef} from 'react';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -30,10 +31,10 @@ function CulturePost(props: any) {
 
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
-        setTimeout(()=>{
+        setTimeout(() => {
             culdeletemodal?.classList.add('opacity');
-        }, 5000)
-    }
+        }, 5000);
+    };
     const deletePost = async () => {
         try {
             const res = await axios({
@@ -80,7 +81,7 @@ function CulturePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
@@ -123,18 +124,27 @@ function CulturePost(props: any) {
                             className="cul-profile-image"
                             src={profileImg}
                             alt=""
+                            onClick={() => {
+                                window.location.href = `/searchUser/${props.userid}`;
+                            }}
                         ></img>
                         <img
                             className="cul-flag-image"
-                            src={userData?.nation}
-                            alt={userData?.nation}
+                            src={`/images/flag/${
+                                idCookie == id ? userData?.nation : props.nation
+                            }.png`}
                         ></img>
                     </div>
 
                     <div className="cul-info-container">
                         <div className="cul-info">
                             <div className="cul-gender cul-male"></div>
-                            <div className="cul-name">{props.name}</div>
+                            <Link
+                                className="cul-name"
+                                to={`/searchUser/${props.userid}`}
+                            >
+                                {props.name}
+                            </Link>
                         </div>
                         <div className="cul-location">{props.nation}</div>
 
@@ -157,18 +167,33 @@ function CulturePost(props: any) {
                     <div className="cul-time">{props.createdAt}</div>
                     {idCookie === props.userid ? (
                         <div>
-                        <div className="cul-more" onClick={()=>{modalShow();}}></div>
-                        <div className='modal-container opacity' ref={deletemodal}>
-                            <div className='edit-text'><span>수정하기</span></div>
-                            <div className='modal-line'></div>
-                            <div className='delete-text' onClick={() => {
-                                deletePost();
-                                window.location.href = '/posts';
-                            }}><span>삭제하기</span></div>
+                            <div
+                                className="cul-more"
+                                onClick={() => {
+                                    modalShow();
+                                }}
+                            ></div>
+                            <div
+                                className="modal-container opacity"
+                                ref={deletemodal}
+                            >
+                                <div className="edit-text">
+                                    <span>수정하기</span>
+                                </div>
+                                <div className="modal-line"></div>
+                                <div
+                                    className="delete-text"
+                                    onClick={() => {
+                                        deletePost();
+                                        window.location.href = '/posts';
+                                    }}
+                                >
+                                    <span>삭제하기</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>   
                     ) : (
-                        <div className='correction'></div>
+                        <div className="correction"></div>
                     )}
                 </div>
 
@@ -222,7 +247,9 @@ function CulturePost(props: any) {
                         onClick={() => navigate(`/c-postdetail/${props.id}`)}
                     >
                         <div className="cul-comments"></div>
-                        <div className="cul-comments-count">{props.commentcount}</div>
+                        <div className="cul-comments-count">
+                            {props.commentcount}
+                        </div>
                     </div>
                     <div className="cul-bookmark-container"></div>
                 </div>

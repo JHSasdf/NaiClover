@@ -7,7 +7,6 @@ const User = db.User;
 const Lang = db.Lang;
 const Post = db.Post;
 const LangPost = db.LangPost;
-const MypageImage = db.MypageImages;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -36,12 +35,7 @@ export const getmyPage = async (
                 'nation',
                 'introduction',
                 'firLang',
-            ],
-            include: [
-                {
-                    model: MypageImage,
-                    attributes: ['path'],
-                },
+                'profileImgPath',
             ],
         });
     } catch (err) {
@@ -342,9 +336,9 @@ export const multerMypage = async (
         return res.json({ msg: 'you did not log in.', isError: true });
     }
     try {
-        await MypageImage.update(
+        await User.update(
             {
-                path: `/${req.file?.path}`,
+                profileImgPath: `/${req.file?.path}`,
             },
             { where: { userid: req.session.userid } }
         );

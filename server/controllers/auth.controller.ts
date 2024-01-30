@@ -3,7 +3,6 @@ import * as bcrypt from 'bcrypt';
 import { db } from '../model';
 const User = db.User;
 const Lang = db.Lang;
-const MypageImage = db.MypageImages;
 
 export async function login(
     req: Request,
@@ -165,11 +164,6 @@ export async function signup(
                 learningLang: lang,
             });
         }
-
-        const defaultProfile = await MypageImage.create({
-            userid: userid,
-            path: '/public/mypage/default.png',
-        });
     } catch (err) {
         return next(err);
     }

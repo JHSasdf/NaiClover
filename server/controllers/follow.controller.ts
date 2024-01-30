@@ -25,10 +25,7 @@ const setAlarm = async (
             checked: false,
         });
     } catch (error) {
-        console.log(
-            'ghdfasdfjsakldfjasdklfjasdkljfasdlkfjsl????????????',
-            error
-        );
+        console.log(error);
         return error;
     }
 };
@@ -51,6 +48,21 @@ export async function follow(
                 await setAlarm(followId, userid, 1);
                 return res.json({
                     msg: 'complete',
+                    result: true,
+                });
+            } catch (error) {
+                return res.json({
+                    msg: error,
+                    result: false,
+                });
+            }
+        } else {
+            try {
+                await Follow.destroy({
+                    where: { userid: followId, followerId: userid },
+                });
+                return res.json({
+                    msg: 'follow deleted',
                     result: true,
                 });
             } catch (error) {

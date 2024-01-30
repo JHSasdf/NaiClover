@@ -120,7 +120,7 @@ function PostsPage() {
             {showLanguagePosts && (
                 <div className="language-posts-container">
                     {languagePosts
-                        .slice(0)
+                        ?.slice(0)
                         .reverse()
                         .map((languagePostData: any) => {
                             return (
@@ -144,7 +144,7 @@ function PostsPage() {
             {showCulturePosts && (
                 <div className="culture-posts-container">
                     {culturePosts
-                        .slice(0)
+                        ?.slice(0)
                         .reverse()
                         .map((culturePostData: any) => {
                             return (

@@ -2,8 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
 const Post = db.LangPost;
+const Follow = db.Follow;
 const PostLikes = db.LangPostLike;
 const Comment = db.LangComment;
+const Alarm = db.Alarm;
 
 import { postsInterface } from '../types/types';
 
@@ -53,6 +55,16 @@ export const getPosts = async (
                 },
             });
 
+            const followResult = await Follow.findOne({
+                where: { userid: allPosts[i].userid, followerId: myUserid },
+            });
+            let isFollowing;
+            if (followResult) {
+                isFollowing = true;
+            } else {
+                isFollowing = false;
+            }
+
             const commentCount = await Comment.count({
                 where: {
                     PostId: allPosts[i].postId,
@@ -60,17 +72,39 @@ export const getPosts = async (
             });
 
             if (myLikeData) {
-                PostsDatas.push([allPosts[i], likeCount, true, commentCount]);
+                PostsDatas.push([
+                    allPosts[i],
+                    likeCount,
+                    true,
+                    commentCount,
+                    isFollowing,
+                ]);
             } else {
-                PostsDatas.push([allPosts[i], likeCount, false, commentCount]);
+                PostsDatas.push([
+                    allPosts[i],
+                    likeCount,
+                    false,
+                    commentCount,
+                    isFollowing,
+                ]);
             }
         } catch (err) {
             return next(err);
         }
     }
+    let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
+        const aDate = new Date(a[0].createdAt).getTime();
+        const bDate = new Date(b[0].createdAt).getTime();
+        return aDate - bDate;
+    });
+    sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
+        const aIsFollowing = a[4];
+        const bIsFollowing = b[4];
+        return aIsFollowing - bIsFollowing;
+    });
     // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
     res.json({
-        PostsDatas: PostsDatas,
+        PostsDatas: sortedPostDatas,
         isError: false,
     });
 };
@@ -92,10 +126,26 @@ export const createPost = async (
     }
 
     try {
-        await Post.create({
+        const newPost = await Post.create({
             userid: userid,
             content: content,
         });
+        const newPostId = newPost.getDataValue('postId');
+        const newPostType = newPost.getDataValue('postType');
+        const followers = await Follow.findAll({
+            where: {
+                userid: userid,
+            },
+        });
+        for (const element of followers) {
+            await setAlarm(
+                element.followerId,
+                userid,
+                2,
+                newPostId,
+                newPostType
+            );
+        }
     } catch (err) {
         return next(err);
     }
@@ -305,13 +355,41 @@ export const togglePostLike = async (
     return res.json({ msg: 'Like deleted', isError: false });
 };
 
+const setAlarm = async (
+    userid: String,
+    otherUserId: String,
+    alarmType: Number,
+    option1: string | number,
+    option2: string | number
+) => {
+    console.log(
+        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        userid,
+        otherUserId,
+        alarmType
+    );
+    try {
+        await Alarm.create({
+            userid: userid,
+            otherUserId: otherUserId,
+            alarmType: alarmType,
+            checked: false,
+            option1: option1,
+            option2: option2,
+        });
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 // 댓글 작성 기능
 export const createComment = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const { content, isrevised } = req.body;
+    const { content, isrevised, postUserId, postType } = req.body;
     let userid = req.session.userid;
     if (!userid || userid.length < 4) {
         return res.json({
@@ -329,6 +407,7 @@ export const createComment = async (
             isrevised: isrevised,
         });
         const createdCommentIndex = createdComment.getDataValue('index');
+        await setAlarm(postUserId, userid, 0, postId, postType);
         res.json({
             msg: 'Comment created!',
             comment: {
@@ -357,7 +436,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });

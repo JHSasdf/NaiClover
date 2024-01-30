@@ -1,11 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 import '../../styles/SearchUserHeader.scss';
-
 function SearchUserHeader(props: any) {
-    const { followingNum, followerNum, userData, learningLang, profileImg } =
-        props;
-
+    const navigate = useNavigate();
+    const {
+        followingNum,
+        followerNum,
+        userData,
+        learningLang,
+        profileImg,
+        handleAddRoom,
+    } = props;
     const currentFlag = userData.nation;
 
     const shortName = (nation: string): string | undefined => {
@@ -27,6 +32,10 @@ function SearchUserHeader(props: any) {
     console.log(learningLang);
     return (
         <div className="mypageHeaderC">
+            <div className="postdetail-header-container">
+                <div className="back-arrow" onClick={() => navigate(-1)}></div>
+                <div className="postdetail-header-text">Go Back</div>
+            </div>
             <div className="logoC">
                 <h1>{userData.userid}</h1>
             </div>
@@ -87,8 +96,11 @@ function SearchUserHeader(props: any) {
                 </div>
             </div>
             <div className="personal-container">
+
                 <button className="profile-followBtn">Follow</button>
-                <button className="profile-messageBtn">Message</button>
+                <button className="profile-messageBtn" onClick={handleAddRoom}>
+                    Message
+                </button>
             </div>
         </div>
     );
