@@ -44,7 +44,7 @@ function LanguageComment(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.profileImgPath);
+            setProfileImg(props.profileImgPath);
         } catch (error) {
             console.log('error???', error);
         }

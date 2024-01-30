@@ -27,7 +27,7 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'firLang'],
+                    attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
                 },
             ],
         });
@@ -272,7 +272,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation'],
+                    attributes: ['name', 'nation', 'profileImgPath'],
                 },
             ],
         });
@@ -407,7 +407,8 @@ export const createComment = async (
             isrevised: isrevised,
         });
         const createdCommentIndex = createdComment.getDataValue('index');
-        await setAlarm(postUserId, userid, 0, postId, postType);
+        if (postUserId != userid)
+            await setAlarm(postUserId, userid, 0, postId, postType);
         res.json({
             msg: 'Comment created!',
             comment: {
@@ -436,7 +437,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation'],
+                    attributes: ['name', 'nation', 'profileImgPath'],
                 },
             ],
         });

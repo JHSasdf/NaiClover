@@ -72,6 +72,7 @@ function CulturePost(props: any) {
     };
     const getMyPage = async () => {
         try {
+            // setProfileImg(props.profileImgPath);
             const res = await axios({
                 method: 'get',
                 url: '/getMyPage',
@@ -81,13 +82,13 @@ function CulturePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
         }
     };
     useEffect(() => {
+        console.log('useeff');
         getMyPage();
         // Save the current like status to local storage
         localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
@@ -122,7 +123,8 @@ function CulturePost(props: any) {
                     <div className="cul-image-container">
                         <img
                             className="cul-profile-image"
-                            src={profileImg}
+                            // src={profileImg}
+                            src={props.profileImgPath}
                             alt=""
                             onClick={() => {
                                 window.location.href = `/searchUser/${props.userid}`;
