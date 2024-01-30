@@ -6,7 +6,6 @@ const Follow = db.Follow;
 const PostLikes = db.LangPostLike;
 const Comment = db.LangComment;
 const Alarm = db.Alarm;
-const Follow = db.Follow;
 
 import { postsInterface } from '../types/types';
 
