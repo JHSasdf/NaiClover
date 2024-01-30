@@ -122,33 +122,3 @@ export const getUserInfo = async (
         isFollowing: isFollowing,
     });
 };
-
-export const getRoomId = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    const userid = req.params.id;
-    const myUserid = req.session.userid;
-
-    if (!myUserid || myUserid.length < 4) {
-        return res.json({ msg: 'Please login first', isError: true });
-    }
-    let result;
-    try {
-        result = await Room.findOne({
-            attributes: ['roomNum'],
-            where: {
-                userid: myUserid,
-                useridTo: userid,
-            },
-        });
-    } catch (err) {
-        return next(err);
-    }
-    res.json({
-        msg: 'finding RoomNum succeed',
-        roomNum: result.dataValues.roomNum,
-        isError: false,
-    });
-};

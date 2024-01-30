@@ -68,6 +68,7 @@ const MainPage: React.FC = () => {
             roomId: string;
             roomName: string;
         }) => {
+            fetchMonoRooms();
             const isUniqueId = !chatRooms.some((room) => room.id === roomId);
 
             if (isUniqueId) {

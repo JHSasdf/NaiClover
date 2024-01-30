@@ -73,15 +73,22 @@ function SearchUser() {
             useridTo: userid,
             restrictedLang: '',
         });
-
-        const res = await axios({
-            method: 'get',
-            url: `/getuserroomid/${userid}`,
-        });
-        if (res.data.isError === false) {
-            navigate(`/chat/${res.data.roomNum}`);
-        }
     };
+
+    const handleRoomCreated = ({
+        roomId,
+        roomName,
+        roomNumArr,
+    }: {
+        roomId: string;
+        roomName: string;
+        roomNumArr: Array<string>;
+    }) => {
+        const roomUrl = `/chat/${roomNumArr.toString()}`;
+        navigate(roomUrl);
+    };
+
+    socket.on('roomCreated', handleRoomCreated);
 
     useEffect(() => {
         getMyPage();
