@@ -52,7 +52,9 @@ export const getUserInfo = async (
     }
 
     if (!userDataObj) {
-        return res.json({ msg: 'An Error occurred', isError: true });
+        return res
+            .status(500)
+            .json({ msg: 'An Error occurred', isError: true });
     }
     try {
         learningLangObjArr = await Lang.findAll({
@@ -64,7 +66,9 @@ export const getUserInfo = async (
     }
 
     if (!learningLangObjArr) {
-        return res.json({ msg: 'An Error occurred', isError: true });
+        return res
+            .status(500)
+            .json({ msg: 'An Error occurred', isError: true });
     }
 
     let learningLang: Array<string> = [];

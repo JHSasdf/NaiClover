@@ -9,8 +9,9 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
-
+import useErrorHandler from '../utils/useErrorHandler';
 function PostsPage() {
+    const { errorHandler } = useErrorHandler();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
     const [showLanguagePosts, setShowLanguagePosts] = useState(true);
@@ -41,7 +42,8 @@ function PostsPage() {
             });
             setCulturePosts(res.data.PostsDatas);
             console.log(culturePosts);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -59,7 +61,8 @@ function PostsPage() {
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
             console.log('ㅇㅇ?', languagePosts);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -75,7 +78,8 @@ function PostsPage() {
                 withCredentials: true,
             });
             setNewAlarmNum(res.data.newAlarmNumber);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error:', error);
         }
     };

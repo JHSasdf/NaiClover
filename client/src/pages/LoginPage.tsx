@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import '../styles/conditions.scss';
 import { useNavigate } from 'react-router-dom';
+import useErrorHandler from '../utils/useErrorHandler';
 
 function LoginPage() {
     const [errormsg, setErrorMsg] = useState();
@@ -12,26 +13,34 @@ function LoginPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [cookies, setCookies] = useCookies(['id']);
+    const { errorHandler } = useErrorHandler();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _unusedCookies = cookies;
 
     const login = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        const res = await axios({
-            url: '/login',
-            method: 'post',
-            data: {
-                userid: idRef.current?.value,
-                password: passwordRef.current?.value,
-            },
-            withCredentials: true,
-        });
-        const { msg, isLoggedin, userid } = res.data;
-        setErrorMsg(msg);
-        if (isLoggedin) {
-            setCookies('id', JSON.stringify(userid), cookieConfig);
-            navigate('/');
+
+        try {
+            const res = await axios({
+                url: '/login',
+                method: 'post',
+                data: {
+                    userid: idRef.current?.value,
+                    password: passwordRef.current?.value,
+                },
+                withCredentials: true,
+            });
+
+            const { msg, isLoggedin, userid } = res.data;
+
+            setErrorMsg(msg);
+            if (isLoggedin) {
+                setCookies('id', JSON.stringify(userid), cookieConfig);
+                navigate('/');
+            }
+        } catch (err: any) {
+            errorHandler(err.response.status);
         }
     };
 

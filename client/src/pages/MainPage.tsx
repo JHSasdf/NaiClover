@@ -4,12 +4,14 @@ import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import useErrorHandler from '../utils/useErrorHandler';
 
 import './App.css'; // Import the styling file
 
 const socket = io('http://localhost:4000');
 
 const MainPage: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
@@ -24,21 +26,29 @@ const MainPage: React.FC = () => {
     const [monoRooms, setMonoRooms] = useState<any>();
 
     const fetchPersonalRooms = async () => {
-        const res = await axios({
-            url: '/fetch/personalrooms',
-            method: 'get',
-        });
-        console.log('personalRoomsData : ', res.data);
-        setPersonalRooms(res.data.personalRooms);
+        try {
+            const res = await axios({
+                url: '/fetch/personalrooms',
+                method: 'get',
+            });
+            console.log('personalRoomsData : ', res.data);
+            setPersonalRooms(res.data.personalRooms);
+        } catch (err: any) {
+            errorHandler(err.response.status);
+        }
     };
 
     const fetchMonoRooms = async () => {
-        const res = await axios({
-            url: '/fetch/monorooms',
-            method: 'get',
-        });
-        console.log('monoRoomsData : ', res.data);
-        setMonoRooms(res.data.monoRooms);
+        try {
+            const res = await axios({
+                url: '/fetch/monorooms',
+                method: 'get',
+            });
+            console.log('monoRoomsData : ', res.data);
+            setMonoRooms(res.data.monoRooms);
+        } catch (err: any) {
+            errorHandler(err.response.status);
+        }
     };
 
     useEffect(() => {

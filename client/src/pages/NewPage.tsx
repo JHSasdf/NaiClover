@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
 import './ChatRoomPage.css';
 import axios from 'axios';
-
+import useErrorHandler from '../utils/useErrorHandler';
 //  유저 아이디 값을 널로 저장함으로 문제 해결
 interface Message {
     text: string;
@@ -32,6 +32,7 @@ const socket = io('http://localhost:4000');
 const USER_ID_COOKIE_KEY = 'id';
 
 const ChatRoomPage: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const { roomId } = useParams<{ roomId: string }>();
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
@@ -65,12 +66,16 @@ const ChatRoomPage: React.FC = () => {
     }, [roomId]);
 
     const fetchChatLog = async () => {
-        const res = await axios({
-            url: `/getchatlog/${roomId}`,
-            method: 'get',
-        });
-        setChatLog(res.data.chatLog);
-        console.log(res.data);
+        try {
+            const res = await axios({
+                url: `/getchatlog/${roomId}`,
+                method: 'get',
+            });
+            setChatLog(res.data.chatLog);
+            console.log(res.data);
+        } catch (err: any) {
+            errorHandler(err.response.status);
+        }
     };
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시

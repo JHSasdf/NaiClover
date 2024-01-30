@@ -13,8 +13,8 @@ export const getPersonalRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -73,8 +73,8 @@ export const getMonoRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
