@@ -221,7 +221,7 @@ function SignupPage() {
                         <label htmlFor="">Nation</label>
                         <select name="nation" defaultValue="" ref={nationRef}>
                             <option value="">Choose here...</option>
-                            <option value="Chinese">China</option>
+                            <option value="China">China</option>
                             <option value="America">America</option>
                             <option value="France">France</option>
                             <option value="Germany">Germany</option>
