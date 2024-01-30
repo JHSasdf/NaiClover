@@ -4,7 +4,6 @@ import { Op } from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
-const MypageImage = db.MypageImages;
 
 export const getPersonalRooms = async (
     req: Request,
@@ -56,13 +55,7 @@ export const getPersonalRooms = async (
 
             const pathData = await User.findOne({
                 where: { name: result.dataValues.realRoomName },
-                attributes: ['name'],
-                include: [
-                    {
-                        model: MypageImage,
-                        attributes: ['path'],
-                    },
-                ],
+                attributes: ['name', 'profileImgPath'],
             });
             result.dataValues.path = pathData.dataValues.MypageImage;
         }

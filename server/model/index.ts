@@ -22,7 +22,6 @@ import { LangPostModel } from './LangPost';
 import { LangCommentModel } from './LangComment';
 import { LangPostLikeModel } from './LangPostLikes';
 import { PostImageModel } from './PostImages';
-import { MypageImageModel } from './MypageImages';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
@@ -37,7 +36,6 @@ const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
 const Alarm = AlarmModel(sequelize, Sequelize);
 const PostImages = PostImageModel(sequelize, Sequelize);
-const MypageImages = MypageImageModel(sequelize, Sequelize);
 
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
@@ -123,19 +121,6 @@ User.hasMany(PostImages, {
 });
 
 PostImages.belongsTo(User, {
-    foreignKey: 'userid',
-    targetKey: 'userid',
-});
-
-// 프로필 사진,
-User.hasOne(MypageImages, {
-    foreignKey: 'userid',
-    sourceKey: 'userid',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-});
-
-MypageImages.belongsTo(User, {
     foreignKey: 'userid',
     targetKey: 'userid',
 });
@@ -319,7 +304,6 @@ export const db = {
     LangPostLike,
     LangComment,
     PostImages,
-    MypageImages,
     Chat,
     Room,
     sequelize,

@@ -7,7 +7,6 @@ const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
 const LangPost = db.LangPost;
-const MypageImage = db.MypageImages;
 const Room = db.Room;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
@@ -45,12 +44,7 @@ export const getUserInfo = async (
                 'nation',
                 'introduction',
                 'firLang',
-            ],
-            include: [
-                {
-                    model: MypageImage,
-                    attributes: ['path'],
-                },
+                'profileImgPath',
             ],
         });
     } catch (err) {
