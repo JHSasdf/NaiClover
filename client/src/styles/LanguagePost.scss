@@ -1,26 +1,26 @@
-$main-color: #37AF6A;
+$main-color: #37af6a;
 $secondary-color: #888;
 
-.lang-post-container{
+.lang-post-container {
     width: 390px;
     height: fit-content;
     background-color: white;
     margin-bottom: 24px;
 }
 
-.lang-post{
+.lang-post {
     background-color: white;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-.lang-image-container{
+.lang-image-container {
     width: 40px;
     height: 40px;
     position: relative;
     margin-top: 6px;
 }
 
-.lang-profile-image{
+.lang-profile-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -28,7 +28,7 @@ $secondary-color: #888;
     background-color: lightgrey;
 }
 
-.lang-flag-image{
+.lang-flag-image {
     width: 16px;
     height: 12px;
     border: 1px solid lightgrey;
@@ -38,30 +38,32 @@ $secondary-color: #888;
     bottom: -4px;
 }
 
-//성별 아이콘 
+//성별 아이콘
 
-.lang-gender{
+.lang-gender {
     margin-top: 3px;
     width: 16px;
     height: 16px;
 }
 
-.lang-male{
+.lang-male {
     background-image: url('../img/male.png');
 }
 
 //이름과 성별 = info
 
-.lang-info{
+.lang-info {
     display: flex;
     flex-direction: row;
     width: fit-content;
     height: 24px;
 }
 
-.lang-name{
+.lang-name {
     font-size: 16px;
     font-weight: bold;
+    color: black;
+    text-decoration-line: none;
     width: fit-content;
     display: flex;
 }
@@ -69,7 +71,7 @@ $secondary-color: #888;
 //이름, 장소, 언어
 //info-container
 
-.lang-info-container{
+.lang-info-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -79,33 +81,32 @@ $secondary-color: #888;
     padding-left: 12px;
 }
 
-.lang-location{
+.lang-location {
     font-size: 10px;
-    color: grey;;
+    color: grey;
     font-weight: 600;
 }
 
-
 // language-container(EN->KR 부분)
 
-.lang-language-container{
+.lang-language-container {
     display: flex;
     flex-direction: row;
 }
 
-.lang-native-language{
+.lang-native-language {
     font-size: 10px;
     font-weight: 600;
     color: $main-color;
 }
 
-.lang-learning-language{
+.lang-learning-language {
     font-size: 10px;
     font-weight: 600;
     color: $main-color;
 }
 
-.lang-arrow{
+.lang-arrow {
     margin-top: 4px;
     margin-left: 4px;
     margin-right: 4px;
@@ -115,7 +116,7 @@ $secondary-color: #888;
 }
 
 //프로필 컨테이너 (팔로우 버튼 빼고 윗부분)
-.lang-profile-container{
+.lang-profile-container {
     display: flex;
     flex-direction: row;
     width: 156px;
@@ -123,7 +124,7 @@ $secondary-color: #888;
     justify-content: space-between;
 }
 
-.lang-follow{
+.lang-follow {
     width: 72px;
     height: 32px;
     border: 1px solid $main-color;
@@ -139,12 +140,12 @@ $secondary-color: #888;
 
 // 포스트 작성 부분
 
-.lang-time{
+.lang-time {
     font-size: 12px;
     color: $secondary-color;
 }
 
-.lang-more{
+.lang-more {
     width: 16px;
     height: 16px;
     background-image: url('../img/more.png');
@@ -152,7 +153,7 @@ $secondary-color: #888;
 }
 
 //작성시간 + 더보기 버튼
-.lang-more-container{
+.lang-more-container {
     margin-top: 8px;
     width: 358px;
     height: 16px;
@@ -162,17 +163,16 @@ $secondary-color: #888;
 }
 
 //포스팅 글자
-.lang-content-text{
+.lang-content-text {
     margin-top: 8px;
     width: 358px;
     height: fit-content;
     font-size: 14px;
 }
 
-
 //reaction-container = heart + comment
 
-.lang-likes-container{
+.lang-likes-container {
     width: 48px;
     height: 42px;
     display: flex;
@@ -181,17 +181,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.lang-likes{
+.lang-likes {
     width: 24px;
     height: 24px;
     background-image: url('../img/heart.png');
 }
 
-.lang-likes-count{
+.lang-likes-count {
     font-size: 12px;
 }
 
-.lang-comments-container{
+.lang-comments-container {
     width: 48px;
     height: 42px;
     display: flex;
@@ -200,17 +200,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.lang-comments{
+.lang-comments {
     width: 24px;
     height: 24px;
     background-image: url('../img/comment.png');
 }
 
-.lang-comments-count{
+.lang-comments-count {
     font-size: 12px;
 }
 
-.lang-bookmark-container{
+.lang-bookmark-container {
     width: 24px;
     height: 42px;
     display: flex;
@@ -220,17 +220,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.lang-bookmark{
+.lang-bookmark {
     width: 24px;
     height: 24px;
     background-image: url('../img/bookmark.png');
 }
 
-.lang-bookmark-text{
+.lang-bookmark-text {
     font-size: 12px;
 }
 
-.lang-reaction-container{
+.lang-reaction-container {
     width: 358px;
     height: 42px;
     display: flex;
@@ -238,7 +238,7 @@ $secondary-color: #888;
 }
 
 //포스트 전체
-.lang-post{
+.lang-post {
     position: relative;
     width: fit-content;
     height: fit-content;
@@ -246,33 +246,33 @@ $secondary-color: #888;
     margin-right: 16px;
 }
 
-.lang-line{
+.lang-line {
     width: 390px;
     height: 0.5px;
     background-color: lightgrey;
     margin-top: 24px;
 }
 
-.liked{
+.liked {
     background-image: url('../img/filledheart.png');
     width: 24px;
     height: 24px;
 }
 
-.unliked{
+.unliked {
     background-image: url('../img/heart.png');
     width: 24px;
     height: 24px;
 }
 
-.correction{
+.correction {
     background-image: url('../img/pencileline.png');
     width: 24px;
     height: 24px;
     cursor: pointer;
 }
 
-.modal-container{
+.modal-container {
     position: absolute;
     right: 0px;
     background-color: white;
@@ -282,31 +282,27 @@ $secondary-color: #888;
     border-radius: 8px;
     z-index: 1000;
 
-    .edit-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .edit-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 
-    .modal-line{
+    .modal-line {
         width: 58px;
         height: 1px;
         background-color: lightgrey;
     }
 
-    .delete-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .delete-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 }
 
-.opacity{
+.opacity {
     display: none;
 }
-
-
-
-

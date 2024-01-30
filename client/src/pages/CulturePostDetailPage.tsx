@@ -54,8 +54,10 @@ function CulturePostDetailPage() {
                 url: `/cul/comments/createcomment/${id}`,
                 data: {
                     content: content,
+                    postUserId: culturePost.userid,
                     //일단 isrevised는 디폴트로 false해둘게요.
                     isrevised: false,
+                    postType: culturePost.postType,
                 },
                 withCredentials: true,
             });
@@ -101,14 +103,18 @@ function CulturePostDetailPage() {
                             key={index}
                             index={comment.index}
                             content={comment.content}
-                            name={comment.userid}
+                            userid={comment.userid}
                             time={comment.createdAt}
+                            name={comment.User?.name}
                             nation={comment.User?.nation}
                             getcomment={getComments}
                         />
                     ))}
                 </div>
-                <SendComment onSendComment={addComment} />
+                <SendComment
+                    onSendComment={addComment}
+                    postUserId={culturePost.userid}
+                />
             </div>
         </>
     );

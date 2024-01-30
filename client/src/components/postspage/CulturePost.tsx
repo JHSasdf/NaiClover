@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -123,6 +124,9 @@ function CulturePost(props: any) {
                             className="cul-profile-image"
                             src={profileImg}
                             alt=""
+                            onClick={() => {
+                                window.location.href = `/searchUser/${props.userid}`;
+                            }}
                         ></img>
                         <img
                             className="cul-flag-image"
@@ -135,7 +139,12 @@ function CulturePost(props: any) {
                     <div className="cul-info-container">
                         <div className="cul-info">
                             <div className="cul-gender cul-male"></div>
-                            <div className="cul-name">{props.name}</div>
+                            <Link
+                                className="cul-name"
+                                to={`/searchUser/${props.userid}`}
+                            >
+                                {props.name}
+                            </Link>
                         </div>
                         <div className="cul-location">{props.nation}</div>
 

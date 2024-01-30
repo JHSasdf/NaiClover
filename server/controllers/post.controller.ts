@@ -2,12 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
 const Post = db.Post;
+const Follow = db.Follow;
 const PostLikes = db.PostLike;
 const Comment = db.Comment;
 const postImages = db.PostImages;
-
+const Alarm = db.Alarm;
 import { postsInterface } from '../types/types';
-
 // 전체 포스트 get요청
 export const getPosts = async (
     req: Request,
@@ -93,21 +93,34 @@ export const createPost = async (
         });
     }
     try {
-        const result = await Post.create({
+        const newPost = await Post.create({
             userid: userid,
             content: content,
         });
-        const postId = result.postId;
         const files = req.files as Express.Multer.File[];
         if (files && files.length > 0) {
             for (let i = 0; i < files.length; i++) {
                 const path = files[i].path;
                 await postImages.create({
-                    postId: postId,
+                    postId: newPost.postId,
                     userid: req.session.userid,
                     path: `/${path}`,
                 });
             }
+        }
+        const followers = await Follow.findAll({
+            where: {
+                userid: userid,
+            },
+        });
+        for (const element of followers) {
+            await setAlarm(
+                element.followerId,
+                userid,
+                2,
+                newPost.getDataValue('postId'),
+                newPost.getDataValue('postType')
+            );
         }
     } catch (err) {
         return next(err);
@@ -317,13 +330,41 @@ export const togglePostLike = async (
     return res.json({ msg: 'Like deleted', isError: false });
 };
 
+const setAlarm = async (
+    userid: String,
+    otherUserId: String,
+    alarmType: Number,
+    option1: string | number,
+    option2: string | number
+) => {
+    console.log(
+        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        userid,
+        otherUserId,
+        alarmType
+    );
+    try {
+        await Alarm.create({
+            userid: userid,
+            otherUserId: otherUserId,
+            alarmType: alarmType,
+            checked: false,
+            option1: option1,
+            option2: option2,
+        });
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 // 댓글 작성 기능
 export const createComment = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const { content, isrevised } = req.body;
+    const { content, isrevised, postUserId, postType } = req.body;
     let userid = req.session.userid;
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
@@ -339,6 +380,7 @@ export const createComment = async (
             postId: postId,
             isrevised: isrevised,
         });
+        await setAlarm(postUserId, userid, 0, postId, postType);
         const createdCommentIndex = createdComment.getDataValue('index');
         res.json({
             msg: 'Comment created!',

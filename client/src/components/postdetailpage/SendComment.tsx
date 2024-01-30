@@ -4,6 +4,7 @@ import '../../styles/PostDetailSendComment.scss';
 
 interface SendCommentProps {
     onSendComment: (content: string) => void;
+    postUserId: string;
 }
 
 const SendComment: React.FC<SendCommentProps> = ({ onSendComment }) => {
@@ -12,6 +13,7 @@ const SendComment: React.FC<SendCommentProps> = ({ onSendComment }) => {
     const handleSendComment = () => {
         if (comment.trim() !== '') {
             onSendComment(comment);
+
             setComment('');
         }
     };

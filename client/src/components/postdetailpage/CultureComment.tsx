@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 function CultureComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -30,7 +31,7 @@ function CultureComment(props: any) {
                 method: 'get',
                 url: '/getMyPage',
                 params: {
-                    userid: props.name,
+                    userid: props.userid,
                 },
                 withCredentials: true,
             });
@@ -51,6 +52,9 @@ function CultureComment(props: any) {
                         className="comment-profile-pic"
                         src={profileImg}
                         alt=""
+                        onClick={() => {
+                            window.location.href = `/searchUser/${props.userid}`;
+                        }}
                     />{' '}
                     <img
                         className="comment-flag-pic"
@@ -62,8 +66,13 @@ function CultureComment(props: any) {
 
                 <div className="comment-inside-container">
                     <div className="comment-header-container">
-                        <div className="comment-username">{props.name}</div>
-                        {props.name == idCookie ? (
+                        <Link
+                            className="comment-username"
+                            to={`/searchUser/${props.userid}`}
+                        >
+                            {props.name}
+                        </Link>
+                        {props.userid == idCookie ? (
                             <div
                                 className="comment-more"
                                 onClick={() => {
