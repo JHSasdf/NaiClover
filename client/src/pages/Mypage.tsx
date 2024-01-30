@@ -32,9 +32,6 @@ function Mypage() {
             const res = await axios({
                 method: 'get',
                 url: '/getMyPage',
-                params: {
-                    userid: idCookie,
-                },
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
@@ -60,8 +57,10 @@ function Mypage() {
             // 요거 찍어보십쇼
             console.log(sortedPostDatas);
             console.log('>>>?', learningLang);
-        } catch (error) {
+        } catch (error: any) {
             console.log('error???', error);
+            console.log(error.response);
+            // if (error.response.status)
         }
     };
 

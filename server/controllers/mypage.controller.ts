@@ -19,8 +19,8 @@ export const getmyPage = async (
     let learningLangObjArr: Array<existingLangInterface> = [];
 
     if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
