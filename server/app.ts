@@ -100,7 +100,8 @@ async function createMonoRoomDb(
     roomName: string,
     userid: string,
     useridTo: string,
-    restrictedLang: string
+    restrictedLang: string,
+    roomNumArr: Array<String>
 ) {
     let result;
     const genaratedUniqueId = generateUniqueId();
@@ -115,17 +116,29 @@ async function createMonoRoomDb(
     } catch (err) {
         console.log(err);
     }
+    roomNumArr.push(result.roomNum);
     roomNum = result.roomNum;
 }
 
 async function createPersonalRoomDb(
     roomName: string,
     userid: string,
-    useridTo: string
+    useridTo: string,
+    roomNumArr: Array<String>
 ) {
     let result;
     const genaratedUniqueId = generateUniqueId();
     try {
+        const validCheck = await Room.findOne({
+            where: {
+                userid: userid,
+                useridTo: useridTo,
+            },
+        });
+        if (validCheck) {
+            roomNumArr.push(validCheck.dataValues.roomNum);
+            return;
+        }
         result = await Room.create({
             roomNum: genaratedUniqueId,
             roomName: roomName,
@@ -136,7 +149,10 @@ async function createPersonalRoomDb(
     } catch (err) {
         console.log(err);
     }
+    console.log(result.dataValues.roomNum);
+    roomNumArr.push(result.dataValues.roomNum);
     roomNum = result.roomNum;
+    return;
 }
 
 async function createChatDb(roomNum: string, userid: string, content: string) {
@@ -162,7 +178,7 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     }
 });
 
-app.get('/dummy/:id', async function (req, res, next) {
+app.get('/getchatlog/:id', async function (req, res, next) {
     const roomNum = req.params.id;
     const result = await Chat.findAll({
         where: { roomNum: roomNum },
@@ -230,58 +246,43 @@ io.on('connection', (socket: Socket) => {
     socket.on(
         'createRoom',
         ({ roomName, userid, useridTo, restrictedLang }) => {
-            if (useridTo === 'monoChat') {
-                createMonoRoomDb(
+            const roomNumArr: Array<string> = [];
+            (useridTo === 'monoChat'
+                ? createMonoRoomDb(
+                      roomName,
+                      userid,
+                      useridTo,
+                      restrictedLang,
+                      roomNumArr
+                  )
+                : createPersonalRoomDb(roomName, userid, useridTo, roomNumArr)
+            ).then(() => {
+                const inviteCode = generateInviteCode();
+                chatRooms[roomNum] = {
+                    id: roomNum,
+                    name: roomName,
+                    inviteCode,
+                };
+
+                socket.emit('roomCreated', {
+                    roomNum,
                     roomName,
-                    userid,
-                    useridTo,
-                    restrictedLang
-                ).then(() => {
-                    const inviteCode = generateInviteCode();
-                    chatRooms[roomNum] = {
-                        id: roomNum,
-                        name: roomName,
-                        inviteCode,
-                    };
-
-                    socket.emit('roomCreated', { roomNum, roomName });
-                    // userId 추가
-                    io.to(roomNum).emit('roomCreated', {
-                        roomNum,
-                        roomName,
-                        userId: socket.id,
-                    });
-
-                    saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
-
-                    console.log(
-                        `User ${socket.id} created and joined room ${roomNum}`
-                    );
+                    roomNumArr,
                 });
-            } else {
-                createPersonalRoomDb(roomName, userid, useridTo).then(() => {
-                    const inviteCode = generateInviteCode();
-                    chatRooms[roomNum] = {
-                        id: roomNum,
-                        name: roomName,
-                        inviteCode,
-                    };
-
-                    socket.emit('roomCreated', { roomNum, roomName });
-                    // userId 추가
-                    io.to(roomNum).emit('roomCreated', {
-                        roomNum,
-                        roomName,
-                        userId: socket.id,
-                    });
-
-                    saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
-
-                    console.log(
-                        `User ${socket.id} created and joined room ${roomNum}`
-                    );
+                // userId 추가
+                io.to(roomNum).emit('roomCreated', {
+                    roomNum,
+                    roomName,
+                    roomNumArr,
+                    userId: socket.id,
                 });
-            }
+
+                saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
+
+                console.log(
+                    `User ${socket.id} created and joined room ${roomNum}`
+                );
+            });
         }
     );
 

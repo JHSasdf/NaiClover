@@ -22,7 +22,6 @@ export const CommentModel = (sequelize: any, DataTypes: any) => {
             },
             isrevised: {
                 type: DataTypes.BOOLEAN,
-                allowNull: false,
             },
         },
         {
