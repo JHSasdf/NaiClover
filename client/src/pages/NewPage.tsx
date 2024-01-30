@@ -17,9 +17,15 @@ interface ChatLog {
     chatIndex: number;
     roomNum: string;
     userid: string;
+    User: userInterface;
     content: string;
     createdAt: string;
     updataedAt: string;
+}
+
+interface userInterface {
+    name: string;
+    profileImgPath: string;
 }
 // 쿠키 아이디 저장
 const socket = io('http://localhost:4000');
@@ -146,13 +152,13 @@ const ChatRoomPage: React.FC = () => {
                                 : 'received-message'
                         }`}
                     >
-                        <li>
-                            {userid}, {typeof userid}
-                        </li>
-                        <li>
-                            {elem.userid}, {typeof elem.userid}
-                        </li>
-                        <li>{elem.userid}</li>
+                        <li>{elem.User.name}</li>
+                        <img
+                            src={elem.User.profileImgPath}
+                            alt=""
+                            width="50px"
+                            height="50px"
+                        />
                         <li>{elem.content}</li>
                         <li>{elem.createdAt}</li>
                     </ul>
