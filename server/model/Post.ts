@@ -12,6 +12,10 @@ export const PostModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
+            postType: {
+                type: DataTypes.STRING(1),
+                defaultValue: 'c',
+            },
             content: {
                 type: DataTypes.STRING(2000),
             },

@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
 const Post = db.LangPost;
+const Follow = db.Follow;
 const PostLikes = db.LangPostLike;
 const Comment = db.LangComment;
-const Follow = db.Follow;
+const Alarm = db.Alarm;
 
 import { postsInterface } from '../types/types';
 
@@ -125,10 +126,26 @@ export const createPost = async (
     }
 
     try {
-        await Post.create({
+        const newPost = await Post.create({
             userid: userid,
             content: content,
         });
+        const newPostId = newPost.getDataValue('postId');
+        const newPostType = newPost.getDataValue('postType');
+        const followers = await Follow.findAll({
+            where: {
+                userid: userid,
+            },
+        });
+        for (const element of followers) {
+            await setAlarm(
+                element.followerId,
+                userid,
+                2,
+                newPostId,
+                newPostType
+            );
+        }
     } catch (err) {
         return next(err);
     }
@@ -338,13 +355,41 @@ export const togglePostLike = async (
     return res.json({ msg: 'Like deleted', isError: false });
 };
 
+const setAlarm = async (
+    userid: String,
+    otherUserId: String,
+    alarmType: Number,
+    option1: string | number,
+    option2: string | number
+) => {
+    console.log(
+        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        userid,
+        otherUserId,
+        alarmType
+    );
+    try {
+        await Alarm.create({
+            userid: userid,
+            otherUserId: otherUserId,
+            alarmType: alarmType,
+            checked: false,
+            option1: option1,
+            option2: option2,
+        });
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 // 댓글 작성 기능
 export const createComment = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const { content, isrevised } = req.body;
+    const { content, isrevised, postUserId, postType } = req.body;
     let userid = req.session.userid;
     if (!userid || userid.length < 4) {
         return res.json({
@@ -362,6 +407,7 @@ export const createComment = async (
             isrevised: isrevised,
         });
         const createdCommentIndex = createdComment.getDataValue('index');
+        await setAlarm(postUserId, userid, 0, postId, postType);
         res.json({
             msg: 'Comment created!',
             comment: {
@@ -390,7 +436,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });

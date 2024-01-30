@@ -12,6 +12,10 @@ export const LangPostModel = (sequelize: any, DataTypes: any) => {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
+            postType: {
+                type: DataTypes.STRING(1),
+                defaultValue: 'l',
+            },
             content: {
                 type: DataTypes.STRING(2000),
             },

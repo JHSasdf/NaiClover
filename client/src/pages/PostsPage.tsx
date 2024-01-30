@@ -120,7 +120,7 @@ function PostsPage() {
             {showLanguagePosts && (
                 <div className="language-posts-container">
                     {languagePosts
-                        .slice(0)
+                        ?.slice(0)
                         .reverse()
                         .map((languagePostData: any) => {
                             return (
@@ -144,7 +144,7 @@ function PostsPage() {
             {showCulturePosts && (
                 <div className="culture-posts-container">
                     {culturePosts
-                        .slice(0)
+                        ?.slice(0)
                         .reverse()
                         .map((culturePostData: any) => {
                             return (
@@ -155,7 +155,9 @@ function PostsPage() {
                                     name={culturePostData[0].User.name}
                                     nation={culturePostData[0].User.nation}
                                     firLang={culturePostData[0].User.firLang}
-                                    // learningLang={culturePostData[0].User.firLang}
+                                    learningLang={
+                                        culturePostData[0].User.firLang
+                                    }
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}

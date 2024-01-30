@@ -5,10 +5,10 @@ const Post = db.Post;
 const PostLikes = db.PostLike;
 const Comment = db.Comment;
 const postImages = db.PostImages;
+const Alarm = db.Alarm;
 const Follow = db.Follow;
 
 import { postsInterface } from '../types/types';
-
 // 전체 포스트 get요청
 export const getPosts = async (
     req: Request,
@@ -126,21 +126,34 @@ export const createPost = async (
         });
     }
     try {
-        const result = await Post.create({
+        const newPost = await Post.create({
             userid: userid,
             content: content,
         });
-        const postId = result.postId;
         const files = req.files as Express.Multer.File[];
         if (files && files.length > 0) {
             for (let i = 0; i < files.length; i++) {
                 const path = files[i].path;
                 await postImages.create({
-                    postId: postId,
+                    postId: newPost.postId,
                     userid: req.session.userid,
                     path: `/${path}`,
                 });
             }
+        }
+        const followers = await Follow.findAll({
+            where: {
+                userid: userid,
+            },
+        });
+        for (const element of followers) {
+            await setAlarm(
+                element.followerId,
+                userid,
+                2,
+                newPost.getDataValue('postId'),
+                newPost.getDataValue('postType')
+            );
         }
     } catch (err) {
         return next(err);
@@ -350,29 +363,70 @@ export const togglePostLike = async (
     return res.json({ msg: 'Like deleted', isError: false });
 };
 
+const setAlarm = async (
+    userid: String,
+    otherUserId: String,
+    alarmType: Number,
+    option1: string | number,
+    option2: string | number
+) => {
+    console.log(
+        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        userid,
+        otherUserId,
+        alarmType
+    );
+    try {
+        await Alarm.create({
+            userid: userid,
+            otherUserId: otherUserId,
+            alarmType: alarmType,
+            checked: false,
+            option1: option1,
+            option2: option2,
+        });
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 // 댓글 작성 기능
 export const createComment = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content, isrevised } = req.body;
+    const { content, isrevised, postUserId, postType } = req.body;
+    let userid = req.session.userid;
     const postId = parseInt(req.params.id);
-
+    if (!userid || userid.length < 4) {
+        return res.json({
+            msg: `You're trying to comment without login`,
+            isError: true,
+        });
+    }
     try {
-        await Comment.create({
+        const createdComment = await Comment.create({
             userid: userid,
             content: content,
             postId: postId,
             isrevised: isrevised,
         });
+        await setAlarm(postUserId, userid, 0, postId, postType);
+        const createdCommentIndex = createdComment.getDataValue('index');
+        res.json({
+            msg: 'Comment created!',
+            comment: {
+                index: createdCommentIndex,
+                content: content,
+                userid: req.session.userid,
+            },
+            isError: false,
+        });
     } catch (err) {
         return next(err);
     }
-    res.json({
-        msg: 'Comment created!',
-        isError: false,
-    });
 };
 
 // 게시글의 댓글 불러오기 기능
@@ -389,7 +443,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name'],
+                    attributes: ['name', 'nation'],
                 },
             ],
         });
@@ -466,7 +520,7 @@ export const deleteComment = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
     const commentIndex = parseInt(req.params.commentindex);
     if (!userid || userid.length < 4) {
         return res.json({
