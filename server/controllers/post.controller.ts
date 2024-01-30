@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 const User = db.User;
 const Post = db.Post;
-const Follow = db.Follow;
 const PostLikes = db.PostLike;
 const Comment = db.Comment;
 const postImages = db.PostImages;
