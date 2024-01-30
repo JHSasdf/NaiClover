@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
     const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
     const [useridTo, setUseridTo] = useState<string>('monoChat');
-    const [restrictedLang, setRestrictLang] = useState<String | null>(null);
+    const [restrictedLang, setRestrictLang] = useState<string | null>(null);
     const [chatRooms, setChatRooms] = useState<{ id: string; name: string }[]>(
         []
     );
@@ -102,7 +102,7 @@ const MainPage: React.FC = () => {
                 roomName: newRoomName,
                 userid: userid,
                 useridTo: useridTo,
-                restrictedLang: restrictedLang,
+                restrictedLang: restrictedLang, // 이 부분 수정
             });
             setNewRoomName('');
         }
@@ -171,6 +171,7 @@ const MainPage: React.FC = () => {
             ))}
             <div>
                 {/* DB 이용, personalRooms */}
+                <h1>personal</h1>
                 {!(personalRooms === undefined) &&
                     personalRooms.map((elem: any) => {
                         return (
@@ -184,6 +185,7 @@ const MainPage: React.FC = () => {
             </div>
             <div>
                 {/* DB 이용, monoRooms */}
+                <h1>mono</h1>
                 {!(monoRooms === undefined) &&
                     monoRooms.map((elem: any) => {
                         return (
@@ -217,11 +219,15 @@ const MainPage: React.FC = () => {
                     value={useridTo}
                     onChange={(e) => setUseridTo(e.target.value)}
                 />
-                <input
-                    type="text"
-                    placeholder="Restricted Lang"
+                {/* Restricted Language를 셀렉트 박스로 변경 */}
+                <select
+                    value={restrictedLang || ''}
                     onChange={(e) => setRestrictLang(e.target.value)}
-                />
+                >
+                    <option value="">Select Language</option>
+                    <option value="korean">Korea</option>
+                    <option value="english">English</option>
+                </select>
                 <button onClick={handleAddRoom} className="enter-button">
                     Create Room
                 </button>

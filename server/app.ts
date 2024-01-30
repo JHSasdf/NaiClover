@@ -65,25 +65,23 @@ const chatRooms: Record<
     { id: string; name: string; inviteCode: string }
 > = {}; // chatRooms 변수 선언
 
-// 사용자의 채팅방 정보를 저장하는 함수
+// 사용자의 채팅방 정보를 저장하는 함수 (데이터베이스)
 const saveUserChatRoom = (userId: string, roomId: string) => {
     if (!userChatRooms[userId]) {
         userChatRooms[userId] = [];
     }
 
     userChatRooms[userId].push(roomId);
-    // 여기에서 데이터베이스에도 저장할 수 있습니다.
 
     console.log(`User ${userId} joined room ${roomId}`);
 };
 
-// 사용자의 채팅방 정보를 제거하는 함수
+// 사용자의 채팅방 정보를 제거하는 함수 (데이터베이스)
 const removeUserChatRoom = (userId: string, roomId: string) => {
     if (userChatRooms[userId]) {
         userChatRooms[userId] = userChatRooms[userId].filter(
             (r) => r !== roomId
         );
-        // 여기에서 데이터베이스에서도 제거할 수 있습니다.
 
         console.log(`User ${userId} left room ${roomId}`);
     }
@@ -133,6 +131,7 @@ async function createPersonalRoomDb(
             roomName: roomName,
             userid: userid,
             useridTo: useridTo,
+            restrictedLang: null,
         });
     } catch (err) {
         console.log(err);
@@ -152,6 +151,16 @@ async function createChatDb(roomNum: string, userid: string, content: string) {
         console.log(err);
     }
 }
+app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
+    const roomId = req.params.roomId;
+    const room = await Room.findOne({ where: { roomNum: roomId } });
+
+    if (room) {
+        res.json({ language: room.restrictedLang || '' });
+    } else {
+        res.status(404).json({ error: 'Room not found' });
+    }
+});
 
 app.get('/dummy/:id', async function (req, res, next) {
     const roomNum = req.params.id;
@@ -161,7 +170,7 @@ app.get('/dummy/:id', async function (req, res, next) {
 
     res.json({ chatLog: result });
 });
-
+const chatRoomLanguages: Record<string, string> = {};
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
@@ -171,6 +180,16 @@ io.on('connection', (socket: Socket) => {
         socket.leave(room);
         removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
         console.log(`User ${socket.id} left room ${room}`);
+        socket.on('languageChanged', ({ roomId, selectedLanguage }) => {
+            // 1. 채팅방 별로 언어 설정 정보 저장
+            chatRoomLanguages[roomId] = selectedLanguage;
+
+            // 2. 해당 채팅방에 속한 모든 유저에게 언어 설정 전파
+            io.to(roomId).emit('languageChanged', {
+                roomId,
+                selectedLanguage,
+            });
+        });
     });
 
     connectedClients[socket.id] = socket;

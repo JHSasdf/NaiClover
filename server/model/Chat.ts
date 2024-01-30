@@ -23,6 +23,7 @@ export const ChatModel = (sequelize: any, DataTypes: any) => {
             isrevised: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
+                defaultValue: false,
             },
         },
         {
