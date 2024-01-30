@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
     const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
     const [useridTo, setUseridTo] = useState<string>('monoChat');
-    const [restrictedLang, setRestrictLang] = useState<string | null>(null);
+    const [restrictedLang, setRestrictLang] = useState<String | null>(null);
     const [chatRooms, setChatRooms] = useState<{ id: string; name: string }[]>(
         []
     );
@@ -62,15 +62,23 @@ const MainPage: React.FC = () => {
         }
 
         const handleRoomCreated = ({
-            roomNum,
+            roomId,
             roomName,
-            userId,
         }: {
-            roomNum: string;
+            roomId: string;
             roomName: string;
-            userId: string;
         }) => {
             fetchMonoRooms();
+            const isUniqueId = !chatRooms.some((room) => room.id === roomId);
+
+            if (isUniqueId) {
+                const updatedChatRooms = [
+                    ...chatRooms,
+                    { id: roomId, name: roomName },
+                ];
+                setChatRooms(updatedChatRooms);
+                Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
+            }
         };
 
         socket.on('roomCreated', handleRoomCreated);
@@ -90,10 +98,32 @@ const MainPage: React.FC = () => {
                 roomName: newRoomName,
                 userid: userid,
                 useridTo: useridTo,
-                restrictedLang: restrictedLang, // 이 부분 수정
+                restrictedLang: restrictedLang,
             });
             setNewRoomName('');
         }
+    };
+
+    const handleEnterRoom = (roomUrl: string) => {
+        // URL이 이미 채팅방 목록에 있는지 확인
+        const isRoomExist = chatRooms.some(
+            (room) => `/chat/${room.id}` === roomUrl
+        );
+
+        // URL이 채팅방 목록에 없을 경우에만 새로운 버튼 생성
+        if (!isRoomExist) {
+            const roomId = roomUrl.split('/').pop() || '';
+            const roomName = `Room ${roomId}`;
+            const updatedChatRooms = [
+                ...chatRooms,
+                { id: roomId, name: roomName },
+            ];
+            setChatRooms(updatedChatRooms);
+            Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
+        }
+
+        // 입력 필드 초기화
+        setEnteredRoomUrl('');
     };
 
     const handleEnterUrl = () => {
@@ -137,7 +167,6 @@ const MainPage: React.FC = () => {
             ))}
             <div>
                 {/* DB 이용, personalRooms */}
-                <h1>personal</h1>
                 {!(personalRooms === undefined) &&
                     personalRooms.map((elem: any) => {
                         return (
@@ -151,7 +180,6 @@ const MainPage: React.FC = () => {
             </div>
             <div>
                 {/* DB 이용, monoRooms */}
-                <h1>mono</h1>
                 {!(monoRooms === undefined) &&
                     monoRooms.map((elem: any) => {
                         return (
@@ -185,15 +213,11 @@ const MainPage: React.FC = () => {
                     value={useridTo}
                     onChange={(e) => setUseridTo(e.target.value)}
                 />
-                {/* Restricted Language를 셀렉트 박스로 변경 */}
-                <select
-                    value={restrictedLang || ''}
+                <input
+                    type="text"
+                    placeholder="Restricted Lang"
                     onChange={(e) => setRestrictLang(e.target.value)}
-                >
-                    <option value="">Select Language</option>
-                    <option value="korean">Korea</option>
-                    <option value="english">English</option>
-                </select>
+                />
                 <button onClick={handleAddRoom} className="enter-button">
                     Create Room
                 </button>
