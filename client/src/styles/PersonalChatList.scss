@@ -1,0 +1,45 @@
+@import './Common.scss';
+.persnoalChatList-container {
+    @include flex();
+    border-bottom: 1px solid lightgrey;
+    height: 100px;
+    padding: 10px;
+    .chat-ImageDiv {
+        @include flex();
+        height: 100%;
+        position: relative;
+
+        .chat-ProfileImage {
+            > img {
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                border: 1px solid lightgrey !important;
+            }
+        }
+        .chat-FlagImage {
+            > img {
+                position: absolute;
+                width: 25px;
+                height: 25px;
+                border: 1px solid lightgrey !important;
+                transform: translate(-25px, 10px);
+            }
+        }
+    }
+    .chat-content {
+        @include flex();
+        margin-left: 20px;
+        height: 100%;
+        width: 270px;
+
+        .chat-nickname {
+            font-size: larger;
+        }
+        .chat-date {
+            font-size: smaller;
+            color: gray;
+            margin-left: auto;
+        }
+    }
+}

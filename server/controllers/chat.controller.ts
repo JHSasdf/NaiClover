@@ -19,19 +19,58 @@ export const getPersonalRooms = async (
         });
     }
 
-    let result;
+    let results;
     try {
-        result = await Room.findAll({
+        results = await Room.findAll({
             where: {
                 [Op.or]: [{ userid: userid }, { useridTo: userid }],
                 [Op.not]: [{ useridTo: 'monoChat' }],
             },
         });
+        for (const result of results) {
+            const existingUserid = await User.findOne({
+                where: { userid: result.dataValues.userid },
+                attributes: ['name'],
+            });
+
+            const existingUseridTo = await User.findOne({
+                where: { userid: result.dataValues.useridTo },
+                attributes: ['name'],
+            });
+
+            const myUserNameData = await User.findOne({
+                where: { userid: userid },
+                attributes: ['name'],
+            });
+            const myUserName = myUserNameData.dataValues.name;
+
+            const existingArr = [
+                existingUserid.dataValues.name,
+                existingUseridTo.dataValues.name,
+            ];
+
+            const final = existingArr.filter((elem) => {
+                return elem !== myUserName;
+            });
+            result.dataValues.realRoomName = final.toString();
+
+            const pathData = await User.findOne({
+                where: { name: result.dataValues.realRoomName },
+                attributes: ['name'],
+                include: [
+                    {
+                        model: MypageImage,
+                        attributes: ['path'],
+                    },
+                ],
+            });
+            result.dataValues.path = pathData.dataValues.MypageImage;
+        }
     } catch (err) {
         return next(err);
     }
     res.json({
-        personalRooms: result,
+        personalRooms: results,
         isError: false,
     });
 };

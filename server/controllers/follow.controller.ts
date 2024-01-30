@@ -56,6 +56,21 @@ export async function follow(
                     result: false,
                 });
             }
+        } else {
+            try {
+                await Follow.destroy({
+                    where: { userid: followId, followerId: userid },
+                });
+                return res.json({
+                    msg: 'follow deleted',
+                    result: true,
+                });
+            } catch (error) {
+                return res.json({
+                    msg: error,
+                    result: false,
+                });
+            }
         }
     } catch (error) {
         return res.json({
