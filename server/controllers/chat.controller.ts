@@ -4,7 +4,6 @@ import { Op } from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
-const MypageImage = db.MypageImages;
 
 export const getPersonalRooms = async (
     req: Request,
@@ -53,18 +52,6 @@ export const getPersonalRooms = async (
                 return elem !== myUserName;
             });
             result.dataValues.realRoomName = final.toString();
-
-            const pathData = await User.findOne({
-                where: { name: result.dataValues.realRoomName },
-                attributes: ['name'],
-                include: [
-                    {
-                        model: MypageImage,
-                        attributes: ['path'],
-                    },
-                ],
-            });
-            result.dataValues.path = pathData.dataValues.MypageImage;
         }
     } catch (err) {
         return next(err);

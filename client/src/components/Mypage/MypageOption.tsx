@@ -35,7 +35,7 @@ function MypageOption() {
             });
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            setProfileImg(res.data.userDataObj.profileImgPath);
         } catch (error) {
             console.log('error', error);
         }
