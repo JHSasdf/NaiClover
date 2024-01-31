@@ -30,29 +30,29 @@ export const getPersonalRooms = async (
         for (const result of results) {
             const existingUserid = await User.findOne({
                 where: { userid: result.dataValues.userid },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
 
             const existingUseridTo = await User.findOne({
                 where: { userid: result.dataValues.useridTo },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
 
             const myUserNameData = await User.findOne({
                 where: { userid: userid },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
             const myUserName = myUserNameData.dataValues.name;
 
             const existingArr = [
-                existingUserid.dataValues.name,
-                existingUseridTo.dataValues.name,
+                existingUserid.dataValues,
+                existingUseridTo.dataValues,
             ];
 
             const final = existingArr.filter((elem) => {
-                return elem !== myUserName;
+                return elem.name !== myUserName;
             });
-            result.dataValues.realRoomName = final.toString();
+            result.dataValues.realRoomName = final;
         }
     } catch (err) {
         return next(err);

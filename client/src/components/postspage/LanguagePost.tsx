@@ -50,7 +50,6 @@ function LanguagePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(props.profileImgPath);
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
@@ -113,7 +112,7 @@ function LanguagePost(props: any) {
                     <div className="lang-image-container">
                         <img
                             className="lang-profile-image"
-                            src={profileImg}
+                            src={props.profileImgPath}
                             alt=""
                             onClick={() => {
                                 window.location.href = `/searchUser/${props.userid}`;
