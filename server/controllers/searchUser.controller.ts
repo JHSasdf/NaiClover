@@ -53,7 +53,7 @@ export const getUserInfo = async (
 
     if (!userDataObj) {
         return res
-            .status(500)
+            .status(404)
             .json({ msg: 'An Error occurred', isError: true });
     }
     try {

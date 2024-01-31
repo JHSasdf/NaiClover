@@ -311,7 +311,7 @@ export const getSinglePost = async (
     }
 
     if (!singlePost) {
-        return res.status(500).json({
+        return res.status(404).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
