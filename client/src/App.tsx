@@ -28,6 +28,9 @@ import SearchUser from './pages/SearchUser';
 import MonoChatPage from './pages/MonoChatPage';
 import PersonalChat from './components/Chats/PersonalChat';
 
+import CultureCorrectingPage from './pages/CultureCorrectingPage';
+import LanguageCorrectingPage from './pages/LanguageCorrectingPage';
+
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -89,6 +92,14 @@ function App() {
                     <Route
                         path='/monochat'
                         element={<MonoChatPage/>}
+                    />
+                    <Route
+                        path='/l-postdetail/:id/correcting'
+                        element={<LanguageCorrectingPage/>}
+                    />
+                    <Route
+                        path='/c-postdetail/:id/correcting'
+                        element={<CultureCorrectingPage/>}
                     />
                 </Routes>
             </BrowserRouter>
