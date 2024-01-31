@@ -17,9 +17,11 @@ function SearchUserHeader(props: any) {
         learningLang,
         profileImg,
         handleAddRoom,
+        isFollowing,
     } = props;
     const currentFlag = userData.nation;
     console.log('userData >', userData);
+    console.log('이즈팔로잉', isFollowing);
 
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
@@ -43,8 +45,7 @@ function SearchUserHeader(props: any) {
                 method: 'post',
                 url: '/followexec',
                 data: {
-                    userid: userData.userid,
-                    followId: idCookie,
+                    followId: userData.userid,
                 },
             });
             console.log('res', res.data);

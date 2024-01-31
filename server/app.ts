@@ -180,20 +180,6 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     }
 });
 
-app.get('/getchatlog/:id', async function (req, res, next) {
-    const roomNum = req.params.id;
-    const result = await Chat.findAll({
-        where: { roomNum: roomNum },
-        include: [
-            {
-                model: User,
-                attributes: ['profileImgPath', 'name'],
-            },
-        ],
-    });
-
-    res.json({ chatLog: result });
-});
 const chatRoomLanguages: Record<string, string> = {};
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {

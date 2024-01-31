@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
+const Chat = db.Chat;
 
 // room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
@@ -26,6 +27,13 @@ export const getPersonalRooms = async (
                 [Op.or]: [{ userid: userid }, { useridTo: userid }],
                 [Op.not]: [{ useridTo: 'monoChat' }],
             },
+            include: [
+                {
+                    model: Chat,
+                    order: [['createdAt', 'DESC']],
+                    limit: 1,
+                },
+            ],
         });
         for (const result of results) {
             const existingUserid = await User.findOne({
@@ -93,4 +101,27 @@ export const getMonoRooms = async (
         monoRooms: result,
         isError: false,
     });
+};
+
+export const getChatLog = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const roomNum = req.params.id;
+    try {
+        const result = await Chat.findAll({
+            where: { roomNum: roomNum },
+            include: [
+                {
+                    model: User,
+                    attributes: ['profileImgPath', 'name'],
+                },
+            ],
+        });
+
+        res.json({ chatLog: result });
+    } catch (err) {
+        return next(err);
+    }
 };

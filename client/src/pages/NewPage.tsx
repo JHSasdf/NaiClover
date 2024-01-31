@@ -72,7 +72,7 @@ const ChatRoomPage: React.FC = () => {
                 method: 'get',
             });
             setChatLog(res.data.chatLog);
-            console.log(res.data);
+            console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
         }
