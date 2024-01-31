@@ -10,11 +10,11 @@ import '../styles/NewPostHeader.scss';
 import '../styles/NewPostPage.scss';
 import '../styles/NewPostPhotos.scss';
 import '../styles/NewPostWritePost.scss';
-
+import useErrorHandler from '../utils/useErrorHandler';
 function NewPostPage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
-
+    const { errorHandler } = useErrorHandler();
     const navigate = useNavigate();
 
     const textareaRef = useRef<any>(null);
@@ -70,7 +70,8 @@ function NewPostPage() {
                 if (res.data.isError === false) {
                     navigate('/posts');
                 }
-            } catch (error) {
+            } catch (error: any) {
+                errorHandler(error.response.status);
                 console.log(error);
             }
         } else {
@@ -95,7 +96,8 @@ function NewPostPage() {
                 if (res.data.isError === false) {
                     navigate('/posts');
                 }
-            } catch (error) {
+            } catch (error: any) {
+                errorHandler(error.response.status);
                 console.log(error);
             }
         }

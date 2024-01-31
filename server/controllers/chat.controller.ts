@@ -5,6 +5,7 @@ const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
 
+// room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
     req: Request,
     res: Response,
@@ -12,8 +13,8 @@ export const getPersonalRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -56,12 +57,15 @@ export const getPersonalRooms = async (
     } catch (err) {
         return next(err);
     }
+
+    // personalRooms.realRoomName이 1:1 채팅에서 상대방의 이름
     res.json({
         personalRooms: results,
         isError: false,
     });
 };
 
+// room 보여주는 홈페이지에서 모노 채팅방 목록 보여주는 함수
 export const getMonoRooms = async (
     req: Request,
     res: Response,
@@ -69,8 +73,8 @@ export const getMonoRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }

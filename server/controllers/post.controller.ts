@@ -17,7 +17,7 @@ export const getPosts = async (
 ) => {
     let allPosts: Array<postsInterface> = [];
 
-    let { userid: myUserid } = req.query;
+    let myUserid = req.session.userid;
     if (!myUserid) {
         myUserid = '';
     }
@@ -121,7 +121,7 @@ export const createPost = async (
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
         return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -171,12 +171,12 @@ export const updatePost = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid, content } = req.body;
-
+    const { content } = req.body;
+    const userid = req.session.userid;
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -192,7 +192,7 @@ export const updatePost = async (
     }
 
     if (userid !== existingUserid.userid) {
-        return res.json({
+        return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
@@ -225,8 +225,8 @@ export const deletePost = async (
     const { userid } = req.body;
     const postId = parseInt(req.params.id);
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -241,7 +241,7 @@ export const deletePost = async (
     }
 
     if (userid !== existingUserid.userid) {
-        return res.json({
+        return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
@@ -270,7 +270,7 @@ export const getSinglePost = async (
     let likeCount;
     let didLike = false;
 
-    let { userid: myUserid } = req.query;
+    let myUserid = req.session.userid;
 
     if (!myUserid) {
         myUserid = '';
@@ -311,7 +311,7 @@ export const getSinglePost = async (
     }
 
     if (!singlePost) {
-        return res.json({
+        return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
@@ -330,7 +330,11 @@ export const togglePostLike = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { userid } = req.body;
+    const userid = req.session.userid;
+
+    if (!userid || userid.length < 4) {
+        return res.json({ msg: 'please login first', isError: true });
+    }
     const postId = parseInt(req.params.id);
     let pushLike;
     try {
@@ -471,11 +475,12 @@ export const updateComment = async (
     next: NextFunction
 ) => {
     const commentIndex = parseInt(req.params.commentindex);
-    const { userid, content } = req.body;
+    const { content } = req.body;
+    const userid = req.session.userid;
 
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: `Please login first!`,
             isError: true,
         });
     }
@@ -491,7 +496,7 @@ export const updateComment = async (
     }
 
     if (userid !== existingUserid.userid) {
-        return res.json({
+        return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });
@@ -524,8 +529,8 @@ export const deleteComment = async (
     const userid = req.session.userid;
     const commentIndex = parseInt(req.params.commentindex);
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: `Please login first!`,
             isError: true,
         });
     }
@@ -540,7 +545,7 @@ export const deleteComment = async (
     }
 
     if (userid !== existingUserid.userid) {
-        return res.json({
+        return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
         });

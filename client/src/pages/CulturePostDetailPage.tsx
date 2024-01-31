@@ -11,6 +11,7 @@ import SendComment from '../components/postdetailpage/SendComment';
 import CulturePost from '../components/postspage/CulturePost';
 import '../styles/PostDetailPage.scss';
 import { User } from '../types/types';
+import useErrorHandler from '../utils/useErrorHandler';
 
 interface CommentItem {
     index: number;
@@ -25,7 +26,7 @@ function CulturePostDetailPage() {
     const { id } = useParams();
 
     const [culturePost, setCulturePost] = useState<any>([]);
-
+    const { errorHandler } = useErrorHandler();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
 
@@ -40,8 +41,10 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setCulturePost(res.data.posts);
+            console.log(culturePost);
             console.log('getSingleCulturePost', res.data.posts);
         } catch (error) {
+             errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -63,7 +66,8 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             getComments();
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -75,7 +79,8 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setComments(res.data.Comments);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -100,6 +105,7 @@ function CulturePostDetailPage() {
                     name={culturePost.User?.name}
                     nation={culturePost.User?.nation}
                     images={culturePost}
+                    profileImgPath={culturePost.User?.profileImgPath}
                 />
                 <div className="culturecomment-container">
                     {comments?.map((comment, index) => (
@@ -112,6 +118,7 @@ function CulturePostDetailPage() {
                             time={comment.createdAt}
                             name={comment.User?.name}
                             nation={comment.User?.nation}
+                            profileImgPath={comment.User?.profileImgPath}
                             getcomment={getComments}
                         />
                     ))}

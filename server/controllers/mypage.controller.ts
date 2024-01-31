@@ -19,8 +19,8 @@ export const getmyPage = async (
     let learningLangObjArr: Array<existingLangInterface> = [];
 
     if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -43,7 +43,9 @@ export const getmyPage = async (
     }
 
     if (!userDataObj) {
-        return res.json({ msg: 'An Error occurred', isError: true });
+        return res
+            .status(500)
+            .json({ msg: 'An Error occurred', isError: true });
     }
     try {
         learningLangObjArr = await Lang.findAll({
@@ -55,7 +57,9 @@ export const getmyPage = async (
     }
 
     if (!learningLangObjArr) {
-        return res.json({ msg: 'An Error occurred', isError: true });
+        return res
+            .status(500)
+            .json({ msg: 'An Error occurred', isError: true });
     }
 
     let learningLang: Array<string> = [];
@@ -95,9 +99,9 @@ export const changeUserPassword = async (
     const { currentPassword, newPassword, confirmPassword } = req.body;
     const userid = req.session.userid;
 
-    if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -184,13 +188,12 @@ export const changeUserLang = async (
     const { learningLangs } = req.body;
     const userid = req.session.userid;
 
-    if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
-
     if (
         learningLangs &&
         learningLangs.length > 0 &&
@@ -230,9 +233,9 @@ export const changeUserName = async (
     const { name } = req.body;
     const userid = req.session.userid;
 
-    if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -256,9 +259,9 @@ export const deleteUser = async (
 ) => {
     const userid = req.session.userid;
 
-    if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -268,7 +271,7 @@ export const deleteUser = async (
             where: { userid: userid },
         });
 
-        req.session.id = '';
+        req.session.userid = '';
 
         res.json({
             msg: 'Deletion completed',
@@ -290,9 +293,9 @@ export const editIntroduction = async (
     const { content } = req.body;
     const userid = req.session.userid;
 
-    if (!userid || userid == '' || userid === null) {
-        return res.json({
-            msg: 'Something went wrong! please try it later!',
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -318,7 +321,7 @@ export const logout = async (
     res: Response,
     next: NextFunction
 ) => {
-    if (req.session.userid !== '') {
+    if (req.session.userid && req.session.userid.length > 3) {
         req.session.userid = '';
         res.json({ msg: 'logout completed', idError: false });
     } else {
@@ -333,7 +336,10 @@ export const multerMypage = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({ msg: 'you did not log in.', isError: true });
+        return res.status(401).json({
+            msg: 'Please Login First!',
+            isError: true,
+        });
     }
     try {
         await User.update(

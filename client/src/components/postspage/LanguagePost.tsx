@@ -43,7 +43,7 @@ function LanguagePost(props: any) {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `/userinfo/${props.userid}`,
                 params: {
                     userid: props.name,
                 },
