@@ -38,7 +38,7 @@ function MonoChatList() {
                                     <div className="allheader-container">
                                         <div className="all-title">KR</div>
                                         <div className="allchatroom-title">
-                                        {elem.roomName}
+                                            {elem.roomName}
                                         </div>
                                     </div>
                                     <div className="allfooter-container">

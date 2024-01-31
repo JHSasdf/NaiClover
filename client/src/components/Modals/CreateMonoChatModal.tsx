@@ -57,10 +57,12 @@ function CreateMonoChatModal({ show, setShow, navigate }: any) {
                             controlId="exampleForm.ControlInput1"
                         >
                             <Form.Label>Room Name</Form.Label>
+
                             <Form.Control
                                 type="text"
-                                placeholder="Enter new room name"
+                                placeholder="Enter new room name (max 18 characters)"
                                 autoFocus
+                                maxLength={18} // 글자 18자 제한
                                 value={newRoomName}
                                 onChange={(e) => setNewRoomName(e.target.value)}
                             />
