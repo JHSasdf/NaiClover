@@ -3,13 +3,10 @@ import '../../styles/MypageHeader.scss';
 import '../../styles/SearchUserHeader.scss';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 function SearchUserHeader(props: any) {
     const [cookies] = useCookies(['id']);
     const idCookie = cookies['id'];
-
-    const [isFollow, setIsFollow] = useState<boolean>(true);
-    const navigate = useNavigate();
     const {
         followingNum,
         followerNum,
@@ -18,10 +15,20 @@ function SearchUserHeader(props: any) {
         profileImg,
         handleAddRoom,
         isFollowing,
+        setIsFollowing,
+        setFollowerNum,
     } = props;
+
+    const [isFollow, setIsFollow] = useState<boolean>();
+    const navigate = useNavigate();
+
     const currentFlag = userData.nation;
-    console.log('userData >', userData);
+    // console.log('userData >', userData);
     console.log('이즈팔로잉', isFollowing);
+
+    useEffect(() => {
+        setIsFollow(!isFollowing);
+    }, [isFollowing]);
 
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
@@ -49,14 +56,18 @@ function SearchUserHeader(props: any) {
                 },
             });
             console.log('res', res.data);
-
-            setIsFollow(!isFollow);
+            setIsFollowing(!isFollowing);
+            if (isFollowing === true) {
+                setFollowerNum(followerNum - 1);
+            } else if (isFollowing === false) {
+                setFollowerNum(followerNum + 1);
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
-    console.log(learningLang);
+    // console.log(learningLang);
     return (
         <div className="mypageHeaderC">
             <div className="searchUserHeader">

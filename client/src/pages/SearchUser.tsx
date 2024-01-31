@@ -108,10 +108,12 @@ function SearchUser() {
                 <SearchUserHeader
                     followingNum={followingNum}
                     followerNum={followerNum}
+                    setFollowerNum={setFollowerNum}
                     userData={userData}
                     learningLang={learningLang}
                     profileImg={profileImg}
                     isFollowing={isFollowing}
+                    setIsFollowing={setIsFollowing}
                     handleAddRoom={handleAddRoom}
                 />
                 <div className="clickDiv">
