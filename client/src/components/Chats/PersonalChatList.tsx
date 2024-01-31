@@ -35,13 +35,16 @@ function PersonalChatList() {
                                     <div className="chat-ImageDiv">
                                         <div className="chat-ProfileImage">
                                             <img
-                                                src="/images/flag/korea.png"
+                                                src={
+                                                    elem.realRoomName[0]
+                                                        .profileImgPath
+                                                }
                                                 alt=""
                                             />
                                         </div>
                                         <div className="chat-FlagImage">
                                             <img
-                                                src="/images/flag/japan.png"
+                                                src={`/images/flag/${elem.realRoomName[0].nation}.png`}
                                                 alt=""
                                             />
                                         </div>
@@ -50,7 +53,7 @@ function PersonalChatList() {
                                     <div className="chat-content">
                                         {/* 닉네임 */}
                                         <div className="chat-nickname">
-                                            {elem.realRoomName}
+                                            {elem.realRoomName[0].name}
                                         </div>
                                         {/* 날짜 */}
                                         <div className="chat-date">
@@ -58,7 +61,6 @@ function PersonalChatList() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <li>{elem.realRoomName}</li> */}
                             </Link>
                         </div>
                     );
