@@ -3,8 +3,9 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/conditions.scss';
-
+import useErrorHandler from '../utils/useErrorHandler';
 function SignupPage() {
+    const { errorHandler } = useErrorHandler();
     const navigate = useNavigate();
     const [isUnique, setIsUnique] = useState<boolean>(false);
     const [gender, setGender] = useState<string>('m');
@@ -74,39 +75,46 @@ function SignupPage() {
         ) {
             learningLangs.push(learningLang3Ref.current?.value.trim());
         }
-
-        const res = await axios({
-            method: 'post',
-            url: '/signup',
-            data: {
-                userid: idRef.current?.value,
-                password: passwordRef.current?.value,
-                confirmPassword: confirmPasswordRef.current?.value,
-                name: nameRef.current?.value,
-                gender: gender,
-                isUnique: isUnique,
-                nation: nationRef.current?.value,
-                firLang: firLangRef.current?.value,
-                learningLang: learningLangs,
-            },
-        });
-        setSignupErrorMsg(res.data.msg);
-        if (!res.data.isError) {
-            navigate('/');
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/signup',
+                data: {
+                    userid: idRef.current?.value,
+                    password: passwordRef.current?.value,
+                    confirmPassword: confirmPasswordRef.current?.value,
+                    name: nameRef.current?.value,
+                    gender: gender,
+                    isUnique: isUnique,
+                    nation: nationRef.current?.value,
+                    firLang: firLangRef.current?.value,
+                    learningLang: learningLangs,
+                },
+            });
+            setSignupErrorMsg(res.data.msg);
+            if (!res.data.isError) {
+                navigate('/');
+            }
+        } catch (err: any) {
+            errorHandler(err.response.status);
         }
     };
     const existAlready = async (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
-        const res = await axios({
-            method: 'post',
-            url: '/existAlready',
-            data: {
-                userid: idRef.current?.value,
-            },
-            withCredentials: true,
-        });
-        setIsUnique(res.data.isUnique);
-        setExistErrorMsg(res.data.msg);
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/existAlready',
+                data: {
+                    userid: idRef.current?.value,
+                },
+                withCredentials: true,
+            });
+            setIsUnique(res.data.isUnique);
+            setExistErrorMsg(res.data.msg);
+        } catch (err: any) {
+            errorHandler(err.response.status);
+        }
     };
     return (
         <div className="signup-or-login">

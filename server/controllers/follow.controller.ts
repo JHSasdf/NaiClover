@@ -29,7 +29,6 @@ const setAlarm = async (
         return error;
     }
 };
-
 export async function follow(
     req: Request,
     res: Response,

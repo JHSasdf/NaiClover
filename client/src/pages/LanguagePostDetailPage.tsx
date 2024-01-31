@@ -11,6 +11,7 @@ import '../styles/PostDetailPage.scss';
 import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 import { User } from '../types/types';
+import useErrorHandler from '../utils/useErrorHandler';
 
 interface CommentItem {
     index: number;
@@ -23,7 +24,7 @@ interface CommentItem {
 
 function LanguagePostDetailPage() {
     const { id } = useParams();
-
+    const { errorHandler } = useErrorHandler();
     const [languagePost, setLanguagePost] = useState<any>([]);
 
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -41,7 +42,8 @@ function LanguagePostDetailPage() {
             });
             setLanguagePost(res.data.posts);
             console.log(languagePost);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -63,7 +65,8 @@ function LanguagePostDetailPage() {
                 withCredentials: true,
             });
             getComments();
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -76,7 +79,8 @@ function LanguagePostDetailPage() {
             });
             setComments(res.data.Comments);
             console.log('?????', res.data);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -97,8 +101,8 @@ function LanguagePostDetailPage() {
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
+                    profileImgPath={languagePost?.User?.profileImgPath}
                     id={languagePost.postId}
-                    profileImgPath={languagePost.User?.profileImgPath}
                     nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                 />

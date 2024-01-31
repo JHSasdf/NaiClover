@@ -2,12 +2,14 @@ import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../types/types';
 import axios from 'axios';
+import useErrorHandler from '../utils/useErrorHandler';
 
 function AlarmPage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     // setCookies('id', '유저아이디', cookieConfig);
     const idCookie = cookies['id'];
     const [alarmList, setAlarmList] = useState([]);
+    const { errorHandler } = useErrorHandler();
 
     const getAlarms = async () => {
         try {
@@ -20,8 +22,9 @@ function AlarmPage() {
                 withCredentials: true,
             });
             setAlarmList(res.data.list);
-        } catch (error) {
-            alert(`잘못된 접근입니다. Error: ${error}`);
+        } catch (error: any) {
+            errorHandler(error.response.status);
+            // alert(`잘못된 접근입니다. Error: ${error}`);
         }
     };
 

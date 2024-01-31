@@ -6,11 +6,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import ConfirmModal from '../components/Modals/ConfirmModal';
 import { useCookies } from 'react-cookie';
 import { User } from '../types/types';
+import useErrorHandler from '../utils/useErrorHandler';
+
 function MulterMypage() {
     const image = useRef<any>(null);
     const [cookies] = useCookies(['id']);
     const idCookie = cookies['id'];
-
+    const { errorHandler } = useErrorHandler();
     const [profileImg, setProfileImg] = useState<string>('');
 
     const [userData, setUserData] = useState<User>();
@@ -35,7 +37,8 @@ function MulterMypage() {
             });
             setUserData(res.data.userDataObj);
             setProfileImg(res.data.userDataObj.profileImgPath);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -65,20 +68,23 @@ function MulterMypage() {
         const formData = new FormData();
         console.log('이미지 파일 이름 출력', image.current.files[0].name);
         formData.append('file', image.current.files[0]);
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/multermypage',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
 
-        const res = await axios({
-            method: 'post',
-            url: '/multermypage',
-            data: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-
-            // 세션 쿠키 한번에
-            withCredentials: true,
-        });
-        handleConfirmModal();
-        console.log('res.data >', res.data);
+                // 세션 쿠키 한번에
+                withCredentials: true,
+            });
+            handleConfirmModal();
+            console.log('res.data >', res.data);
+        } catch (err: any) {
+            errorHandler(err.response.status);
+        }
     };
 
     // 모달 창 실행 함수

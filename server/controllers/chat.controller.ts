@@ -5,6 +5,7 @@ const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
 
+// room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
     req: Request,
     res: Response,
@@ -12,8 +13,8 @@ export const getPersonalRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }
@@ -29,39 +30,42 @@ export const getPersonalRooms = async (
         for (const result of results) {
             const existingUserid = await User.findOne({
                 where: { userid: result.dataValues.userid },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
 
             const existingUseridTo = await User.findOne({
                 where: { userid: result.dataValues.useridTo },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
 
             const myUserNameData = await User.findOne({
                 where: { userid: userid },
-                attributes: ['name'],
+                attributes: ['name', 'nation', 'profileImgPath'],
             });
             const myUserName = myUserNameData.dataValues.name;
 
             const existingArr = [
-                existingUserid.dataValues.name,
-                existingUseridTo.dataValues.name,
+                existingUserid.dataValues,
+                existingUseridTo.dataValues,
             ];
 
             const final = existingArr.filter((elem) => {
-                return elem !== myUserName;
+                return elem.name !== myUserName;
             });
-            result.dataValues.realRoomName = final.toString();
+            result.dataValues.realRoomName = final;
         }
     } catch (err) {
         return next(err);
     }
+
+    // personalRooms.realRoomName이 1:1 채팅에서 상대방의 이름
     res.json({
         personalRooms: results,
         isError: false,
     });
 };
 
+// room 보여주는 홈페이지에서 모노 채팅방 목록 보여주는 함수
 export const getMonoRooms = async (
     req: Request,
     res: Response,
@@ -69,8 +73,8 @@ export const getMonoRooms = async (
 ) => {
     const userid = req.session.userid;
     if (!userid || userid.length < 4) {
-        return res.json({
-            msg: `Something Went Wrong! Please try it later!`,
+        return res.status(401).json({
+            msg: 'Please Login First!',
             isError: true,
         });
     }

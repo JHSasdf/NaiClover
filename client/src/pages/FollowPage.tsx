@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ListFormat } from 'typescript';
 import { User } from '../types/types';
+import useErrorHandler from '../utils/useErrorHandler';
 
 function FollowPage() {
+    const { errorHandler } = useErrorHandler();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     // setCookies('id', '유저아이디', cookieConfig);
     const [followingNum, setFollowingNum] = useState<Number>(0);
@@ -29,7 +31,8 @@ function FollowPage() {
             });
             setFollowingNum(res.data.followingNumber);
             setFollowerNum(res.data.followerNumber);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error:', error);
         }
     };
@@ -45,7 +48,8 @@ function FollowPage() {
             });
             setFollowingList(res.data.followingList);
             setFollowerList(res.data.followerList);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error:', error);
         }
     };
@@ -60,7 +64,8 @@ function FollowPage() {
                 withCredentials: true,
             });
             setNewAlarmNum(res.data.newAlarmNumber);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error:', error);
         }
     };

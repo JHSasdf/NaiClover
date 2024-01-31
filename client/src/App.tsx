@@ -31,6 +31,10 @@ import PersonalChat from './components/Chats/PersonalChat';
 import CultureCorrectingPage from './pages/CultureCorrectingPage';
 import LanguageCorrectingPage from './pages/LanguageCorrectingPage';
 
+import Error401 from './pages/errorPages/Error401';
+import Error404 from './pages/errorPages/Error404';
+import Error500 from './pages/errorPages/Error500';
+
 
 export const generateUniqueId = () => {
     return uuidv4();
@@ -45,6 +49,9 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
+                    <Route path="/401" element={<Error401 />}></Route>
+                    <Route path="/404" element={<Error404 />}></Route>
+                    <Route path="/500" element={<Error500 />}></Route>
                     <Route path="/multermypage" element={<MulterMypage />} />
                     <Route path="/newpost" element={<NewPostPage />} />
                     <Route path="/posts" element={<PostsPage />} />
@@ -89,6 +96,7 @@ function App() {
                         path="/mypage/edit/Language"
                         element={<MypageEditLanguage />}
                     />
+                  
                     <Route
                         path='/monochat'
                         element={<MonoChatPage/>}
@@ -101,6 +109,9 @@ function App() {
                         path='/c-postdetail/:id/correcting'
                         element={<CultureCorrectingPage/>}
                     />
+
+                    <Route path="/monochat" element={<MonoChatPage />} />
+                    <Route path="*" element={<Error404 />} />
                 </Routes>
             </BrowserRouter>
         </div>

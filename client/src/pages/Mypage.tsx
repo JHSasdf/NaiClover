@@ -9,9 +9,11 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ListFormat } from 'typescript';
 import { Post, User } from '../types/types';
+import useErrorHandler from '../utils/useErrorHandler';
 
 function Mypage() {
     const [showProfile, setShowProfile] = useState(true);
+    const { errorHandler } = useErrorHandler();
 
     function toggleView(isProfile: boolean) {
         if ((isProfile && showProfile) || (!isProfile && !showProfile)) {
@@ -19,6 +21,7 @@ function Mypage() {
         }
         setShowProfile(!showProfile);
     }
+
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const [followingNum, setFollowingNum] = useState<Number>(0);
     const [followerNum, setFollowerNum] = useState<Number>(0);
@@ -32,9 +35,6 @@ function Mypage() {
             const res = await axios({
                 method: 'get',
                 url: '/getMyPage',
-                params: {
-                    userid: idCookie,
-                },
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
@@ -60,8 +60,9 @@ function Mypage() {
             // 요거 찍어보십쇼
             console.log(sortedPostDatas);
             console.log('>>>?', learningLang);
-        } catch (error) {
+        } catch (error: any) {
             console.log('error???', error);
+            errorHandler(error.response.status);
         }
     };
 

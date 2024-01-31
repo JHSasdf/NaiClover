@@ -10,14 +10,14 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import { Post, User } from '../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import useErrorHandler from '../utils/useErrorHandler';
 const socket = io('http://localhost:4000');
 
 function SearchUser() {
     const navigate = useNavigate();
     const [showProfile, setShowProfile] = useState(true);
     const userid = useParams().userid;
-
+    const { errorHandler } = useErrorHandler();
     function toggleView(isProfile: boolean) {
         if ((isProfile && showProfile) || (!isProfile && !showProfile)) {
             return;
@@ -61,7 +61,8 @@ function SearchUser() {
             // 요거 찍어보십쇼
             console.log(res.data);
             console.log(sortedPostDatas);
-        } catch (error) {
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };

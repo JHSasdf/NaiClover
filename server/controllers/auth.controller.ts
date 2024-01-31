@@ -9,6 +9,7 @@ export async function login(
     res: Response,
     next: NextFunction
 ): Promise<void | Response> {
+    // isLoggedin이 true일 경우 userid 값을 쿠키에 넣어줌. 이걸로 프론트 단에서 로그인 기능 구현
     const { userid, password } = req.body;
     if (!userid || userid.trim().length === 0) {
         return res.json({
@@ -52,7 +53,6 @@ export async function login(
     }
 
     req.session.userid = userid;
-    console.log(req.session);
     res.json({ msg: null, isLoggedin: true, userid: userid });
 }
 

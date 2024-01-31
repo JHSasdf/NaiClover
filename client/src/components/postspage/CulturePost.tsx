@@ -75,7 +75,7 @@ function CulturePost(props: any) {
             // setProfileImg(props.profileImgPath);
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `/userinfo/${props.userid}`,
                 params: {
                     userid: props.name,
                 },
