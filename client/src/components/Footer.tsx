@@ -75,7 +75,7 @@ function Footer() {
                     <div className="text">Posts</div>
                 </div>
             </Link>
-            <Link to={'/usersfour'}>
+            <Link to={'/monochat'}>
                 <div
                     className={`footer-div usersfour ${
                         hoveredDiv === 'usersfour' && 'hovered'
