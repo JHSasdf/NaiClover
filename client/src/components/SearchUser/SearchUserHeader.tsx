@@ -8,6 +8,7 @@ function SearchUserHeader(props: any) {
     const [cookies] = useCookies(['id']);
     const idCookie = cookies['id'];
 
+    const [isFollow, setIsFollow] = useState<boolean>(true);
     const navigate = useNavigate();
     const {
         followingNum,
@@ -47,21 +48,8 @@ function SearchUserHeader(props: any) {
                 },
             });
             console.log('res', res.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    const doUnFollow = async () => {
-        try {
-            const res = await axios({
-                method: 'post',
-                url: '/unfollowexec',
-                data: {
-                    userid: userData.userid,
-                    followId: idCookie,
-                },
-            });
-            console.log(res.data);
+
+            setIsFollow(!isFollow);
         } catch (err) {
             console.log(err);
         }
@@ -147,16 +135,12 @@ function SearchUserHeader(props: any) {
             </div>
             <div className="personal-container">
                 <button
-                    className="profile-followBtn"
+                    className={`profile-followBtn ${
+                        isFollow ? 'profile-followBtn' : 'profile-unfollowBtn'
+                    }`}
                     onClick={() => doFollow()}
                 >
-                    Follow
-                </button>
-                <button
-                    className="profile-unfollowBtn"
-                    onClick={() => doUnFollow()}
-                >
-                    UnFollow
+                    {isFollow ? 'Follow' : 'UnFollow'}
                 </button>
                 <button className="profile-messageBtn" onClick={handleAddRoom}>
                     Message
