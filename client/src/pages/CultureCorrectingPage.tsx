@@ -29,13 +29,13 @@ function CultureCorrectingPage() {
     const { id } = useParams();
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
-    if (cookies['content']) {
-        const content = customSplit(cookies['content']);
-        setCorrectLines(content);
-        console.log(content); // << content 확인해보세요
-    }
-    useEffect(() => {});
-
+    useEffect(() => {
+        if (cookies['content']) {
+            const content = customSplit(cookies['content']);
+            setCorrectLines(content);
+            console.log('gogo', content); // << content 확인해보세요
+        }
+    }, [cookies]);
     const cleanCookie = () => {
         removeCookies('content', cookieConfig);
     };
