@@ -25,7 +25,7 @@ const customSplit = (str: string): string[] => {
     return result;
 };
 
-function LanguageCorrectingPage() {
+function LanguageCorrectingPage(props:any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const { id } = useParams();
     const cookieId = cookies['id'];
@@ -39,7 +39,7 @@ function LanguageCorrectingPage() {
         if (cookies['content']) {
             const content = customSplit(cookies['content']);
             setCorrectLines(content);
-            console.log('gogo', content); // << content 확인해보세요
+            console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
     return (
@@ -52,10 +52,9 @@ function LanguageCorrectingPage() {
                 postUserId={cookieId}
             />
             <div className="sentences-container">
-                <SentenceCorrection />
-                <SentenceCorrection />
-                <SentenceCorrection />
-                <SentenceCorrection />
+                {correctLines.map((line, index)=>(
+                    <SentenceCorrection key={index} content={line}/>
+                ))}
             </div>
         </div>
     );

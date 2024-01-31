@@ -33,7 +33,7 @@ function CultureCorrectingPage() {
         if (cookies['content']) {
             const content = customSplit(cookies['content']);
             setCorrectLines(content);
-            console.log('gogo', content); // << content 확인해보세요
+            console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
     const cleanCookie = () => {
@@ -50,8 +50,9 @@ function CultureCorrectingPage() {
                 postUserId={cookieId}
             />
             <div className="sentences-container">
-                <SentenceCorrection />
-                <SentenceCorrection />
+                {correctLines.map((line, index)=>(
+                    <SentenceCorrection key={index} content={line}/>
+                ))}
             </div>
         </div>
     );
