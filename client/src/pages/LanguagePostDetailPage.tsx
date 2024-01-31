@@ -101,8 +101,8 @@ function LanguagePostDetailPage() {
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
+                    profileImgPath={languagePost?.User?.profileImgPath}
                     id={languagePost.postId}
-                    profileImgPath={languagePost.User?.profileImgPath}
                     nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                 />
@@ -118,7 +118,6 @@ function LanguagePostDetailPage() {
                             time={comment.createdAt}
                             name={comment.User?.name}
                             nation={comment.User?.nation}
-                            profileImgPath={comment.User?.profileImgPath}
                             getcomment={getComments}
                         />
                     ))}

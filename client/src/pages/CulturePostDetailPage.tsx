@@ -43,8 +43,8 @@ function CulturePostDetailPage() {
             setCulturePost(res.data.posts);
             console.log(culturePost);
             console.log('getSingleCulturePost', res.data.posts);
-        } catch (error) {
-             errorHandler(error.response.status);
+        } catch (error: any) {
+            errorHandler(error.response.status);
             console.log('error', error);
         }
     };
@@ -105,7 +105,6 @@ function CulturePostDetailPage() {
                     name={culturePost.User?.name}
                     nation={culturePost.User?.nation}
                     images={culturePost}
-                    profileImgPath={culturePost.User?.profileImgPath}
                 />
                 <div className="culturecomment-container">
                     {comments?.map((comment, index) => (
@@ -118,7 +117,6 @@ function CulturePostDetailPage() {
                             time={comment.createdAt}
                             name={comment.User?.name}
                             nation={comment.User?.nation}
-                            profileImgPath={comment.User?.profileImgPath}
                             getcomment={getComments}
                         />
                     ))}

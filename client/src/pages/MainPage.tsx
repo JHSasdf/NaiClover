@@ -189,7 +189,12 @@ const MainPage: React.FC = () => {
                         return (
                             <ul key={elem.roomNum}>
                                 <Link to={`/chat/${elem.roomNum}`}>
-                                    <li>{elem.realRoomName}</li>
+                                    {/* name은 이렇게 접근하는데 nation,  */}
+                                    <li>{elem.realRoomName[0].name}</li>
+                                    <li>{elem.realRoomName[0].nation}</li>
+                                    <li>
+                                        {elem.realRoomName[0].profileImgPath}
+                                    </li>
                                 </Link>
                             </ul>
                         );
