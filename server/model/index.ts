@@ -15,7 +15,7 @@ import { CommentModel } from './Comment';
 import { FollowModel } from './Follow';
 import { ChatModel } from './Chat';
 import { RoomModel } from './Room';
-
+import { ChatCountModel } from './ChatCount';
 import { AlarmModel } from './Alarm';
 import { PostLikeModel } from './PostLikes';
 import { LangPostModel } from './LangPost';
@@ -34,6 +34,7 @@ const LangPostLike = LangPostLikeModel(sequelize, Sequelize);
 const Follow = FollowModel(sequelize, Sequelize);
 const Chat = ChatModel(sequelize, Sequelize);
 const Room = RoomModel(sequelize, Sequelize);
+const ChatCount = ChatCountModel(sequelize, Sequelize);
 const Alarm = AlarmModel(sequelize, Sequelize);
 const PostImages = PostImageModel(sequelize, Sequelize);
 
@@ -292,6 +293,54 @@ Chat.belongsTo(User, {
     targetKey: 'userid',
 });
 
+Room.hasMany(ChatCount, {
+    foreignKey: 'roomNum',
+    sourceKey: 'roomNum',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+ChatCount.belongsTo(Room, {
+    foreignKey: 'roomNum',
+    targetKey: 'roomNum',
+});
+
+Chat.hasMany(ChatCount, {
+    foreignKey: 'chatIndex',
+    sourceKey: 'chatIndex',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+ChatCount.belongsTo(Chat, {
+    foreignKey: 'chatIndex',
+    targetKey: 'chatIndex',
+});
+
+User.hasMany(ChatCount, {
+    foreignKey: 'userid',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+ChatCount.belongsTo(User, {
+    foreignKey: 'userid',
+    targetKey: 'userid',
+});
+
+User.hasMany(ChatCount, {
+    foreignKey: 'useridTo',
+    sourceKey: 'userid',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+ChatCount.belongsTo(User, {
+    foreignKey: 'useridTo',
+    targetKey: 'userid',
+});
+
 export const db = {
     User,
     Lang,
@@ -306,6 +355,7 @@ export const db = {
     PostImages,
     Chat,
     Room,
+    ChatCount,
     sequelize,
     Sequelize,
 };

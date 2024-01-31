@@ -17,11 +17,12 @@ import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
 import { postSearchRouter } from './routes/postSearch.routes';
-
+import { Op } from 'sequelize';
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { getSessionConfig } from './config/session.config';
+import sequelize from 'sequelize';
 
 const app = express();
 const server = http.createServer(app);
@@ -93,6 +94,8 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
 const User = db.User;
 const Chat = db.Chat;
 const Room = db.Room;
+const ChatCount = db.ChatCount;
+
 let roomNum: string;
 const generateUniqueId = () => {
     return Math.random().toString(36).substr(2, 9);
@@ -165,6 +168,24 @@ async function createChatDb(roomNum: string, userid: string, content: string) {
             userid: userid,
             content: content,
         });
+        // console.log(result.dataValues);
+        const peopleInChatRoom = await Chat.findAll({
+            attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
+            where: {
+                roomNum: roomNum,
+                [Op.not]: [{ userid: userid }],
+            },
+        });
+        console.log('피플은', peopleInChatRoom);
+        for (const personInChatRoom of peopleInChatRoom) {
+            console.log('사람이름들', personInChatRoom.dataValues.userid);
+            ChatCount.create({
+                roomNum: roomNum,
+                chatIndex: result.dataValues.chatIndex,
+                userid: userid,
+                useridTo: personInChatRoom.dataValues.userid,
+            });
+        }
     } catch (err) {
         console.log(err);
     }
