@@ -102,6 +102,7 @@ const MainPage: React.FC = () => {
             socket.emit('createRoom', {
                 roomName: newRoomName,
                 userid: userid,
+                // mono chat에선 = ''monoChat'
                 useridTo: useridTo,
                 restrictedLang: restrictedLang, // 이 부분 수정
             });
@@ -214,6 +215,7 @@ const MainPage: React.FC = () => {
                     value={newRoomName}
                     onChange={(e) => setNewRoomName(e.target.value)}
                 />
+                {/* 여기는 모노챗에선 필요없음 */}
                 <input
                     type="text"
                     placeholder="to userid"
