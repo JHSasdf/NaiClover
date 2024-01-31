@@ -87,18 +87,50 @@ export const getMonoRooms = async (
         });
     }
 
-    let result;
+    let results;
     try {
-        result = await Room.findAll({
+        results = await Room.findAll({
             where: {
                 useridTo: 'monoChat',
             },
+            attributes: [
+                'roomNum',
+                'roomName',
+                'userid',
+                'restrictedLang',
+                'createdAt',
+            ],
+            include: [
+                {
+                    model: Chat,
+                    order: [['createdAt', 'DESC']],
+                    limit: 1,
+                },
+            ],
         });
+        for (const result of results) {
+            console.log(result.dataValues.roomNum);
+            let numberOfPeople = await Chat.count({
+                distinct: true,
+                col: 'userid',
+                where: { roomNum: result.dataValues.roomNum },
+            });
+            if (numberOfPeople === 0) {
+                numberOfPeople = 1;
+            }
+            result.dataValues.numberOfPeople = numberOfPeople;
+
+            let userInfo = await User.findOne({
+                where: { userid: result.dataValues.userid },
+                attributes: ['name', 'nation', 'profileImgPath'],
+            });
+            result.dataValues.userInfo = userInfo;
+        }
     } catch (err) {
         return next(err);
     }
     res.json({
-        monoRooms: result,
+        monoRooms: results,
         isError: false,
     });
 };
@@ -110,6 +142,15 @@ export const getChatLog = async (
 ) => {
     const roomNum = req.params.id;
     try {
+        const validCheck = await Room.findOne({
+            where: { roomNum: roomNum },
+        });
+
+        if (!validCheck) {
+            return res
+                .status(404)
+                .json({ msg: `There's no Chat Room`, isError: true });
+        }
         const result = await Chat.findAll({
             where: { roomNum: roomNum },
             include: [
