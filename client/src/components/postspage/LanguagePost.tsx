@@ -8,13 +8,13 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
-
+import { cookieConfig } from '../../utils/cookieConfig';
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
     const { id } = props;
 
-    const [cookies, setCookies, removeCookies] = useCookies(['id']);
+    const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
     const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
@@ -184,7 +184,19 @@ function LanguagePost(props: any) {
                             </div>
                         </div>
                     ) : (
-                        <div className="correction"></div>
+                        <div
+                            className="correction"
+                            onClick={() => {
+                                setCookies(
+                                    'content',
+                                    props.content,
+                                    cookieConfig
+                                );
+                                navigate(
+                                    `/l-postdetail/${props.id}/correcting`
+                                );
+                            }}
+                        ></div>
                     )}
                 </div>
 

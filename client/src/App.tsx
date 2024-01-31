@@ -35,7 +35,6 @@ import Error401 from './pages/errorPages/Error401';
 import Error404 from './pages/errorPages/Error404';
 import Error500 from './pages/errorPages/Error500';
 
-
 export const generateUniqueId = () => {
     return uuidv4();
 };
@@ -96,18 +95,15 @@ function App() {
                         path="/mypage/edit/Language"
                         element={<MypageEditLanguage />}
                     />
-                  
+
+                    <Route path="/monochat" element={<MonoChatPage />} />
                     <Route
-                        path='/monochat'
-                        element={<MonoChatPage/>}
+                        path="/l-postdetail/:id/correcting"
+                        element={<LanguageCorrectingPage />}
                     />
                     <Route
-                        path='/l-postdetail/:id/correcting'
-                        element={<LanguageCorrectingPage/>}
-                    />
-                    <Route
-                        path='/c-postdetail/:id/correcting'
-                        element={<CultureCorrectingPage/>}
+                        path="/c-postdetail/:id/correcting"
+                        element={<CultureCorrectingPage />}
                     />
 
                     <Route path="/monochat" element={<MonoChatPage />} />
