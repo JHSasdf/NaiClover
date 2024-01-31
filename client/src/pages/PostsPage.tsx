@@ -256,7 +256,7 @@ function PostsPage() {
                         commentcount={culturePostData.commentcount}
                     />
                     ))}
-                </div>
+                </div> 
             )}
 
             {searchLanguagePosts.length === 0 && searchCulturePosts.length === 0 && (
