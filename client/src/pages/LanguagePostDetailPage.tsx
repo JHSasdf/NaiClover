@@ -115,6 +115,7 @@ function LanguagePostDetailPage() {
                             time={comment.createdAt}
                             name={comment.User?.name}
                             nation={comment.User?.nation}
+                            profileImgPath={comment.User?.profileImgPath}
                             getcomment={getComments}
                         />
                     ))}

@@ -27,7 +27,7 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'firLang'],
+                    attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
                 },
             ],
         });
@@ -272,7 +272,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation'],
+                    attributes: ['name', 'nation', 'profileImgPath'],
                 },
             ],
         });
@@ -436,7 +436,7 @@ export const getComments = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation'],
+                    attributes: ['name', 'nation', 'profileImgPath'],
                 },
             ],
         });

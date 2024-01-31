@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function CultureComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const { id } = props;
-
+    console.log('디스이즈 프롭스', props);
     const idCookie = cookies['id'];
     const [userData, setUserData] = useState<User>();
     const [profileImg, setProfileImg] = useState<string>('');
@@ -29,7 +29,7 @@ function CultureComment(props: any) {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `/userinfo/${props.userid}`,
                 params: {
                     userid: props.userid,
                 },
