@@ -407,7 +407,8 @@ export const createComment = async (
             isrevised: isrevised,
         });
         const createdCommentIndex = createdComment.getDataValue('index');
-        await setAlarm(postUserId, userid, 0, postId, postType);
+        if (postUserId != userid)
+            await setAlarm(postUserId, userid, 0, postId, postType);
         res.json({
             msg: 'Comment created!',
             comment: {

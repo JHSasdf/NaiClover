@@ -1,7 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
 import '../../styles/SearchUserHeader.scss';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useState } from 'react';
 function SearchUserHeader(props: any) {
+    const [cookies] = useCookies(['id']);
+    const idCookie = cookies['id'];
+
     const navigate = useNavigate();
     const {
         followingNum,
@@ -12,6 +18,7 @@ function SearchUserHeader(props: any) {
         handleAddRoom,
     } = props;
     const currentFlag = userData.nation;
+    console.log('userData >', userData);
 
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
@@ -29,16 +36,59 @@ function SearchUserHeader(props: any) {
         }
     };
 
+    const doFollow = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/followexec',
+                data: {
+                    userid: userData.userid,
+                    followId: idCookie,
+                },
+            });
+            console.log('res', res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const doUnFollow = async () => {
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/unfollowexec',
+                data: {
+                    userid: userData.userid,
+                    followId: idCookie,
+                },
+            });
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     console.log(learningLang);
     return (
         <div className="mypageHeaderC">
-            <div className="postdetail-header-container">
+            <div className="searchUserHeader">
+                <Link to="/mypage">
+                    <div>
+                        <img
+                            src="/images/BackPoint.png"
+                            alt=""
+                            onClick={() => navigate(-1)}
+                        />
+                    </div>
+                </Link>
+            </div>
+
+            {/* <div className="myPageOption-C-Header">
                 <div className="back-arrow" onClick={() => navigate(-1)}></div>
                 <div className="postdetail-header-text">Go Back</div>
-            </div>
-            <div className="logoC">
+            </div> */}
+            {/* <div className="logoC">
                 <h1>{userData.userid}</h1>
-            </div>
+            </div> */}
             <div className="followC">
                 <div className="aDiv">
                     <div>팔로워</div>
@@ -96,8 +146,18 @@ function SearchUserHeader(props: any) {
                 </div>
             </div>
             <div className="personal-container">
-
-                <button className="profile-followBtn">Follow</button>
+                <button
+                    className="profile-followBtn"
+                    onClick={() => doFollow()}
+                >
+                    Follow
+                </button>
+                <button
+                    className="profile-unfollowBtn"
+                    onClick={() => doUnFollow()}
+                >
+                    UnFollow
+                </button>
                 <button className="profile-messageBtn" onClick={handleAddRoom}>
                     Message
                 </button>

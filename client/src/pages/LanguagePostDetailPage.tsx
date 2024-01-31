@@ -19,6 +19,7 @@ interface CommentItem {
     userid: string;
     createdAt: string;
     User: User;
+    profileImgPath: string;
 }
 
 function LanguagePostDetailPage() {
@@ -101,6 +102,7 @@ function LanguagePostDetailPage() {
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
                     id={languagePost.postId}
+                    profileImgPath={languagePost.User?.profileImgPath}
                     nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                 />
@@ -110,6 +112,7 @@ function LanguagePostDetailPage() {
                             key={index}
                             index={comment.index}
                             type={languagePost.postType}
+                            profileImgPath={comment.User?.profileImgPath}
                             content={comment.content}
                             userid={comment.userid}
                             time={comment.createdAt}

@@ -29,6 +29,10 @@ export const getPosts = async (
                     model: User,
                     attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
                 },
+                {
+                    model: postImages,
+                    attributes: ['path'],
+                },
             ],
         });
     } catch (err) {
@@ -278,7 +282,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation'],
+                    attributes: ['name', 'nation', 'profileImgPath'],
                 },
                 {
                     model: postImages,
@@ -413,7 +417,8 @@ export const createComment = async (
             postId: postId,
             isrevised: isrevised,
         });
-        await setAlarm(postUserId, userid, 0, postId, postType);
+        if (postUserId != userid)
+            await setAlarm(postUserId, userid, 0, postId, postType);
         const createdCommentIndex = createdComment.getDataValue('index');
         res.json({
             msg: 'Comment created!',

@@ -50,7 +50,7 @@ function LanguagePost(props: any) {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.profileImgPath); //here
+            setProfileImg(props.profileImgPath);
             setLearningLang(res.data.learningLang);
         } catch (error) {
             console.log('error???', error);
