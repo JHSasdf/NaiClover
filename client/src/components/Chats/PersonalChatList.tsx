@@ -3,7 +3,7 @@ import '../../styles/PersonalChatList.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { getCurrnetData } from '../../utils/getCurrentData';
 const socket = io('http://localhost:4000');
 
 function PersonalChatList() {
@@ -41,12 +41,20 @@ function PersonalChatList() {
                                                 }
                                                 alt=""
                                             />
+                                            {/* 데이트 쓰는 방법 */}
                                         </div>
                                         <div className="chat-FlagImage">
                                             <img
                                                 src={`/images/flag/${elem.realRoomName[0].nation}.png`}
                                                 alt=""
                                             />
+                                            {/* <p>
+                                                {getCurrnetData(
+                                                    new Date(
+                                                        elem.Chats[0].createdAt
+                                                    )
+                                                )}
+                                            </p> */}
                                         </div>
                                     </div>
                                     {/* 채팅 내용 */}

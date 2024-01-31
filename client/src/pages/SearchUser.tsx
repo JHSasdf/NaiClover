@@ -25,11 +25,12 @@ function SearchUser() {
         setShowProfile(!showProfile);
     }
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
-    const [followingNum, setFollowingNum] = useState<Number>(0);
-    const [followerNum, setFollowerNum] = useState<Number>(0);
+    const [followingNum, setFollowingNum] = useState<number>(0);
+    const [followerNum, setFollowerNum] = useState<number>(0);
     const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
+    const [isFollowing, setIsFollowing] = useState<boolean>(false);
     const idCookie = cookies['id'];
 
     const getMyPage = async () => {
@@ -42,9 +43,10 @@ function SearchUser() {
             setUserData(res.data.userDataObj);
             setFollowingNum(res.data.followingCount);
             setFollowerNum(res.data.followerCount);
-            console.log(res.data);
             setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
+            // isFollowing state 추가
+            setIsFollowing(res.data.isFollowing);
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
@@ -109,6 +111,7 @@ function SearchUser() {
                     userData={userData}
                     learningLang={learningLang}
                     profileImg={profileImg}
+                    isFollowing={isFollowing}
                     handleAddRoom={handleAddRoom}
                 />
                 <div className="clickDiv">

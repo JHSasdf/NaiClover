@@ -7,9 +7,9 @@ const Alarm = db.Alarm;
 import { User } from '../../client/src/types/types';
 
 const setAlarm = async (
-    userid: String,
-    otherUserId: String,
-    alarmType: Number
+    userid: string,
+    otherUserId: string,
+    alarmType: number
 ) => {
     console.log(
         'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
@@ -34,7 +34,12 @@ export async function follow(
     res: Response,
     next: NextFunction
 ): Promise<void | Response> {
-    const { userid, followId } = req.body;
+    const { followId } = req.body;
+    let userid = req.session.userid;
+    if (!userid) {
+        userid = '';
+    }
+
     console.log('userid: ', userid);
     console.log('followId: ', followId);
     try {
