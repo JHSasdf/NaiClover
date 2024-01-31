@@ -16,6 +16,7 @@ import { postsRouter } from './routes/post.routes';
 import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
+import { postSearchRouter } from './routes/postSearch.routes';
 
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
@@ -53,6 +54,7 @@ app.use(postsRouter);
 app.use(langPostsRouter);
 app.use(userSearchRouter);
 app.use(chatRouter);
+app.use(postSearchRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/App.tsx');
