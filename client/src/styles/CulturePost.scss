@@ -1,26 +1,25 @@
-$main-color: #37AF6A;
+$main-color: #37af6a;
 $secondary-color: #888;
 
-.cul-post-container{
+.cul-post-container {
     width: 390px;
     height: fit-content;
     background-color: white;
     margin-bottom: 24px;
-    
 }
-.cul-post{
+.cul-post {
     background-color: white;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-.cul-image-container{
+.cul-image-container {
     width: 40px;
     height: 40px;
     position: relative;
     margin-top: 6px;
 }
 
-.cul-profile-image{
+.cul-profile-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -28,7 +27,7 @@ $secondary-color: #888;
     background-color: lightgrey;
 }
 
-.cul-flag-image{
+.cul-flag-image {
     width: 16px;
     height: 12px;
     border: 1px solid lightgrey;
@@ -38,36 +37,40 @@ $secondary-color: #888;
     bottom: -4px;
 }
 
-//성별 아이콘 
+//성별 아이콘
 
-.cul-gender{
+.cul-gender {
     margin-top: 3px;
     width: 16px;
     height: 16px;
 }
 
-.cul-male{
+.cul-male {
     background-image: url('../img/male.png');
 }
 
 //이름과 성별 = info
 
-.cul-info{
+.cul-info {
     display: flex;
     flex-direction: row;
     width: fit-content;
     height: 24px;
 }
 
-.cul-name{
+.cul-name {
     font-size: 16px;
     font-weight: bold;
+    color: black;
+    text-decoration-line: none;
+    width: fit-content;
+    display: flex;
 }
 
 //이름, 장소, 언어
 //info-container
 
-.cul-info-container{
+.cul-info-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,33 +80,32 @@ $secondary-color: #888;
     padding-left: 12px;
 }
 
-.cul-location{
+.cul-location {
     font-size: 10px;
-    color: grey;;
+    color: grey;
     font-weight: 600;
 }
 
-
 // language-container(EN->KR 부분)
 
-.cul-language-container{
+.cul-language-container {
     display: flex;
     flex-direction: row;
 }
 
-.cul-native-language{
+.cul-native-language {
     font-size: 10px;
     font-weight: 600;
     color: $main-color;
 }
 
-.cul-learning-language{
+.cul-learning-language {
     font-size: 10px;
     font-weight: 600;
     color: $main-color;
 }
 
-.cul-arrow{
+.cul-arrow {
     margin-top: 4px;
     margin-left: 4px;
     margin-right: 4px;
@@ -113,7 +115,7 @@ $secondary-color: #888;
 }
 
 //프로필 컨테이너 (팔로우 버튼 빼고 윗부분)
-.cul-profile-container{
+.cul-profile-container {
     display: flex;
     flex-direction: row;
     width: 156px;
@@ -121,7 +123,7 @@ $secondary-color: #888;
     justify-content: space-between;
 }
 
-.cul-follow{
+.cul-follow {
     width: 72px;
     height: 32px;
     border: 1px solid $main-color;
@@ -137,12 +139,12 @@ $secondary-color: #888;
 
 // 포스트 작성 부분
 
-.cul-time{
+.cul-time {
     font-size: 12px;
     color: $secondary-color;
 }
 
-.cul-more{
+.cul-more {
     width: 16px;
     height: 16px;
     background-image: url('../img/more.png');
@@ -150,7 +152,7 @@ $secondary-color: #888;
 }
 
 //작성시간 + 더보기 버튼
-.cul-more-container{
+.cul-more-container {
     margin-top: 8px;
     width: 358px;
     height: 16px;
@@ -160,7 +162,7 @@ $secondary-color: #888;
 }
 
 //포스팅 글자
-.cul-content-text{
+.cul-content-text {
     margin-top: 8px;
     width: 358px;
     height: fit-content;
@@ -169,7 +171,7 @@ $secondary-color: #888;
 
 //reaction-container = heart + comment
 
-.cul-likes-container{
+.cul-likes-container {
     width: 48px;
     height: 42px;
     display: flex;
@@ -178,17 +180,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.cul-likes{
+.cul-likes {
     width: 24px;
     height: 24px;
     background-image: url('../img/heart.png');
 }
 
-.cul-likes-count{
+.cul-likes-count {
     font-size: 12px;
 }
 
-.cul-comments-container{
+.cul-comments-container {
     width: 48px;
     height: 42px;
     display: flex;
@@ -197,17 +199,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.cul-comments{
+.cul-comments {
     width: 24px;
     height: 24px;
     background-image: url('../img/comment.png');
 }
 
-.cul-comments-count{
+.cul-comments-count {
     font-size: 12px;
 }
 
-.cul-bookmark-container{
+.cul-bookmark-container {
     width: 24px;
     height: 42px;
     display: flex;
@@ -217,17 +219,17 @@ $secondary-color: #888;
     cursor: pointer;
 }
 
-.cul-bookmark{
+.cul-bookmark {
     width: 24px;
     height: 24px;
     background-image: url('../img/bookmark.png');
 }
 
-.cul-bookmark-text{
+.cul-bookmark-text {
     font-size: 12px;
 }
 
-.cul-reaction-container{
+.cul-reaction-container {
     width: 358px;
     height: 42px;
     display: flex;
@@ -235,7 +237,7 @@ $secondary-color: #888;
 }
 
 //포스트 전체
-.cul-post{
+.cul-post {
     position: relative;
     width: fit-content;
     height: fit-content;
@@ -243,14 +245,14 @@ $secondary-color: #888;
     margin-right: 16px;
 }
 
-.cul-line{
+.cul-line {
     width: 390px;
     height: 0.5px;
     background-color: lightgrey;
     margin-top: 24px;
 }
 
-.eachImage{
+.eachImage {
     width: 100px;
     height: 100px;
     margin-right: 16px;
@@ -258,7 +260,7 @@ $secondary-color: #888;
     border: 1px solid lightgrey;
 }
 
-.modal-container{
+.modal-container {
     position: absolute;
     right: 0px;
     background-color: white;
@@ -268,30 +270,27 @@ $secondary-color: #888;
     border-radius: 8px;
     z-index: 1000;
 
-    .edit-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .edit-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 
-    .modal-line{
+    .modal-line {
         width: 58px;
         height: 1px;
         background-color: lightgrey;
     }
 
-    .delete-text:hover{
-        span{
-            background-color: #E9FFEE;
+    .delete-text:hover {
+        span {
+            background-color: #e9ffee;
             cursor: pointer;
         }
     }
 }
 
-.opacity{
+.opacity {
     display: none;
 }
-
-
-

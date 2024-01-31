@@ -38,7 +38,8 @@ function Mypage() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.MypageImage.path);
+            console.log(res.data.userDataObj);
+            setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
 
             console.log('res.data >', res.data.userDataObj);

@@ -24,7 +24,7 @@ function NewPostPage() {
 
     const handleCameraClick = () => {
         images.current.click();
-    }
+    };
 
     const [selectedCategory, setSelectedCategory] = React.useState('lang');
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -39,18 +39,17 @@ function NewPostPage() {
         const selectedImages = images.current.files;
         const imageUrls: string[] = [];
 
-        for(let i=0; i<selectedImages.length; i++){
+        for (let i = 0; i < selectedImages.length; i++) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                if(e.target && e.target.result) {
+                if (e.target && e.target.result) {
                     imageUrls.push(e.target.result as string);
                     setUploadedImages([...imageUrls]);
                 }
             };
             reader.readAsDataURL(selectedImages[i]);
         }
-    }
-
+    };
 
     let selectRef = useRef<any>(null);
 
@@ -141,13 +140,18 @@ function NewPostPage() {
                         ref={images}
                         accept=".jpg, .png, .jpeg"
                         onChange={handleImageChange}
-                        style={{display: 'none'}}
+                        style={{ display: 'none' }}
                     />
 
-            <div className="camera" onClick={handleCameraClick}></div>
-            {uploadedImages.map((imageUrl, index) => (
-                        <img className='image' key={index} src={imageUrl} alt={`Uploaded ${index + 1}`} />
-             ))}
+                    <div className="camera" onClick={handleCameraClick}></div>
+                    {uploadedImages.map((imageUrl, index) => (
+                        <img
+                            className="image"
+                            key={index}
+                            src={imageUrl}
+                            alt={`Uploaded ${index + 1}`}
+                        />
+                    ))}
                 </div>
             ) : null}
 

@@ -7,7 +7,7 @@ const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
 const LangPost = db.LangPost;
-const MypageImage = db.MypageImages;
+const Room = db.Room;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getUserInfo = async (
@@ -18,7 +18,14 @@ export const getUserInfo = async (
     const userid = req.params.id;
     let userDataObj: userDataInterface;
     let learningLangObjArr: Array<existingLangInterface> = [];
-    let followDatas;
+    let isFollowing: boolean = false;
+    let followerCount;
+    let followingCount;
+    let myUserid = req.session.userid;
+
+    if (!myUserid || myUserid.length < 4) {
+        req.session.userid = '';
+    }
 
     if (!userid || userid == '' || userid === null) {
         return res.json({
@@ -37,12 +44,7 @@ export const getUserInfo = async (
                 'nation',
                 'introduction',
                 'firLang',
-            ],
-            include: [
-                {
-                    model: MypageImage,
-                    attributes: ['path'],
-                },
+                'profileImgPath',
             ],
         });
     } catch (err) {
@@ -81,20 +83,29 @@ export const getUserInfo = async (
         postLangDatas = await LangPost.findAll({
             where: { userid: userid },
         });
+        followerCount = await Follow.count({
+            where: {
+                userid: userid,
+            },
+        });
+        followingCount = await Follow.count({
+            where: {
+                followerId: userid,
+            },
+        });
+        const isFollowingData = await Follow.findOne({
+            where: {
+                followerId: myUserid,
+                userid: userid,
+            },
+        });
+        if (isFollowingData) {
+            isFollowing = true;
+        }
     } catch (err) {
         return next(err);
     }
 
-    const followerCount = await Follow.count({
-        where: {
-            userid: userid,
-        },
-    });
-    const followingCount = await Follow.count({
-        where: {
-            followerId: userid,
-        },
-    });
     res.json({
         userDataObj: userDataObj,
         learningLang: learningLang,
@@ -102,5 +113,6 @@ export const getUserInfo = async (
         postLangDatas: postLangDatas,
         followerCount: followerCount,
         followingCount: followingCount,
+        isFollowing: isFollowing,
     });
 };

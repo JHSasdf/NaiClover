@@ -4,7 +4,6 @@ import { Op } from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
-const MypageImage = db.MypageImages;
 
 export const getPersonalRooms = async (
     req: Request,
@@ -19,19 +18,46 @@ export const getPersonalRooms = async (
         });
     }
 
-    let result;
+    let results;
     try {
-        result = await Room.findAll({
+        results = await Room.findAll({
             where: {
                 [Op.or]: [{ userid: userid }, { useridTo: userid }],
                 [Op.not]: [{ useridTo: 'monoChat' }],
             },
         });
+        for (const result of results) {
+            const existingUserid = await User.findOne({
+                where: { userid: result.dataValues.userid },
+                attributes: ['name'],
+            });
+
+            const existingUseridTo = await User.findOne({
+                where: { userid: result.dataValues.useridTo },
+                attributes: ['name'],
+            });
+
+            const myUserNameData = await User.findOne({
+                where: { userid: userid },
+                attributes: ['name'],
+            });
+            const myUserName = myUserNameData.dataValues.name;
+
+            const existingArr = [
+                existingUserid.dataValues.name,
+                existingUseridTo.dataValues.name,
+            ];
+
+            const final = existingArr.filter((elem) => {
+                return elem !== myUserName;
+            });
+            result.dataValues.realRoomName = final.toString();
+        }
     } catch (err) {
         return next(err);
     }
     res.json({
-        personalRooms: result,
+        personalRooms: results,
         isError: false,
     });
 };

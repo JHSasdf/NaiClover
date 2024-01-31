@@ -10,12 +10,15 @@ import LanguagePost from '../components/postspage/LanguagePost';
 import '../styles/PostDetailPage.scss';
 import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
+import { User } from '../types/types';
 
 interface CommentItem {
     index: number;
     content: string;
     userid: string;
     createdAt: string;
+    User: User;
+    profileImgPath: string;
 }
 
 function LanguagePostDetailPage() {
@@ -51,9 +54,11 @@ function LanguagePostDetailPage() {
                 method: 'post',
                 url: `/lang/comments/createcomment/${id}`,
                 data: {
+                    postUserId: languagePost.userid,
                     content: content,
                     //일단 isrevised는 디폴트로 false해둘게요.
                     isrevised: false,
+                    postType: languagePost.postType,
                 },
                 withCredentials: true,
             });
@@ -70,14 +75,15 @@ function LanguagePostDetailPage() {
                 withCredentials: true,
             });
             setComments(res.data.Comments);
+            console.log('?????', res.data);
         } catch (error) {
             console.log('error', error);
         }
     };
+
     useEffect(() => {
         getComments();
         getSingleLanguagePost();
-        console.log('?????', comments);
     }, []);
 
     return (
@@ -87,10 +93,13 @@ function LanguagePostDetailPage() {
                 <PostDetailHeader />
                 <LanguagePost
                     key={languagePost.postId}
+                    type={languagePost.postType}
                     content={languagePost.content}
                     createdAt={languagePost.createdAt}
                     userid={languagePost.userid}
                     id={languagePost.postId}
+                    profileImgPath={languagePost.User?.profileImgPath}
+                    nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                 />
                 <div className="languagecomment-container">
@@ -98,13 +107,21 @@ function LanguagePostDetailPage() {
                         <LanguageComment
                             key={index}
                             index={comment.index}
+                            type={languagePost.postType}
+                            profileImgPath={comment.User?.profileImgPath}
                             content={comment.content}
-                            name={comment.userid}
+                            userid={comment.userid}
                             time={comment.createdAt}
+                            name={comment.User?.name}
+                            nation={comment.User?.nation}
+                            getcomment={getComments}
                         />
                     ))}
                 </div>
-                <SendComment onSendComment={addComment} />
+                <SendComment
+                    onSendComment={addComment}
+                    postUserId={languagePost.userid}
+                />
             </div>
         </>
     );

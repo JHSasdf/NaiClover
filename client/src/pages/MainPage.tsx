@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
     const userid = cookies['id'];
     const [newRoomName, setNewRoomName] = useState<string>('');
     const [useridTo, setUseridTo] = useState<string>('monoChat');
-    const [restrictedLang, setRestrictLang] = useState<String | null>(null);
+    const [restrictedLang, setRestrictLang] = useState<string | null>(null);
     const [chatRooms, setChatRooms] = useState<{ id: string; name: string }[]>(
         []
     );
@@ -62,21 +62,27 @@ const MainPage: React.FC = () => {
         }
 
         const handleRoomCreated = ({
-            roomId,
+            roomNum,
             roomName,
+            userId,
         }: {
-            roomId: string;
+            roomNum: string;
             roomName: string;
+            userId: string;
         }) => {
-            const isUniqueId = !chatRooms.some((room) => room.id === roomId);
+            fetchMonoRooms();
+            const isUniqueId = !chatRooms.some((room) => room.id === roomNum);
 
             if (isUniqueId) {
                 const updatedChatRooms = [
                     ...chatRooms,
-                    { id: roomId, name: roomName },
+                    { id: roomNum, name: roomName },
                 ];
                 setChatRooms(updatedChatRooms);
                 Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
+
+                // 방이 생성되면 해당 방으로 이동
+                window.location.href = `/chat/${roomNum}`;
             }
         };
 
@@ -96,8 +102,9 @@ const MainPage: React.FC = () => {
             socket.emit('createRoom', {
                 roomName: newRoomName,
                 userid: userid,
+                // mono chat에선 = ''monoChat'
                 useridTo: useridTo,
-                restrictedLang: restrictedLang,
+                restrictedLang: restrictedLang, // 이 부분 수정
             });
             setNewRoomName('');
         }
@@ -121,7 +128,7 @@ const MainPage: React.FC = () => {
             Cookies.set('chatRooms', JSON.stringify(updatedChatRooms));
         }
 
-        // 입력 필드 초기화
+        // 입력 필드 초기화t
         setEnteredRoomUrl('');
     };
 
@@ -166,12 +173,13 @@ const MainPage: React.FC = () => {
             ))}
             <div>
                 {/* DB 이용, personalRooms */}
+                <h1>personal</h1>
                 {!(personalRooms === undefined) &&
                     personalRooms.map((elem: any) => {
                         return (
                             <ul key={elem.roomNum}>
                                 <Link to={`/chat/${elem.roomNum}`}>
-                                    <li>{elem.roomName}</li>
+                                    <li>{elem.realRoomName}</li>
                                 </Link>
                             </ul>
                         );
@@ -179,6 +187,7 @@ const MainPage: React.FC = () => {
             </div>
             <div>
                 {/* DB 이용, monoRooms */}
+                <h1>mono</h1>
                 {!(monoRooms === undefined) &&
                     monoRooms.map((elem: any) => {
                         return (
@@ -206,17 +215,22 @@ const MainPage: React.FC = () => {
                     value={newRoomName}
                     onChange={(e) => setNewRoomName(e.target.value)}
                 />
+                {/* 여기는 모노챗에선 필요없음 */}
                 <input
                     type="text"
                     placeholder="to userid"
                     value={useridTo}
                     onChange={(e) => setUseridTo(e.target.value)}
                 />
-                <input
-                    type="text"
-                    placeholder="Restricted Lang"
+                {/* Restricted Language를 셀렉트 박스로 변경 */}
+                <select
+                    value={restrictedLang || ''}
                     onChange={(e) => setRestrictLang(e.target.value)}
-                />
+                >
+                    <option value="">Select Language</option>
+                    <option value="korean">Korea</option>
+                    <option value="english">English</option>
+                </select>
                 <button onClick={handleAddRoom} className="enter-button">
                     Create Room
                 </button>

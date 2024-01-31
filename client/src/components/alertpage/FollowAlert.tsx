@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../../styles/AlertPageFollowAlert.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface TimeObject {
     year: string;
@@ -18,6 +19,7 @@ function FollowAlert(props: any) {
         'monotalkalert-container'
     );
     const [timeObj, setTimeObj] = useState<TimeObject | null>(null);
+    const navigate = useNavigate();
     const getTimeObj = (input: string): TimeObject => {
         const time = new Date(input);
         const now = new Date();
@@ -57,7 +59,10 @@ function FollowAlert(props: any) {
 
     return (
         <>
-            <div className={alarmClassName}>
+            <div
+                className={alarmClassName}
+                onClick={() => navigate(`/searchUser/${alarmObj.otherUserId}`)}
+            >
                 <div className="followalert-title">
                     <span className="followalert-username">
                         {alarmObj.otherUserId}

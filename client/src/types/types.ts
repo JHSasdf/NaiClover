@@ -13,6 +13,7 @@ export interface User {
     nation: string;
     introduction: string;
     firLang: string;
+    profileImgPath: string;
 }
 
 export interface Post {

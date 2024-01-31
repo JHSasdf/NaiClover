@@ -3,26 +3,33 @@ import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
-import './ChatRoomPage.css'; // Import the styling file
+import './ChatRoomPage.css';
 import axios from 'axios';
 
+//  유저 아이디 값을 널로 저장함으로 문제 해결
 interface Message {
     text: string;
     isSentByMe?: boolean;
-    userId?: string | null; // userId를 string 또는 null로 타입 정의
+    userId?: string | null;
 }
 
 interface ChatLog {
     chatIndex: number;
     roomNum: string;
     userid: string;
+    User: userInterface;
     content: string;
     createdAt: string;
     updataedAt: string;
 }
 
+interface userInterface {
+    name: string;
+    profileImgPath: string;
+}
+// 쿠키 아이디 저장
 const socket = io('http://localhost:4000');
-const USER_ID_COOKIE_KEY = 'id'; // 사용자 ID를 저장한 쿠키의 키
+const USER_ID_COOKIE_KEY = 'id';
 
 const ChatRoomPage: React.FC = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -30,7 +37,7 @@ const ChatRoomPage: React.FC = () => {
     const [newMessage, setNewMessage] = useState<string>('');
     const [userId, setUserId] = useState<string | null>(null);
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
-
+    const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
 
@@ -59,7 +66,7 @@ const ChatRoomPage: React.FC = () => {
 
     const fetchChatLog = async () => {
         const res = await axios({
-            url: `/dummy/${roomId}`,
+            url: `/getchatlog/${roomId}`,
             method: 'get',
         });
         setChatLog(res.data.chatLog);
@@ -68,15 +75,52 @@ const ChatRoomPage: React.FC = () => {
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         fetchChatLog();
+        fetchRoomLanguage();
     }, [messages]);
+
+    const fetchRoomLanguage = async () => {
+        try {
+            const res = await axios({
+                url: `/fetch/language/${roomId}`,
+                method: 'get',
+            });
+            const roomLanguage = res.data.language;
+
+            // 상단에 설정된 언어 표시
+            setAllowedLanguage(roomLanguage);
+        } catch (error) {
+            console.error('Error fetching room language:', error);
+        }
+    };
 
     const handleSendMessage = () => {
         const message = `You: ${newMessage}`;
+
+        // 허용된 언어인지 확인
+        if (allowedLanguage) {
+            let regex;
+
+            if (allowedLanguage.toLowerCase() === 'korean') {
+                regex =
+                    /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9!@#$%^&*()-_+=\[\]{}|;:'",.<>/?\\]*$/;
+            } else if (allowedLanguage.toLowerCase() === 'english') {
+                regex = /^[a-zA-Z0-9\s!@#$%^&*()-_+=\[\]{}|;:'",.<>/?]*$/;
+            }
+
+            // 초기화되지 않은 경우 빈 정규식으로 초기화
+            regex = regex || new RegExp('');
+
+            if (!regex.test(newMessage)) {
+                alert(`Please enter the message in ${allowedLanguage}`);
+                return;
+            }
+        }
+
         socket.emit('chat message', {
             room: roomId,
             text: message,
             isSentByMe: true,
-            userId: userid, // 이미 상단에 표시된 userId 사용
+            userId: userid,
         });
         setMessages((prevMessages) => [
             ...prevMessages,
@@ -106,13 +150,13 @@ const ChatRoomPage: React.FC = () => {
                                 : 'received-message'
                         }`}
                     >
-                        <li>
-                            {userid}, {typeof userid}
-                        </li>
-                        <li>
-                            {elem.userid}, {typeof elem.userid}
-                        </li>
-                        <li>{elem.userid}</li>
+                        <li>{elem.User.name}</li>
+                        <img
+                            src={elem.User.profileImgPath}
+                            alt=""
+                            width="50px"
+                            height="50px"
+                        />
                         <li>{elem.content}</li>
                         <li>{elem.createdAt}</li>
                     </ul>
@@ -121,7 +165,9 @@ const ChatRoomPage: React.FC = () => {
             <div className="message-input-container">
                 <input
                     type="text"
-                    placeholder="Type your message"
+                    placeholder={`Type your message (in ${
+                        allowedLanguage || 'any language'
+                    })`}
                     className="message-input"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}

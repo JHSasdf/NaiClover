@@ -10,12 +10,15 @@ import PostDetailHeader from '../components/postdetailpage/PostDetailHeader';
 import SendComment from '../components/postdetailpage/SendComment';
 import CulturePost from '../components/postspage/CulturePost';
 import '../styles/PostDetailPage.scss';
+import { User } from '../types/types';
 
 interface CommentItem {
     index: number;
     content: string;
     userid: string;
     createdAt: string;
+    User: User;
+    profileImgPath: string;
 }
 
 function CulturePostDetailPage() {
@@ -37,7 +40,7 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setCulturePost(res.data.posts);
-            console.log(culturePost);
+            console.log('getSingleCulturePost', res.data.posts);
         } catch (error) {
             console.log('error', error);
         }
@@ -52,8 +55,10 @@ function CulturePostDetailPage() {
                 url: `/cul/comments/createcomment/${id}`,
                 data: {
                     content: content,
+                    postUserId: culturePost.userid,
                     //일단 isrevised는 디폴트로 false해둘게요.
                     isrevised: false,
+                    postType: culturePost.postType,
                 },
                 withCredentials: true,
             });
@@ -78,7 +83,9 @@ function CulturePostDetailPage() {
         getComments();
         getSingleCulturePost();
     }, []);
-
+    useEffect(() => {
+        console.log('???', culturePost); // culturePost가 변경될 때마다 로그 출력
+    }, [culturePost]);
     return (
         <>
             <div className="postdetailpage-container">
@@ -88,8 +95,10 @@ function CulturePostDetailPage() {
                     content={culturePost.content}
                     userid={culturePost.userid}
                     id={culturePost.postId}
+                    profileImgPath={culturePost?.User?.profileImgPath}
                     createdAt={culturePost.createdAt}
                     name={culturePost.User?.name}
+                    nation={culturePost.User?.nation}
                     images={culturePost}
                 />
                 <div className="culturecomment-container">
@@ -98,12 +107,19 @@ function CulturePostDetailPage() {
                             key={index}
                             index={comment.index}
                             content={comment.content}
-                            name={comment.userid}
+                            profileImgPath={comment.User?.profileImgPath}
+                            userid={comment.userid}
                             time={comment.createdAt}
+                            name={comment.User?.name}
+                            nation={comment.User?.nation}
+                            getcomment={getComments}
                         />
                     ))}
                 </div>
-                <SendComment onSendComment={addComment} />
+                <SendComment
+                    onSendComment={addComment}
+                    postUserId={culturePost.userid}
+                />
             </div>
         </>
     );
