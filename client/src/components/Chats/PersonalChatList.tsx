@@ -48,24 +48,33 @@ function PersonalChatList() {
                                                 src={`/images/flag/${elem.realRoomName[0].nation}.png`}
                                                 alt=""
                                             />
-                                            {/* <p>
+                                        </div>
+                                    </div>
+                                    {/* 채팅 내용 */}
+                                    <div className="chat-content">
+                                        <div className="chat-detail1">
+                                            {/* 닉네임 */}
+                                            <div className="chat-nickname">
+                                                {elem.realRoomName[0].name}
+                                            </div>
+                                            {/* 날짜 */}
+                                            <div className="chat-date">
                                                 {getCurrnetData(
                                                     new Date(
                                                         elem.Chats[0].createdAt
                                                     )
                                                 )}
-                                            </p> */}
+                                            </div>
                                         </div>
-                                    </div>
-                                    {/* 채팅 내용 */}
-                                    <div className="chat-content">
-                                        {/* 닉네임 */}
-                                        <div className="chat-nickname">
-                                            {elem.realRoomName[0].name}
-                                        </div>
-                                        {/* 날짜 */}
-                                        <div className="chat-date">
-                                            {elem.updatedAt}
+
+                                        <div className="chat-detail2">
+                                            {/* 마지막 내용 */}
+                                            <div className="chat-lastcontent">
+                                                {elem.Chats[0].content}
+                                            </div>
+                                            <div className="chat-notCheck">
+                                                <div>2</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
