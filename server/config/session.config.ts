@@ -1,20 +1,22 @@
 import * as session from 'express-session';
-import MySQLStore from 'express-mysql-session';
+import MySQLStore, { Options } from 'express-mysql-session';
+import 'dotenv/config';
+
 const MySQLStoreSession = MySQLStore(session);
 
-const options = {
-    host: '3.36.62.47',
-    port: 3306,
-    user: 'user',
-    password: 'hypeboy',
-    database: 'nai-clover',
+const options: Options = {
+    host: process.env.SERVERIPNO!,
+    port: parseInt(process.env.MYSQLPORT!, 10),
+    user: process.env.MYSQLUSERNAME!,
+    password: process.env.MYSQLUSERPASSWORD,
+    database: process.env.DATABASENAME,
 };
 
 const sessionStore = new MySQLStoreSession(options);
 
 export function getSessionConfig() {
     return {
-        secret: 'mySessionSecret',
+        secret: process.env.SECRETKEY!,
         resave: false,
         saveUninitialized: true,
         store: sessionStore,

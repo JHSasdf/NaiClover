@@ -3,6 +3,7 @@ declare module 'express-session' {
         userid: string; // string으로 수정
     }
 }
+import 'dotenv/config';
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
@@ -28,7 +29,7 @@ const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.DEVCLIENTURL,
         methods: '*',
     },
 });
@@ -41,7 +42,7 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:3000',
+        origin: process.env.DEVCLIENTURL,
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
@@ -91,7 +92,6 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
 };
 //
 
-const User = db.User;
 const Chat = db.Chat;
 const Room = db.Room;
 const ChatCount = db.ChatCount;
@@ -176,9 +176,7 @@ async function createChatDb(roomNum: string, userid: string, content: string) {
                 [Op.not]: [{ userid: userid }],
             },
         });
-        console.log('피플은', peopleInChatRoom);
         for (const personInChatRoom of peopleInChatRoom) {
-            console.log('사람이름들', personInChatRoom.dataValues.userid);
             ChatCount.create({
                 roomNum: roomNum,
                 chatIndex: result.dataValues.chatIndex,
@@ -248,8 +246,6 @@ io.on('connection', (socket: Socket) => {
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
 
-            console.log(serverMessage);
-            console.log(msg.userId); // userId 출력
             createChatDb(msg.room, msg.userId, msg.text);
 
             socket.broadcast.emit('needReload', 'reload');
@@ -345,13 +341,11 @@ app.get('/api/chatRooms/:roomId', (req: Request, res: Response) => {
 app.use(handleErrors);
 app.use(notFoundHandler);
 
-const PORT = 4000;
-
 db.sequelize
     .sync({ force: false })
     .then(() => {
-        server.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
+        server.listen(process.env.SERVERPORT, () => {
+            console.log(`Server is running on ${process.env.DEVSERVERURL}`);
         });
     })
     .catch((err: Error) => {
