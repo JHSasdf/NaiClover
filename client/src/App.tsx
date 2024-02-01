@@ -27,6 +27,7 @@ import MulterMypage from './pages/MulterMypage';
 import SearchUser from './pages/SearchUser';
 import MonoChatPage from './pages/MonoChatPage';
 import PersonalChat from './components/Chats/PersonalChat';
+import ErrorLogPage from './pages/ErrorLogPage';
 
 import CultureCorrectingPage from './pages/CultureCorrectingPage';
 import LanguageCorrectingPage from './pages/LanguageCorrectingPage';
@@ -108,6 +109,8 @@ function App() {
 
                     <Route path="/monochat" element={<MonoChatPage />} />
                     <Route path="*" element={<Error404 />} />
+
+                    <Route path="/errorlog" element={<ErrorLogPage/>}/>
                 </Routes>
             </BrowserRouter>
         </div>
