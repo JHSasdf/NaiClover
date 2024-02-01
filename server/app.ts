@@ -25,8 +25,8 @@ import { getSessionConfig } from './config/session.config';
 import sequelize from 'sequelize';
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
+export const server = http.createServer(app);
+export const io = new Server(server, {
     cors: {
         origin: 'http://localhost:3000',
         methods: '*',
@@ -205,6 +205,7 @@ const chatRoomLanguages: Record<string, string> = {};
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
+        socket.broadcast.emit('needReload', 'reload');
     });
 
     socket.on('leaveRoom', (room) => {
@@ -250,6 +251,8 @@ io.on('connection', (socket: Socket) => {
             console.log(serverMessage);
             console.log(msg.userId); // userId 출력
             createChatDb(msg.room, msg.userId, msg.text);
+
+            socket.broadcast.emit('needReload', 'reload');
         }
     });
 
