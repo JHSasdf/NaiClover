@@ -21,6 +21,9 @@ function PersonalChatList() {
     useEffect(() => {
         // 데이터베이스에 있는 room 불러오기
         fetchPersonalRooms();
+        socket.on('needReload', () => {
+            fetchPersonalRooms();
+        });
     }, []);
 
     return (

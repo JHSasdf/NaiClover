@@ -32,7 +32,7 @@ import ErrorLogPage from './pages/ErrorLogPage';
 import CultureCorrectingPage from './pages/CultureCorrectingPage';
 import LanguageCorrectingPage from './pages/LanguageCorrectingPage';
 
-import Error401 from './pages/errorPages/Error401';
+import Error403 from './pages/errorPages/Error403';
 import Error404 from './pages/errorPages/Error404';
 import Error500 from './pages/errorPages/Error500';
 
@@ -49,7 +49,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/401" element={<Error401 />}></Route>
+                    <Route path="/403" element={<Error403 />}></Route>
                     <Route path="/404" element={<Error404 />}></Route>
                     <Route path="/500" element={<Error500 />}></Route>
                     <Route path="/multermypage" element={<MulterMypage />} />

@@ -9,6 +9,8 @@ function useErrorHandler() {
                 return navigate('/login');
             case 404:
                 return navigate('/404');
+            case 403:
+                return navigate('/403');
             default:
                 navigate('/500');
         }

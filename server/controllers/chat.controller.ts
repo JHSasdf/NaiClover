@@ -180,8 +180,8 @@ export const getChatLog = async (
                 roomInfo.dataValues.useridTo === userid
             )
         ) {
-            return res.status(500).json({
-                msg: `Something went Wrong! Please try it later!`,
+            return res.status(403).json({
+                msg: `Not authenticated User entranced!`,
                 isError: true,
             });
         }
@@ -199,6 +199,11 @@ export const getChatLog = async (
                 attributes: ['name'],
             });
 
+            const usernameTo = await User.findOne({
+                where: { userid: roomInfo.dataValues.useridTo },
+                attributes: ['name'],
+            });
+
             await Chat.create({
                 roomNum: roomNum,
                 userid: userid,
@@ -210,7 +215,7 @@ export const getChatLog = async (
                 await Chat.create({
                     roomNum: roomNum,
                     userid: roomInfo.dataValues.useridTo,
-                    content: `${username.dataValues.name}님이 입장하셨습니다.`,
+                    content: `${usernameTo.dataValues.name}님이 입장하셨습니다.`,
                     isFirst: true,
                 });
             }

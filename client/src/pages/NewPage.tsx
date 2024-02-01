@@ -58,6 +58,10 @@ const ChatRoomPage: React.FC = () => {
             console.log(msg);
         });
 
+        socket.on('needReload', () => {
+            fetchChatLog();
+        });
+
         // 여기서 사용자의 ID를 쿠키에서 읽어와서 socket.id로 전달합니다.
         socket.emit('userId', userIdFromCookie);
 
