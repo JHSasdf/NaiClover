@@ -80,14 +80,19 @@
                 .all-participant-date {
                     font-size: 14px;
                     margin-left: auto;
-
                     color: #808080;
+                    @include flex-space-between();
                 }
 
                 .all-participants {
+                    @include flex();
                     color: #808080;
                     font-size: 14px;
+                    width: fit-content;
                     margin-left: auto;
+                    .participants-users {
+                        font-weight: bold;
+                    }
                 }
             }
         }

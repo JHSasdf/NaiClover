@@ -10,7 +10,7 @@ const socket = io('http://localhost:4000');
 
 function CreateMonoChatModal({ show, setShow, navigate }: any) {
     const [newRoomName, setNewRoomName] = useState<string>('');
-    const [restrictedLang, setRestrictLang] = useState<string | null>(null);
+    const [restrictedLang, setRestrictLang] = useState<string | null>('Korean');
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
 
