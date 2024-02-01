@@ -123,3 +123,25 @@
 .modal-parent {
     position: relative;
 }
+
+.beforecheck-emoji{
+    background-image: url('../img/X.png');
+    width: 20px;
+    height: 20px;
+}
+
+.correction-emoji{
+    background-image: url('../img/Check.png');
+    width: 20px;
+    height: 20px;
+}
+
+.before-comment-content{
+    display: flex;
+    margin-left: 8px;
+}
+
+.after-comment-content{
+    display: flex;
+    margin-left: 8px;
+}

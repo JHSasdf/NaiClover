@@ -1,17 +1,28 @@
+// Import necessary modules or components here
 import '../../styles/PostDetailComment.scss';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
 
-function CultureComment(props: any) {
-    const [cookies, setCookies, removeCookies] = useCookies(['id']);
-    const { id } = props;
-    console.log('디스이즈 프롭스', props);
+interface LanguageRevisedCommentProps {
+    index: number;
+    profileImgPath: string;
+    userid: string;
+    time: string;
+    name: string;
+    nation: string;
+    getcomment: () => void;
+    content: string;
+}
+
+function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
+    const [cookies] = useCookies(['id']);
     const idCookie = cookies['id'];
     const [userData, setUserData] = useState<User>();
     const [profileImg, setProfileImg] = useState<string>('');
+
     const deleteComment = async () => {
         try {
             const res = await axios({
@@ -41,9 +52,14 @@ function CultureComment(props: any) {
             console.log('error???', error);
         }
     };
+
     useEffect(() => {
         getMyPage();
     }, []);
+
+    // Split content using '&&&&' as a delimiter and filter elements containing '/./'
+    const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
+
     return (
         <>
             <div className="comment-container">
@@ -55,13 +71,12 @@ function CultureComment(props: any) {
                         onClick={() => {
                             window.location.href = `/searchUser/${props.userid}`;
                         }}
-                    />{' '}
+                    />
                     <img
                         className="comment-flag-pic"
-                        src={`/images/flag/${
-                            idCookie == id ? userData?.nation : props.nation
-                        }.png`}
-                    ></img>
+                        src={`/images/flag/${idCookie === props.userid ? userData?.nation : props.nation}.png`}
+                        alt=""
+                    />
                 </div>
 
                 <div className="comment-inside-container">
@@ -72,18 +87,34 @@ function CultureComment(props: any) {
                         >
                             {props.name}
                         </Link>
-                        {props.userid == idCookie ? (
+                        {props.userid === idCookie && (
                             <div
                                 className="comment-more"
                                 onClick={() => {
                                     deleteComment();
                                 }}
-                            ></div>
-                        ) : (
-                            ''
+                            />
                         )}
                     </div>
-                    <div className="comment-content">{props.content}</div>
+                    <div className="comment-content">
+                        {/* Map through the filteredContentArray */}
+                        {filteredContentArray.map((filteredContent, i) => {
+                            // Split each filteredContent using '/./' as delimiter
+                            const subContents = filteredContent.split('/./');
+                            return (
+                                <div key={i}>
+                                    <div className='before-comment-content'>
+                                        <div>{subContents[0]}</div>
+                                        <div className='beforecheck-emoji'></div>
+                                    </div>
+                                    <div className='after-comment-content'>
+                                        <div>{subContents.slice(1).join('/./')}</div>
+                                        <div className='correction-emoji'></div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                     <div className="comment-footer-container">
                         <div className="comment-date">{props.time}</div>
                     </div>
@@ -93,4 +124,4 @@ function CultureComment(props: any) {
     );
 }
 
-export default CultureComment;
+export default LanguageRevisedComment;

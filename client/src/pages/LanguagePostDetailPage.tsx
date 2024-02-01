@@ -12,6 +12,7 @@ import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 import { User } from '../types/types';
 import useErrorHandler from '../utils/useErrorHandler';
+import LanguageRevisedComment from '../components/postdetailpage/LanguageRevisedComment';
 
 interface CommentItem {
     index: number;
@@ -127,7 +128,22 @@ function LanguagePostDetailPage() {
                                 />
                             );
                         } else {
-                            return <></>; // 여기다가 새로운 컴포넌트 넣으세열
+                            return (
+
+                                <LanguageRevisedComment
+                                    key={index}
+                                    index={comment.index}
+                                    profileImgPath={
+                                        comment.User?.profileImgPath
+                                    }
+                                    content={comment.content}
+                                    userid={comment.userid}
+                                    time={comment.createdAt}
+                                    name={comment.User?.name}
+                                    nation={comment.User?.nation}
+                                    getcomment={getComments}
+                                />
+                            ); 
                         }
                     })}
                 </div>
