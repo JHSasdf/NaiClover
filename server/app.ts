@@ -229,7 +229,7 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
-        if (msg.text.startsWith('You:')) {
+        if (msg.text.startsWith(' ')) {
             console.log(`You: ${msg.text}`);
         } else {
             console.log(`Server: ${msg.text}`);
