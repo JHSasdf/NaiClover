@@ -35,6 +35,11 @@ export const getPersonalRooms = async (
                     order: [['createdAt', 'DESC']],
                     limit: 1,
                 },
+                {
+                    model: ChatCount,
+                    limit: 1,
+                    where: { useridTo: userid },
+                },
             ],
         });
         for (const result of results) {
@@ -108,6 +113,11 @@ export const getMonoRooms = async (
                     order: [['createdAt', 'DESC']],
                     limit: 1,
                 },
+                {
+                    model: ChatCount,
+                    limit: 1,
+                    where: { useridTo: userid },
+                },
             ],
         });
         for (const result of results) {
@@ -170,17 +180,41 @@ export const getChatLog = async (
                 roomInfo.dataValues.useridTo === userid
             )
         ) {
-            return res
-                .status(500)
-                .json({
-                    msg: `Something went Wrong! Please try it later!`,
-                    isError: true,
-                });
+            return res.status(500).json({
+                msg: `Something went Wrong! Please try it later!`,
+                isError: true,
+            });
         }
 
         ChatCount.destroy({
             where: { roomNum: roomNum, useridTo: userid },
         });
+
+        const isFirst = await Chat.findOne({
+            where: { roomNum: roomNum, userid: userid, isFirst: true },
+        });
+        if (!isFirst) {
+            const username = await User.findOne({
+                where: { userid: userid },
+                attributes: ['name'],
+            });
+
+            await Chat.create({
+                roomNum: roomNum,
+                userid: userid,
+                content: `${username.dataValues.name}님이 입장하셨습니다.`,
+                isFirst: true,
+            });
+
+            if (roomInfo.dataValues.useridTo !== 'monoChat') {
+                await Chat.create({
+                    roomNum: roomNum,
+                    userid: roomInfo.dataValues.useridTo,
+                    content: `${username.dataValues.name}님이 입장하셨습니다.`,
+                    isFirst: true,
+                });
+            }
+        }
 
         const results = await Chat.findAll({
             where: { roomNum: roomNum },
@@ -192,11 +226,6 @@ export const getChatLog = async (
             ],
         });
         for (const result of results) {
-            // let numberOfPeople = await Chat.count({
-            //     distinct: true,
-            //     col: 'userid',
-            //     where: { roomNum: result.dataValues.roomNum },
-            // });
             const chatCounting = await ChatCount.count({
                 attributes: [
                     [
