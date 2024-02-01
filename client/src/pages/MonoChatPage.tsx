@@ -15,17 +15,9 @@ import { useRef, useState } from 'react';
 
 function MonoChatPage() {
     // state 설정
-    let [selectedLanguage, setSelectedLanguage] = useState('korean');
+    let [selectedLanguage, setSelectedLanguage] = useState('KR');
 
-    // ref 지정
-    const koreanchange = useRef<any>(null);
-    const englishchange = useRef<any>(null);
-    const japanesechange = useRef<any>(null);
-    const chinesechange = useRef<any>(null);
-    const frenchchange = useRef<any>(null);
-    const germanchange = useRef<any>(null);
-
-    const handleLanguageChange = (language: any) => {
+    const handleLanguageChange = (language: string) => {
         setSelectedLanguage(language);
     };
 
@@ -37,99 +29,50 @@ function MonoChatPage() {
             <div className="change-language-container">
                 <div
                     className="change-language"
-                    ref={koreanchange}
-                    onClick={() => handleLanguageChange('korean')}
+                    onClick={() => handleLanguageChange('KR')}
                 >
                     <div className="language-flag koreanflag"></div>
                     <div className="language-text">한국어</div>
                 </div>
                 <div
                     className="change-language"
-                    ref={englishchange}
-                    onClick={() => handleLanguageChange('english')}
+                    onClick={() => handleLanguageChange('EN')}
                 >
                     <div className="language-flag englishflag"></div>
                     <div className="language-text">English</div>
                 </div>
+
                 <div
                     className="change-language"
-                    ref={japanesechange}
-                    onClick={() => handleLanguageChange('japanese')}
+                    onClick={() => handleLanguageChange('JP')}
                 >
                     <div className="language-flag japaneseflag"></div>
                     <div className="language-text">日本語</div>
                 </div>
                 <div
                     className="change-language"
-                    ref={chinesechange}
-                    onClick={() => handleLanguageChange('chinese')}
+                    onClick={() => handleLanguageChange('CH')}
                 >
                     <div className="language-flag chineseflag"></div>
                     <div className="language-text">中國語</div>
                 </div>
                 <div
                     className="change-language"
-                    ref={frenchchange}
-                    onClick={() => handleLanguageChange('french')}
+                    onClick={() => handleLanguageChange('FR')}
                 >
                     <div className="language-flag frenchflag"></div>
                     <div className="language-text">Français</div>
                 </div>
                 <div
                     className="change-language"
-                    ref={germanchange}
-                    onClick={() => handleLanguageChange('german')}
+                    onClick={() => handleLanguageChange('GM')}
                 >
                     <div className="language-flag germanflag "></div>
                     <div className="language-text">Deutsch</div>
                 </div>
             </div>
             <div className="chatroom-container">
-                <MonoChatList />
-                {/* div가 korean-chatrooms-container 자체로 바뀌게.. ex-english-chatrooms-container */}
-                {/* <div className={`${selectedLanguage}-chatrooms-container`}>
-                    {selectedLanguage === 'korean' && (
-                        <>
-                            <KoreanChatRoom />
-                            <KoreanChatRoom />
-                        </>
-                    )}
-
-                    {selectedLanguage === 'english' && (
-                        <>
-                            <EnglishChatRoom />
-                            <EnglishChatRoom />
-                        </>
-                    )}
-
-                    {selectedLanguage === 'japanese' && (
-                        <>
-                            <JapaneseChatRoom />
-                            <JapaneseChatRoom />
-                        </>
-                    )}
-
-                    {selectedLanguage === 'chinese' && (
-                        <>
-                            <ChineseChatRoom />
-                            <ChineseChatRoom />
-                        </>
-                    )}
-
-                    {selectedLanguage === 'french' && (
-                        <>
-                            <FrenchChatRoom />
-                            <FrenchChatRoom />
-                        </>
-                    )}
-
-                    {selectedLanguage === 'german' && (
-                        <>
-                            <GermanChatRoom />
-                            <GermanChatRoom />
-                        </>
-                    )}
-                </div> */}
+                <MonoChatList selectedLanguage={selectedLanguage} />
             </div>
             <Footer />
         </div>

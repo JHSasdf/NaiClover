@@ -72,8 +72,16 @@ function PersonalChatList() {
                                             <div className="chat-lastcontent">
                                                 {elem.Chats[0].content}
                                             </div>
-                                            <div className="chat-notCheck">
-                                                <div>2</div>
+                                            <div
+                                                className={
+                                                    elem.ChatCounts.length === 0
+                                                        ? 'chat-notCheck hide'
+                                                        : 'chat-notCheck'
+                                                }
+                                            >
+                                                <div>
+                                                    {elem.ChatCounts.length}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
