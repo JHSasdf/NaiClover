@@ -2,16 +2,10 @@ import axios from 'axios';
 import '../../styles/NewPostHeader.scss';
 import { useNavigate } from 'react-router-dom';
 
-interface CorrectingPageHeaderProps {
-    cleanCookie: () => void;
-    content: string[];
-    id: any;
-    postUserId: string;
-}
-
-const CorrectingPageHeader: React.FC<CorrectingPageHeaderProps> = (props) => {
-    const { cleanCookie, content, id, postUserId } = props;
+const CorrectingPageHeader = (props: any) => {
+    const { cleanCookie, content, id, postUserId, tempLines } = props;
     const navigate = useNavigate();
+
     const addComment = async (content: string) => {
         try {
             const res = await axios({
@@ -29,6 +23,16 @@ const CorrectingPageHeader: React.FC<CorrectingPageHeaderProps> = (props) => {
             console.log('error', error);
         }
     };
+    const checkChangeAndSend = () => {
+        let i = -1;
+        while (content[++i]) {
+            if (content[i] !== tempLines[i]) {
+                console.log('불일치');
+                addComment(tempLines.join('&&&&'));
+                break;
+            }
+        }
+    };
     return (
         <>
             <div className="newpost-header-container">
@@ -43,12 +47,12 @@ const CorrectingPageHeader: React.FC<CorrectingPageHeaderProps> = (props) => {
                 <div
                     className="create-correction"
                     onClick={() => {
-                        // addComment(JSON.stringify(content));
+                        checkChangeAndSend();
                         cleanCookie();
                         navigate(-1);
                     }}
                 >
-                    전송
+                    완료
                 </div>
             </div>
         </>
