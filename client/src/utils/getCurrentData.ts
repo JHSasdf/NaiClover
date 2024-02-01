@@ -14,3 +14,9 @@ export function getCurrentData2(date: Date): string {
 
     return `${year}년 ${month}월 ${day}일`;
 }
+export function getCurrentData3(date: Date): string {
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
+    return `${hour}시 ${minute}분`;
+}
