@@ -38,6 +38,7 @@ export const getPersonalRooms = async (
                 {
                     model: ChatCount,
                     where: { useridTo: userid },
+                    limit: 300,
                 },
             ],
         });
