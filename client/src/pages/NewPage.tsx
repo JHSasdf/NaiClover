@@ -100,7 +100,7 @@ const ChatRoomPage: React.FC = () => {
     };
 
     const handleSendMessage = () => {
-        const message = `You: ${newMessage}`;
+        const message = ` ${newMessage}`;
 
         // 허용된 언어인지 확인
         if (allowedLanguage) {
