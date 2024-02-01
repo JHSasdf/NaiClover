@@ -12,6 +12,7 @@ import CulturePost from '../components/postspage/CulturePost';
 import '../styles/PostDetailPage.scss';
 import { User } from '../types/types';
 import useErrorHandler from '../utils/useErrorHandler';
+import CultureRevisedComment from '../components/postdetailpage/CultureRevisedComment';
 
 interface CommentItem {
     index: number;
@@ -20,6 +21,7 @@ interface CommentItem {
     createdAt: string;
     User: User;
     profileImgPath: string;
+    isrevised: boolean;
 }
 
 function CulturePostDetailPage() {
@@ -107,19 +109,43 @@ function CulturePostDetailPage() {
                     images={culturePost}
                 />
                 <div className="culturecomment-container">
-                    {comments?.map((comment, index) => (
-                        <CultureComment
-                            key={index}
-                            index={comment.index}
-                            content={comment.content}
-                            profileImgPath={comment.User?.profileImgPath}
-                            userid={comment.userid}
-                            time={comment.createdAt}
-                            name={comment.User?.name}
-                            nation={comment.User?.nation}
-                            getcomment={getComments}
-                        />
-                    ))}
+                {comments?.map((comment, index) => {
+                        if (!comment.isrevised) {
+                            return (
+                                <CultureComment
+                                    key={index}
+                                    index={comment.index}
+                                    type={culturePost.postType}
+                                    profileImgPath={
+                                        comment.User?.profileImgPath
+                                    }
+                                    content={comment.content}
+                                    userid={comment.userid}
+                                    time={comment.createdAt}
+                                    name={comment.User?.name}
+                                    nation={comment.User?.nation}
+                                    getcomment={getComments}
+                                />
+                            );
+                        } else {
+                            return (
+
+                                <CultureRevisedComment
+                                    key={index}
+                                    index={comment.index}
+                                    profileImgPath={
+                                        comment.User?.profileImgPath
+                                    }
+                                    content={comment.content}
+                                    userid={comment.userid}
+                                    time={comment.createdAt}
+                                    name={comment.User?.name}
+                                    nation={comment.User?.nation}
+                                    getcomment={getComments}
+                                />
+                            ); 
+                        }
+                    })}
                 </div>
                 <SendComment
                     onSendComment={addComment}
