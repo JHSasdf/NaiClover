@@ -18,18 +18,19 @@ const customSplit = (str: string): string[] => {
             str[i + 1] == ' '
         ) {
             result.push(str.substring(0, i + 1));
-            str = str.substring(i + 1);
+            str = str.substring(i + 2);
         }
     }
     result.push(str);
     return result;
 };
 
-function LanguageCorrectingPage(props:any) {
+function LanguageCorrectingPage(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const { id } = useParams();
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
+    const [tempLines, setTempLines] = useState<string[]>([]);
     console.log(cookies['content']);
     const cleanCookie = () => {
         removeCookies('content', cookieConfig);
@@ -39,6 +40,7 @@ function LanguageCorrectingPage(props:any) {
         if (cookies['content']) {
             const content = customSplit(cookies['content']);
             setCorrectLines(content);
+            setTempLines(content);
             console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
@@ -47,13 +49,22 @@ function LanguageCorrectingPage(props:any) {
             <Topbar />
             <CorrectingPageHeader
                 cleanCookie={cleanCookie}
+                tempLines={tempLines}
+                setContent={setCorrectLines}
                 content={correctLines}
                 id={id}
                 postUserId={cookieId}
             />
             <div className="sentences-container">
-                {correctLines.map((line, index)=>(
-                    <SentenceCorrection key={index} content={line}/>
+                {tempLines.map((line, index) => (
+                    <SentenceCorrection
+                        key={index}
+                        index={index}
+                        line={line}
+                        content={correctLines}
+                        tempLines={tempLines}
+                        setTempLines={setTempLines}
+                    />
                 ))}
             </div>
         </div>

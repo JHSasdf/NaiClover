@@ -20,6 +20,7 @@ interface CommentItem {
     createdAt: string;
     User: User;
     profileImgPath: string;
+    isrevised: boolean;
 }
 
 function LanguagePostDetailPage() {
@@ -107,20 +108,28 @@ function LanguagePostDetailPage() {
                     name={languagePost.User?.name}
                 />
                 <div className="languagecomment-container">
-                    {comments?.map((comment, index) => (
-                        <LanguageComment
-                            key={index}
-                            index={comment.index}
-                            type={languagePost.postType}
-                            profileImgPath={comment.User?.profileImgPath}
-                            content={comment.content}
-                            userid={comment.userid}
-                            time={comment.createdAt}
-                            name={comment.User?.name}
-                            nation={comment.User?.nation}
-                            getcomment={getComments}
-                        />
-                    ))}
+                    {comments?.map((comment, index) => {
+                        if (!comment.isrevised) {
+                            return (
+                                <LanguageComment
+                                    key={index}
+                                    index={comment.index}
+                                    type={languagePost.postType}
+                                    profileImgPath={
+                                        comment.User?.profileImgPath
+                                    }
+                                    content={comment.content}
+                                    userid={comment.userid}
+                                    time={comment.createdAt}
+                                    name={comment.User?.name}
+                                    nation={comment.User?.nation}
+                                    getcomment={getComments}
+                                />
+                            );
+                        } else {
+                            return <></>; // 여기다가 새로운 컴포넌트 넣으세열
+                        }
+                    })}
                 </div>
                 <SendComment
                     onSendComment={addComment}
