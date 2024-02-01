@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-import { Op } from 'sequelize';
+import { Op, ValidationError } from 'sequelize';
 import sequelize from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
@@ -153,15 +153,31 @@ export const getChatLog = async (
     }
 
     try {
-        const validCheck = await Room.findOne({
+        const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
         });
 
-        if (!validCheck) {
+        if (!roomInfo) {
             return res
                 .status(404)
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
+
+        if (
+            roomInfo.dataValues.useridTo !== 'monoChat' &&
+            !(
+                roomInfo.dataValues.userid === userid ||
+                roomInfo.dataValues.useridTo === userid
+            )
+        ) {
+            return res
+                .status(500)
+                .json({
+                    msg: `Something went Wrong! Please try it later!`,
+                    isError: true,
+                });
+        }
+
         ChatCount.destroy({
             where: { roomNum: roomNum, useridTo: userid },
         });
@@ -199,7 +215,7 @@ export const getChatLog = async (
             result.dataValues.chatCounting = chatCounting;
         }
 
-        res.json({ chatLog: results });
+        res.json({ chatLog: results, roomInfo: roomInfo });
     } catch (err) {
         return next(err);
     }
