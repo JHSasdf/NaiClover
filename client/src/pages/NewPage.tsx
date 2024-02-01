@@ -21,6 +21,7 @@ interface ChatLog {
     content: string;
     createdAt: string;
     updataedAt: string;
+    chatCounting: number;
 }
 
 interface userInterface {
@@ -164,6 +165,7 @@ const ChatRoomPage: React.FC = () => {
                         />
                         <li>{elem.content}</li>
                         <li>{elem.createdAt}</li>
+                        <li>{elem.chatCounting}</li>
                     </ul>
                 ))}
             </div>

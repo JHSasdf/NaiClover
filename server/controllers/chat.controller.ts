@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-import { Op } from 'sequelize';
+import { Op, ValidationError } from 'sequelize';
+import sequelize from 'sequelize';
 const User = db.User;
 const Lang = db.Lang;
 const Room = db.Room;
 const Chat = db.Chat;
+const ChatCount = db.ChatCount;
 
 // room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
@@ -141,17 +143,46 @@ export const getChatLog = async (
     next: NextFunction
 ) => {
     const roomNum = req.params.id;
+    const userid = req.session.userid;
+
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
+            isError: true,
+        });
+    }
+
     try {
-        const validCheck = await Room.findOne({
+        const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
         });
 
-        if (!validCheck) {
+        if (!roomInfo) {
             return res
                 .status(404)
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
-        const result = await Chat.findAll({
+
+        if (
+            roomInfo.dataValues.useridTo !== 'monoChat' &&
+            !(
+                roomInfo.dataValues.userid === userid ||
+                roomInfo.dataValues.useridTo === userid
+            )
+        ) {
+            return res
+                .status(500)
+                .json({
+                    msg: `Something went Wrong! Please try it later!`,
+                    isError: true,
+                });
+        }
+
+        ChatCount.destroy({
+            where: { roomNum: roomNum, useridTo: userid },
+        });
+
+        const results = await Chat.findAll({
             where: { roomNum: roomNum },
             include: [
                 {
@@ -160,8 +191,31 @@ export const getChatLog = async (
                 },
             ],
         });
+        for (const result of results) {
+            // let numberOfPeople = await Chat.count({
+            //     distinct: true,
+            //     col: 'userid',
+            //     where: { roomNum: result.dataValues.roomNum },
+            // });
+            const chatCounting = await ChatCount.count({
+                attributes: [
+                    [
+                        sequelize.fn(
+                            'COUNT',
+                            sequelize.literal('DISTINCT useridTo')
+                        ),
+                        'userCount',
+                    ],
+                ],
+                where: {
+                    roomNum: roomNum,
+                    chatIndex: result.dataValues.chatIndex,
+                },
+            });
+            result.dataValues.chatCounting = chatCounting;
+        }
 
-        res.json({ chatLog: result });
+        res.json({ chatLog: results, roomInfo: roomInfo });
     } catch (err) {
         return next(err);
     }
