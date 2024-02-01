@@ -29,18 +29,80 @@
     }
     .chat-content {
         @include flex();
+        // flex-direction: column;
         margin-left: 20px;
         height: 100%;
         width: 270px;
 
-        .chat-nickname {
-            font-size: larger;
+        .chat-detail1 {
+            width: 100%;
+            @include flex();
+            .chat-nickname {
+                font-size: larger;
+                max-width: 118px;
+                max-height: 30px;
+                overflow: hidden;
+            }
+            .chat-date {
+                margin-left: auto;
+                font-size: smaller;
+                color: gray;
+            }
         }
-        .chat-date {
-            font-size: smaller;
-            color: gray;
-            margin-left: auto;
+
+        .chat-detail2 {
+            width: 100%;
+            @include flex();
+            .chat-lastcontent {
+                max-width: 206px;
+                max-height: 50px;
+                overflow: hidden;
+            }
+            .chat-notCheck {
+                margin-left: auto;
+                background-color: rgb(250, 69, 69);
+                text-align: center;
+                width: 25px;
+                height: 25px;
+                margin-left: auto;
+                border-radius: 50%;
+                color: white;
+            }
         }
+        // .chat-detail1 {
+        //     .chat-nickname {
+        //         font-size: larger;
+        //     }
+        //     .chat-date {
+        //         font-size: smaller;
+        //         color: gray;
+        //         margin-left: auto;
+        //     }
+        // }
+        // .chat-detail2 {
+        //     margin-left: auto;
+
+        //     .chat-notCheck {
+        //         margin-top: 10px;
+        //         text-align: right;
+        //         > div {
+        //             background-color: rgb(250, 69, 69);
+        //             text-align: center;
+        //             width: 25px;
+        //             height: 25px;
+        //             margin-left: auto;
+        //             border-radius: 50%;
+        //             color: white;
+        //         }
+        //     }
+        //     .chat-lastcontent {
+        //         // margin-top: 5px;
+        //         // max-width: 110px;
+
+        //         // max-height: 24px;
+        //         // overflow: hidden;
+        //     }
+        // }
     }
 }
 a {
