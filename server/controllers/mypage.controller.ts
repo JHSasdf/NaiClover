@@ -383,15 +383,25 @@ export const getRevisedLists = async (
             ],
         });
         let i = -1;
-        let j = -1;
+        let j, k;
         while (culPosts[++i]) {
-            while (culPosts[i].Comments[++j]) {
-                if (culPosts[i].Comments[j].isrevised) {
-                    culs.push(culPosts[i].Comments[j].content);
+            if (culPosts[i].Comments) {
+                j = -1;
+                while (culPosts[i].Comments[++j]) {
+                    if (culPosts[i].Comments[j].isrevised) {
+                        const comments =
+                            culPosts[i].Comments[j].content.split('&&&&');
+                        k = -1;
+                        while (comments[++k]) {
+                            if (comments[k].includes('/./')) {
+                                culs.push(comments[k]);
+                            }
+                        }
+                    }
                 }
             }
-            j = -1;
         }
+
         const langPosts = await LangPost.findAll({
             where: { userid: userid },
             attributes: ['postId'],
@@ -403,22 +413,31 @@ export const getRevisedLists = async (
             ],
         });
         i = -1;
-        j = -1;
         while (langPosts[++i]) {
-            while (langPosts[i].LangComments[++j]) {
-                if (langPosts[i].LangComments[j].isrevised) {
-                    langs.push(langPosts[i].LangComments[j].content);
+            if (langPosts[i].LangComments) {
+                j = -1;
+                while (langPosts[i].LangComments[++j]) {
+                    if (langPosts[i].LangComments[j].isrevised) {
+                        const comments =
+                            langPosts[i].LangComments[j].content.split('&&&&');
+                        k = -1;
+                        while (comments[++k]) {
+                            if (comments[k].includes('/./')) {
+                                langs.push(comments[k]);
+                            }
+                        }
+                    }
                 }
             }
-            j = -1;
         }
+
         res.json({
             langRes: langs,
             culRes: culs,
             isError: false,
         });
     } catch (err) {
-        console.log('what???????????????????????');
+        console.log('Error occurred:', err);
         next(err);
     }
 };
