@@ -27,6 +27,8 @@ function PostsPage() {
 
     const [searchQuery, setSearchQuery] = useState('');
 
+    const [likeCount, setLikeCount] = useState<number>(0);
+
     const handleLanguageClick = () => {
         setShowLanguagePosts(!showLanguagePosts);
         setShowCulturePosts(false);
@@ -195,6 +197,7 @@ function PostsPage() {
                                     content={languagePostData[0].content}
                                     likecount={languagePostData[1]}
                                     commentcount={languagePostData[3]}
+                                    setLikeCount={setLikeCount}
                                 />
                             ))
                     ) : (
@@ -228,6 +231,7 @@ function PostsPage() {
                                     images={culturePostData[0]}
                                     likecount={culturePostData[1]}
                                     commentcount={culturePostData[3]}
+                                    setLikeCount={setLikeCount}
                                 />
                             ))
                     ) : (
@@ -263,9 +267,8 @@ function PostsPage() {
                                             likecount={
                                                 languagePostData.likecount
                                             }
-                                            commentcount={
-                                                languagePostData.commentcount
-                                            }
+                                            commentcount={languagePostData[3]}
+                                            setLikeCount={setLikeCount}
                                         />
                                     ))
                             ) : (
@@ -301,9 +304,8 @@ function PostsPage() {
                                             likecount={
                                                 culturePostData.likecount
                                             }
-                                            commentcount={
-                                                culturePostData.commentcount
-                                            }
+                                            commentcount={culturePostData[3]}
+                                            setLikeCount={setLikeCount}
                                         />
                                     ))
                             ) : (

@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { cookieConfig } from '../../utils/cookieConfig';
+
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
@@ -21,9 +22,9 @@ function LanguagePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     // Load initial like status from local storage
     const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-    const [isLiked, setIsLiked] = useState(
-        initialLikeStatus ? JSON.parse(initialLikeStatus) : false
-    );
+    const [isLiked, setIsLiked] = useState(false);
+    const [likecount, setLikeCount] = useState(props.likecount);
+
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -57,9 +58,10 @@ function LanguagePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
-        console.log('dddd', props.nation);
-        // Save the current like status to local storage
+        // console.log('dddd', props.nation);
+        // // Save the current like status to local storage
         localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
+        // props.setLikeCount(likecount);
     }, [props.id, isLiked]);
 
     const deletemodal = useRef<any>();
@@ -97,9 +99,14 @@ function LanguagePost(props: any) {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
-
-            setIsLiked((prevIsLiked: any) => !prevIsLiked);
+    
+            const newLikeCount = res.data.likecount;
+    
+            setLikeCount((prevLikeCount:number) =>
+                isLiked ? prevLikeCount - 1 : prevLikeCount + 1
+            );
+    
+            setIsLiked((prevIsLiked:boolean) => !prevIsLiked);
         } catch (error) {
             console.log('error', error);
         }
@@ -218,7 +225,7 @@ function LanguagePost(props: any) {
                             }}
                         ></div>
                         <div className="lang-likes-count">
-                            {props.likecount}
+                            {likecount}
                         </div>
                     </div>
 
