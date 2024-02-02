@@ -1,13 +1,14 @@
 .beforeafter-container{
     width: 390px;
-    height: 280px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid lightgrey;
+    margin-top: 24px;
 
     .before-container{
+        margin-top: 24px;
         width: 326px;
         height: 100px;
 
@@ -20,16 +21,17 @@
         .before-content{
             margin-top: 4px;
             width: 330px;
-            height: 80px;
-            background-image: url('../img/rectangle.png');
+            height: fit-content;
             border-radius: 8px;
+            border: 1px solid lightgrey;
+            padding: 8px;
+            word-wrap: break-word;
         }
     }
 
     .after-container{
         width: 326px;
         height: 100px;
-        margin-top: 12px;
 
         .after-text{
             width: 54px;
@@ -41,9 +43,18 @@
         .after-content{
             margin-top: 4px;
             width: 330px;
-            height: 80px;
-            background-image: url('../img/rectangle.png');
+            height: fit-content;
             border-radius: 8px;
+            border: 1px solid lightgrey;
+            padding: 8px;
+            word-wrap: break-word;
         }
     }
 }
+
+.line{
+    width: 390px;
+    height: 1px;
+    color: lightgrey;
+}
+

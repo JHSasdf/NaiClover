@@ -57,10 +57,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
         getMyPage();
     }, []);
 
-    // Split content using '&&&&' as a delimiter and filter elements containing '/./'
-    const filteredContentArray = props.content
-        .split('&&&&')
-        .filter((part) => part.includes('/./'));
+    const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
 
     return (
         <>
@@ -103,7 +100,6 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                         )}
                     </div>
                     <div className="comment-content">
-                        {/* Map through the filteredContentArray */}
                         {filteredContentArray.map((filteredContent, i) => {
                             const subContents = filteredContent.split('/./');
                             const beforeContent = subContents[0].replace(
@@ -122,7 +118,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                                                 __html: beforeContent,
                                             }}
                                         ></div>
-                                        <div className="beforecheck-emoji"></div>
+                                        <div className='beforecheck-text'>Before</div>
                                     </div>
                                     <div className="after-comment-content">
                                         <div
@@ -130,7 +126,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                                                 __html: afterContent,
                                             }}
                                         ></div>
-                                        <div className="correction-emoji"></div>
+                                  <div className='correction-text'>After</div>
                                     </div>
                                 </div>
                             );

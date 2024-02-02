@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import '../styles/NewPage.scss';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
-import './ChatRoomPage.css';
 import axios from 'axios';
 import useErrorHandler from '../utils/useErrorHandler';
+import Topbar from '../components/Topbar';
+import { Link } from 'react-router-dom';
+import { getCurrentData3 } from '../utils/getCurrentData';
+
 //  유저 아이디 값을 널로 저장함으로 문제 해결
 interface Message {
     text: string;
@@ -42,6 +46,8 @@ const ChatRoomPage: React.FC = () => {
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [cookies] = useCookies(['id']);
     const userid = cookies['id'];
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
@@ -142,52 +148,148 @@ const ChatRoomPage: React.FC = () => {
         ]);
         setNewMessage('');
     };
+    // 스크롤 항상 아래로
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
-        <div className="chat-room-container">
-            {/* 상단에 사용자 ID 표시 */}
-            {userId && (
-                <div className="user-id"> {userId} 님이 입장했습니다.</div>
-            )}
+        <>
+            <Topbar />
+            <div className="chat-room-container">
+                {/* 설정 헤드 부분 */}
+                <div className="chat-room-C-Header">
+                    <Link to="">
+                        <div>
+                            <img src="/images/BackPoint.png" alt="" />
+                        </div>
+                    </Link>
+                    <div className="chat-room-name">Room name</div>
+                    <div className="chat-room-peopleNum">6</div>
+                    {/* <div className="settingLogoutImage">
+                        <img src="/images/Logout.png" alt="" />
+                    </div> */}
+                </div>
 
-            <div className="messages-container">
-                {chatLog.map((elem) => (
-                    <ul
-                        key={elem.chatIndex}
-                        className={`message ${
-                            elem.userid === userid
-                                ? 'sent-message'
-                                : 'received-message'
-                        }`}
-                    >
-                        <li>{elem.User.name}</li>
-                        <img
-                            src={elem.User.profileImgPath}
-                            alt=""
-                            width="50px"
-                            height="50px"
-                        />
-                        <li>{elem.content}</li>
-                        <li>{elem.createdAt}</li>
-                        <li>{elem.chatCounting}</li>
-                    </ul>
-                ))}
+                <div className="chating-content-area">
+                    {chatLog.map((elem) => (
+                        <div key={elem.chatIndex}>
+                            {/* 상단에 사용자 ID 표시 */}
+                            {/* <div className="alert-message-div">
+                                {userId && (
+                                    <div className="user-id">
+                                        {elem.isFirst === true ? (`${userId} 님이 입장했습니다.`) : ''}
+                                        
+                                    </div>
+                                )}
+                            </div> */}
+                            <div className="messages-container">
+                                {elem.userid === userid ? (
+                                    <div className="sent-message">
+                                        <div className="sent-message-footer">
+                                            <div className="sent-message-time">
+                                                {getCurrentData3(
+                                                    new Date(elem.createdAt)
+                                                )}
+                                            </div>
+                                            <div
+                                                className={
+                                                    elem.chatCounting === 0
+                                                        ? 'sent-message-read hide'
+                                                        : 'sent-message-read'
+                                                }
+                                            >
+                                                {elem.chatCounting}
+                                            </div>
+                                        </div>
+                                        <div className="sent-message-content">
+                                            <div className="sent-message-contentarea">
+                                                <div>{elem.content}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="received-message">
+                                        <div className="received-message-header">
+                                            <div className="received-message-image">
+                                                <img
+                                                    src={
+                                                        elem.User.profileImgPath
+                                                    }
+                                                    alt=""
+                                                />
+                                            </div>
+
+                                            <div className="received-message-flag">
+                                                <img
+                                                    src="/images/flag/china.png"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div className="received-message-username">
+                                                <div>{elem.User.name}</div>
+                                            </div>
+                                        </div>
+                                        <div className="received-message-middle">
+                                            <div className="received-message-content">
+                                                <div className="received-message-contentarea">
+                                                    <div>{elem.content}</div>
+                                                </div>
+                                            </div>
+                                            <div className="received-message-footer">
+                                                <div className="received-message-time">
+                                                    {getCurrentData3(
+                                                        new Date(elem.createdAt)
+                                                    )}
+                                                </div>
+                                                <div
+                                                    className={
+                                                        elem.chatCounting === 0
+                                                            ? 'received-message-read hide'
+                                                            : 'received-message-read'
+                                                    }
+                                                >
+                                                    {elem.chatCounting}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                    {/* 채팅 끝난 시점 */}
+                    <div ref={messagesEndRef} />
+                </div>
+
+                <div className="message-input-container">
+                    <input
+                        type="text"
+                        placeholder={`Type your message (in ${
+                            allowedLanguage || 'any language'
+                        })`}
+                        className="message-input"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        // onKeyDown={(e) => {
+                        //     if (e.key === 'Enter') {
+                        //         handleSendMessage();
+                        //         console.log(e.key);
+                        //     }
+                        // }}
+                    />
+                    <button onClick={handleSendMessage} className="send-button">
+                        Send
+                    </button>
+                </div>
             </div>
-            <div className="message-input-container">
-                <input
-                    type="text"
-                    placeholder={`Type your message (in ${
-                        allowedLanguage || 'any language'
-                    })`}
-                    className="message-input"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <button onClick={handleSendMessage} className="send-button">
-                    Send
-                </button>
-            </div>
-        </div>
+        </>
     );
 };
 

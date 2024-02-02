@@ -57,9 +57,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
         getMyPage();
     }, []);
 
-    const filteredContentArray = props.content
-        .split('&&&&')
-        .filter((part) => part.includes('/./'));
+    const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
 
     return (
         <>
@@ -120,7 +118,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                                                 __html: beforeContent,
                                             }}
                                         ></div>
-                                        <div className="beforecheck-emoji"></div>
+                                        <div className='beforecheck-text'>Before</div>                                  
                                     </div>
                                     <div className="after-comment-content">
                                         <div
@@ -128,7 +126,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                                                 __html: afterContent,
                                             }}
                                         ></div>
-                                        <div className="correction-emoji"></div>
+                                        <div className='correction-text'>After</div>
                                     </div>
                                 </div>
                             );
