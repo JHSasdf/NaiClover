@@ -3,14 +3,14 @@ import '../../styles/NewPostHeader.scss';
 import { useNavigate } from 'react-router-dom';
 
 const CorrectingPageHeader = (props: any) => {
-    const { cleanCookie, content, id, postUserId, tempLines } = props;
+    const { cleanCookie, content, id, postUserId, tempLines, postType } = props;
     const navigate = useNavigate();
 
     const addComment = async (content: string) => {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/lang/comments/createcomment/${id}`,
+                url: `/${postType}/comments/createcomment/${id}`,
                 data: {
                     content: content,
                     postUserId: postUserId,
@@ -27,7 +27,6 @@ const CorrectingPageHeader = (props: any) => {
         let i = -1;
         while (content[++i]) {
             if (content[i] !== tempLines[i]) {
-                console.log('불일치');
                 addComment(tempLines.join('&&&&'));
                 break;
             }

@@ -58,7 +58,9 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
     }, []);
 
     // Split content using '&&&&' as a delimiter and filter elements containing '/./'
-    const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
+    const filteredContentArray = props.content
+        .split('&&&&')
+        .filter((part) => part.includes('/./'));
 
     return (
         <>
@@ -74,7 +76,11 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                     />
                     <img
                         className="comment-flag-pic"
-                        src={`/images/flag/${idCookie === props.userid ? userData?.nation : props.nation}.png`}
+                        src={`/images/flag/${
+                            idCookie === props.userid
+                                ? userData?.nation
+                                : props.nation
+                        }.png`}
                         alt=""
                     />
                 </div>
@@ -99,17 +105,32 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                     <div className="comment-content">
                         {/* Map through the filteredContentArray */}
                         {filteredContentArray.map((filteredContent, i) => {
-                            // Split each filteredContent using '/./' as delimiter
                             const subContents = filteredContent.split('/./');
+                            const beforeContent = subContents[0].replace(
+                                /\{([^}]+)\}/g,
+                                '<span style = "color: red;text-decoration: line-through">$1</span>'
+                            );
+                            const afterContent = subContents[1].replace(
+                                /\{([^}]+)\}/g,
+                                '<span style="color : green">$1</span>'
+                            );
                             return (
                                 <div key={i}>
-                                    <div className='before-comment-content'>
-                                        <div>{subContents[0]}</div>
-                                        <div className='beforecheck-emoji'></div>
+                                    <div className="before-comment-content">
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: beforeContent,
+                                            }}
+                                        ></div>
+                                        <div className="beforecheck-emoji"></div>
                                     </div>
-                                    <div className='after-comment-content'>
-                                        <div>{subContents.slice(1).join('/./')}</div>
-                                        <div className='correction-emoji'></div>
+                                    <div className="after-comment-content">
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: afterContent,
+                                            }}
+                                        ></div>
+                                        <div className="correction-emoji"></div>
                                     </div>
                                 </div>
                             );
