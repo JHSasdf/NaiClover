@@ -6,9 +6,12 @@ import { userDataInterface } from '../types/types';
 const User = db.User;
 const Lang = db.Lang;
 const Post = db.Post;
-const LangPost = db.LangPost;
 const Comment = db.Comment;
+const PostLike = db.PostLike;
+const PostImage = db.PostImages;
+const LangPost = db.LangPost;
 const LangComment = db.LangComment;
+const LangPostLike = db.LangPostLike;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -76,9 +79,36 @@ export const getmyPage = async (
     try {
         postCulDatas = await Post.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
+                },
+                {
+                    model: Comment,
+                },
+                {
+                    model: PostLike,
+                },
+                {
+                    model: PostImage,
+                },
+            ],
         });
         postLangDatas = await LangPost.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
+                },
+                {
+                    model: LangComment,
+                },
+                {
+                    model: LangPostLike,
+                },
+            ],
         });
     } catch (err) {
         return next(err);

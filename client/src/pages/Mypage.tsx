@@ -46,6 +46,8 @@ function Mypage() {
             console.log('res.data >', res.data.userDataObj);
 
             const { postCulDatas, postLangDatas } = res.data;
+            console.log('포스트컬데이타스', postCulDatas);
+            console.log('포스트랭데이타스', postLangDatas);
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
             }
@@ -59,7 +61,7 @@ function Mypage() {
                 return bDate - aDate;
             });
             // 요거 찍어보십쇼
-            console.log(sortedPostDatas);
+            console.log('sfsfsfsfer', sortedPostDatas);
             console.log('>>>?', learningLang);
         } catch (error: any) {
             console.log('error???', error);
