@@ -110,10 +110,18 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
                                                     <div className="all-participants">
                                                         <div className="participants-users">
                                                             {
+                                                                elem
+                                                                    .CurrentNOPIMs[0]
+                                                                    .numberOfPeople
+                                                            }
+                                                        </div>
+                                                        명 참여중 /
+                                                        <div className="participants-nums">
+                                                            {
                                                                 elem.numberOfPeople
                                                             }
                                                         </div>
-                                                        명 참여중
+                                                        명
                                                     </div>
                                                 </div>
                                             </div>
