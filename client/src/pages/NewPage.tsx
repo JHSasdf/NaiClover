@@ -48,11 +48,21 @@ const ChatRoomPage: React.FC = () => {
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [cookies] = useCookies(['id']);
     const [roomName, setRoomName] = useState();
+    const [roomPeopleNum, setroomPeopleNum] = useState();
     const userid = cookies['id'];
 
     const navigate = useNavigate();
     // 채팅 끝난 시점
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
+        }
+    };
 
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
@@ -100,6 +110,7 @@ const ChatRoomPage: React.FC = () => {
             });
             setChatLog(res.data.chatLog);
             setRoomName(res.data.roomInfo.roomName);
+            setroomPeopleNum(res.data.chatNumber);
             console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -109,6 +120,7 @@ const ChatRoomPage: React.FC = () => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         fetchChatLog();
         fetchRoomLanguage();
+        setNewMessage('');
     }, [messages]);
 
     const fetchRoomLanguage = async () => {
@@ -164,25 +176,14 @@ const ChatRoomPage: React.FC = () => {
             },
         ]);
         setNewMessage('');
-        // 스크롤을 아래로
-        scrollToBottom();
     };
-
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-            });
-        }
-    };
+    scrollToBottom();
     return (
         <>
             <Topbar />
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
                 <div className="chat-room-C-Header">
-                    {/* <Link to="/monochat"> */}
                     <div
                         onClick={() => {
                             navigate(-1);
@@ -190,12 +191,11 @@ const ChatRoomPage: React.FC = () => {
                     >
                         <img src="/images/BackPoint.png" alt="" />
                     </div>
-                    {/* </Link> */}
                     <div className="chat-room-name">{roomName}</div>
-                    <div className="chat-room-peopleNum">6</div>
+                    <div className="chat-room-peopleNum">{roomPeopleNum}</div>
                 </div>
 
-                <div className="chating-content-area" ref={messagesEndRef}>
+                <div className="chating-content-area">
                     {chatLog.map((elem) => (
                         <div key={elem.chatIndex}>
                             {/* 상단에 사용자 ID 표시 */}
@@ -288,8 +288,7 @@ const ChatRoomPage: React.FC = () => {
                             )}
                         </div>
                     ))}
-                    {/* 채팅 끝난 시점 */}
-                    {/* <div ref={messagesEndRef} /> */}
+                    <div ref={messagesEndRef} />
                 </div>
 
                 <div className="message-input-container">
