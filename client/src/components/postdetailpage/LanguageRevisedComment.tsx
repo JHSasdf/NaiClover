@@ -105,11 +105,11 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                                 <div key={i}>
                                     <div className='before-comment-content'>
                                         <div>{subContents[0]}</div>
-                                        <div className='beforecheck-emoji'></div>
+                                        <div className='beforecheck-text'>Before</div>
                                     </div>
                                     <div className='after-comment-content'>
                                         <div>{subContents.slice(1).join('/./')}</div>
-                                        <div className='correction-emoji'></div>
+                                        <div className='correction-text'>After</div>
                                     </div>
                                 </div>
                             );
