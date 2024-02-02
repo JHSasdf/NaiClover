@@ -171,6 +171,23 @@ export const getChatLog = async (
             where: { roomNum: roomNum },
         });
 
+        if (roomInfo.dataValues.useritTo !== 'monoChat') {
+            const existingUserid1 = roomInfo.dataValues.userid;
+            const existingUserid2 = roomInfo.dataValues.useridTo;
+            const existingUseridArr = [existingUserid1, existingUserid2];
+
+            const sortedExistingUseridArr = existingUseridArr.filter((elem) => {
+                return elem !== userid;
+            });
+
+            const usernameTo = await User.findOne({
+                where: { userid: sortedExistingUseridArr },
+                attributes: ['name'],
+            });
+
+            roomInfo.dataValues.roomName = usernameTo.dataValues.name;
+        }
+
         if (!roomInfo) {
             return res
                 .status(404)
