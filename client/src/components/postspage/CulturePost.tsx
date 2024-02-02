@@ -115,7 +115,7 @@ function CulturePost(props: any) {
     };
 
     const hasImages =
-        props.images.PostImages && props.images.PostImages.length > 0;
+        props.images?.PostImages && props.images?.PostImages.length > 0;
 
     return (
         <div className="cul-post-container">
