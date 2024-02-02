@@ -87,6 +87,7 @@
                     display: flex;
                     flex-direction: column;
                     .received-message-content {
+                        cursor: pointer;
                         .received-message-contentarea {
                             background-color: #4285f4;
                             color: white;
@@ -184,6 +185,20 @@
             cursor: pointer;
         }
     }
+}
+
+.beforecheck-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/X.png');
+    margin-left: 8px;
+}
+
+.correction-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/Check.png');
+    margin-left: 8px;
 }
 
 // .language-button {

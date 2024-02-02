@@ -129,7 +129,6 @@ function LanguagePostDetailPage() {
                             );
                         } else {
                             return (
-
                                 <LanguageRevisedComment
                                     key={index}
                                     index={comment.index}
@@ -143,7 +142,7 @@ function LanguagePostDetailPage() {
                                     nation={comment.User?.nation}
                                     getcomment={getComments}
                                 />
-                            ); 
+                            );
                         }
                     })}
                 </div>
