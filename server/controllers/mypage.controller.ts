@@ -82,7 +82,18 @@ export const getmyPage = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
+                    attributes: [
+                        'name',
+                        'gender',
+                        'nation',
+                        'profileImgPath',
+                        'firLang',
+                    ],
+                    include: [
+                        {
+                            model: Lang,
+                        },
+                    ],
                 },
                 {
                     model: Comment,
