@@ -73,7 +73,11 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                     />
                     <img
                         className="comment-flag-pic"
-                        src={`/images/flag/${idCookie === props.userid ? userData?.nation : props.nation}.png`}
+                        src={`/images/flag/${
+                            idCookie === props.userid
+                                ? userData?.nation
+                                : props.nation
+                        }.png`}
                         alt=""
                     />
                 </div>
@@ -98,14 +102,30 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                     <div className="comment-content">
                         {filteredContentArray.map((filteredContent, i) => {
                             const subContents = filteredContent.split('/./');
+                            const beforeContent = subContents[0].replace(
+                                /\{([^}]+)\}/g,
+                                '<span style = "color: red;text-decoration: line-through">$1</span>'
+                            );
+                            const afterContent = subContents[1].replace(
+                                /\{([^}]+)\}/g,
+                                '<span style="color : green">$1</span>'
+                            );
                             return (
                                 <div key={i}>
-                                    <div className='before-comment-content'>
-                                        <div>{subContents[0]}</div>
-                                        <div className='beforecheck-text'>Before</div>
+                                    <div className="before-comment-content">
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: beforeContent,
+                                            }}
+                                        ></div>
+                                        <div className='beforecheck-text'>Before</div>                                  
                                     </div>
-                                    <div className='after-comment-content'>
-                                        <div>{subContents.slice(1).join('/./')}</div>
+                                    <div className="after-comment-content">
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: afterContent,
+                                            }}
+                                        ></div>
                                         <div className='correction-text'>After</div>
                                     </div>
                                 </div>

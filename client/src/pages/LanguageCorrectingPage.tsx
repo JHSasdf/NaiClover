@@ -54,6 +54,7 @@ function LanguageCorrectingPage(props: any) {
                 content={correctLines}
                 id={id}
                 postUserId={cookieId}
+                postType="lang"
             />
             <div className="sentences-container">
                 {tempLines.map((line, index) => (

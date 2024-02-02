@@ -54,6 +54,7 @@ function CultureCorrectingPage(props: any) {
                 content={correctLines}
                 id={id}
                 postUserId={cookieId}
+                postType="cul"
             />
             <div className="sentences-container">
                 {tempLines.map((line, index) => (
