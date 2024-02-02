@@ -155,6 +155,11 @@ function Mypage() {
                                     name={post.userid}
                                     createdAt={post.createdAt}
                                     content={post.content}
+                                    nation={post.User.nation}
+                                    gender={post.User.gender}
+                                    images={post}
+                                    profileImgPath={post.User.profileImgPath}
+                                    firLang={post.User.firLang}
                                     />
                                 ) : post.postType === 'l' ? (
                                     <LanguagePost  
@@ -164,7 +169,10 @@ function Mypage() {
                                     id={post.postId}
                                     createdAt={post.createdAt}
                                     content={post.content}
-                                    images={post}
+                                    nation={post.User.nation}
+                                    gender={post.User.gender}
+                                    profileImgPath={post.User.profileImgPath}
+                                    firLang={post.User.firLang}
                                     />
                                 ) : null; 
                             })}
