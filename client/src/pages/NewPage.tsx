@@ -1,6 +1,6 @@
 import '../styles/NewPage.scss';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
@@ -26,6 +26,7 @@ interface ChatLog {
     createdAt: string;
     updataedAt: string;
     chatCounting: number;
+    isFirst: boolean;
 }
 
 interface userInterface {
@@ -45,8 +46,11 @@ const ChatRoomPage: React.FC = () => {
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [cookies] = useCookies(['id']);
+    const [roomName, setRoomName] = useState();
     const userid = cookies['id'];
 
+    const navigate = useNavigate();
+    // 채팅 끝난 시점
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -79,6 +83,7 @@ const ChatRoomPage: React.FC = () => {
                 method: 'get',
             });
             setChatLog(res.data.chatLog);
+            setRoomName(res.data.roomInfo.roomName);
             console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -161,85 +166,35 @@ const ChatRoomPage: React.FC = () => {
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
                 <div className="chat-room-C-Header">
-                    <Link to="">
-                        <div>
-                            <img src="/images/BackPoint.png" alt="" />
-                        </div>
-                    </Link>
-                    <div className="chat-room-name">Room name</div>
+                    {/* <Link to="/monochat"> */}
+                    <div
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
+                        <img src="/images/BackPoint.png" alt="" />
+                    </div>
+                    {/* </Link> */}
+                    <div className="chat-room-name">{roomName}</div>
                     <div className="chat-room-peopleNum">6</div>
-                    {/* <div className="settingLogoutImage">
-                        <img src="/images/Logout.png" alt="" />
-                    </div> */}
                 </div>
 
                 <div className="chating-content-area">
                     {chatLog.map((elem) => (
                         <div key={elem.chatIndex}>
                             {/* 상단에 사용자 ID 표시 */}
-                            {/* <div className="alert-message-div">
-                                {userId && (
+                            {elem.isFirst === true ? (
+                                <div className="alert-message-div">
                                     <div className="user-id">
-                                        {elem.isFirst === true ? (`${userId} 님이 입장했습니다.`) : ''}
-                                        
+                                        {elem.User.name} 님이 입장했습니다.
                                     </div>
-                                )}
-                            </div> */}
-                            <div className="messages-container">
-                                {elem.userid === userid ? (
-                                    <div className="sent-message">
-                                        <div className="sent-message-footer">
-                                            <div className="sent-message-time">
-                                                {getCurrentData3(
-                                                    new Date(elem.createdAt)
-                                                )}
-                                            </div>
-                                            <div
-                                                className={
-                                                    elem.chatCounting === 0
-                                                        ? 'sent-message-read hide'
-                                                        : 'sent-message-read'
-                                                }
-                                            >
-                                                {elem.chatCounting}
-                                            </div>
-                                        </div>
-                                        <div className="sent-message-content">
-                                            <div className="sent-message-contentarea">
-                                                <div>{elem.content}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="received-message">
-                                        <div className="received-message-header">
-                                            <div className="received-message-image">
-                                                <img
-                                                    src={
-                                                        elem.User.profileImgPath
-                                                    }
-                                                    alt=""
-                                                />
-                                            </div>
-
-                                            <div className="received-message-flag">
-                                                <img
-                                                    src="/images/flag/china.png"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div className="received-message-username">
-                                                <div>{elem.User.name}</div>
-                                            </div>
-                                        </div>
-                                        <div className="received-message-middle">
-                                            <div className="received-message-content">
-                                                <div className="received-message-contentarea">
-                                                    <div>{elem.content}</div>
-                                                </div>
-                                            </div>
-                                            <div className="received-message-footer">
-                                                <div className="received-message-time">
+                                </div>
+                            ) : (
+                                <div className="messages-container">
+                                    {elem.userid === userid ? (
+                                        <div className="sent-message">
+                                            <div className="sent-message-footer">
+                                                <div className="sent-message-time">
                                                     {getCurrentData3(
                                                         new Date(elem.createdAt)
                                                     )}
@@ -247,17 +202,74 @@ const ChatRoomPage: React.FC = () => {
                                                 <div
                                                     className={
                                                         elem.chatCounting === 0
-                                                            ? 'received-message-read hide'
-                                                            : 'received-message-read'
+                                                            ? 'sent-message-read hide'
+                                                            : 'sent-message-read'
                                                     }
                                                 >
                                                     {elem.chatCounting}
                                                 </div>
                                             </div>
+                                            <div className="sent-message-content">
+                                                <div className="sent-message-contentarea">
+                                                    <div>{elem.content}</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
+                                    ) : (
+                                        <div className="received-message">
+                                            <div className="received-message-header">
+                                                <div className="received-message-image">
+                                                    <img
+                                                        src={
+                                                            elem.User
+                                                                .profileImgPath
+                                                        }
+                                                        alt=""
+                                                    />
+                                                </div>
+
+                                                <div className="received-message-flag">
+                                                    <img
+                                                        src="/images/flag/china.png"
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div className="received-message-username">
+                                                    <div>{elem.User.name}</div>
+                                                </div>
+                                            </div>
+                                            <div className="received-message-middle">
+                                                <div className="received-message-content">
+                                                    <div className="received-message-contentarea">
+                                                        <div>
+                                                            {elem.content}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="received-message-footer">
+                                                    <div className="received-message-time">
+                                                        {getCurrentData3(
+                                                            new Date(
+                                                                elem.createdAt
+                                                            )
+                                                        )}
+                                                    </div>
+                                                    <div
+                                                        className={
+                                                            elem.chatCounting ===
+                                                            0
+                                                                ? 'received-message-read hide'
+                                                                : 'received-message-read'
+                                                        }
+                                                    >
+                                                        {elem.chatCounting}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ))}
                     {/* 채팅 끝난 시점 */}
@@ -273,12 +285,12 @@ const ChatRoomPage: React.FC = () => {
                         className="message-input"
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        // onKeyDown={(e) => {
-                        //     if (e.key === 'Enter') {
-                        //         handleSendMessage();
-                        //         console.log(e.key);
-                        //     }
-                        // }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSendMessage();
+                                console.log(e.key);
+                            }
+                        }}
                     />
                     <button onClick={handleSendMessage} className="send-button">
                         Send
