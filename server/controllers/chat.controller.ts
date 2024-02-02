@@ -169,30 +169,6 @@ export const getChatLog = async (
     try {
         const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
-            include: [
-                {
-                    model: Chat,
-                    attributes: [
-                        [
-                            sequelize.fn(
-                                'COUNT',
-                                sequelize.literal('DISTINCT Chats.userid')
-                            ),
-                            'personCount',
-                        ],
-                    ],
-                },
-            ],
-            group: [
-                'Room.roomNum',
-                'Room.roomName',
-                'Room.userid',
-                'Room.useridTo',
-                'Room.restrictedLang',
-                'Room.createdAt',
-                'Room.updatedAt',
-                'Chats.chatIndex',
-            ],
         });
 
         if (!roomInfo) {
@@ -200,6 +176,11 @@ export const getChatLog = async (
                 .status(404)
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
+        const chatNumber = await Chat.count({
+            col: 'userid',
+            distinct: true,
+            where: { roomNum: roomNum },
+        });
 
         if (
             roomInfo.dataValues.useridTo !== 'monoChat' &&
@@ -277,7 +258,11 @@ export const getChatLog = async (
             result.dataValues.chatCounting = chatCounting;
         }
 
-        res.json({ chatLog: results, roomInfo: roomInfo });
+        res.json({
+            chatLog: results,
+            roomInfo: roomInfo,
+            chatNumber: chatNumber,
+        });
     } catch (err) {
         return next(err);
     }
