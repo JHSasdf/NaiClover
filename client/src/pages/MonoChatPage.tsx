@@ -10,6 +10,7 @@ import MonoChatHeader from '../components/monochatpage/MonoChatHeader';
 import MonoChatList from '../components/monochatpage/MonoChatList';
 import Search from '../components/postspage/Search';
 import '../styles/MonoChatPage.scss';
+import '../styles/Font.scss';
 
 import { useRef, useState } from 'react';
 

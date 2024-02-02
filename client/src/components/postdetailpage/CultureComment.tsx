@@ -1,4 +1,5 @@
 import '../../styles/PostDetailComment.scss';
+import '../../styles/Font.scss';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
