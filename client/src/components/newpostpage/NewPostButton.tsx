@@ -4,7 +4,7 @@ function NewPostButton() {
     return ( 
         <>
             <div className='newpost-button-container'>
-                <button>포스팅</button>
+                <button className='newpost-button'>포스팅</button>
             </div>
         </>
      );
