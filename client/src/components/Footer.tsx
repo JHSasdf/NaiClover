@@ -96,7 +96,7 @@ function Footer() {
                     <div className="text">MonoChat</div>
                 </div>
             </Link>
-            <Link to={'/favorites'}>
+            <Link to={'/errorlog'}>
                 <div
                     className={`footer-div favorites ${
                         hoveredDiv === 'favorites' && 'hovered'

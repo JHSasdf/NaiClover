@@ -6,6 +6,8 @@ import multer from 'multer';
 
 const mypageUploadDetail = multer(getMyPageMulterConfig());
 
+myPageRouter.get('/getRevisedLists', controller.getRevisedLists);
+
 myPageRouter.get('/getMyPage', controller.getmyPage);
 
 myPageRouter.patch('/mypage/changeuserpassword', controller.changeUserPassword);
