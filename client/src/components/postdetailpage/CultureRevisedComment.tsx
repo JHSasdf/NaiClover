@@ -57,7 +57,6 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
         getMyPage();
     }, []);
 
-    // Split content using '&&&&' as a delimiter and filter elements containing '/./'
     const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
 
     return (
@@ -97,9 +96,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                         )}
                     </div>
                     <div className="comment-content">
-                        {/* Map through the filteredContentArray */}
                         {filteredContentArray.map((filteredContent, i) => {
-                            // Split each filteredContent using '/./' as delimiter
                             const subContents = filteredContent.split('/./');
                             return (
                                 <div key={i}>
