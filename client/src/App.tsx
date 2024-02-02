@@ -109,6 +109,7 @@ function App() {
                     />
                     <Route
                         path="/chat/:roomNum/:toWhom/correcting"
+                        // path="/chat/:roomNum/:toWhomName/:toWhomId/correcting"
                         element={<ChatCorrectingPage />}
                     />
 

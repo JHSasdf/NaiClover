@@ -335,6 +335,7 @@ const ChatRoomPage: React.FC = () => {
                                                                 cookieConfig
                                                             );
                                                             navigate(
+                                                                // `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
                                                                 `/chat/${elem.roomNum}/${elem.User.name}/correcting`
                                                             );
                                                         }}

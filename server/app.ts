@@ -168,6 +168,7 @@ async function createChatDb(
     userid: string,
     content: string,
     isrevised: boolean = false
+    // toWhom: string,
 ) {
     let result;
     try {
@@ -176,8 +177,8 @@ async function createChatDb(
             userid: userid,
             content: content,
             isrevised: isrevised,
+            // toWhom: toWhom
         });
-        // console.log(result.dataValues);
         const peopleInChatRoom = await Chat.findAll({
             attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
             where: {
@@ -286,6 +287,7 @@ io.on('connection', (socket: Socket) => {
             });
 
             createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
+            // createChatDb(msg.room, msg.userId, msg.text, msg.isrevised, msg.toWhom);???
 
             socket.broadcast.emit('needReload', 'reload');
         }
