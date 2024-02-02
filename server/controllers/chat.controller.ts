@@ -165,6 +165,30 @@ export const getChatLog = async (
     try {
         const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
+            include: [
+                {
+                    model: Chat,
+                    attributes: [
+                        [
+                            sequelize.fn(
+                                'COUNT',
+                                sequelize.literal('DISTINCT Chats.userid')
+                            ),
+                            'personCount',
+                        ],
+                    ],
+                },
+            ],
+            group: [
+                'Room.roomNum',
+                'Room.roomName',
+                'Room.userid',
+                'Room.useridTo',
+                'Room.restrictedLang',
+                'Room.createdAt',
+                'Room.updatedAt',
+                'Chats.chatIndex',
+            ],
         });
 
         if (!roomInfo) {
@@ -226,7 +250,7 @@ export const getChatLog = async (
             include: [
                 {
                     model: User,
-                    attributes: ['profileImgPath', 'name'],
+                    attributes: ['profileImgPath', 'name', 'nation'],
                 },
             ],
         });

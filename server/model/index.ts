@@ -1,11 +1,11 @@
 import { Sequelize } from 'sequelize';
-
-const config = require(__dirname + '/../config/config.json')['development'];
+import { getDBConfig } from '../config/config';
+const config: any = getDBConfig();
 
 const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
+    config.database!,
+    config.username!,
+    config.password!,
     config
 );
 import { UserModel } from './User';
