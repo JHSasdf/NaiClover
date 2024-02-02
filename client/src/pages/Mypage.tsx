@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../styles/Mypage.scss';
 import Footer from '../components/Footer';
 import MypageHeader from '../components/Mypage/MypageHeader';
@@ -11,6 +12,10 @@ import { ListFormat } from 'typescript';
 import { Post, User } from '../types/types';
 import useErrorHandler from '../utils/useErrorHandler';
 import '../styles/Font.scss';
+import '../styles/MypagePost.scss';
+import LanguagePost from '../components/postspage/LanguagePost';
+import CulturePost from '../components/postspage/CulturePost';
+
 
 function Mypage() {
     const [showProfile, setShowProfile] = useState(true);
@@ -30,6 +35,7 @@ function Mypage() {
     const idCookie = cookies['id'];
 
     const [userData, setUserData] = useState<User>();
+    const [sortedPostData, setsortedPostData] = useState<any>();
     const [learningLang, setLearningLang] = useState();
     const getMyPage = async () => {
         try {
@@ -54,14 +60,16 @@ function Mypage() {
             for (const postLangData of postLangDatas) {
                 postLangData.type = 'lang';
             }
-            const postDatas = postCulDatas.concat(postLangDatas);
+            const postDatas: any = postCulDatas.concat(postLangDatas);
             const sortedPostDatas = postDatas.sort(function (a: Post, b: Post) {
                 const aDate = new Date(a.createdAt).getTime();
                 const bDate = new Date(b.createdAt).getTime();
                 return bDate - aDate;
             });
             // 요거 찍어보십쇼
-            console.log('sfsfsfsfer', sortedPostDatas);
+            console.log(sortedPostDatas);
+            setsortedPostData(sortedPostDatas);
+
             console.log('>>>?', learningLang);
         } catch (error: any) {
             console.log('error???', error);
@@ -131,7 +139,37 @@ function Mypage() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <MypagePost />
+                    <div>
+            <div className="addPostImg">
+                <Link to={'/newpost'}>
+                    <img src="/images/addpost.png" alt="" />
+                </Link>
+            </div>
+            <div className='mypage-post-container'>
+            {sortedPostData.map((post:any) => {
+                                return post.postType === 'c' ? (
+                                    <CulturePost
+                                    key={post.postId}
+                                    userid={post.userid}
+                                    id={post.postId}
+                                    name={post.userid}
+                                    createdAt={post.createdAt}
+                                    content={post.content}
+                                    />
+                                ) : post.postType === 'l' ? (
+                                    <LanguagePost  
+                                    key={post.postId}
+                                    userid={post.userid}
+                                    name={post.userid}
+                                    id={post.postId}
+                                    createdAt={post.createdAt}
+                                    content={post.content}
+                                    images={post}
+                                    />
+                                ) : null; 
+                            })}
+            </div>
+        </div>
                 )}
             </div>
             <Footer />
