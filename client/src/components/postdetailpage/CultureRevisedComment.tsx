@@ -118,7 +118,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                                                 __html: beforeContent,
                                             }}
                                         ></div>
-                                        <div className='beforecheck-text'>Before</div>
+                                        <div className='beforecheck-emoji'></div>
                                     </div>
                                     <div className="after-comment-content">
                                         <div
@@ -126,7 +126,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
                                                 __html: afterContent,
                                             }}
                                         ></div>
-                                  <div className='correction-text'>After</div>
+                                  <div className='correction-emoji'></div>
                                     </div>
                                 </div>
                             );
