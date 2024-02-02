@@ -32,6 +32,7 @@ interface ChatLog {
 interface userInterface {
     name: string;
     profileImgPath: string;
+    nation: string;
 }
 // 쿠키 아이디 저장
 const socket = io('http://localhost:4000');
@@ -75,7 +76,18 @@ const ChatRoomPage: React.FC = () => {
         // 여기서 사용자의 ID를 쿠키에서 읽어와서 socket.id로 전달합니다.
         socket.emit('userId', userIdFromCookie);
 
+        const handleBeforeUnload = () => {
+            // 페이지를 닫기 전에 실행할 작업을 여기에 추가
+            socket.emit('leaveRoom', roomId);
+        };
+
+        // beforeunload 이벤트에 이벤트 리스너 추가
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 제거 (cleanup)
+
         return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
             socket.off('chat message');
         };
     }, [roomId]);
@@ -152,18 +164,18 @@ const ChatRoomPage: React.FC = () => {
             },
         ]);
         setNewMessage('');
-    };
-    // 스크롤 항상 아래로
-    useEffect(() => {
+        // 스크롤을 아래로
         scrollToBottom();
-    }, [messages]);
+    };
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            messagesEndRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
         }
     };
-
     return (
         <>
             <Topbar />
@@ -183,7 +195,7 @@ const ChatRoomPage: React.FC = () => {
                     <div className="chat-room-peopleNum">6</div>
                 </div>
 
-                <div className="chating-content-area">
+                <div className="chating-content-area" ref={messagesEndRef}>
                     {chatLog.map((elem) => (
                         <div key={elem.chatIndex}>
                             {/* 상단에 사용자 ID 표시 */}
@@ -234,7 +246,7 @@ const ChatRoomPage: React.FC = () => {
 
                                                 <div className="received-message-flag">
                                                     <img
-                                                        src="/images/flag/china.png"
+                                                        src={`/images/flag/${elem.User.nation}.png`}
                                                         alt=""
                                                     />
                                                 </div>
@@ -277,7 +289,7 @@ const ChatRoomPage: React.FC = () => {
                         </div>
                     ))}
                     {/* 채팅 끝난 시점 */}
-                    <div ref={messagesEndRef} />
+                    {/* <div ref={messagesEndRef} /> */}
                 </div>
 
                 <div className="message-input-container">

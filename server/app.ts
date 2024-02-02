@@ -95,6 +95,7 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
 const Chat = db.Chat;
 const Room = db.Room;
 const ChatCount = db.ChatCount;
+const CurrentNOPIM = db.CurrentNOPIM;
 
 let roomNum: string;
 const generateUniqueId = () => {
@@ -117,6 +118,11 @@ async function createMonoRoomDb(
             userid: userid,
             useridTo: useridTo,
             restrictedLang: restrictedLang,
+        });
+
+        await CurrentNOPIM.create({
+            roomNum: genaratedUniqueId,
+            numberOfPeople: 0,
         });
     } catch (err) {
         console.log(err);
@@ -199,15 +205,45 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     }
 });
 
+function updatePeopleInMonoRoom(roomClients: number, room: string) {
+    CurrentNOPIM.update(
+        {
+            numberOfPeople: roomClients,
+        },
+        {
+            where: { roomNum: room },
+        }
+    );
+}
 const chatRoomLanguages: Record<string, string> = {};
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
-        socket.broadcast.emit('needReload', 'reload');
+        const roomClients = io.sockets.adapter.rooms.get(room);
+        let numberOfClients;
+
+        if (!roomClients) {
+            numberOfClients = 0;
+        } else {
+            numberOfClients = roomClients.size;
+        }
+        updatePeopleInMonoRoom(numberOfClients, room);
+
+        console.log('조인룸', io.emit('needReload', 'reload'));
     });
 
     socket.on('leaveRoom', (room) => {
         socket.leave(room);
+        const roomClients = io.sockets.adapter.rooms.get(room);
+        let numberOfClients;
+        if (!roomClients) {
+            numberOfClients = 0;
+        } else {
+            numberOfClients = roomClients.size;
+        }
+        updatePeopleInMonoRoom(numberOfClients, room);
+        console.log('리브룸', io.emit('needReload', 'reload'));
+
         removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
         console.log(`User ${socket.id} left room ${room}`);
         socket.on('languageChanged', ({ roomId, selectedLanguage }) => {

@@ -52,6 +52,8 @@ function Mypage() {
             console.log('res.data >', res.data.userDataObj);
 
             const { postCulDatas, postLangDatas } = res.data;
+            console.log('포스트컬데이타스', postCulDatas);
+            console.log('포스트랭데이타스', postLangDatas);
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
             }

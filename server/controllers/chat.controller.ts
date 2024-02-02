@@ -7,6 +7,7 @@ const Lang = db.Lang;
 const Room = db.Room;
 const Chat = db.Chat;
 const ChatCount = db.ChatCount;
+const CurrentNOPIM = db.CurrentNOPIM;
 
 // room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
@@ -118,6 +119,9 @@ export const getMonoRooms = async (
                     limit: 1,
                     where: { useridTo: userid },
                 },
+                {
+                    model: CurrentNOPIM,
+                },
             ],
         });
         for (const result of results) {
@@ -165,37 +169,35 @@ export const getChatLog = async (
     try {
         const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
-            include: [
-                {
-                    model: Chat,
-                    attributes: [
-                        [
-                            sequelize.fn(
-                                'COUNT',
-                                sequelize.literal('DISTINCT Chats.userid')
-                            ),
-                            'personCount',
-                        ],
-                    ],
-                },
-            ],
-            group: [
-                'Room.roomNum',
-                'Room.roomName',
-                'Room.userid',
-                'Room.useridTo',
-                'Room.restrictedLang',
-                'Room.createdAt',
-                'Room.updatedAt',
-                'Chats.chatIndex',
-            ],
         });
+
+        if (roomInfo.dataValues.useritTo !== 'monoChat') {
+            const existingUserid1 = roomInfo.dataValues.userid;
+            const existingUserid2 = roomInfo.dataValues.useridTo;
+            const existingUseridArr = [existingUserid1, existingUserid2];
+
+            const sortedExistingUseridArr = existingUseridArr.filter((elem) => {
+                return elem !== userid;
+            });
+
+            const usernameTo = await User.findOne({
+                where: { userid: sortedExistingUseridArr },
+                attributes: ['name'],
+            });
+
+            roomInfo.dataValues.roomName = usernameTo.dataValues.name;
+        }
 
         if (!roomInfo) {
             return res
                 .status(404)
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
+        const chatNumber = await Chat.count({
+            col: 'userid',
+            distinct: true,
+            where: { roomNum: roomNum },
+        });
 
         if (
             roomInfo.dataValues.useridTo !== 'monoChat' &&
@@ -273,7 +275,11 @@ export const getChatLog = async (
             result.dataValues.chatCounting = chatCounting;
         }
 
-        res.json({ chatLog: results, roomInfo: roomInfo });
+        res.json({
+            chatLog: results,
+            roomInfo: roomInfo,
+            chatNumber: chatNumber,
+        });
     } catch (err) {
         return next(err);
     }
