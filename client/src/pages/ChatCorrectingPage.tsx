@@ -29,6 +29,7 @@ const customSplit = (str: string): string[] => {
 function ChatCorrectingPage(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const { roomNum, toWhom } = useParams();
+    // const { roomNum, toWhomName, toWhomId } = useParams();
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
     const [tempLines, setTempLines] = useState<string[]>([]);
@@ -56,6 +57,8 @@ function ChatCorrectingPage(props: any) {
                 setContent={setCorrectLines}
                 content={correctLines}
                 toWhom={toWhom}
+                // toWhom={toWhomName}
+                // toWhomId={toWhomId}
             />
             <div className="sentences-container">
                 {tempLines.map((line, index) => (

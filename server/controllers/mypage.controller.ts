@@ -12,6 +12,7 @@ const PostImage = db.PostImages;
 const LangPost = db.LangPost;
 const LangComment = db.LangComment;
 const LangPostLike = db.LangPostLike;
+const Chat = db.Chat;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -406,6 +407,7 @@ export const getRevisedLists = async (
     const userid = req.session.userid;
     const culs: string[] = [];
     const langs: string[] = [];
+    const chats: string[] = [];
     if (!userid || userid.length < 4) {
         return res.status(401).json({
             msg: 'Please Login First!',
@@ -471,10 +473,26 @@ export const getRevisedLists = async (
                 }
             }
         }
-
+        // const revisedChats = await Chat.findAll({
+        //     where: { isrevised: true, toWhom: userid },
+        // });
+        // i = -1;
+        // while (revisedChats[++i]) {
+        //     if (revisedChats[i].content) {
+        //         const nameAndContent = revisedChats[i].content.split('@@.,.@@')
+        //         const lines = nameAndContent[1].split('&&&&');
+        //         j = -1;
+        //         while (lines[++j]){
+        //             if (lines[j].includes('/./')) {
+        //                 chats.push(lines[j])
+        //             }
+        //         }
+        //     }
+        // }
         res.json({
             langRes: langs,
             culRes: culs,
+            // chatRes: chats,
             isError: false,
         });
     } catch (err) {
