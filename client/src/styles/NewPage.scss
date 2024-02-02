@@ -188,6 +188,20 @@
     }
 }
 
+.beforecheck-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/X.png');
+    margin-left: 8px;
+}
+
+.correction-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/Check.png');
+    margin-left: 8px;
+}
+
 // .language-button {
 //     background-color: #4285f4;
 //     color: white;

@@ -19,6 +19,7 @@ const customSplit = (str: string): string[] => {
         ) {
             result.push(str.substring(0, i + 1));
             str = str.substring(i + 2);
+            i = -1;
         }
     }
     result.push(str);

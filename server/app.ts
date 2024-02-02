@@ -163,13 +163,19 @@ async function createPersonalRoomDb(
     return;
 }
 
-async function createChatDb(roomNum: string, userid: string, content: string) {
+async function createChatDb(
+    roomNum: string,
+    userid: string,
+    content: string,
+    isrevised: boolean = false
+) {
     let result;
     try {
         result = await Chat.create({
             roomNum: roomNum,
             userid: userid,
             content: content,
+            isrevised: isrevised,
         });
         // console.log(result.dataValues);
         const peopleInChatRoom = await Chat.findAll({
@@ -261,6 +267,7 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
+        console.log('아아아아아아아ㅏㅇ아아아아아아아ㅏㅇ');
         if (msg.text.startsWith(' ')) {
             console.log(`You: ${msg.text}`);
         } else {
@@ -270,7 +277,6 @@ io.on('connection', (socket: Socket) => {
         if (msg.room) {
             const serverMessage = `Server: ${msg.text}`;
             const isSentByMe = msg.isSentByMe || false;
-
             // userId 추가
             socket.broadcast.to(msg.room).emit('chat message', {
                 ...msg,
@@ -279,7 +285,7 @@ io.on('connection', (socket: Socket) => {
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
 
-            createChatDb(msg.room, msg.userId, msg.text);
+            createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
 
             socket.broadcast.emit('needReload', 'reload');
         }

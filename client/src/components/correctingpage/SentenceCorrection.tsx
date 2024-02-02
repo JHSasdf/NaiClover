@@ -21,7 +21,6 @@ function SentenceCorrection(props: any) {
         res.push(afterLine);
         return res;
     };
-
     const correctLines = () => {
         const res = correctExec(content[index], after.current.value);
         setShowInput(false);
