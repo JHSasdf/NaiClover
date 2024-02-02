@@ -217,7 +217,7 @@ io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
         const roomClients = io.sockets.adapter.rooms.get(room);
-        let numberOfClients;
+        let numberOfClients: number;
 
         if (!roomClients) {
             numberOfClients = 0;
@@ -226,7 +226,7 @@ io.on('connection', (socket: Socket) => {
         }
         updatePeopleInMonoRoom(numberOfClients, room);
 
-        console.log('조인룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
     });
 
     socket.on('leaveRoom', (room) => {
@@ -239,7 +239,7 @@ io.on('connection', (socket: Socket) => {
             numberOfClients = roomClients.size;
         }
         updatePeopleInMonoRoom(numberOfClients, room);
-        console.log('리브룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
 
         removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
         console.log(`User ${socket.id} left room ${room}`);

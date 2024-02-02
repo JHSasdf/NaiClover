@@ -87,14 +87,10 @@ const ChatRoomPage: React.FC = () => {
         socket.emit('userId', userIdFromCookie);
 
         const handleBeforeUnload = () => {
-            // 페이지를 닫기 전에 실행할 작업을 여기에 추가
             socket.emit('leaveRoom', roomId);
         };
 
-        // beforeunload 이벤트에 이벤트 리스너 추가
         window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // 컴포넌트 언마운트 시 이벤트 리스너 제거 (cleanup)
 
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
