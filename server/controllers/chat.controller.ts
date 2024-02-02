@@ -7,6 +7,7 @@ const Lang = db.Lang;
 const Room = db.Room;
 const Chat = db.Chat;
 const ChatCount = db.ChatCount;
+const CurrentNOPIM = db.CurrentNOPIM;
 
 // room 보여주는 홈페이지에서 1:1 채팅방 목록 보여주는 함수
 export const getPersonalRooms = async (
@@ -117,6 +118,9 @@ export const getMonoRooms = async (
                     model: ChatCount,
                     limit: 1,
                     where: { useridTo: userid },
+                },
+                {
+                    model: CurrentNOPIM,
                 },
             ],
         });

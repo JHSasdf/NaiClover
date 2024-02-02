@@ -26,6 +26,10 @@ function MonoChatList() {
     useEffect(() => {
         // 데이터베이스에 있는 room 불러오기
         fetchMonoRooms();
+
+        socket.on('needReload', () => {
+            fetchMonoRooms();
+        });
     }, []);
     return (
         <>
