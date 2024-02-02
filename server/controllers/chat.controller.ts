@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-import { Op, ValidationError } from 'sequelize';
+import { Op } from 'sequelize';
 import sequelize from 'sequelize';
 const User = db.User;
-const Lang = db.Lang;
 const Room = db.Room;
 const Chat = db.Chat;
 const ChatCount = db.ChatCount;
@@ -23,7 +22,8 @@ export const getPersonalRooms = async (
         });
     }
 
-    let results;
+    let results: any;
+    let sortedResults: any;
     try {
         results = await Room.findAll({
             where: {
@@ -70,13 +70,20 @@ export const getPersonalRooms = async (
             });
             result.dataValues.realRoomName = final;
         }
+
+        sortedResults = results.sort(function (a: any, b: any) {
+            return (
+                b.Chats[b.Chats.length - 1].createdAt -
+                a.Chats[a.Chats.length - 1].createdAt
+            );
+        });
     } catch (err) {
         return next(err);
     }
 
     // personalRooms.realRoomName이 1:1 채팅에서 상대방의 이름
     res.json({
-        personalRooms: results,
+        personalRooms: sortedResults,
         isError: false,
     });
 };
@@ -169,37 +176,35 @@ export const getChatLog = async (
     try {
         const roomInfo = await Room.findOne({
             where: { roomNum: roomNum },
-            include: [
-                {
-                    model: Chat,
-                    attributes: [
-                        [
-                            sequelize.fn(
-                                'COUNT',
-                                sequelize.literal('DISTINCT Chats.userid')
-                            ),
-                            'personCount',
-                        ],
-                    ],
-                },
-            ],
-            group: [
-                'Room.roomNum',
-                'Room.roomName',
-                'Room.userid',
-                'Room.useridTo',
-                'Room.restrictedLang',
-                'Room.createdAt',
-                'Room.updatedAt',
-                'Chats.chatIndex',
-            ],
         });
+
+        if (roomInfo.dataValues.useritTo !== 'monoChat') {
+            const existingUserid1 = roomInfo.dataValues.userid;
+            const existingUserid2 = roomInfo.dataValues.useridTo;
+            const existingUseridArr = [existingUserid1, existingUserid2];
+
+            const sortedExistingUseridArr = existingUseridArr.filter((elem) => {
+                return elem !== userid;
+            });
+
+            const usernameTo = await User.findOne({
+                where: { userid: sortedExistingUseridArr },
+                attributes: ['name'],
+            });
+
+            roomInfo.dataValues.roomName = usernameTo.dataValues.name;
+        }
 
         if (!roomInfo) {
             return res
                 .status(404)
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
+        const chatNumber = await Chat.count({
+            col: 'userid',
+            distinct: true,
+            where: { roomNum: roomNum },
+        });
 
         if (
             roomInfo.dataValues.useridTo !== 'monoChat' &&
@@ -277,7 +282,11 @@ export const getChatLog = async (
             result.dataValues.chatCounting = chatCounting;
         }
 
-        res.json({ chatLog: results, roomInfo: roomInfo });
+        res.json({
+            chatLog: results,
+            roomInfo: roomInfo,
+            chatNumber: chatNumber,
+        });
     } catch (err) {
         return next(err);
     }
