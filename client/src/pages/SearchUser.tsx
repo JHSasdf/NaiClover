@@ -62,7 +62,7 @@ function SearchUser() {
             });
             // 요거 찍어보십쇼
             console.log(res.data);
-            console.log(sortedPostDatas);
+            console.log('소티드포스트스데이타', sortedPostDatas);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);
