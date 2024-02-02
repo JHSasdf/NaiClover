@@ -177,7 +177,7 @@ const ChatRoomPage: React.FC = () => {
     };
     scrollToBottom();
     return (
-        <>
+        <div>
             <Topbar />
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
@@ -224,53 +224,6 @@ const ChatRoomPage: React.FC = () => {
                                 }
                             }
                         }
-                        <div key={elem.chatIndex}>
-                            {/* 상단에 사용자 ID 표시 */}
-                            {elem.isFirst === true ? (
-                                <div className="alert-message-div">
-                                    <div className="user-id">
-                                        {elem.User.name} 님이 입장했습니다.
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="messages-container">
-                                    {elem.userid === userid ? (
-                                        <div className="sent-message">
-                                            <div className="sent-message-footer">
-                                                <div className="sent-message-time">
-                                                    {getCurrentData3(
-                                                        new Date(elem.createdAt)
-                                                    )}
-                                                </div>
-                                                <div
-                                                    className={
-                                                        elem.chatCounting === 0
-                                                            ? 'sent-message-read hide'
-                                                            : 'sent-message-read'
-                                                    }
-                                                >
-                                                    {elem.chatCounting}
-                                                </div>
-                                            </div>
-                                            <div className="sent-message-content">
-                                                <div className="sent-message-contentarea">
-                                                    <div>{elem.content}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="received-message">
-                                            <div className="received-message-header">
-                                                <div className="received-message-image">
-                                                    <img
-                                                        src={
-                                                            elem.User
-                                                                .profileImgPath
-                                                        }
-                                                        alt=""
-                                                    />
-                                                </div>
-
                         return (
                             <div key={elem.chatIndex}>
                                 {/* 상단에 사용자 ID 표시 */}
@@ -356,7 +309,6 @@ const ChatRoomPage: React.FC = () => {
                                                             alt=""
                                                         />
                                                     </div>
-
                                                     <div className="received-message-flag">
                                                         <img
                                                             src={`/images/flag/${elem.User.nation}.png`}
@@ -451,8 +403,8 @@ const ChatRoomPage: React.FC = () => {
                                 )}
                             </div>
                         );
+                    })}
                     <div ref={messagesEndRef} />
-
                 </div>
 
                 <div className="message-input-container">
@@ -476,7 +428,7 @@ const ChatRoomPage: React.FC = () => {
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
