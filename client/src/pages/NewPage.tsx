@@ -272,7 +272,11 @@ const ChatRoomPage: React.FC = () => {
                                                                     (
                                                                         line: any
                                                                     ) => (
-                                                                        <div>
+                                                                        <div
+                                                                            key={
+                                                                                line.index
+                                                                            }
+                                                                        >
                                                                             <div className="beforecheck-emoji"></div>
                                                                             <div
                                                                                 dangerouslySetInnerHTML={{
@@ -351,7 +355,11 @@ const ChatRoomPage: React.FC = () => {
                                                                         (
                                                                             line: any
                                                                         ) => (
-                                                                            <div>
+                                                                            <div
+                                                                                key={
+                                                                                    line.index
+                                                                                }
+                                                                            >
                                                                                 <div className="beforecheck-emoji"></div>
                                                                                 <div
                                                                                     dangerouslySetInnerHTML={{
