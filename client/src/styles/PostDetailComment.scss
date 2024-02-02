@@ -124,16 +124,16 @@
     position: relative;
 }
 
-.beforecheck-emoji{
-    background-image: url('../img/X.png');
-    width: 20px;
-    height: 20px;
+.beforecheck-text{
+    color: #FF6363;
+    font-weight: bold;
+    margin-left: 8px;
 }
 
-.correction-emoji{
-    background-image: url('../img/Check.png');
-    width: 20px;
-    height: 20px;
+.correction-text{
+    color: #37AF6A;
+    font-weight: bold;
+    margin-left: 8px;
 }
 
 .before-comment-content{
