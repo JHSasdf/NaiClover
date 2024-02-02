@@ -10,6 +10,8 @@ import cors from 'cors';
 import session from 'express-session';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import { Op } from 'sequelize';
+import sequelize from 'sequelize';
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -18,13 +20,11 @@ import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
 import { postSearchRouter } from './routes/postSearch.routes';
-import { Op } from 'sequelize';
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { getSessionConfig } from './config/session.config';
-import sequelize from 'sequelize';
-
+import { generateUniqueId } from './public/utils/createChatsAndRoomsDb';
 const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
@@ -98,9 +98,6 @@ const ChatCount = db.ChatCount;
 const CurrentNOPIM = db.CurrentNOPIM;
 
 let roomNum: string;
-const generateUniqueId = () => {
-    return Math.random().toString(36).substr(2, 9);
-};
 
 async function createMonoRoomDb(
     roomName: string,
