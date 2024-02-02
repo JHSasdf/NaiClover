@@ -55,6 +55,7 @@
         margin-right: 200px;
         width: 60px;
         height: fit-content;
+        font-family: "Poppins", sans-serif;
     }
 
     .comment-more {
@@ -72,6 +73,7 @@
     font-size: 14px;
     overflow: hidden;
     word-wrap: break-word;
+    font-family: "Poppins", sans-serif;
 }
 
 .comment-footer-container {
@@ -94,11 +96,13 @@
     border: 1px solid lightgrey;
     border-radius: 8px;
     z-index: 1000;
+    font-family: "Poppins", sans-serif;
 
     .edit-text:hover {
         span {
             background-color: #e9ffee;
             cursor: pointer;
+            font-family: "Poppins", sans-serif;
         }
     }
 
@@ -112,6 +116,7 @@
         span {
             background-color: #e9ffee;
             cursor: pointer;
+            font-family: "Poppins", sans-serif;
         }
     }
 }

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { ListFormat } from 'typescript';
 import { Post, User } from '../types/types';
 import useErrorHandler from '../utils/useErrorHandler';
+import '../styles/Font.scss';
 
 function Mypage() {
     const [showProfile, setShowProfile] = useState(true);
