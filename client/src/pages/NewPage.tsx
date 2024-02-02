@@ -32,6 +32,7 @@ interface ChatLog {
 interface userInterface {
     name: string;
     profileImgPath: string;
+    nation: string;
 }
 // 쿠키 아이디 저장
 const socket = io('http://localhost:4000');
@@ -152,18 +153,18 @@ const ChatRoomPage: React.FC = () => {
             },
         ]);
         setNewMessage('');
-    };
-    // 스크롤 항상 아래로
-    useEffect(() => {
+        // 스크롤을 아래로
         scrollToBottom();
-    }, [messages]);
+    };
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            messagesEndRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
         }
     };
-
     return (
         <>
             <Topbar />
@@ -183,7 +184,7 @@ const ChatRoomPage: React.FC = () => {
                     <div className="chat-room-peopleNum">6</div>
                 </div>
 
-                <div className="chating-content-area">
+                <div className="chating-content-area" ref={messagesEndRef}>
                     {chatLog.map((elem) => (
                         <div key={elem.chatIndex}>
                             {/* 상단에 사용자 ID 표시 */}
@@ -234,7 +235,7 @@ const ChatRoomPage: React.FC = () => {
 
                                                 <div className="received-message-flag">
                                                     <img
-                                                        src="/images/flag/china.png"
+                                                        src={`/images/flag/${elem.User.nation}.png`}
                                                         alt=""
                                                     />
                                                 </div>
@@ -277,7 +278,7 @@ const ChatRoomPage: React.FC = () => {
                         </div>
                     ))}
                     {/* 채팅 끝난 시점 */}
-                    <div ref={messagesEndRef} />
+                    {/* <div ref={messagesEndRef} /> */}
                 </div>
 
                 <div className="message-input-container">
