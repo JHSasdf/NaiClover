@@ -7,6 +7,8 @@ const User = db.User;
 const Lang = db.Lang;
 const Post = db.Post;
 const LangPost = db.LangPost;
+const Comment = db.Comment;
+const LangComment = db.LangComment;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -353,4 +355,70 @@ export const multerMypage = async (
     }
 
     res.json({ path: `/${req.file?.path}` });
+};
+
+export const getRevisedLists = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const userid = req.session.userid;
+    const culs: string[] = [];
+    const langs: string[] = [];
+    if (!userid || userid.length < 4) {
+        return res.status(401).json({
+            msg: 'Please Login First!',
+            isError: true,
+        });
+    }
+    try {
+        const culPosts = await Post.findAll({
+            where: { userid: userid },
+            attributes: ['postId'],
+            include: [
+                {
+                    model: Comment,
+                    attributes: ['content', 'isrevised'],
+                },
+            ],
+        });
+        let i = -1;
+        let j = -1;
+        while (culPosts[++i]) {
+            while (culPosts[i].Comments[++j]) {
+                if (culPosts[i].Comments[j].isrevised) {
+                    culs.push(culPosts[i].Comments[j].content);
+                }
+            }
+            j = -1;
+        }
+        const langPosts = await LangPost.findAll({
+            where: { userid: userid },
+            attributes: ['postId'],
+            include: [
+                {
+                    model: LangComment,
+                    attributes: ['content', 'isrevised'],
+                },
+            ],
+        });
+        i = -1;
+        j = -1;
+        while (langPosts[++i]) {
+            while (langPosts[i].LangComments[++j]) {
+                if (langPosts[i].LangComments[j].isrevised) {
+                    langs.push(langPosts[i].LangComments[j].content);
+                }
+            }
+            j = -1;
+        }
+        res.json({
+            langRes: langs,
+            culRes: culs,
+            isError: false,
+        });
+    } catch (err) {
+        console.log('what???????????????????????');
+        next(err);
+    }
 };

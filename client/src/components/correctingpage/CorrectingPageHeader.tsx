@@ -15,7 +15,6 @@ const CorrectingPageHeader = (props: any) => {
                     content: content,
                     postUserId: postUserId,
                     isrevised: true,
-                    // postType: culturePost.postType,?? 필요한가..?
                 },
                 withCredentials: true,
             });
