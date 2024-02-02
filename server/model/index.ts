@@ -22,6 +22,7 @@ import { LangPostModel } from './LangPost';
 import { LangCommentModel } from './LangComment';
 import { LangPostLikeModel } from './LangPostLikes';
 import { PostImageModel } from './PostImages';
+import { CurrentNOPIMModel } from './CurrentNOPIM';
 
 const User = UserModel(sequelize, Sequelize);
 const Lang = LangModel(sequelize, Sequelize);
@@ -37,7 +38,7 @@ const Room = RoomModel(sequelize, Sequelize);
 const ChatCount = ChatCountModel(sequelize, Sequelize);
 const Alarm = AlarmModel(sequelize, Sequelize);
 const PostImages = PostImageModel(sequelize, Sequelize);
-
+const CurrentNOPIM = CurrentNOPIMModel(sequelize, Sequelize);
 // User가 배우고 있는 언어(1:N)
 User.hasMany(Lang, {
     foreignKey: 'userid',
@@ -341,6 +342,18 @@ ChatCount.belongsTo(User, {
     targetKey: 'userid',
 });
 
+Room.hasMany(CurrentNOPIM, {
+    foreignKey: 'roomNum',
+    sourceKey: 'roomNum',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+
+CurrentNOPIM.belongsTo(Room, {
+    foreignKey: 'roomNum',
+    targetKey: 'roomNum',
+});
+
 export const db = {
     User,
     Lang,
@@ -356,6 +369,7 @@ export const db = {
     Chat,
     Room,
     ChatCount,
+    CurrentNOPIM,
     sequelize,
     Sequelize,
 };
