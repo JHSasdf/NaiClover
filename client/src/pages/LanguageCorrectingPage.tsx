@@ -27,6 +27,10 @@ const customSplit = (str: string): string[] => {
         //     i = -1;
         // }
     }
+    if (!result[0]) {
+        result[0] = str;
+        return result;
+    }
     return result;
 };
 

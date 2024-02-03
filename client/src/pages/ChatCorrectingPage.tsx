@@ -27,8 +27,13 @@ const customSplit = (str: string): string[] => {
         //     i = -1;
         // }
     }
+    if (!result[0]) {
+        result[0] = str;
+        return result;
+    }
     return result;
 };
+
 function ChatCorrectingPage(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const { roomNum, toWhomName, toWhomId } = useParams();
