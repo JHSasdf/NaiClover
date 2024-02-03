@@ -70,11 +70,10 @@ export const getPersonalRooms = async (
             });
             result.dataValues.realRoomName = final;
         }
-
         sortedResults = results.sort(function (a: any, b: any) {
             return (
-                b.Chats[b.Chats.length - 1].createdAt -
-                a.Chats[a.Chats.length - 1].createdAt
+                b.dataValues.Chats[b.Chats.length - 1].createdAt -
+                a.dataValues.Chats[a.Chats.length - 1].createdAt
             );
         });
     } catch (err) {
