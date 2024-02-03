@@ -50,7 +50,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/403" element={<Error403 />}></Route>
+                    <Route path="/401" element={<Error403 />}></Route>
                     <Route path="/404" element={<Error404 />}></Route>
                     <Route path="/500" element={<Error500 />}></Route>
                     <Route path="/multermypage" element={<MulterMypage />} />
