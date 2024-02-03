@@ -1,11 +1,54 @@
 import { Link } from 'react-router-dom';
 import '../../styles/MypageHeader.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import FollowModal from '../Modals/FollowModal';
+import axios from 'axios';
+type FollowModalProps = {
+    closeModal: () => void;
+    userId: string;
+    modalContent: string | null;
+    title: string;
+    users: any[]; // 실제 타입에 따라 수정 필요
+};
 
 function MypageHeader(props: any) {
     const { followingNum, followerNum, userData, learningLang, profileImg } =
         props;
     const currentFlag = userData.nation;
+    const [showFollowersModal, setShowFollowersModal] = useState(false);
+    const [showFollowingModal, setShowFollowingModal] = useState(false);
+    const [followerList, setFollowerList] = useState([]);
+    const [followingList, setFollowingList] = useState([]);
+
+    useEffect(() => {
+        const fetchFollowLists = async () => {
+            try {
+                const resFollowers = await axios.get('/followListGet', {
+                    params: { userid: userData.userid },
+                    withCredentials: true,
+                });
+                // 팔로워 목록에 ID 포함
+                const followerListWithId = resFollowers.data.followerList.map(
+                    (user: any) => ({ ...user, id: user.userid })
+                );
+                setFollowerList(followerListWithId);
+
+                const resFollowing = await axios.get('/followListGet', {
+                    params: { userid: userData.userid },
+                    withCredentials: true,
+                });
+                // 팔로잉 목록에 ID 포함
+                const followingListWithId = resFollowing.data.followingList.map(
+                    (user: any) => ({ ...user, id: user.userid })
+                );
+                setFollowingList(followingListWithId);
+            } catch (error) {
+                console.error('Error fetching follow lists:', error);
+            }
+        };
+
+        fetchFollowLists();
+    }, [userData.userid]);
 
     const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
@@ -36,7 +79,13 @@ function MypageHeader(props: any) {
                 </Link>
             </div>
             <div className="followC">
-                <div className="aDiv">
+                <div
+                    className="aDiv"
+                    onClick={() => {
+                        setShowFollowersModal(true);
+                        setShowFollowingModal(false);
+                    }}
+                >
                     <div>팔로워</div>
                     <div>
                         <img src="/images/Divider.png" alt="" />
@@ -44,7 +93,6 @@ function MypageHeader(props: any) {
                     <div>{followerNum}</div>
                 </div>
                 <div className="bDiv">
-                    {/* 프로필 이미지 */}
                     <div className="imageC">
                         <div className="profile-image">
                             <img src={profileImg} alt="" />
@@ -56,11 +104,10 @@ function MypageHeader(props: any) {
                             />
                         </div>
                     </div>
-                    {/* 프로필 요약정보 */}
                     <div className="contentC">
                         <div className="nameInfo">
                             <div>
-                                {userData.gender == 'm' ? (
+                                {userData.gender === 'm' ? (
                                     <img src="images/manIcon.png" alt="man" />
                                 ) : (
                                     <img
@@ -71,7 +118,6 @@ function MypageHeader(props: any) {
                             </div>
                             <div>{userData.name}</div>
                         </div>
-                        {/* db랑 연동해보고 글자 사이즈 및 간격 조절 해야할듯. */}
                         <div className="countryInfo">
                             <div>{userData.nation}</div>
                         </div>
@@ -88,11 +134,36 @@ function MypageHeader(props: any) {
                         </div>
                     </div>
                 </div>
-                <div className="cDiv">
+                <div
+                    className="cDiv"
+                    onClick={() => {
+                        setShowFollowingModal(true);
+                        setShowFollowersModal(false);
+                    }}
+                >
                     <div>팔로잉</div>
                     <img src="/images/Divider.png" alt="" />
                     <div>{followingNum}</div>
                 </div>
+
+                {showFollowersModal && (
+                    <FollowModal
+                        closeModal={() => setShowFollowersModal(false)}
+                        title="나를 팔로우한 사람"
+                        userId={userData.userid} // userId 전달
+                        users={followerList}
+                        modalContent={null} // 모달 컨텐츠에 대한 내용을 채워주세요.
+                    />
+                )}
+                {showFollowingModal && (
+                    <FollowModal
+                        closeModal={() => setShowFollowingModal(false)}
+                        title="내가 팔로우한 사람"
+                        userId={userData.userid} // userId 전달
+                        users={followingList}
+                        modalContent={null} // 모달 컨텐츠에 대한 내용을 채워주세요.
+                    />
+                )}
             </div>
         </div>
     );
