@@ -177,6 +177,12 @@ export const getChatLog = async (
             where: { roomNum: roomNum },
         });
 
+        if (!roomInfo) {
+            return res
+                .status(404)
+                .json({ msg: `There's no Chat Room`, isError: true });
+        }
+
         if (roomInfo.dataValues.useritTo !== 'monoChat') {
             const existingUserid1 = roomInfo.dataValues.userid;
             const existingUserid2 = roomInfo.dataValues.useridTo;
@@ -194,11 +200,6 @@ export const getChatLog = async (
             roomInfo.dataValues.roomName = usernameTo.dataValues.name;
         }
 
-        if (!roomInfo) {
-            return res
-                .status(404)
-                .json({ msg: `There's no Chat Room`, isError: true });
-        }
         const chatNumber = await Chat.count({
             col: 'userid',
             distinct: true,

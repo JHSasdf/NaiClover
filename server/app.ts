@@ -34,6 +34,13 @@ export const io = new Server(server, {
     },
 });
 
+const Chat = db.Chat;
+const Room = db.Room;
+const ChatCount = db.ChatCount;
+const CurrentNOPIM = db.CurrentNOPIM;
+
+let roomNum: string;
+
 app.use('/public', express.static(__dirname + '/public'));
 app.use(session(getSessionConfig()));
 
@@ -91,13 +98,6 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
     }
 };
 //
-
-const Chat = db.Chat;
-const Room = db.Room;
-const ChatCount = db.ChatCount;
-const CurrentNOPIM = db.CurrentNOPIM;
-
-let roomNum: string;
 
 async function createMonoRoomDb(
     roomName: string,
