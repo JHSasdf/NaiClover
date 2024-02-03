@@ -107,6 +107,7 @@ function CulturePostDetailPage() {
                     name={culturePost.User?.name}
                     nation={culturePost.User?.nation}
                     images={culturePost}
+                    gender={culturePost.User?.gender}
                 />
                 <div className="culturecomment-container">
                 {comments?.map((comment, index) => {
