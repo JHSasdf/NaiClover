@@ -473,26 +473,26 @@ export const getRevisedLists = async (
                 }
             }
         }
-        // const revisedChats = await Chat.findAll({
-        //     where: { isrevised: true, toWhom: userid },
-        // });
-        // i = -1;
-        // while (revisedChats[++i]) {
-        //     if (revisedChats[i].content) {
-        //         const nameAndContent = revisedChats[i].content.split('@@.,.@@')
-        //         const lines = nameAndContent[1].split('&&&&');
-        //         j = -1;
-        //         while (lines[++j]){
-        //             if (lines[j].includes('/./')) {
-        //                 chats.push(lines[j])
-        //             }
-        //         }
-        //     }
-        // }
+        const revisedChats = await Chat.findAll({
+            where: { isrevised: true, toWhom: userid },
+        });
+        i = -1;
+        while (revisedChats[++i]) {
+            if (revisedChats[i].content) {
+                const nameAndContent = revisedChats[i].content.split('@@.,.@@');
+                const lines = nameAndContent[1].split('&&&&');
+                j = -1;
+                while (lines[++j]) {
+                    if (lines[j].includes('/./')) {
+                        chats.push(lines[j]);
+                    }
+                }
+            }
+        }
         res.json({
             langRes: langs,
             culRes: culs,
-            // chatRes: chats,
+            chatRes: chats,
             isError: false,
         });
     } catch (err) {

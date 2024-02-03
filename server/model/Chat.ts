@@ -16,6 +16,10 @@ export const ChatModel = (sequelize: any, DataTypes: any) => {
                 allowNull: false,
                 type: DataTypes.STRING(30),
             },
+            toWhom: {
+                allowNull: true,
+                type: DataTypes.STRING(30),
+            },
             content: {
                 type: DataTypes.STRING(2000),
                 allowNull: false,

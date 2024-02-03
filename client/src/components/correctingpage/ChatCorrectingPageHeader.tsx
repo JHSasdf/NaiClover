@@ -6,8 +6,15 @@ import io from 'socket.io-client';
 const socket = io('http://localhost:4000');
 
 const ChatCorrectingPageHeader = (props: any) => {
-    const { cleanCookie, content, userid, tempLines, roomNum, toWhom } = props;
-    // const { cleanCookie, content, userid, tempLines, roomNum, toWhom, toWhomId } = props;
+    const {
+        cleanCookie,
+        content,
+        userid,
+        tempLines,
+        roomNum,
+        toWhom,
+        toWhomId,
+    } = props;
     const navigate = useNavigate();
 
     const checkChangeAndSend = () => {
@@ -21,7 +28,7 @@ const ChatCorrectingPageHeader = (props: any) => {
                     isSentByMe: true,
                     userId: userid,
                     isrevised: true,
-                    // toWhom: toWhomId,
+                    toWhom: toWhomId,
                 });
                 break;
             }
