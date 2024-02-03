@@ -108,6 +108,7 @@ function LanguagePostDetailPage() {
                     nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
                     commentcount={languagePost.commentcount}
+                    gender={languagePost.User?.gender}
                 />
                 <div className="languagecomment-container">
                     {comments?.map((comment, index) => {
