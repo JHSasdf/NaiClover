@@ -19,7 +19,7 @@ function SentenceCorrection(props: any) {
         // 자~~ 작업 해볼까!!
         // 자~~ 작업 해볼까!!
         // 자~~ 작업 해볼까!!
-        const beforeLine = `{${str1}}dd`;
+        const beforeLine = `{${str1}}`;
         const afterLine = `{${str2}}`;
         res.push(beforeLine);
         res.push(afterLine);
