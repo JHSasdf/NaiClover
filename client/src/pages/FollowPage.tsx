@@ -48,6 +48,7 @@ function FollowPage() {
             });
             setFollowingList(res.data.followingList);
             setFollowerList(res.data.followerList);
+            console.log('sddddfdddddddddddddddddddd', res.data.followerList);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error:', error);
@@ -145,6 +146,21 @@ function FollowPage() {
             <br />
             알람갯수: {newAlarmNum}
             <br />
+            나를 팔로잉한 사람 :
+            <ul>
+                {followerList.map((follower) => (
+                    <li key={`follower_${follower.userid}`}>{follower.name}</li>
+                ))}
+            </ul>
+            <br />
+            내가 팔로우한 사람 :
+            <ul>
+                {followingList.map((following) => (
+                    <li key={`following_${following.userid}`}>
+                        {following.name}
+                    </li>
+                ))}
+            </ul>
             <a href="alarm">알람페이지</a>
         </>
     );
