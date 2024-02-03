@@ -143,7 +143,15 @@ async function createPersonalRoomDb(
                 useridTo: useridTo,
             },
         });
-        if (validCheck) {
+
+        const validCheck2 = await Room.findOne({
+            where: {
+                userid: useridTo,
+                useridTo: userid,
+            },
+        });
+
+        if (validCheck || validCheck2) {
             roomNumArr.push(validCheck.dataValues.roomNum);
             return;
         }
