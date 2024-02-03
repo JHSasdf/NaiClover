@@ -56,7 +56,6 @@ function LanguagePost(props: any) {
         getMyPage();
     }, [props.id]);
 
-
     const deletemodal = useRef<any>();
     const langdeletemodal = deletemodal.current;
 
@@ -92,14 +91,13 @@ function LanguagePost(props: any) {
                 },
                 withCredentials: true,
             });
-          
+
             if (didLike) {
                 setLikeCountState(likeCountState - 1);
             } else {
                 setLikeCountState(likeCountState + 1);
             }
             setDidLike(!didLike);
-
         } catch (error) {
             console.log('error', error);
         }
@@ -220,7 +218,6 @@ function LanguagePost(props: any) {
                             }}
                         ></div>
                         <div className="lang-likes-count">{likeCountState}</div>
-
                     </div>
 
                     <div

@@ -167,8 +167,8 @@ async function createChatDb(
     roomNum: string,
     userid: string,
     content: string,
-    isrevised: boolean = false
-    // toWhom: string,
+    isrevised: boolean = false,
+    toWhom: string | null = null
 ) {
     let result;
     try {
@@ -177,7 +177,7 @@ async function createChatDb(
             userid: userid,
             content: content,
             isrevised: isrevised,
-            // toWhom: toWhom
+            toWhom: toWhom,
         });
         const peopleInChatRoom = await Chat.findAll({
             attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
@@ -205,7 +205,7 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     if (room) {
         res.json({ language: room.restrictedLang || '' });
     } else {
-        res.status(404).json({ error: 'Room not found' });
+        res.status(404).json({ error: 'Room not founded' });
     }
 });
 
@@ -268,7 +268,6 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
-        console.log('아아아아아아아ㅏㅇ아아아아아아아ㅏㅇ');
         if (msg.text.startsWith(' ')) {
             console.log(`You: ${msg.text}`);
         } else {
@@ -285,10 +284,17 @@ io.on('connection', (socket: Socket) => {
                 isSentByMe,
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
-
-            createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
-            // createChatDb(msg.room, msg.userId, msg.text, msg.isrevised, msg.toWhom);???
-
+            if (msg.isrevised) {
+                createChatDb(
+                    msg.room,
+                    msg.userId,
+                    msg.text,
+                    msg.isrevised,
+                    msg.toWhom
+                );
+            } else {
+                createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
+            }
             socket.broadcast.emit('needReload', 'reload');
         }
     });
