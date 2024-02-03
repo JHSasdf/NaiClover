@@ -126,7 +126,8 @@ function PostsPage() {
     }, []);
 
     return (
-        <div className="postspage-container">
+    <div className="postspage-container">
+        <div className="postspage">
             <Topbar />
             <Header newAlarmNum={newAlarmNum} />
             <div className="search-container">
@@ -323,6 +324,7 @@ function PostsPage() {
 
             <Footer />
         </div>
+    </div>
     );
 }
 

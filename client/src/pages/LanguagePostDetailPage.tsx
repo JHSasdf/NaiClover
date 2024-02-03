@@ -93,8 +93,8 @@ function LanguagePostDetailPage() {
     }, []);
 
     return (
-        <>
-            <div className="postdetailpage-container">
+        <div className='postdetailpage-container'>
+            <div className="postdetailpage">
                 <Topbar />
                 <PostDetailHeader />
                 <LanguagePost
@@ -153,7 +153,7 @@ function LanguagePostDetailPage() {
                     postUserId={languagePost.userid}
                 />
             </div>
-        </>
+        </div>
     );
 }
 

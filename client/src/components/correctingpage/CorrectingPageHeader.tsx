@@ -1,5 +1,6 @@
 import axios from 'axios';
-import '../../styles/NewPostHeader.scss';
+import '../../styles/CorrectingPage.scss'
+import '../../styles/CorrectingPageHeader.scss'
 import { useNavigate } from 'react-router-dom';
 
 const CorrectingPageHeader = (props: any) => {

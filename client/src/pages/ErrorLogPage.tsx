@@ -29,7 +29,8 @@ function ErrorLogPage() {
         getRevisedLists();
     }, []);
     return (
-        <div className="errorlogpage-container">
+    <div className='errorlogpage-container'>
+        <div className="errorlogpage">
             <Topbar />
             <ErrorLogHeader />
             <div className="beforeafters-container">
@@ -45,6 +46,7 @@ function ErrorLogPage() {
             </div>
             <Footer />
         </div>
+    </div>
     );
 }
 
