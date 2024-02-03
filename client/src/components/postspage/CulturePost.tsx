@@ -50,12 +50,9 @@ function CulturePost(props: any) {
             console.error('error', error);
         }
     };
-    const { id } = props;
-    // Load initial like status from local storage
-    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-    const [isLiked, setIsLiked] = useState(
-        initialLikeStatus ? JSON.parse(initialLikeStatus) : false
-    );
+    const { id, likeCount, isLiked } = props;
+    const [didLike, setDidLike] = useState(isLiked);
+    const [likeCountState, setLikeCountState] = useState(likeCount);
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -77,8 +74,8 @@ function CulturePost(props: any) {
             const res = await axios({
                 method: 'get',
                 url: `/userinfo/${props.userid}`,
-                params: {
-                    userid: props.name,
+                data: {
+                    userid: idCookie,
                 },
                 withCredentials: true,
             });
@@ -89,11 +86,8 @@ function CulturePost(props: any) {
         }
     };
     useEffect(() => {
-        console.log('useeff');
         getMyPage();
-        // Save the current like status to local storage
-        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
-    }, [props.id, isLiked]);
+    }, [props.id]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
@@ -108,7 +102,12 @@ function CulturePost(props: any) {
             });
             console.log(res.data);
 
-            setIsLiked((prevIsLiked: any) => !prevIsLiked);
+            if (didLike) {
+                setLikeCountState(likeCountState - 1);
+            } else {
+                setLikeCountState(likeCountState + 1);
+            }
+            setDidLike(!didLike);
         } catch (error) {
             console.log('error', error);
         }
@@ -251,11 +250,11 @@ function CulturePost(props: any) {
                     <div className="cul-likes-container">
                         <div
                             className={`cul-likes' ${
-                                isLiked ? 'liked' : 'unliked'
+                                didLike ? 'liked' : 'unliked'
                             }`}
                             onClick={culToggleLike}
                         ></div>
-                        <div className="cul-likes-count">{props.likecount}</div>
+                        <div className="cul-likes-count">{likeCountState}</div>
                     </div>
                     <div
                         className="cul-comments-container"

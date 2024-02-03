@@ -56,9 +56,7 @@ export const getUserInfo = async (
     }
 
     if (!userDataObj) {
-        return res
-            .status(404)
-            .json({ msg: 'An Error occurred', isError: true });
+        return res.status(404).json({ msg: 'User not founded', isError: true });
     }
     try {
         learningLangObjArr = await Lang.findAll({
