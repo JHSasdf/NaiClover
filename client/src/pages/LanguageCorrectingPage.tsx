@@ -9,20 +9,24 @@ import { useEffect, useState } from 'react';
 import { cookieConfig } from '../utils/cookieConfig';
 
 const customSplit = (str: string): string[] => {
-    let i = -1;
     let result: string[] = [];
+    let i = -1;
     while (str[++i]) {
         if (
-            str[i + 2] &&
-            (str[i] == '.' || str[i] == '?' || str[i] == '!') &&
-            str[i + 1] == ' '
+            str[i] == '.' ||
+            str[i] == '?' ||
+            (str[i] == '!' && str[i + 1] == ' ')
         ) {
             result.push(str.substring(0, i + 1));
             str = str.substring(i + 2);
             i = -1;
         }
+        // } else if (i != 0 && str[i] == '\n' && str[i + 1] != '\n') {
+        //     result.push(str.substring(0, i - 1));
+        //     str = str.substring(i + 1);
+        //     i = -1;
+        // }
     }
-    result.push(str);
     return result;
 };
 

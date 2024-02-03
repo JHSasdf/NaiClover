@@ -198,7 +198,7 @@ const ChatRoomPage: React.FC = () => {
                         let beforeLine = '';
                         let afterLine = '';
                         let toWhom = '';
-                        const correctedLines: any = [];
+                        let correctedLines: any = [];
                         console.log('???????????', elem.content);
                         if (elem.isrevised) {
                             const useridAndContent =
@@ -206,21 +206,25 @@ const ChatRoomPage: React.FC = () => {
                             toWhom = useridAndContent[0];
                             const lines = useridAndContent[1]?.split('&&&&');
                             let i = -1;
+                            let j = -1;
+                            correctedLines = [];
                             while (lines[++i]) {
                                 if (lines[i].includes('/./')) {
                                     correctedLines.push(lines[i].split('/./'));
-                                    correctedLines[i][0] = correctedLines[
-                                        i
+                                    j++;
+                                    correctedLines[j][0] = correctedLines[
+                                        j
                                     ][0].replace(
                                         /\{([^}]+)\}/g,
                                         '<span style = "color: red;text-decoration: line-through">$1</span>'
                                     );
-                                    correctedLines[i][1] = correctedLines[
-                                        i
+                                    correctedLines[j][1] = correctedLines[
+                                        j
                                     ][1].replace(
                                         /\{([^}]+)\}/g,
                                         '<span style="color : green">$1</span>'
                                     );
+                                } else {
                                 }
                             }
                         }
@@ -329,14 +333,18 @@ const ChatRoomPage: React.FC = () => {
                                                     <div
                                                         className="received-message-content"
                                                         onClick={() => {
-                                                            setCookies(
-                                                                'content',
-                                                                elem.content,
-                                                                cookieConfig
-                                                            );
-                                                            navigate(
-                                                                `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
-                                                            );
+                                                            if (
+                                                                !elem.isrevised
+                                                            ) {
+                                                                setCookies(
+                                                                    'content',
+                                                                    elem.content,
+                                                                    cookieConfig
+                                                                );
+                                                                navigate(
+                                                                    `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
+                                                                );
+                                                            }
                                                         }}
                                                     >
                                                         <div className="received-message-contentarea">
