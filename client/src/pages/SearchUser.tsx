@@ -11,6 +11,11 @@ import axios from 'axios';
 import { Post, User } from '../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import useErrorHandler from '../utils/useErrorHandler';
+import {Link} from 'react-router-dom';
+import CulturePost from '../components/postspage/CulturePost';
+import LanguagePost from '../components/postspage/LanguagePost';
+
+
 const socket = io('http://localhost:4000');
 
 function SearchUser() {
@@ -31,6 +36,7 @@ function SearchUser() {
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
+    const [sortedPostData, setSortedPostData] = useState<any>();
     const idCookie = cookies['id'];
 
     const getMyPage = async () => {
@@ -63,6 +69,7 @@ function SearchUser() {
             // 요거 찍어보십쇼
             console.log(res.data);
             console.log('소티드포스트스데이타', sortedPostDatas);
+            setSortedPostData(sortedPostDatas);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);
@@ -140,7 +147,47 @@ function SearchUser() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <MypagePost />
+                    <div>
+            <div className="addPostImg">
+                <Link to={'/newpost'}>
+                    <img src="/images/addpost.png" alt="" />
+                </Link>
+            </div>
+            <div className='mypage-post-container'>
+            {sortedPostData !== undefined && sortedPostData.map((post:any) => {
+                                return post.postType === 'c' ? (
+                                    <CulturePost
+                                    key={post.postId}
+                                    userid={post.userid}
+                                    id={post.postId}
+                                    name={post.userid}
+                                    createdAt={post.createdAt}
+                                    content={post.content}
+                                    nation={post.User.nation}
+                                    gender={post.User.gender}
+                                    images={post}
+                                    profileImgPath={post.User.profileImgPath}
+                                    firLang={post.User.firLang}
+                                    />
+                                ) : post.postType === 'l' ? (
+                                    <LanguagePost  
+                                    key={post.postId}
+                                    userid={post.userid}
+                                    name={post.userid}
+                                    id={post.postId}
+                                    createdAt={post.createdAt}
+                                    content={post.content}
+                                    nation={post.User.nation}
+                                    gender={post.User.gender}
+                                    profileImgPath={post.User.profileImgPath}
+                                    firLang={post.User.firLang}
+                                    />
+                                ) : null; 
+                            })}
+
+                            
+            </div>
+        </div>
                 )}
             </div>
             <Footer />
