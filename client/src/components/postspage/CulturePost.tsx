@@ -53,9 +53,10 @@ function CulturePost(props: any) {
             console.error('error', error);
         }
     };
-    const { id } = props;
-    // Load initial like status from local storage
-    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
+
+    const { id, likeCount, isLiked } = props;
+    const [didLike, setDidLike] = useState(isLiked);
+    const [likeCountState, setLikeCountState] = useState(likeCount);
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -77,8 +78,8 @@ function CulturePost(props: any) {
             const res = await axios({
                 method: 'get',
                 url: `/userinfo/${props.userid}`,
-                params: {
-                    userid: props.name,
+                data: {
+                    userid: idCookie,
                 },
                 withCredentials: true,
             });
@@ -89,11 +90,8 @@ function CulturePost(props: any) {
         }
     };
     useEffect(() => {
-        console.log('useeff');
         getMyPage();
-        // Save the current like status to local storage
-        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
-    }, [props.id, isLiked]);
+    }, [props.id]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
@@ -107,22 +105,16 @@ function CulturePost(props: any) {
             withCredentials: true,
         });
 
-        const newLikeCount = res.data.likecount;
-
-        // Update likecount based on like/unlike action
-        setLikeCount((prevLikeCount: number) => {
-            if (isLiked) {
-                return prevLikeCount - 1; // If unliked, decrease by 1
+            if (didLike) {
+                setLikeCountState(likeCountState - 1);
             } else {
-                return prevLikeCount + 1; // If liked, increase by 1
+                setLikeCountState(likeCountState + 1);
             }
-        });
-
-        setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
-    } catch (error) {
-        console.log('error', error);
-    }
-};
+            setDidLike(!didLike);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
 
     const hasImages =
         props.images?.PostImages && props.images?.PostImages.length > 0;
@@ -261,11 +253,11 @@ function CulturePost(props: any) {
                     <div className="cul-likes-container">
                         <div
                             className={`cul-likes' ${
-                                isLiked ? 'liked' : 'unliked'
+                                didLike ? 'liked' : 'unliked'
                             }`}
                             onClick={culToggleLike}
                         ></div>
-                        <div className="cul-likes-count">{likecount}</div>
+                        <div className="cul-likes-count">{likeCountState}</div>
                     </div>
                     <div
                         className="cul-comments-container"

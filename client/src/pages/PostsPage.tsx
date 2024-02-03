@@ -22,7 +22,6 @@ function PostsPage() {
     const [languagePosts, setLanguagePosts] = useState([]);
     const [searchCulturePosts, setSearchCulturePosts] = useState([]);
     const [searchLanguagePosts, setSearchLanguagePosts] = useState([]);
-
     const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -77,9 +76,10 @@ function PostsPage() {
                 withCredentials: true,
             });
             setCulturePosts(res.data.PostsDatas);
-            console.log(culturePosts);
         } catch (error: any) {
-            errorHandler(error.response.status);
+            if (error.response.status) {
+                errorHandler(error.response.status);
+            }
             console.log('error', error);
         }
     };
@@ -97,7 +97,9 @@ function PostsPage() {
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
-            errorHandler(error.response.status);
+            if (error.response.status) {
+                errorHandler(error.response.status);
+            }
             console.log('error', error);
         }
     };
@@ -195,7 +197,8 @@ function PostsPage() {
                                     }
                                     createdAt={languagePostData[0].createdAt}
                                     content={languagePostData[0].content}
-                                    likecount={languagePostData[1]}
+                                    likeCount={languagePostData[1]}
+                                    isLiked={languagePostData[2]}
                                     commentcount={languagePostData[3]}
                                     setLikeCount={setLikeCount}
                                 />
@@ -229,7 +232,8 @@ function PostsPage() {
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}
-                                    likecount={culturePostData[1]}
+                                    likeCount={culturePostData[1]}
+                                    isLiked={culturePostData[2]}
                                     commentcount={culturePostData[3]}
                                     setLikeCount={setLikeCount}
                                 />
@@ -264,11 +268,9 @@ function PostsPage() {
                                                 languagePostData.createdAt
                                             }
                                             content={languagePostData.content}
-                                            likecount={
-                                                languagePostData.likecount
-                                            }
+                                            likeCount={languagePostData[1]}
+                                            isLiked={languagePostData[2]}
                                             commentcount={languagePostData[3]}
-                                            setLikeCount={setLikeCount}
                                         />
                                     ))
                             ) : (
@@ -301,11 +303,10 @@ function PostsPage() {
                                             }
                                             content={culturePostData.content}
                                             images={culturePostData}
-                                            likecount={
-                                                culturePostData.likecount
-                                            }
+                                            likeCount={culturePostData[1]}
+                                            isLiked={culturePostData[2]}
                                             commentcount={culturePostData[3]}
-                                            setLikeCount={setLikeCount}
+
                                         />
                                     ))
                             ) : (

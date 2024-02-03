@@ -13,18 +13,14 @@ import { cookieConfig } from '../../utils/cookieConfig';
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
-    const { id } = props;
-
+    const { id, likeCount, isLiked } = props;
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
     const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
-    // Load initial like status from local storage
-    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-    const [isLiked, setIsLiked] = useState(false);
-    const [likecount, setLikeCount] = useState(props.likecount);
-
+    const [didLike, setDidLike] = useState(isLiked);
+    const [likeCountState, setLikeCountState] = useState(likeCount);
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -58,11 +54,8 @@ function LanguagePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
-        // console.log('dddd', props.nation);
-        // // Save the current like status to local storage
-        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
-        // props.setLikeCount(likecount);
-    }, [props.id, isLiked]);
+    }, [props.id]);
+
 
     const deletemodal = useRef<any>();
     const langdeletemodal = deletemodal.current;
@@ -99,14 +92,14 @@ function LanguagePost(props: any) {
                 },
                 withCredentials: true,
             });
-    
-            const newLikeCount = res.data.likecount;
-    
-            setLikeCount((prevLikeCount:number) =>
-                isLiked ? prevLikeCount - 1 : prevLikeCount + 1
-            );
-    
-            setIsLiked((prevIsLiked:boolean) => !prevIsLiked);
+          
+            if (didLike) {
+                setLikeCountState(likeCountState - 1);
+            } else {
+                setLikeCountState(likeCountState + 1);
+            }
+            setDidLike(!didLike);
+
         } catch (error) {
             console.log('error', error);
         }
@@ -218,15 +211,14 @@ function LanguagePost(props: any) {
                     <div className="lang-likes-container">
                         <div
                             className={`lang-likes' ${
-                                isLiked ? 'liked' : 'unliked'
+                                didLike ? 'liked' : 'unliked'
                             }`}
                             onClick={() => {
                                 langToggleLike();
                             }}
                         ></div>
-                        <div className="lang-likes-count">
-                            {likecount}
-                        </div>
+                        <div className="lang-likes-count">{likeCountState}</div>
+
                     </div>
 
                     <div
