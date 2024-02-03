@@ -205,7 +205,7 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     if (room) {
         res.json({ language: room.restrictedLang || '' });
     } else {
-        res.status(404).json({ error: 'Room not found' });
+        res.status(404).json({ error: 'Room not founded' });
     }
 });
 
@@ -268,7 +268,6 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
-        console.log('아아아아아아아ㅏㅇ아아아아아아아ㅏㅇ');
         if (msg.text.startsWith(' ')) {
             console.log(`You: ${msg.text}`);
         } else {
