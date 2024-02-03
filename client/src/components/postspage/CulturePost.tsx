@@ -29,9 +29,9 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
-
-    const [isLiked, setIsLiked] = useState(false);
-    const [likecount, setLikeCount] = useState(props.likecount);
+    const { id, likeCount, isLiked } = props;
+    const [didLike, setDidLike] = useState(isLiked);
+    const [likeCountState, setLikeCountState] = useState(likeCount);
 
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
@@ -54,9 +54,6 @@ function CulturePost(props: any) {
         }
     };
 
-    const { id, likeCount, isLiked } = props;
-    const [didLike, setDidLike] = useState(isLiked);
-    const [likeCountState, setLikeCountState] = useState(likeCount);
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -95,15 +92,15 @@ function CulturePost(props: any) {
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
-    try {
-        const res = await axios({
-            method: 'post',
-            url: `/cul/posts/${id}`,
-            data: {
-                userid: idCookie,
-            },
-            withCredentials: true,
-        });
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `/cul/posts/${id}`,
+                data: {
+                    userid: idCookie,
+                },
+                withCredentials: true,
+            });
 
             if (didLike) {
                 setLikeCountState(likeCountState - 1);
