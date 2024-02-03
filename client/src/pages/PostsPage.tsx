@@ -191,6 +191,7 @@ function PostsPage() {
                                     name={languagePostData[0].User.name}
                                     id={languagePostData[0].postId}
                                     nation={languagePostData[0].User.nation}
+                                    gender={languagePostData[0].User.gender}
                                     firLang={languagePostData[0].User.firLang}
                                     profileImgPath={
                                         languagePostData[0].User.profileImgPath
@@ -221,6 +222,7 @@ function PostsPage() {
                                     id={culturePostData[0].postId}
                                     userid={culturePostData[0].userid}
                                     name={culturePostData[0].User.name}
+                                    gender={culturePostData[0].User.gender}
                                     nation={culturePostData[0].User.nation}
                                     firLang={culturePostData[0].User.firLang}
                                     profileImgPath={
@@ -261,6 +263,7 @@ function PostsPage() {
                                             nation={
                                                 languagePostData.User.nation
                                             }
+                                            gender={languagePostData.User.gender}
                                             firLang={
                                                 languagePostData.User.firLang
                                             }
@@ -298,6 +301,7 @@ function PostsPage() {
                                             learningLang={
                                                 culturePostData.User.firLang
                                             }
+                                            gender={culturePostData.User.gender}
                                             createdAt={
                                                 culturePostData.createdAt
                                             }
