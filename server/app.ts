@@ -151,10 +151,13 @@ async function createPersonalRoomDb(
             },
         });
 
-        if (validCheck || validCheck2) {
-            roomNumArr.push(validCheck.dataValues.roomNum);
-            return;
+        if (validCheck) {
+            return roomNumArr.push(validCheck.dataValues.roomNum);
         }
+        if (validCheck2) {
+            return roomNumArr.push(validCheck2.dataValues.roomNum);
+        }
+
         result = await Room.create({
             roomNum: genaratedUniqueId,
             roomName: roomName,
