@@ -177,7 +177,7 @@ const ChatRoomPage: React.FC = () => {
     };
     scrollToBottom();
     return (
-        <div>
+        <>
             <Topbar />
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
@@ -335,8 +335,7 @@ const ChatRoomPage: React.FC = () => {
                                                                 cookieConfig
                                                             );
                                                             navigate(
-                                                                // `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
-                                                                `/chat/${elem.roomNum}/${elem.User.name}/correcting`
+                                                                `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
                                                             );
                                                         }}
                                                     >
@@ -437,7 +436,7 @@ const ChatRoomPage: React.FC = () => {
                     </button>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

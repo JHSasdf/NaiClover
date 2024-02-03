@@ -108,8 +108,7 @@ function App() {
                         element={<CultureCorrectingPage />}
                     />
                     <Route
-                        path="/chat/:roomNum/:toWhom/correcting"
-                        // path="/chat/:roomNum/:toWhomName/:toWhomId/correcting"
+                        path="/chat/:roomNum/:toWhomName/:toWhomId/correcting"
                         element={<ChatCorrectingPage />}
                     />
 

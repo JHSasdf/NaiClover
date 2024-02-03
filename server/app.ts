@@ -167,8 +167,8 @@ async function createChatDb(
     roomNum: string,
     userid: string,
     content: string,
-    isrevised: boolean = false
-    // toWhom: string,
+    isrevised: boolean = false,
+    toWhom: string | null = null
 ) {
     let result;
     try {
@@ -177,7 +177,7 @@ async function createChatDb(
             userid: userid,
             content: content,
             isrevised: isrevised,
-            // toWhom: toWhom
+            toWhom: toWhom,
         });
         const peopleInChatRoom = await Chat.findAll({
             attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
@@ -285,10 +285,17 @@ io.on('connection', (socket: Socket) => {
                 isSentByMe,
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
-
-            createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
-            // createChatDb(msg.room, msg.userId, msg.text, msg.isrevised, msg.toWhom);???
-
+            if (msg.isrevised) {
+                createChatDb(
+                    msg.room,
+                    msg.userId,
+                    msg.text,
+                    msg.isrevised,
+                    msg.toWhom
+                );
+            } else {
+                createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
+            }
             socket.broadcast.emit('needReload', 'reload');
         }
     });
