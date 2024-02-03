@@ -1,4 +1,4 @@
-.correctingpage-container{
+.correctingpage{
     width: 390px;
     height: 844px;
     background-color: #f4f4f4;
@@ -9,3 +9,14 @@
         height: fit-content;
     }
 }
+
+.correctingpage-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+

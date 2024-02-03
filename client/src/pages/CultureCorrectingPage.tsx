@@ -49,7 +49,8 @@ function CultureCorrectingPage(props: any) {
         }
     }, [cookies]);
     return (
-        <div className="correctingpage-container">
+     <div className='correctingpage-container'>
+        <div className="correctingpage">
             <Topbar />
             <CorrectingPageHeader
                 cleanCookie={cleanCookie}
@@ -73,6 +74,7 @@ function CultureCorrectingPage(props: any) {
                 ))}
             </div>
         </div>
+     </div>
     );
 }
 

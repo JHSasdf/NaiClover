@@ -104,7 +104,8 @@ function NewPostPage() {
     }
 
     return (
-        <div className="newpostpage-container">
+    <div className="newpostpage-container">
+        <div className="newpostpage">
             <Topbar />
             <img src="/public\\posts\\aaaa1706235325370.jpg" alt="" />
             <div className="newpost-header-container">
@@ -161,6 +162,7 @@ function NewPostPage() {
                 <button onClick={() => submitPost()}>포스팅</button>
             </div>
         </div>
+    </div>
     );
 }
 export default NewPostPage;

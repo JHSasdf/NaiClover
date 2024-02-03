@@ -94,8 +94,8 @@ function CulturePostDetailPage() {
         console.log('???', culturePost); // culturePost가 변경될 때마다 로그 출력
     }, [culturePost]);
     return (
-        <>
-            <div className="postdetailpage-container">
+        <div className="postdetailpage-container">
+            <div className="postdetailpage">
                 <Topbar />
                 <PostDetailHeader />
                 <CulturePost
@@ -153,7 +153,7 @@ function CulturePostDetailPage() {
                     postUserId={culturePost.userid}
                 />
             </div>
-        </>
+        </div>
     );
 }
 

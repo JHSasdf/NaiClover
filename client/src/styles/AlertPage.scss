@@ -1,6 +1,16 @@
-.alertpage-container{
+.alertpage{
     max-width: 390px;
     min-height: 844px;
     background-color: #f4f4f4;
-    transform: translate(-50%, -50%);
 }
+
+.alertpage-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+

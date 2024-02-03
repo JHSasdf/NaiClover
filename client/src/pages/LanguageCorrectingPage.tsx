@@ -50,7 +50,8 @@ function LanguageCorrectingPage(props: any) {
         }
     }, [cookies]);
     return (
-        <div className="correctingpage-container">
+    <div className='correctingpage-container'>
+        <div className="correctingpage">
             <Topbar />
             <CorrectingPageHeader
                 cleanCookie={cleanCookie}
@@ -74,6 +75,7 @@ function LanguageCorrectingPage(props: any) {
                 ))}
             </div>
         </div>
+    </div>
     );
 }
 
