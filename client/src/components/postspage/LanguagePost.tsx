@@ -127,7 +127,9 @@ function LanguagePost(props: any) {
 
                     <div className="lang-info-container">
                         <div className="lang-info">
-                            <div className="lang-gender lang-male"></div>
+                            <div className={`cul-gender' ${
+                                props.gender==='f' ? 'cul-female' : 'cul-male'
+                            }`}></div>
                             <Link
                                 className="lang-name"
                                 to={`/searchUser/${props.userid}`}

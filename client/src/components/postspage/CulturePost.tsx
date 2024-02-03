@@ -33,6 +33,7 @@ function CulturePost(props: any) {
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
 
+
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
         setTimeout(() => {
@@ -140,7 +141,9 @@ function CulturePost(props: any) {
 
                     <div className="cul-info-container">
                         <div className="cul-info">
-                            <div className="cul-gender cul-male"></div>
+                            <div className={`cul-gender' ${
+                                props.gender==='f' ? 'cul-female' : 'cul-male'
+                            }`}></div>
                             <Link
                                 className="cul-name"
                                 to={`/searchUser/${props.userid}`}

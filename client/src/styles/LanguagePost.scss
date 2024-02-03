@@ -40,14 +40,22 @@ $secondary-color: #888;
 
 //성별 아이콘
 
-.lang-gender {
+.cul-gender {
     margin-top: 3px;
     width: 16px;
     height: 16px;
 }
 
-.lang-male {
+.cul-male {
     background-image: url('../img/male.png');
+    width: 16px;
+    height: 16px;
+}
+
+.cul-female{
+    background-image: url('../img/womenIcon.png');
+    width: 16px;
+    height: 16px;
 }
 
 //이름과 성별 = info
