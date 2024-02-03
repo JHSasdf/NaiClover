@@ -107,6 +107,7 @@ function LanguagePostDetailPage() {
                     id={languagePost.postId}
                     nation={languagePost.User?.nation}
                     name={languagePost.User?.name}
+                    commentcount={languagePost.commentcount}
                 />
                 <div className="languagecomment-container">
                     {comments?.map((comment, index) => {
@@ -129,7 +130,6 @@ function LanguagePostDetailPage() {
                             );
                         } else {
                             return (
-
                                 <LanguageRevisedComment
                                     key={index}
                                     index={comment.index}
@@ -143,7 +143,7 @@ function LanguagePostDetailPage() {
                                     nation={comment.User?.nation}
                                     getcomment={getComments}
                                 />
-                            ); 
+                            );
                         }
                     })}
                 </div>

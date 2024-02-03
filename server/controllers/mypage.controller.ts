@@ -12,6 +12,7 @@ const PostImage = db.PostImages;
 const LangPost = db.LangPost;
 const LangComment = db.LangComment;
 const LangPostLike = db.LangPostLike;
+const Chat = db.Chat;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -406,6 +407,7 @@ export const getRevisedLists = async (
     const userid = req.session.userid;
     const culs: string[] = [];
     const langs: string[] = [];
+    const chats: string[] = [];
     if (!userid || userid.length < 4) {
         return res.status(401).json({
             msg: 'Please Login First!',
@@ -424,15 +426,25 @@ export const getRevisedLists = async (
             ],
         });
         let i = -1;
-        let j = -1;
+        let j, k;
         while (culPosts[++i]) {
-            while (culPosts[i].Comments[++j]) {
-                if (culPosts[i].Comments[j].isrevised) {
-                    culs.push(culPosts[i].Comments[j].content);
+            if (culPosts[i].Comments) {
+                j = -1;
+                while (culPosts[i].Comments[++j]) {
+                    if (culPosts[i].Comments[j].isrevised) {
+                        const comments =
+                            culPosts[i].Comments[j].content.split('&&&&');
+                        k = -1;
+                        while (comments[++k]) {
+                            if (comments[k].includes('/./')) {
+                                culs.push(comments[k]);
+                            }
+                        }
+                    }
                 }
             }
-            j = -1;
         }
+
         const langPosts = await LangPost.findAll({
             where: { userid: userid },
             attributes: ['postId'],
@@ -444,22 +456,47 @@ export const getRevisedLists = async (
             ],
         });
         i = -1;
-        j = -1;
         while (langPosts[++i]) {
-            while (langPosts[i].LangComments[++j]) {
-                if (langPosts[i].LangComments[j].isrevised) {
-                    langs.push(langPosts[i].LangComments[j].content);
+            if (langPosts[i].LangComments) {
+                j = -1;
+                while (langPosts[i].LangComments[++j]) {
+                    if (langPosts[i].LangComments[j].isrevised) {
+                        const comments =
+                            langPosts[i].LangComments[j].content.split('&&&&');
+                        k = -1;
+                        while (comments[++k]) {
+                            if (comments[k].includes('/./')) {
+                                langs.push(comments[k]);
+                            }
+                        }
+                    }
                 }
             }
-            j = -1;
         }
+        // const revisedChats = await Chat.findAll({
+        //     where: { isrevised: true, toWhom: userid },
+        // });
+        // i = -1;
+        // while (revisedChats[++i]) {
+        //     if (revisedChats[i].content) {
+        //         const nameAndContent = revisedChats[i].content.split('@@.,.@@')
+        //         const lines = nameAndContent[1].split('&&&&');
+        //         j = -1;
+        //         while (lines[++j]){
+        //             if (lines[j].includes('/./')) {
+        //                 chats.push(lines[j])
+        //             }
+        //         }
+        //     }
+        // }
         res.json({
             langRes: langs,
             culRes: culs,
+            // chatRes: chats,
             isError: false,
         });
     } catch (err) {
-        console.log('what???????????????????????');
+        console.log('Error occurred:', err);
         next(err);
     }
 };

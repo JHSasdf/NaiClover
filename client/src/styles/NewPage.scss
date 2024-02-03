@@ -87,6 +87,8 @@
                     display: flex;
                     flex-direction: column;
                     .received-message-content {
+                        width: fit-content;
+                        cursor: pointer;
                         .received-message-contentarea {
                             background-color: #4285f4;
                             color: white;
@@ -107,7 +109,7 @@
                             color: grey;
                         }
                         .received-message-read {
-                            margin: 0 10px;
+                            margin-right: 10px;
                             width: 20px;
                             height: 20px;
                             color: black;
@@ -184,6 +186,20 @@
             cursor: pointer;
         }
     }
+}
+
+.beforecheck-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/X.png');
+    margin-left: 8px;
+}
+
+.correction-emoji {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/Check.png');
+    margin-left: 8px;
 }
 
 // .language-button {

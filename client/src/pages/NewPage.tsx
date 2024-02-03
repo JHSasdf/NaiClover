@@ -9,6 +9,7 @@ import useErrorHandler from '../utils/useErrorHandler';
 import Topbar from '../components/Topbar';
 import { Link } from 'react-router-dom';
 import { getCurrentData3 } from '../utils/getCurrentData';
+import { cookieConfig } from '../utils/cookieConfig';
 
 //  유저 아이디 값을 널로 저장함으로 문제 해결
 interface Message {
@@ -27,17 +28,20 @@ interface ChatLog {
     updataedAt: string;
     chatCounting: number;
     isFirst: boolean;
+    isrevised: boolean;
 }
 
 interface userInterface {
     name: string;
     profileImgPath: string;
+    nation: string;
 }
 // 쿠키 아이디 저장
 const socket = io('http://localhost:4000');
 const USER_ID_COOKIE_KEY = 'id';
 
 const ChatRoomPage: React.FC = () => {
+    const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const { errorHandler } = useErrorHandler();
     const { roomId } = useParams<{ roomId: string }>();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -45,13 +49,22 @@ const ChatRoomPage: React.FC = () => {
     const [userId, setUserId] = useState<string | null>(null);
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
-    const [cookies] = useCookies(['id']);
     const [roomName, setRoomName] = useState();
+    const [roomPeopleNum, setroomPeopleNum] = useState();
     const userid = cookies['id'];
 
     const navigate = useNavigate();
     // 채팅 끝난 시점
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
+        }
+    };
 
     useEffect(() => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
@@ -76,14 +89,10 @@ const ChatRoomPage: React.FC = () => {
         socket.emit('userId', userIdFromCookie);
 
         const handleBeforeUnload = () => {
-            // 페이지를 닫기 전에 실행할 작업을 여기에 추가
             socket.emit('leaveRoom', roomId);
         };
 
-        // beforeunload 이벤트에 이벤트 리스너 추가
         window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // 컴포넌트 언마운트 시 이벤트 리스너 제거 (cleanup)
 
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -99,6 +108,7 @@ const ChatRoomPage: React.FC = () => {
             });
             setChatLog(res.data.chatLog);
             setRoomName(res.data.roomInfo.roomName);
+            setroomPeopleNum(res.data.chatNumber);
             console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -108,6 +118,7 @@ const ChatRoomPage: React.FC = () => {
         // 페이지 로드될 때 쿠키에서 ID를 가져와서 상단에 표시
         fetchChatLog();
         fetchRoomLanguage();
+        setNewMessage('');
     }, [messages]);
 
     const fetchRoomLanguage = async () => {
@@ -127,14 +138,14 @@ const ChatRoomPage: React.FC = () => {
 
     const handleSendMessage = () => {
         const message = ` ${newMessage}`;
-
+        //??
         // 허용된 언어인지 확인
         if (allowedLanguage) {
             let regex;
 
             if (allowedLanguage.toLowerCase() === 'korean') {
                 regex =
-                    /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9!@#$%^&*()-_+=\[\]{}|;:'",.<>/?\\]*$/;
+                    /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9\s!@#$%^&*()-_+=\[\]{}|;:'",.<>/?\\]*$/;
             } else if (allowedLanguage.toLowerCase() === 'english') {
                 regex = /^[a-zA-Z0-9\s!@#$%^&*()-_+=\[\]{}|;:'",.<>/?]*$/;
             }
@@ -164,24 +175,13 @@ const ChatRoomPage: React.FC = () => {
         ]);
         setNewMessage('');
     };
-    // 스크롤 항상 아래로
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
-
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
+    scrollToBottom();
     return (
-        <>
+        <div>
             <Topbar />
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
                 <div className="chat-room-C-Header">
-                    {/* <Link to="/monochat"> */}
                     <div
                         onClick={() => {
                             navigate(-1);
@@ -189,80 +189,56 @@ const ChatRoomPage: React.FC = () => {
                     >
                         <img src="/images/BackPoint.png" alt="" />
                     </div>
-                    {/* </Link> */}
                     <div className="chat-room-name">{roomName}</div>
-                    <div className="chat-room-peopleNum">6</div>
+                    <div className="chat-room-peopleNum">{roomPeopleNum}</div>
                 </div>
 
                 <div className="chating-content-area">
-                    {chatLog.map((elem) => (
-                        <div key={elem.chatIndex}>
-                            {/* 상단에 사용자 ID 표시 */}
-                            {elem.isFirst === true ? (
-                                <div className="alert-message-div">
-                                    <div className="user-id">
-                                        {elem.User.name} 님이 입장했습니다.
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="messages-container">
-                                    {elem.userid === userid ? (
-                                        <div className="sent-message">
-                                            <div className="sent-message-footer">
-                                                <div className="sent-message-time">
-                                                    {getCurrentData3(
-                                                        new Date(elem.createdAt)
-                                                    )}
-                                                </div>
-                                                <div
-                                                    className={
-                                                        elem.chatCounting === 0
-                                                            ? 'sent-message-read hide'
-                                                            : 'sent-message-read'
-                                                    }
-                                                >
-                                                    {elem.chatCounting}
-                                                </div>
-                                            </div>
-                                            <div className="sent-message-content">
-                                                <div className="sent-message-contentarea">
-                                                    <div>{elem.content}</div>
-                                                </div>
-                                            </div>
+                    {chatLog.map((elem) => {
+                        let beforeLine = '';
+                        let afterLine = '';
+                        let toWhom = '';
+                        const correctedLines: any = [];
+                        console.log('???????????', elem.content);
+                        if (elem.isrevised) {
+                            const useridAndContent =
+                                elem.content.split('@@.,.@@');
+                            toWhom = useridAndContent[0];
+                            const lines = useridAndContent[1]?.split('&&&&');
+                            let i = -1;
+                            while (lines[++i]) {
+                                if (lines[i].includes('/./')) {
+                                    correctedLines.push(lines[i].split('/./'));
+                                    correctedLines[i][0] = correctedLines[
+                                        i
+                                    ][0].replace(
+                                        /\{([^}]+)\}/g,
+                                        '<span style = "color: red;text-decoration: line-through">$1</span>'
+                                    );
+                                    correctedLines[i][1] = correctedLines[
+                                        i
+                                    ][1].replace(
+                                        /\{([^}]+)\}/g,
+                                        '<span style="color : green">$1</span>'
+                                    );
+                                }
+                            }
+                        }
+                        return (
+                            <div key={elem.chatIndex}>
+                                {/* 상단에 사용자 ID 표시 */}
+                                {elem.isFirst === true ? (
+                                    <div className="alert-message-div">
+                                        <div className="user-id">
+                                            {elem.User.name} 님이 입장했습니다.
                                         </div>
-                                    ) : (
-                                        <div className="received-message">
-                                            <div className="received-message-header">
-                                                <div className="received-message-image">
-                                                    <img
-                                                        src={
-                                                            elem.User
-                                                                .profileImgPath
-                                                        }
-                                                        alt=""
-                                                    />
-                                                </div>
-
-                                                <div className="received-message-flag">
-                                                    <img
-                                                        src="/images/flag/china.png"
-                                                        alt=""
-                                                    />
-                                                </div>
-                                                <div className="received-message-username">
-                                                    <div>{elem.User.name}</div>
-                                                </div>
-                                            </div>
-                                            <div className="received-message-middle">
-                                                <div className="received-message-content">
-                                                    <div className="received-message-contentarea">
-                                                        <div>
-                                                            {elem.content}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="received-message-footer">
-                                                    <div className="received-message-time">
+                                    </div>
+                                ) : (
+                                    <div className="messages-container">
+                                        {elem.userid === userid ? (
+                                            <div className="sent-message">
+                                                <div className="sent-message-footer">
+                                                    <div className="sent-message-time">
                                                         {getCurrentData3(
                                                             new Date(
                                                                 elem.createdAt
@@ -273,21 +249,170 @@ const ChatRoomPage: React.FC = () => {
                                                         className={
                                                             elem.chatCounting ===
                                                             0
-                                                                ? 'received-message-read hide'
-                                                                : 'received-message-read'
+                                                                ? 'sent-message-read hide'
+                                                                : 'sent-message-read'
                                                         }
                                                     >
                                                         {elem.chatCounting}
                                                     </div>
                                                 </div>
+                                                <div className="sent-message-content">
+                                                    <div className="sent-message-contentarea">
+                                                        {elem.isrevised ? (
+                                                            <div>
+                                                                <div
+                                                                    style={{
+                                                                        fontWeight:
+                                                                            'bold',
+                                                                    }}
+                                                                >
+                                                                    @{toWhom}
+                                                                </div>
+                                                                {correctedLines.map(
+                                                                    (
+                                                                        line: any
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                line.index
+                                                                            }
+                                                                        >
+                                                                            <div className="beforecheck-emoji"></div>
+                                                                            <div
+                                                                                dangerouslySetInnerHTML={{
+                                                                                    __html: line[0],
+                                                                                }}
+                                                                            ></div>
+                                                                            <div className="correction-emoji"></div>
+                                                                            <div
+                                                                                dangerouslySetInnerHTML={{
+                                                                                    __html: line[1],
+                                                                                }}
+                                                                            ></div>
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                {elem.content}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                    {/* 채팅 끝난 시점 */}
+                                        ) : (
+                                            <div className="received-message">
+                                                <div className="received-message-header">
+                                                    <div className="received-message-image">
+                                                        <img
+                                                            src={
+                                                                elem.User
+                                                                    .profileImgPath
+                                                            }
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="received-message-flag">
+                                                        <img
+                                                            src={`/images/flag/${elem.User.nation}.png`}
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="received-message-username">
+                                                        <div>
+                                                            {elem.User.name}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="received-message-middle">
+                                                    <div
+                                                        className="received-message-content"
+                                                        onClick={() => {
+                                                            setCookies(
+                                                                'content',
+                                                                elem.content,
+                                                                cookieConfig
+                                                            );
+                                                            navigate(
+                                                                // `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
+                                                                `/chat/${elem.roomNum}/${elem.User.name}/correcting`
+                                                            );
+                                                        }}
+                                                    >
+                                                        <div className="received-message-contentarea">
+                                                            {elem.isrevised ? (
+                                                                <div>
+                                                                    <div
+                                                                        style={{
+                                                                            fontWeight:
+                                                                                'bold',
+                                                                        }}
+                                                                    >
+                                                                        @
+                                                                        {toWhom}
+                                                                    </div>
+                                                                    {correctedLines.map(
+                                                                        (
+                                                                            line: any
+                                                                        ) => (
+                                                                            <div
+                                                                                key={
+                                                                                    line.index
+                                                                                }
+                                                                            >
+                                                                                <div className="beforecheck-emoji"></div>
+                                                                                <div
+                                                                                    dangerouslySetInnerHTML={{
+                                                                                        __html: line[0],
+                                                                                    }}
+                                                                                ></div>
+                                                                                <div className="correction-emoji"></div>
+                                                                                <div
+                                                                                    dangerouslySetInnerHTML={{
+                                                                                        __html: line[1],
+                                                                                    }}
+                                                                                ></div>
+                                                                            </div>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    {
+                                                                        elem.content
+                                                                    }
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className="received-message-footer">
+                                                        <div className="received-message-time">
+                                                            {getCurrentData3(
+                                                                new Date(
+                                                                    elem.createdAt
+                                                                )
+                                                            )}
+                                                        </div>
+                                                        <div
+                                                            className={
+                                                                elem.chatCounting ===
+                                                                0
+                                                                    ? 'received-message-read hide'
+                                                                    : 'received-message-read'
+                                                            }
+                                                        >
+                                                            {elem.chatCounting}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                     <div ref={messagesEndRef} />
                 </div>
 
@@ -312,7 +437,7 @@ const ChatRoomPage: React.FC = () => {
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

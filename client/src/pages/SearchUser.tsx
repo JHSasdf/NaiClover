@@ -91,10 +91,9 @@ function SearchUser() {
         navigate(roomUrl);
     };
 
-    socket.on('roomCreated', handleRoomCreated);
-
     useEffect(() => {
         getMyPage();
+        socket.on('roomCreated', handleRoomCreated);
     }, []);
 
     if (!userData) {

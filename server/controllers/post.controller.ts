@@ -94,8 +94,8 @@ export const getPosts = async (
         }
     }
     let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
-        const aDate = new Date(a[0].createdAt).getTime();
-        const bDate = new Date(b[0].createdAt).getTime();
+        const aDate = a[0].dataValues.createdAt;
+        const bDate = b[0].dataValues.createdAt;
         return aDate - bDate;
     });
     sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {

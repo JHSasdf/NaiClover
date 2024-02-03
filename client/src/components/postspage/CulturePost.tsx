@@ -30,6 +30,9 @@ function CulturePost(props: any) {
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
 
+    const [isLiked, setIsLiked] = useState(false);
+    const [likecount, setLikeCount] = useState(props.likecount);
+
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
         setTimeout(() => {
@@ -50,6 +53,7 @@ function CulturePost(props: any) {
             console.error('error', error);
         }
     };
+
     const { id, likeCount, isLiked } = props;
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
@@ -91,16 +95,15 @@ function CulturePost(props: any) {
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
-        try {
-            const res = await axios({
-                method: 'post',
-                url: `/cul/posts/${id}`,
-                data: {
-                    userid: idCookie,
-                },
-                withCredentials: true,
-            });
-            console.log(res.data);
+    try {
+        const res = await axios({
+            method: 'post',
+            url: `/cul/posts/${id}`,
+            data: {
+                userid: idCookie,
+            },
+            withCredentials: true,
+        });
 
             if (didLike) {
                 setLikeCountState(likeCountState - 1);
@@ -114,7 +117,7 @@ function CulturePost(props: any) {
     };
 
     const hasImages =
-        props.images.PostImages && props.images.PostImages.length > 0;
+        props.images?.PostImages && props.images?.PostImages.length > 0;
 
     return (
         <div className="cul-post-container">

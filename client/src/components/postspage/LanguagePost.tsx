@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { cookieConfig } from '../../utils/cookieConfig';
+
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
@@ -20,7 +21,6 @@ function LanguagePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
-    // console.log('sfsfsfs', likeCount);
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -54,9 +54,8 @@ function LanguagePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
-        // console.log('dddd', props.nation);
-        // Save the current like status to local storage
     }, [props.id]);
+
 
     const deletemodal = useRef<any>();
     const langdeletemodal = deletemodal.current;
@@ -93,7 +92,7 @@ function LanguagePost(props: any) {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
+          
             if (didLike) {
                 setLikeCountState(likeCountState - 1);
             } else {
@@ -101,7 +100,6 @@ function LanguagePost(props: any) {
             }
             setDidLike(!didLike);
 
-            // setIsLiked((prevIsLiked: any) => !prevIsLiked);
         } catch (error) {
             console.log('error', error);
         }
@@ -220,6 +218,7 @@ function LanguagePost(props: any) {
                             }}
                         ></div>
                         <div className="lang-likes-count">{likeCountState}</div>
+
                     </div>
 
                     <div

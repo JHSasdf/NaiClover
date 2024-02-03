@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import Topbar from '../components/Topbar';
-import CorrectingPageHeader from '../components/correctingpage/CorrectingPageHeader';
+import ChatCorrectingPageHeader from '../components/correctingpage/ChatCorrectingPageHeader';
 import SentenceCorrection from '../components/correctingpage/SentenceCorrection';
 import '../styles/CorrectingPage.scss';
 import { useEffect, useState } from 'react';
@@ -26,36 +26,39 @@ const customSplit = (str: string): string[] => {
     return result;
 };
 
-function CultureCorrectingPage(props: any) {
+function ChatCorrectingPage(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
-    const { id } = useParams();
+    const { roomNum, toWhom } = useParams();
+    // const { roomNum, toWhomName, toWhomId } = useParams();
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
     const [tempLines, setTempLines] = useState<string[]>([]);
-    console.log(cookies['content']);
+
     const cleanCookie = () => {
         removeCookies('content', cookieConfig);
     };
-
     useEffect(() => {
         if (cookies['content']) {
+            console.log('before', cookies['content']);
             const content = customSplit(cookies['content']);
+            console.log('after', content);
             setCorrectLines(content);
             setTempLines(content);
-            console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
     return (
         <div className="correctingpage-container">
             <Topbar />
-            <CorrectingPageHeader
+            <ChatCorrectingPageHeader
+                roomNum={roomNum}
+                userid={cookieId}
                 cleanCookie={cleanCookie}
                 tempLines={tempLines}
                 setContent={setCorrectLines}
                 content={correctLines}
-                id={id}
-                postUserId={cookieId}
-                postType="cul"
+                toWhom={toWhom}
+                // toWhom={toWhomName}
+                // toWhomId={toWhomId}
             />
             <div className="sentences-container">
                 {tempLines.map((line, index) => (
@@ -73,4 +76,4 @@ function CultureCorrectingPage(props: any) {
     );
 }
 
-export default CultureCorrectingPage;
+export default ChatCorrectingPage;

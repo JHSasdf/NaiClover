@@ -10,6 +10,8 @@ import cors from 'cors';
 import session from 'express-session';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import { Op } from 'sequelize';
+import sequelize from 'sequelize';
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -18,13 +20,11 @@ import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
 import { postSearchRouter } from './routes/postSearch.routes';
-import { Op } from 'sequelize';
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { getSessionConfig } from './config/session.config';
-import sequelize from 'sequelize';
-
+import { generateUniqueId } from './public/utils/createChatsAndRoomsDb';
 const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
@@ -98,9 +98,6 @@ const ChatCount = db.ChatCount;
 const CurrentNOPIM = db.CurrentNOPIM;
 
 let roomNum: string;
-const generateUniqueId = () => {
-    return Math.random().toString(36).substr(2, 9);
-};
 
 async function createMonoRoomDb(
     roomName: string,
@@ -166,15 +163,22 @@ async function createPersonalRoomDb(
     return;
 }
 
-async function createChatDb(roomNum: string, userid: string, content: string) {
+async function createChatDb(
+    roomNum: string,
+    userid: string,
+    content: string,
+    isrevised: boolean = false
+    // toWhom: string,
+) {
     let result;
     try {
         result = await Chat.create({
             roomNum: roomNum,
             userid: userid,
             content: content,
+            isrevised: isrevised,
+            // toWhom: toWhom
         });
-        // console.log(result.dataValues);
         const peopleInChatRoom = await Chat.findAll({
             attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
             where: {
@@ -220,7 +224,7 @@ io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
         const roomClients = io.sockets.adapter.rooms.get(room);
-        let numberOfClients;
+        let numberOfClients: number;
 
         if (!roomClients) {
             numberOfClients = 0;
@@ -229,7 +233,7 @@ io.on('connection', (socket: Socket) => {
         }
         updatePeopleInMonoRoom(numberOfClients, room);
 
-        console.log('조인룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
     });
 
     socket.on('leaveRoom', (room) => {
@@ -242,7 +246,7 @@ io.on('connection', (socket: Socket) => {
             numberOfClients = roomClients.size;
         }
         updatePeopleInMonoRoom(numberOfClients, room);
-        console.log('리브룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
 
         removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
         console.log(`User ${socket.id} left room ${room}`);
@@ -264,6 +268,7 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
+        console.log('아아아아아아아ㅏㅇ아아아아아아아ㅏㅇ');
         if (msg.text.startsWith(' ')) {
             console.log(`You: ${msg.text}`);
         } else {
@@ -273,7 +278,6 @@ io.on('connection', (socket: Socket) => {
         if (msg.room) {
             const serverMessage = `Server: ${msg.text}`;
             const isSentByMe = msg.isSentByMe || false;
-
             // userId 추가
             socket.broadcast.to(msg.room).emit('chat message', {
                 ...msg,
@@ -282,7 +286,8 @@ io.on('connection', (socket: Socket) => {
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
 
-            createChatDb(msg.room, msg.userId, msg.text);
+            createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
+            // createChatDb(msg.room, msg.userId, msg.text, msg.isrevised, msg.toWhom);???
 
             socket.broadcast.emit('needReload', 'reload');
         }
