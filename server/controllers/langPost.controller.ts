@@ -23,11 +23,17 @@ export const getPosts = async (
     }
     try {
         allPosts = await Post.findAll({
-            attributes: ['postId', 'userid', 'gender', 'content', 'createdAt'],
+            attributes: ['postId', 'userid', 'content', 'createdAt'],
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
+                    attributes: [
+                        'name',
+                        'nation',
+                        'gender',
+                        'firLang',
+                        'profileImgPath',
+                    ],
                 },
             ],
         });
