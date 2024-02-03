@@ -143,10 +143,21 @@ async function createPersonalRoomDb(
                 useridTo: useridTo,
             },
         });
+
+        const validCheck2 = await Room.findOne({
+            where: {
+                userid: useridTo,
+                useridTo: userid,
+            },
+        });
+
         if (validCheck) {
-            roomNumArr.push(validCheck.dataValues.roomNum);
-            return;
+            return roomNumArr.push(validCheck.dataValues.roomNum);
         }
+        if (validCheck2) {
+            return roomNumArr.push(validCheck2.dataValues.roomNum);
+        }
+
         result = await Room.create({
             roomNum: genaratedUniqueId,
             roomName: roomName,
