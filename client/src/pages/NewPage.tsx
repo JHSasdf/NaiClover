@@ -281,18 +281,32 @@ const ChatRoomPage: React.FC = () => {
                                                                                 line.index
                                                                             }
                                                                         >
-                                                                            <div className="beforecheck-emoji"></div>
                                                                             <div
-                                                                                dangerouslySetInnerHTML={{
-                                                                                    __html: line[0],
+                                                                                style={{
+                                                                                    display:
+                                                                                        'flex',
                                                                                 }}
-                                                                            ></div>
-                                                                            <div className="correction-emoji"></div>
+                                                                            >
+                                                                                <div
+                                                                                    dangerouslySetInnerHTML={{
+                                                                                        __html: line[0],
+                                                                                    }}
+                                                                                ></div>
+                                                                                <div className="beforecheck-emoji"></div>
+                                                                            </div>
                                                                             <div
-                                                                                dangerouslySetInnerHTML={{
-                                                                                    __html: line[1],
+                                                                                style={{
+                                                                                    display:
+                                                                                        'flex',
                                                                                 }}
-                                                                            ></div>
+                                                                            >
+                                                                                <div
+                                                                                    dangerouslySetInnerHTML={{
+                                                                                        __html: line[1],
+                                                                                    }}
+                                                                                ></div>
+                                                                                <div className="correction-emoji"></div>
+                                                                            </div>
                                                                         </div>
                                                                     )
                                                                 )}

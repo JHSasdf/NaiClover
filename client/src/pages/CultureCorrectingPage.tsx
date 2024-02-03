@@ -7,6 +7,7 @@ import SentenceCorrection from '../components/correctingpage/SentenceCorrection'
 import '../styles/CorrectingPage.scss';
 import { useEffect, useState } from 'react';
 import { cookieConfig } from '../utils/cookieConfig';
+
 const customSplit = (str: string): string[] => {
     let result: string[] = [];
     let i = -1;
@@ -25,6 +26,10 @@ const customSplit = (str: string): string[] => {
         //     str = str.substring(i + 1);
         //     i = -1;
         // }
+    }
+    if (!result[0]) {
+        result[0] = str;
+        return result;
     }
     return result;
 };
