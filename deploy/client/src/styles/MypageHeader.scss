@@ -1,0 +1,131 @@
+@import './Common.scss';
+
+.mypageHeaderC {
+    width: $all-width;
+    height: 240px;
+    top: 44px;
+    // border-bottom: 1px solid lightgrey;
+
+    .logoC {
+        height: 24px;
+        padding-left: 24px;
+        padding-right: 24px;
+        @include flex-space-between();
+    }
+    .followC {
+        height: 132px;
+        margin-top: 32px;
+        margin-left: 40px;
+        margin-right: 40px;
+        @include flex-space-between();
+        .aDiv {
+            width: 88px;
+            height: 68px;
+            @include flex-center();
+
+            > div {
+                @include flex-center();
+                width: 88px;
+            }
+        }
+        .bDiv {
+            width: 100px;
+            height: 132px;
+            @include flex-center();
+
+            .imageC {
+                position: relative;
+
+                .profile-image {
+                    > img {
+                        @include profile-image();
+                    }
+                }
+                .flag-image {
+                    > img {
+                        @include flag-image();
+                    }
+                }
+            }
+
+            .contentC {
+                width: 100px;
+                height: 60px;
+
+                .nameInfo {
+                    @include flex-center();
+                    flex-wrap: nowrap;
+                }
+
+                .countryInfo {
+                    font-weight: 500;
+                    font-size: 10px;
+                    @include flex-around();
+                }
+
+                .languageInfo {
+                    @include flex-around();
+
+                    .arrowImage {
+                        @include flex-center();
+                    }
+                    .languageDiv {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+        .cDiv {
+            @extend .aDiv;
+        }
+    }
+}
+
+/* 모달 전체 영역 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 내용 영역 */
+.modal-content {
+    background: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 모달 헤더 영역 */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* 모달 닫기 버튼 */
+.modal-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 사용자 목록 스타일 */
+.modal-body ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* 사용자 목록 아이템 스타일 */
+.modal-body li {
+    margin-bottom: 10px;
+}
