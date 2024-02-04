@@ -65,10 +65,6 @@ app.use(userSearchRouter);
 app.use(chatRouter);
 app.use(postSearchRouter);
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/App.tsx');
-});
-
 // 사용자의 채팅방 정보를 저장하는 변수
 const userChatRooms: Record<string, string[]> = {};
 const chatRooms: Record<

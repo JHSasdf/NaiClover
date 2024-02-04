@@ -183,7 +183,7 @@ export const getChatLog = async (
                 .json({ msg: `There's no Chat Room`, isError: true });
         }
 
-        if (roomInfo.dataValues.useritTo !== 'monoChat') {
+        if (roomInfo.dataValues.useridTo !== 'monoChat') {
             const existingUserid1 = roomInfo.dataValues.userid;
             const existingUserid2 = roomInfo.dataValues.useridTo;
             const existingUseridArr = [existingUserid1, existingUserid2];
