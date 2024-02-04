@@ -1,0 +1,76 @@
+.englishchatroom-container{
+    width: 160px;
+    max-height: 214px;
+    border: 1px solid #D1D1D1;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    .englishheader-container{
+        width: 120px;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+
+        .english-title{
+            width: fit-content;
+            height: fit-content;
+            font-weight: bold;
+            font-size: 14px;
+            color: #37AF6A;
+            margin-left: auto;
+        }
+        .englishchatroom-title{
+            width: 120px;
+            max-height: 54px;
+            color: #474747;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+
+    .englishfooter-container{
+        width: 112px;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+        align-items: space-between;
+        margin-top: 24px;
+
+        .english-participants-container{
+            width: 112px;
+            height: 40px;
+            display: flex;
+            margin-bottom: 10px;
+            .english-participant-container{
+                width: 40px;
+                height: 40px;
+                position: relative;
+                margin-right: -4px;
+                .english-participant{
+                    width: 40px;
+                    height: 40px;
+                    background-color: lightgrey;
+                    border-radius: 50%;
+                    border: 1px solid white;
+                }
+                .english-flag{
+                    width: 16px;
+                    height: 12px;
+                    background-color: lightgrey;
+                    border: 1px solid grey;
+                    position: absolute;
+                    right: 0px;
+                    bottom: 0px;
+                }
+            }
+            .english-participants{
+                color: #808080;
+                font-size: 14px;
+            }
+        }
+    }
+}

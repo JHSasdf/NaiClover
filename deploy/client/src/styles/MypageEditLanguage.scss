@@ -1,0 +1,49 @@
+@import './Common.scss';
+@import './MypageEditPassword.scss';
+
+.editLanguage-Container {
+    @extend .editPassword-Container;
+
+    .editLanguage-Form {
+        @extend .editPassword-Form;
+
+        position: relative;
+        text-align: start;
+        .chooseSelectBoxDiv {
+            @include flex();
+            > select {
+                width: 80%;
+                height: 40px;
+                margin-top: 15px;
+            }
+            .chooseSelect-plus-minus-btn {
+                > img {
+                    position: relative;
+                    top: 10px;
+                    margin-left: 4px;
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+        .chooseSelectBoxDiv2 {
+            @extend .chooseSelectBoxDiv;
+        }
+        .chooseSelectBoxDiv3 {
+            @extend .chooseSelectBoxDiv;
+        }
+
+        .editlangErrorMsg {
+            text-align: center;
+            margin-top: 25px;
+        }
+    }
+}
+
+.showMeTheSelect {
+    display: block;
+}
+
+.hideMeTheSelect {
+    display: none;
+}

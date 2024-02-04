@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.myPageRouter = void 0;
+var express = require('express');
+var controller = require("../controllers/mypage.controller");
+exports.myPageRouter = express();
+var multer_config_1 = require("../config/multer.config");
+var multer = require('multer');
+var mypageUploadDetail = multer((0, multer_config_1.getMyPageMulterConfig)());
+exports.myPageRouter.get('/getRevisedLists', controller.getRevisedLists);
+exports.myPageRouter.get('/getMyPage', controller.getmyPage);
+exports.myPageRouter.patch('/mypage/changeuserpassword', controller.changeUserPassword);
+exports.myPageRouter.patch('/mypage/changeusername', controller.changeUserName);
+exports.myPageRouter.patch('/mypage/changeuserlang', controller.changeUserLang);
+exports.myPageRouter.patch('/mypage/editIntroduction', controller.editIntroduction);
+exports.myPageRouter.delete('/mypage/deleteuser', controller.deleteUser);
+exports.myPageRouter.post('/mypage/logout', controller.logout);
+exports.myPageRouter.post('/multermypage', mypageUploadDetail.single('file'), controller.multerMypage);

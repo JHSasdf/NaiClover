@@ -1,0 +1,25 @@
+.postalert-container{
+    width: 390px;
+    height: fit-content;
+    background-color: #E9FFEE;
+    padding: 20px 24px;
+
+    .postalert-title{
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .postalert-content{
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #888;
+    }
+}
+
+
+.postalert-username{
+    font-weight: bold;
+}

@@ -1,0 +1,51 @@
+.search-container {
+    button {
+        width: fit-content;;
+        height: 28px;
+        background-color: white;
+        color: #808080;
+        border: 1px solid lightgrey;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-left: 12px;
+        margin-right: 12px;
+        cursor: pointer;
+        font-family: "Poppins", sans-serif;
+    }
+}
+
+.searchbar-input {
+    width: 244px;
+    height: 20px;
+    border-radius: 4px;
+    border: transparent;
+    background-color: #f4f6f9;
+    color: #808080;
+    margin-left: 42px;
+    margin-top: 6px;
+    font-family: "Poppins", sans-serif;
+}
+
+.searchbar-input:focus {
+    outline: transparent;
+}
+
+.search-container {
+    width: 390px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+    margin-top: 17px;
+}
+
+.searchbar {
+    width: 302px;
+    height: 32px;
+    background-image: url('../img/searchbar.png');
+    margin-left: 12px;
+}
+
+.create-post{
+    background-color: white;
+}

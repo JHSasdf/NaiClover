@@ -1,0 +1,43 @@
+.header-container {
+    width: 390px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.posts-title {
+    width: 58px;
+    height: 20px;
+    background-image: url('../img/posts-title.png');
+    background-size: cover;
+    cursor: pointer;
+    margin-left: 24px;
+}
+
+.alertArrived {
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/alert.png');
+    background-size: cover;
+    cursor: pointer;
+    margin-left: 196px;
+}
+
+.alertAllChecked {
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/alertnone.png');
+    background-size: cover;
+    cursor: pointer;
+    margin-left: 196px;
+}
+
+.create-post {
+    width: 40px;
+    height: 40px;
+    background-image: url('../img/create-post.png');
+    background-size: cover;
+    cursor: pointer;
+    margin-left: 24px;
+    border: none;
+}

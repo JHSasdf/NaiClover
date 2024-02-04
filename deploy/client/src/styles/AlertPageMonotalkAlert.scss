@@ -1,0 +1,45 @@
+.monotalkalert-container {
+    width: 390px;
+    height: fit-content;
+    padding: 20px 24px;
+    background-color: #e9ffee;
+
+    .monotalkalert-title {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .monotalkalert-content {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #888;
+    }
+}
+
+.monotalkalert-oldcontainer {
+    width: 390px;
+    height: fit-content;
+    padding: 20px 24px;
+    background-color: white;
+
+    .monotalkalert-title {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .monotalkalert-content {
+        width: 390px;
+        height: fit-content;
+        font-size: 14px;
+        color: #888;
+    }
+}
+
+.monotalkalert-username {
+    font-weight: bold;
+}

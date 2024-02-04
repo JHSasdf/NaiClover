@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.followRouter = void 0;
+var express = require('express');
+var controller = require("../controllers/follow.controller");
+exports.followRouter = express();
+exports.followRouter.post('/followexec', controller.follow);
+exports.followRouter.post('/unfollowexec', controller.unfollow);
+exports.followRouter.get('/followNumGet', controller.followNumGet);
+exports.followRouter.get('/followListGet', controller.followListGet);
+exports.followRouter.get('/getAlarmList', controller.getAlarmList);
+exports.followRouter.get('/newAlarmNumGet', controller.newAlarmNumGet);
