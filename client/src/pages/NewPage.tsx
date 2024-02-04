@@ -51,6 +51,7 @@ const ChatRoomPage: React.FC = () => {
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [roomName, setRoomName] = useState();
     const [roomPeopleNum, setroomPeopleNum] = useState();
+    const [useridTo, setUserIdTo] = useState();
     const userid = cookies['id'];
 
     const navigate = useNavigate();
@@ -109,6 +110,7 @@ const ChatRoomPage: React.FC = () => {
             setChatLog(res.data.chatLog);
             setRoomName(res.data.roomInfo.roomName);
             setroomPeopleNum(res.data.chatNumber);
+            setUserIdTo(res.data.roomInfo.useridTo);
             console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -176,6 +178,80 @@ const ChatRoomPage: React.FC = () => {
         setNewMessage('');
     };
     scrollToBottom();
+
+    // 메시지 보내는 함수
+    const renderMessageContainer = (elem: ChatLog) => {
+        if (elem.userid === userid) {
+            return (
+                <div className="messages-container">
+                    <div className="sent-message">
+                        <div className="sent-message-footer">
+                            <div className="sent-message-time">
+                                {getCurrentData3(new Date(elem.createdAt))}
+                            </div>
+                            <div
+                                className={
+                                    elem.chatCounting === 0
+                                        ? 'sent-message-read hide'
+                                        : 'sent-message-read'
+                                }
+                            >
+                                {elem.chatCounting}
+                            </div>
+                        </div>
+                        <div className="sent-message-content">
+                            <div className="sent-message-contentarea">
+                                <div>{elem.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div className="messages-container">
+                    <div className="received-message">
+                        <div className="received-message-header">
+                            <div className="received-message-image">
+                                <img src={elem.User.profileImgPath} alt="" />
+                            </div>
+
+                            <div className="received-message-flag">
+                                <img
+                                    src={`/images/flag/${elem.User.nation}.png`}
+                                    alt=""
+                                />
+                            </div>
+                            <div className="received-message-username">
+                                <div>{elem.User.name}</div>
+                            </div>
+                        </div>
+                        <div className="received-message-middle">
+                            <div className="received-message-content">
+                                <div className="received-message-contentarea">
+                                    <div>{elem.content}</div>
+                                </div>
+                            </div>
+                            <div className="received-message-footer">
+                                <div className="received-message-time">
+                                    {getCurrentData3(new Date(elem.createdAt))}
+                                </div>
+                                <div
+                                    className={
+                                        elem.chatCounting === 0
+                                            ? 'received-message-read hide'
+                                            : 'received-message-read'
+                                    }
+                                >
+                                    {elem.chatCounting}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    };
     return (
         <>
             <Topbar />
@@ -186,6 +262,7 @@ const ChatRoomPage: React.FC = () => {
                         onClick={() => {
                             navigate(-1);
                         }}
+                        style={{ cursor: 'pointer' }}
                     >
                         <img src="/images/BackPoint.png" alt="" />
                     </div>
@@ -194,6 +271,32 @@ const ChatRoomPage: React.FC = () => {
                 </div>
 
                 <div className="chating-content-area">
+<!--                     {chatLog.map((elem) => (
+                        <div key={elem.chatIndex}>
+                            {/* 상단에 사용자 ID 표시 */}
+                            {useridTo === 'monoChat' ? (
+                                <>
+                                    {elem.isFirst === true ? (
+                                        <div className="alert-message-div">
+                                            <div className="user-id">
+                                                {elem.User.name} 님이
+                                                입장했습니다.
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        renderMessageContainer(elem)
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {elem.isFirst === true
+                                        ? null
+                                        : renderMessageContainer(elem)}
+                                </>
+                            )}
+                        </div>
+                    ))} -->
+
                     {chatLog.map((elem) => {
                         let beforeLine = '';
                         let afterLine = '';
