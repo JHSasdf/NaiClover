@@ -22,10 +22,11 @@ function PostsPage() {
     const [languagePosts, setLanguagePosts] = useState([]);
     const [searchCulturePosts, setSearchCulturePosts] = useState([]);
     const [searchLanguagePosts, setSearchLanguagePosts] = useState([]);
-
     const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
+
+    const [likeCount, setLikeCount] = useState<number>(0);
 
     const handleLanguageClick = () => {
         setShowLanguagePosts(!showLanguagePosts);
@@ -75,9 +76,10 @@ function PostsPage() {
                 withCredentials: true,
             });
             setCulturePosts(res.data.PostsDatas);
-            console.log(culturePosts);
         } catch (error: any) {
-            errorHandler(error.response.status);
+            if (error.response.status) {
+                errorHandler(error.response.status);
+            }
             console.log('error', error);
         }
     };
@@ -95,7 +97,9 @@ function PostsPage() {
             console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
-            errorHandler(error.response.status);
+            if (error.response.status) {
+                errorHandler(error.response.status);
+            }
             console.log('error', error);
         }
     };
@@ -122,7 +126,8 @@ function PostsPage() {
     }, []);
 
     return (
-        <div className="postspage-container">
+    <div className="postspage-container">
+        <div className="postspage">
             <Topbar />
             <Header newAlarmNum={newAlarmNum} />
             <div className="search-container">
@@ -187,14 +192,17 @@ function PostsPage() {
                                     name={languagePostData[0].User.name}
                                     id={languagePostData[0].postId}
                                     nation={languagePostData[0].User.nation}
+                                    gender={languagePostData[0].User.gender}
                                     firLang={languagePostData[0].User.firLang}
                                     profileImgPath={
                                         languagePostData[0].User.profileImgPath
                                     }
                                     createdAt={languagePostData[0].createdAt}
                                     content={languagePostData[0].content}
-                                    likecount={languagePostData[1]}
+                                    likeCount={languagePostData[1]}
+                                    isLiked={languagePostData[2]}
                                     commentcount={languagePostData[3]}
+                                    setLikeCount={setLikeCount}
                                 />
                             ))
                     ) : (
@@ -215,6 +223,7 @@ function PostsPage() {
                                     id={culturePostData[0].postId}
                                     userid={culturePostData[0].userid}
                                     name={culturePostData[0].User.name}
+                                    gender={culturePostData[0].User.gender}
                                     nation={culturePostData[0].User.nation}
                                     firLang={culturePostData[0].User.firLang}
                                     profileImgPath={
@@ -226,8 +235,10 @@ function PostsPage() {
                                     createdAt={culturePostData[0].createdAt}
                                     content={culturePostData[0].content}
                                     images={culturePostData[0]}
-                                    likecount={culturePostData[1]}
+                                    likeCount={culturePostData[1]}
+                                    isLiked={culturePostData[2]}
                                     commentcount={culturePostData[3]}
+                                    setLikeCount={setLikeCount}
                                 />
                             ))
                     ) : (
@@ -253,6 +264,7 @@ function PostsPage() {
                                             nation={
                                                 languagePostData.User.nation
                                             }
+                                            gender={languagePostData.User.gender}
                                             firLang={
                                                 languagePostData.User.firLang
                                             }
@@ -260,12 +272,9 @@ function PostsPage() {
                                                 languagePostData.createdAt
                                             }
                                             content={languagePostData.content}
-                                            likecount={
-                                                languagePostData.likecount
-                                            }
-                                            commentcount={
-                                                languagePostData.commentcount
-                                            }
+                                            likeCount={languagePostData[1]}
+                                            isLiked={languagePostData[2]}
+                                            commentcount={languagePostData[3]}
                                         />
                                     ))
                             ) : (
@@ -293,17 +302,16 @@ function PostsPage() {
                                             learningLang={
                                                 culturePostData.User.firLang
                                             }
+                                            gender={culturePostData.User.gender}
                                             createdAt={
                                                 culturePostData.createdAt
                                             }
                                             content={culturePostData.content}
                                             images={culturePostData}
-                                            likecount={
-                                                culturePostData.likecount
-                                            }
-                                            commentcount={
-                                                culturePostData.commentcount
-                                            }
+                                            likeCount={culturePostData[1]}
+                                            isLiked={culturePostData[2]}
+                                            commentcount={culturePostData[3]}
+
                                         />
                                     ))
                             ) : (
@@ -316,6 +324,7 @@ function PostsPage() {
 
             <Footer />
         </div>
+    </div>
     );
 }
 

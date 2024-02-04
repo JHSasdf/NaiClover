@@ -10,6 +10,8 @@ import cors from 'cors';
 import session from 'express-session';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import { Op } from 'sequelize';
+import sequelize from 'sequelize';
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -18,13 +20,11 @@ import { langPostsRouter } from './routes/langPost.routes';
 import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
 import { postSearchRouter } from './routes/postSearch.routes';
-import { Op } from 'sequelize';
 import { db } from './model';
 import handleErrors from './middlewares/errorHandler.middleware';
 import notFoundHandler from './middlewares/notFound.middleware';
 import { getSessionConfig } from './config/session.config';
-import sequelize from 'sequelize';
-
+import { generateUniqueId } from './public/utils/createChatsAndRoomsDb';
 const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
@@ -33,6 +33,13 @@ export const io = new Server(server, {
         methods: '*',
     },
 });
+
+const Chat = db.Chat;
+const Room = db.Room;
+const ChatCount = db.ChatCount;
+const CurrentNOPIM = db.CurrentNOPIM;
+
+let roomNum: string;
 
 app.use('/public', express.static(__dirname + '/public'));
 app.use(session(getSessionConfig()));
@@ -57,10 +64,6 @@ app.use(langPostsRouter);
 app.use(userSearchRouter);
 app.use(chatRouter);
 app.use(postSearchRouter);
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/App.tsx');
-});
 
 // 사용자의 채팅방 정보를 저장하는 변수
 const userChatRooms: Record<string, string[]> = {};
@@ -91,16 +94,6 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
     }
 };
 //
-
-const Chat = db.Chat;
-const Room = db.Room;
-const ChatCount = db.ChatCount;
-const CurrentNOPIM = db.CurrentNOPIM;
-
-let roomNum: string;
-const generateUniqueId = () => {
-    return Math.random().toString(36).substr(2, 9);
-};
 
 async function createMonoRoomDb(
     roomName: string,
@@ -146,10 +139,21 @@ async function createPersonalRoomDb(
                 useridTo: useridTo,
             },
         });
+
+        const validCheck2 = await Room.findOne({
+            where: {
+                userid: useridTo,
+                useridTo: userid,
+            },
+        });
+
         if (validCheck) {
-            roomNumArr.push(validCheck.dataValues.roomNum);
-            return;
+            return roomNumArr.push(validCheck.dataValues.roomNum);
         }
+        if (validCheck2) {
+            return roomNumArr.push(validCheck2.dataValues.roomNum);
+        }
+
         result = await Room.create({
             roomNum: genaratedUniqueId,
             roomName: roomName,
@@ -166,15 +170,22 @@ async function createPersonalRoomDb(
     return;
 }
 
-async function createChatDb(roomNum: string, userid: string, content: string) {
+async function createChatDb(
+    roomNum: string,
+    userid: string,
+    content: string,
+    isrevised: boolean = false,
+    toWhom: string | null = null
+) {
     let result;
     try {
         result = await Chat.create({
             roomNum: roomNum,
             userid: userid,
             content: content,
+            isrevised: isrevised,
+            toWhom: toWhom,
         });
-        // console.log(result.dataValues);
         const peopleInChatRoom = await Chat.findAll({
             attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
             where: {
@@ -201,7 +212,7 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     if (room) {
         res.json({ language: room.restrictedLang || '' });
     } else {
-        res.status(404).json({ error: 'Room not found' });
+        res.status(404).json({ error: 'Room not founded' });
     }
 });
 
@@ -220,7 +231,7 @@ io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
         const roomClients = io.sockets.adapter.rooms.get(room);
-        let numberOfClients;
+        let numberOfClients: number;
 
         if (!roomClients) {
             numberOfClients = 0;
@@ -229,7 +240,7 @@ io.on('connection', (socket: Socket) => {
         }
         updatePeopleInMonoRoom(numberOfClients, room);
 
-        console.log('조인룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
     });
 
     socket.on('leaveRoom', (room) => {
@@ -242,7 +253,7 @@ io.on('connection', (socket: Socket) => {
             numberOfClients = roomClients.size;
         }
         updatePeopleInMonoRoom(numberOfClients, room);
-        console.log('리브룸', io.emit('needReload', 'reload'));
+        io.emit('needReload', 'reload');
 
         removeUserChatRoom(socket.id, room); // 사용자의 채팅방 정보에서 제거
         console.log(`User ${socket.id} left room ${room}`);
@@ -273,7 +284,6 @@ io.on('connection', (socket: Socket) => {
         if (msg.room) {
             const serverMessage = `Server: ${msg.text}`;
             const isSentByMe = msg.isSentByMe || false;
-
             // userId 추가
             socket.broadcast.to(msg.room).emit('chat message', {
                 ...msg,
@@ -281,9 +291,17 @@ io.on('connection', (socket: Socket) => {
                 isSentByMe,
                 userId: msg.userId, // 클라이언트에서 전달받은 userId 사용
             });
-
-            createChatDb(msg.room, msg.userId, msg.text);
-
+            if (msg.isrevised) {
+                createChatDb(
+                    msg.room,
+                    msg.userId,
+                    msg.text,
+                    msg.isrevised,
+                    msg.toWhom
+                );
+            } else {
+                createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
+            }
             socket.broadcast.emit('needReload', 'reload');
         }
     });

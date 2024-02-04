@@ -20,9 +20,18 @@
     display: none;
 }
 
-.postspage-container {
+.postspage {
     width: 390px;
     height: 844px;
+}
+
+.postspage-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .category-component {

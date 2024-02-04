@@ -15,13 +15,16 @@ function SentenceCorrection(props: any) {
 
     const correctExec = (str1: string, str2: string): string[] => {
         const res: string[] = [];
+        // 자~~ 작업 해볼까!!
+        // 자~~ 작업 해볼까!!
+        // 자~~ 작업 해볼까!!
+        // 자~~ 작업 해볼까!!
         const beforeLine = `{${str1}}`;
         const afterLine = `{${str2}}`;
         res.push(beforeLine);
         res.push(afterLine);
         return res;
     };
-
     const correctLines = () => {
         const res = correctExec(content[index], after.current.value);
         setShowInput(false);

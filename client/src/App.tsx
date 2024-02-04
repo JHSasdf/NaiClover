@@ -28,6 +28,7 @@ import SearchUser from './pages/SearchUser';
 import MonoChatPage from './pages/MonoChatPage';
 import PersonalChat from './components/Chats/PersonalChat';
 import ErrorLogPage from './pages/ErrorLogPage';
+import ChatCorrectingPage from './pages/ChatCorrectingPage';
 
 import CultureCorrectingPage from './pages/CultureCorrectingPage';
 import LanguageCorrectingPage from './pages/LanguageCorrectingPage';
@@ -49,7 +50,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/403" element={<Error403 />}></Route>
+                    <Route path="/401" element={<Error403 />}></Route>
                     <Route path="/404" element={<Error404 />}></Route>
                     <Route path="/500" element={<Error500 />}></Route>
                     <Route path="/multermypage" element={<MulterMypage />} />
@@ -106,11 +107,15 @@ function App() {
                         path="/c-postdetail/:id/correcting"
                         element={<CultureCorrectingPage />}
                     />
+                    <Route
+                        path="/chat/:roomNum/:toWhomName/:toWhomId/correcting"
+                        element={<ChatCorrectingPage />}
+                    />
 
                     <Route path="/monochat" element={<MonoChatPage />} />
                     <Route path="*" element={<Error404 />} />
 
-                    <Route path="/errorlog" element={<ErrorLogPage/>}/>
+                    <Route path="/errorlog" element={<ErrorLogPage />} />
                 </Routes>
             </BrowserRouter>
         </div>

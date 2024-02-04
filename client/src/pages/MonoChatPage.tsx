@@ -17,7 +17,8 @@ function MonoChatPage() {
     };
 
     return (
-        <div className="monochatpage-container">
+    <div className="monochatpage-container">
+        <div className="monochatpage">
             <Topbar />
             <MonoChatHeader />
             <Search />
@@ -71,6 +72,7 @@ function MonoChatPage() {
             </div>
             <Footer />
         </div>
+    </div>
     );
 }
 

@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-import { Op, ValidationError } from 'sequelize';
+import { Op } from 'sequelize';
 import sequelize from 'sequelize';
 const User = db.User;
-const Lang = db.Lang;
 const Room = db.Room;
 const Chat = db.Chat;
 const ChatCount = db.ChatCount;
@@ -23,7 +22,8 @@ export const getPersonalRooms = async (
         });
     }
 
-    let results;
+    let results: any;
+    let sortedResults: any;
     try {
         results = await Room.findAll({
             where: {
@@ -70,13 +70,19 @@ export const getPersonalRooms = async (
             });
             result.dataValues.realRoomName = final;
         }
+        sortedResults = results.sort(function (a: any, b: any) {
+            return (
+                b.dataValues.Chats[b.Chats.length - 1].createdAt -
+                a.dataValues.Chats[a.Chats.length - 1].createdAt
+            );
+        });
     } catch (err) {
         return next(err);
     }
 
     // personalRooms.realRoomName이 1:1 채팅에서 상대방의 이름
     res.json({
-        personalRooms: results,
+        personalRooms: sortedResults,
         isError: false,
     });
 };
@@ -171,7 +177,13 @@ export const getChatLog = async (
             where: { roomNum: roomNum },
         });
 
-        if (roomInfo.dataValues.useritTo !== 'monoChat') {
+        if (!roomInfo) {
+            return res
+                .status(404)
+                .json({ msg: `There's no Chat Room`, isError: true });
+        }
+
+        if (roomInfo.dataValues.useridTo !== 'monoChat') {
             const existingUserid1 = roomInfo.dataValues.userid;
             const existingUserid2 = roomInfo.dataValues.useridTo;
             const existingUseridArr = [existingUserid1, existingUserid2];
@@ -188,11 +200,6 @@ export const getChatLog = async (
             roomInfo.dataValues.roomName = usernameTo.dataValues.name;
         }
 
-        if (!roomInfo) {
-            return res
-                .status(404)
-                .json({ msg: `There's no Chat Room`, isError: true });
-        }
         const chatNumber = await Chat.count({
             col: 'userid',
             distinct: true,

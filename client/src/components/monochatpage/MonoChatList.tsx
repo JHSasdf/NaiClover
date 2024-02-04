@@ -102,7 +102,7 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
                                                     <div className="all-participant-date">
                                                         {getCurrentData2(
                                                             new Date(
-                                                                elem.Chats[0].createdAt
+                                                                elem.Chats[0]?.createdAt
                                                             )
                                                         )}
                                                     </div>

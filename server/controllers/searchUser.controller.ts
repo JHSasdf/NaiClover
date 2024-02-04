@@ -6,8 +6,12 @@ const User = db.User;
 const Lang = db.Lang;
 const Follow = db.Follow;
 const Post = db.Post;
+const Comment = db.Comment;
+const PostLike = db.PostLike;
+const PostImage = db.PostImages;
 const LangPost = db.LangPost;
-const Room = db.Room;
+const LangComment = db.LangComment;
+const LangPostLike = db.LangPostLike;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getUserInfo = async (
@@ -52,9 +56,7 @@ export const getUserInfo = async (
     }
 
     if (!userDataObj) {
-        return res
-            .status(404)
-            .json({ msg: 'An Error occurred', isError: true });
+        return res.status(404).json({ msg: 'User not founded', isError: true });
     }
     try {
         learningLangObjArr = await Lang.findAll({
@@ -83,9 +85,47 @@ export const getUserInfo = async (
     try {
         postCulDatas = await Post.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
+                },
+                {
+                    model: Comment,
+                },
+                {
+                    model: PostLike,
+                },
+                {
+                    model: PostImage,
+                },
+            ],
         });
         postLangDatas = await LangPost.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: [
+                        'name',
+                        'gender',
+                        'nation',
+                        'profileImgPath',
+                        'firLang',
+                    ],
+                    include: [
+                        {
+                            model: Lang,
+                        },
+                    ],
+                },
+                {
+                    model: LangComment,
+                },
+                {
+                    model: LangPostLike,
+                },
+            ],
         });
         followerCount = await Follow.count({
             where: {

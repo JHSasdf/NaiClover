@@ -6,9 +6,13 @@ import { userDataInterface } from '../types/types';
 const User = db.User;
 const Lang = db.Lang;
 const Post = db.Post;
-const LangPost = db.LangPost;
 const Comment = db.Comment;
+const PostLike = db.PostLike;
+const PostImage = db.PostImages;
+const LangPost = db.LangPost;
 const LangComment = db.LangComment;
+const LangPostLike = db.LangPostLike;
+const Chat = db.Chat;
 
 // mypage에 들어가서 page가 render되면 useEffect와 axios로 정보를 가져오는 함수
 export const getmyPage = async (
@@ -76,9 +80,47 @@ export const getmyPage = async (
     try {
         postCulDatas = await Post.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: [
+                        'name',
+                        'gender',
+                        'nation',
+                        'profileImgPath',
+                        'firLang',
+                    ],
+                    include: [
+                        {
+                            model: Lang,
+                        },
+                    ],
+                },
+                {
+                    model: Comment,
+                },
+                {
+                    model: PostLike,
+                },
+                {
+                    model: PostImage,
+                },
+            ],
         });
         postLangDatas = await LangPost.findAll({
             where: { userid: userid },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
+                },
+                {
+                    model: LangComment,
+                },
+                {
+                    model: LangPostLike,
+                },
+            ],
         });
     } catch (err) {
         return next(err);
@@ -365,6 +407,7 @@ export const getRevisedLists = async (
     const userid = req.session.userid;
     const culs: string[] = [];
     const langs: string[] = [];
+    const chats: string[] = [];
     if (!userid || userid.length < 4) {
         return res.status(401).json({
             msg: 'Please Login First!',
@@ -430,10 +473,26 @@ export const getRevisedLists = async (
                 }
             }
         }
-
+        const revisedChats = await Chat.findAll({
+            where: { isrevised: true, toWhom: userid },
+        });
+        i = -1;
+        while (revisedChats[++i]) {
+            if (revisedChats[i].content) {
+                const nameAndContent = revisedChats[i].content.split('@@.,.@@');
+                const lines = nameAndContent[1].split('&&&&');
+                j = -1;
+                while (lines[++j]) {
+                    if (lines[j].includes('/./')) {
+                        chats.push(lines[j]);
+                    }
+                }
+            }
+        }
         res.json({
             langRes: langs,
             culRes: culs,
+            chatRes: chats,
             isError: false,
         });
     } catch (err) {

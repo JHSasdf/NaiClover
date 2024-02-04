@@ -30,7 +30,6 @@ const SendComment: React.FC<SendCommentProps> = ({ onSendComment }) => {
                         setComment(e.target.value)
                     }
                 />
-                <input type="checkbox" className="revise-post" />
                 <div className="send-comment" onClick={handleSendComment}></div>
             </div>
         </div>

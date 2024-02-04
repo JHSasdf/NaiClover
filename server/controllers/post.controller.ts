@@ -27,7 +27,13 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
+                    attributes: [
+                        'name',
+                        'nation',
+                        'gender',
+                        'firLang',
+                        'profileImgPath',
+                    ],
                 },
                 {
                     model: postImages,
@@ -94,8 +100,8 @@ export const getPosts = async (
         }
     }
     let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
-        const aDate = new Date(a[0].createdAt).getTime();
-        const bDate = new Date(b[0].createdAt).getTime();
+        const aDate = a[0].dataValues.createdAt;
+        const bDate = b[0].dataValues.createdAt;
         return aDate - bDate;
     });
     sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
@@ -282,7 +288,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'profileImgPath'],
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
                 },
                 {
                     model: postImages,

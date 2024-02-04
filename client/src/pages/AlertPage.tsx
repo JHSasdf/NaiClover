@@ -8,13 +8,13 @@ function AlertPage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
     return (
-        <>
-            <div className="alertpage-container">
+        <div className="alertpage-container">
+            <div className="alertpage">
                 <Topbar />
                 <AlertPageHeader />
                 <AlertsList userid={idCookie} />
             </div>
-        </>
+        </div>
     );
 }
 

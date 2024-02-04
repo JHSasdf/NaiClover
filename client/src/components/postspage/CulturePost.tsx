@@ -29,6 +29,10 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
+    const { id, likeCount, isLiked } = props;
+    const [didLike, setDidLike] = useState(isLiked);
+    const [likeCountState, setLikeCountState] = useState(likeCount);
+
 
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
@@ -50,12 +54,7 @@ function CulturePost(props: any) {
             console.error('error', error);
         }
     };
-    const { id } = props;
-    // Load initial like status from local storage
-    const initialLikeStatus = localStorage.getItem(`likeStatus_${props.id}`);
-    const [isLiked, setIsLiked] = useState(
-        initialLikeStatus ? JSON.parse(initialLikeStatus) : false
-    );
+
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -77,8 +76,8 @@ function CulturePost(props: any) {
             const res = await axios({
                 method: 'get',
                 url: `/userinfo/${props.userid}`,
-                params: {
-                    userid: props.name,
+                data: {
+                    userid: idCookie,
                 },
                 withCredentials: true,
             });
@@ -89,11 +88,8 @@ function CulturePost(props: any) {
         }
     };
     useEffect(() => {
-        console.log('useeff');
         getMyPage();
-        // Save the current like status to local storage
-        localStorage.setItem(`likeStatus_${props.id}`, JSON.stringify(isLiked));
-    }, [props.id, isLiked]);
+    }, [props.id]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
@@ -106,16 +102,20 @@ function CulturePost(props: any) {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
 
-            setIsLiked((prevIsLiked: any) => !prevIsLiked);
+            if (didLike) {
+                setLikeCountState(likeCountState - 1);
+            } else {
+                setLikeCountState(likeCountState + 1);
+            }
+            setDidLike(!didLike);
         } catch (error) {
             console.log('error', error);
         }
     };
 
     const hasImages =
-        props.images.PostImages && props.images.PostImages.length > 0;
+        props.images?.PostImages && props.images?.PostImages.length > 0;
 
     return (
         <div className="cul-post-container">
@@ -141,7 +141,9 @@ function CulturePost(props: any) {
 
                     <div className="cul-info-container">
                         <div className="cul-info">
-                            <div className="cul-gender cul-male"></div>
+                            <div className={`cul-gender' ${
+                                props.gender==='f' ? 'cul-female' : 'cul-male'
+                            }`}></div>
                             <Link
                                 className="cul-name"
                                 to={`/searchUser/${props.userid}`}
@@ -251,11 +253,11 @@ function CulturePost(props: any) {
                     <div className="cul-likes-container">
                         <div
                             className={`cul-likes' ${
-                                isLiked ? 'liked' : 'unliked'
+                                didLike ? 'liked' : 'unliked'
                             }`}
                             onClick={culToggleLike}
                         ></div>
-                        <div className="cul-likes-count">{props.likecount}</div>
+                        <div className="cul-likes-count">{likeCountState}</div>
                     </div>
                     <div
                         className="cul-comments-container"

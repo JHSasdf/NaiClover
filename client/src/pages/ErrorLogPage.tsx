@@ -9,7 +9,7 @@ import axios from 'axios';
 function ErrorLogPage() {
     const [langRevisedLists, setLangRevisedLists] = useState<string[]>([]);
     const [culRevisedLists, setCulRevisedLists] = useState<string[]>([]);
-
+    const [chatRevisedLists, setChatRevisedLists] = useState<string[]>([]);
     const getRevisedLists = async () => {
         try {
             const res = await axios({
@@ -19,6 +19,7 @@ function ErrorLogPage() {
             });
             setLangRevisedLists(res.data.langRes);
             setCulRevisedLists(res.data.culRes);
+            setChatRevisedLists(res.data.chatRes);
         } catch (error) {
             alert(`Error: ${error}`);
         }
@@ -28,7 +29,8 @@ function ErrorLogPage() {
         getRevisedLists();
     }, []);
     return (
-        <div className="errorlogpage-container">
+    <div className='errorlogpage-container'>
+        <div className="errorlogpage">
             <Topbar />
             <ErrorLogHeader />
             <div className="beforeafters-container">
@@ -38,9 +40,13 @@ function ErrorLogPage() {
                 {langRevisedLists.map((elem: any, index) => {
                     return <BeforeAfter key={index} comment={elem} />;
                 })}
+                {chatRevisedLists.map((elem: any, index) => {
+                    return <BeforeAfter key={index} comment={elem} />;
+                })}
             </div>
             <Footer />
         </div>
+    </div>
     );
 }
 

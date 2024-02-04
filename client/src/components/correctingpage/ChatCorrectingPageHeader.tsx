@@ -1,33 +1,35 @@
 import axios from 'axios';
-import '../../styles/CorrectingPage.scss'
-import '../../styles/CorrectingPageHeader.scss'
+import '../../styles/NewPostHeader.scss';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 
-const CorrectingPageHeader = (props: any) => {
-    const { cleanCookie, content, id, postUserId, tempLines, postType } = props;
+const socket = io('http://localhost:4000');
+
+const ChatCorrectingPageHeader = (props: any) => {
+    const {
+        cleanCookie,
+        content,
+        userid,
+        tempLines,
+        roomNum,
+        toWhom,
+        toWhomId,
+    } = props;
     const navigate = useNavigate();
 
-    const addComment = async (content: string) => {
-        try {
-            const res = await axios({
-                method: 'post',
-                url: `/${postType}/comments/createcomment/${id}`,
-                data: {
-                    content: content,
-                    postUserId: postUserId,
-                    isrevised: true,
-                },
-                withCredentials: true,
-            });
-        } catch (error: any) {
-            console.log('error', error);
-        }
-    };
     const checkChangeAndSend = () => {
         let i = -1;
+        let finalContent = `${toWhom}@@.,.@@${tempLines.join('&&&&')}`;
         while (content[++i]) {
             if (content[i] !== tempLines[i]) {
-                addComment(tempLines.join('&&&&'));
+                socket.emit('chat message', {
+                    room: roomNum,
+                    text: finalContent,
+                    isSentByMe: true,
+                    userId: userid,
+                    isrevised: true,
+                    toWhom: toWhomId,
+                });
                 break;
             }
         }
@@ -51,11 +53,11 @@ const CorrectingPageHeader = (props: any) => {
                         navigate(-1);
                     }}
                 >
-                    완료
+                    전송
                 </div>
             </div>
         </>
     );
 };
 
-export default CorrectingPageHeader;
+export default ChatCorrectingPageHeader;

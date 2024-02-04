@@ -27,7 +27,13 @@ export const getPosts = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'firLang', 'profileImgPath'],
+                    attributes: [
+                        'name',
+                        'nation',
+                        'gender',
+                        'firLang',
+                        'profileImgPath',
+                    ],
                 },
             ],
         });
@@ -38,7 +44,7 @@ export const getPosts = async (
         return res.json({ msg: `Maybe there's no post here!`, isError: true });
     }
     let likeCountArr = [];
-    let PostsDatas = [];
+    let PostsDatas: any = [];
     for (let i = 0; i < allPosts.length; i++) {
         try {
             const likeCount = await PostLikes.count({
@@ -93,8 +99,8 @@ export const getPosts = async (
         }
     }
     let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
-        const aDate = new Date(a[0].createdAt).getTime();
-        const bDate = new Date(b[0].createdAt).getTime();
+        const aDate = a[0].dataValues.createdAt;
+        const bDate = b[0].dataValues.createdAt;
         return aDate - bDate;
     });
     sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
@@ -102,6 +108,7 @@ export const getPosts = async (
         const bIsFollowing = b[4];
         return aIsFollowing - bIsFollowing;
     });
+
     // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
     res.json({
         PostsDatas: sortedPostDatas,
@@ -272,7 +279,7 @@ export const getSinglePost = async (
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'nation', 'profileImgPath'],
+                    attributes: ['name', 'gender', 'nation', 'profileImgPath'],
                 },
             ],
         });
