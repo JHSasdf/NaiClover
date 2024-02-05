@@ -181,7 +181,7 @@ function PostsPage() {
 
                 {showLanguagePosts && !showSearchResults && (
                     <div className="language-posts-container">
-                        {languagePosts.length > 0 ? (
+                        {languagePosts?.length > 0 ? (
                             languagePosts
                                 .slice(0)
                                 .reverse()
@@ -208,6 +208,7 @@ function PostsPage() {
                                         isLiked={languagePostData[2]}
                                         commentcount={languagePostData[3]}
                                         setLikeCount={setLikeCount}
+                                        getLanguagePosts={getLanguagePosts}
                                     />
                                 ))
                         ) : (
@@ -218,7 +219,7 @@ function PostsPage() {
 
                 {showCulturePosts && !showSearchResults && (
                     <div className="culture-posts-container">
-                        {culturePosts.length > 0 ? (
+                        {culturePosts?.length > 0 ? (
                             culturePosts
                                 .slice(0)
                                 .reverse()
@@ -247,6 +248,7 @@ function PostsPage() {
                                         isLiked={culturePostData[2]}
                                         commentcount={culturePostData[3]}
                                         setLikeCount={setLikeCount}
+                                        getCulturePost={getCulturePosts}
                                     />
                                 ))
                         ) : (

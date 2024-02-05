@@ -31,7 +31,7 @@ const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
     cors: {
-        origin: process.env.DEVCLIENTURL,
+        origin: process.env.CLIENTURL,
         methods: '*',
     },
 });
@@ -52,7 +52,7 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: [process.env.DEVCLIENTURL, 'http://3.34.47.72'],
+        origin: [process.env.CLIENTURL, 'http://3.34.47.72'],
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );

@@ -46,11 +46,13 @@ function LoginPage() {
 
     return (
         <div className="logincontainer signup-or-login">
-            <img
-                className="loginlogo"
-                src="/images/loginPageLogo.png"
-                alt="logo-img"
-            />
+            <div className="loginlogoImg-div">
+                <img
+                    className="loginlogo"
+                    src="/images/loginPageLogo.png"
+                    alt="logo-img"
+                />
+            </div>
             <form>
                 <input type="text" placeholder="ID" ref={idRef} /> <br />
                 <input
@@ -65,7 +67,7 @@ function LoginPage() {
                     onClick={(e: React.MouseEvent<HTMLElement>) => login(e)}
                 />
             </form>
-            <p>
+            <p className="signupMessage">
                 Don't have an account? <a href="/signup">Sign up</a>
             </p>
             {!(
