@@ -31,7 +31,7 @@ function SentenceCorrection(props: any) {
         setTimeout(() => {
             afterDiv.current.innerHTML = res[1].replace(
                 /\{([^}]+)\}/g,
-                '<span style="color : green">$1</span>'
+                '<span style="margin-left: 24px; color : green">$1</span>'
             );
         }, 0);
         // const newLine = res[0] + '/./' + res[1];
