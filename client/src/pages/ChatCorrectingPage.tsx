@@ -54,32 +54,34 @@ function ChatCorrectingPage(props: any) {
         }
     }, [cookies]);
     return (
-        <div className="correctingpage-container">
+        <>
             <Topbar />
-            <ChatCorrectingPageHeader
-                roomNum={roomNum}
-                userid={cookieId}
-                cleanCookie={cleanCookie}
-                tempLines={tempLines}
-                setContent={setCorrectLines}
-                content={correctLines}
-                // toWhom={toWhom}
-                toWhom={toWhomName}
-                toWhomId={toWhomId}
-            />
-            <div className="sentences-container">
-                {tempLines.map((line, index) => (
-                    <SentenceCorrection
-                        key={index}
-                        index={index}
-                        line={line}
-                        content={correctLines}
-                        tempLines={tempLines}
-                        setTempLines={setTempLines}
-                    />
-                ))}
+            <div className="correctingpage-container">
+                <ChatCorrectingPageHeader
+                    roomNum={roomNum}
+                    userid={cookieId}
+                    cleanCookie={cleanCookie}
+                    tempLines={tempLines}
+                    setContent={setCorrectLines}
+                    content={correctLines}
+                    // toWhom={toWhom}
+                    toWhom={toWhomName}
+                    toWhomId={toWhomId}
+                />
+                <div className="sentences-container">
+                    {tempLines.map((line, index) => (
+                        <SentenceCorrection
+                            key={index}
+                            index={index}
+                            line={line}
+                            content={correctLines}
+                            tempLines={tempLines}
+                            setTempLines={setTempLines}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
