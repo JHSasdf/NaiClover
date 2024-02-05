@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import useErrorHandler from '../utils/useErrorHandler';
+
 function PostsPage() {
     const { errorHandler } = useErrorHandler();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -94,7 +95,6 @@ function PostsPage() {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
             if (error.response.status) {
@@ -120,211 +120,236 @@ function PostsPage() {
             console.log('error:', error);
         }
     };
+
     useEffect(() => {
         newAlarmNumGet();
         getLanguagePosts();
     }, []);
 
     return (
-    <div className="postspage-container">
-        <div className="postspage">
-            <Topbar />
-            <Header newAlarmNum={newAlarmNum} />
-            <div className="search-container">
-                <div className="searchbar">
-                    <input
-                        className="searchbar-input"
-                        type="text"
-                        placeholder="Type something here..."
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value);
+        <div className="postspage-container">
+            <div className="postspage">
+                <Topbar />
+                <Header newAlarmNum={newAlarmNum} />
+                <div className="search-container">
+                    <div className="searchbar">
+                        <input
+                            className="searchbar-input"
+                            type="text"
+                            placeholder="Type something here..."
+                            value={searchQuery}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <button
+                        className="search-button"
+                        onClick={() => {
+                            getSearchResults();
                         }}
-                    />
+                    >
+                        Search
+                    </button>
                 </div>
-                <button
-                    className="search-button"
-                    onClick={() => {
-                        getSearchResults();
-                    }}
-                >
-                    Search
-                </button>
+                <div className="category-component">
+                    <div
+                        className={`btn_lang ${
+                            showLanguagePosts
+                                ? 'active category-component-changed'
+                                : ''
+                        }`}
+                        onClick={handleLanguageClick}
+                    >
+                        Language
+                    </div>
+                    <br />
+                    <div
+                        className={`btn_culture ${
+                            showCulturePosts
+                                ? 'active category-component-changed'
+                                : ''
+                        }`}
+                        onClick={() => {
+                            handleCultureClick();
+                            getCulturePosts();
+                        }}
+                    >
+                        Culture
+                    </div>
+                    <br />
+                </div>
+
+                {showLanguagePosts && !showSearchResults && (
+                    <div className="language-posts-container">
+                        {languagePosts?.length > 0 ? (
+                            languagePosts
+                                .slice(0)
+                                .reverse()
+                                .map((languagePostData: any) => (
+                                    <LanguagePost
+                                        key={languagePostData[0].postId}
+                                        userid={languagePostData[0].userid}
+                                        name={languagePostData[0].User.name}
+                                        id={languagePostData[0].postId}
+                                        nation={languagePostData[0].User.nation}
+                                        gender={languagePostData[0].User.gender}
+                                        firLang={
+                                            languagePostData[0].User.firLang
+                                        }
+                                        profileImgPath={
+                                            languagePostData[0].User
+                                                .profileImgPath
+                                        }
+                                        createdAt={
+                                            languagePostData[0].createdAt
+                                        }
+                                        content={languagePostData[0].content}
+                                        likeCount={languagePostData[1]}
+                                        isLiked={languagePostData[2]}
+                                        commentcount={languagePostData[3]}
+                                        setLikeCount={setLikeCount}
+                                    />
+                                ))
+                        ) : (
+                            <p>No language posts found.</p>
+                        )}
+                    </div>
+                )}
+
+                {showCulturePosts && !showSearchResults && (
+                    <div className="culture-posts-container">
+                        {culturePosts?.length > 0 ? (
+                            culturePosts
+                                .slice(0)
+                                .reverse()
+                                .map((culturePostData: any) => (
+                                    <CulturePost
+                                        key={culturePostData[0].postId}
+                                        id={culturePostData[0].postId}
+                                        userid={culturePostData[0].userid}
+                                        name={culturePostData[0].User.name}
+                                        gender={culturePostData[0].User.gender}
+                                        nation={culturePostData[0].User.nation}
+                                        firLang={
+                                            culturePostData[0].User.firLang
+                                        }
+                                        profileImgPath={
+                                            culturePostData[0].User
+                                                .profileImgPath
+                                        }
+                                        learningLang={
+                                            culturePostData[0].User.firLang
+                                        }
+                                        createdAt={culturePostData[0].createdAt}
+                                        content={culturePostData[0].content}
+                                        images={culturePostData[0]}
+                                        likeCount={culturePostData[1]}
+                                        isLiked={culturePostData[2]}
+                                        commentcount={culturePostData[3]}
+                                        setLikeCount={setLikeCount}
+                                    />
+                                ))
+                        ) : (
+                            <p>No culture posts found.</p>
+                        )}
+                    </div>
+                )}
+
+                {showSearchResults && (
+                    <div className="search-results-container">
+                        {showLanguagePosts && (
+                            <div className="language-posts-container">
+                                {searchLanguagePosts.length > 0 ? (
+                                    searchLanguagePosts
+                                        .slice(0)
+                                        .reverse()
+                                        .map((languagePostData: any) => (
+                                            <LanguagePost
+                                                key={languagePostData.postId}
+                                                userid={languagePostData.userid}
+                                                name={
+                                                    languagePostData.User.name
+                                                }
+                                                id={languagePostData.postId}
+                                                nation={
+                                                    languagePostData.User.nation
+                                                }
+                                                gender={
+                                                    languagePostData.User.gender
+                                                }
+                                                firLang={
+                                                    languagePostData.User
+                                                        .firLang
+                                                }
+                                                createdAt={
+                                                    languagePostData.createdAt
+                                                }
+                                                content={
+                                                    languagePostData.content
+                                                }
+                                                likeCount={languagePostData[1]}
+                                                isLiked={languagePostData[2]}
+                                                commentcount={
+                                                    languagePostData[3]
+                                                }
+                                            />
+                                        ))
+                                ) : (
+                                    <p>No matching language posts found.</p>
+                                )}
+                            </div>
+                        )}
+
+                        {showCulturePosts && (
+                            <div className="culture-posts-container">
+                                {searchCulturePosts.length > 0 ? (
+                                    searchCulturePosts
+                                        .slice(0)
+                                        .reverse()
+                                        .map((culturePostData: any) => (
+                                            <CulturePost
+                                                key={culturePostData.postId}
+                                                id={culturePostData.postId}
+                                                userid={culturePostData.userid}
+                                                name={culturePostData.User.name}
+                                                nation={
+                                                    culturePostData.User.nation
+                                                }
+                                                firLang={
+                                                    culturePostData.User.firLang
+                                                }
+                                                learningLang={
+                                                    culturePostData.User.firLang
+                                                }
+                                                gender={
+                                                    culturePostData.User.gender
+                                                }
+                                                createdAt={
+                                                    culturePostData.createdAt
+                                                }
+                                                content={
+                                                    culturePostData.content
+                                                }
+                                                images={culturePostData}
+                                                likeCount={culturePostData[1]}
+                                                isLiked={culturePostData[2]}
+                                                commentcount={
+                                                    culturePostData[3]
+                                                }
+                                            />
+                                        ))
+                                ) : (
+                                    <p>No matching culture posts found.</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <Footer />
             </div>
-            <div className="category-component">
-                <div
-                    className={`btn_lang ${
-                        showLanguagePosts
-                            ? 'active category-component-changed'
-                            : ''
-                    }`}
-                    onClick={handleLanguageClick}
-                >
-                    Language
-                </div>
-                <br />
-                <div
-                    className={`btn_culture ${
-                        showCulturePosts
-                            ? 'active category-component-changed'
-                            : ''
-                    }`}
-                    onClick={() => {
-                        handleCultureClick();
-                        getCulturePosts();
-                    }}
-                >
-                    Culture
-                </div>
-                <br />
-            </div>
-
-            {showLanguagePosts && !showSearchResults && (
-                <div className="language-posts-container">
-                    {languagePosts.length > 0 ? (
-                        languagePosts
-                            .slice(0)
-                            .reverse()
-                            .map((languagePostData: any) => (
-                                <LanguagePost
-                                    key={languagePostData[0].postId}
-                                    userid={languagePostData[0].userid}
-                                    name={languagePostData[0].User.name}
-                                    id={languagePostData[0].postId}
-                                    nation={languagePostData[0].User.nation}
-                                    gender={languagePostData[0].User.gender}
-                                    firLang={languagePostData[0].User.firLang}
-                                    profileImgPath={
-                                        languagePostData[0].User.profileImgPath
-                                    }
-                                    createdAt={languagePostData[0].createdAt}
-                                    content={languagePostData[0].content}
-                                    likeCount={languagePostData[1]}
-                                    isLiked={languagePostData[2]}
-                                    commentcount={languagePostData[3]}
-                                    setLikeCount={setLikeCount}
-                                />
-                            ))
-                    ) : (
-                        <p>No language posts found.</p>
-                    )}
-                </div>
-            )}
-
-            {showCulturePosts && !showSearchResults && (
-                <div className="culture-posts-container">
-                    {culturePosts.length > 0 ? (
-                        culturePosts
-                            .slice(0)
-                            .reverse()
-                            .map((culturePostData: any) => (
-                                <CulturePost
-                                    key={culturePostData[0].postId}
-                                    id={culturePostData[0].postId}
-                                    userid={culturePostData[0].userid}
-                                    name={culturePostData[0].User.name}
-                                    gender={culturePostData[0].User.gender}
-                                    nation={culturePostData[0].User.nation}
-                                    firLang={culturePostData[0].User.firLang}
-                                    profileImgPath={
-                                        culturePostData[0].User.profileImgPath
-                                    }
-                                    learningLang={
-                                        culturePostData[0].User.firLang
-                                    }
-                                    createdAt={culturePostData[0].createdAt}
-                                    content={culturePostData[0].content}
-                                    images={culturePostData[0]}
-                                    likeCount={culturePostData[1]}
-                                    isLiked={culturePostData[2]}
-                                    commentcount={culturePostData[3]}
-                                    setLikeCount={setLikeCount}
-                                />
-                            ))
-                    ) : (
-                        <p>No culture posts found.</p>
-                    )}
-                </div>
-            )}
-
-            {showSearchResults && (
-                <div className="search-results-container">
-                    {showLanguagePosts && (
-                        <div className="language-posts-container">
-                            {searchLanguagePosts.length > 0 ? (
-                                searchLanguagePosts
-                                    .slice(0)
-                                    .reverse()
-                                    .map((languagePostData: any) => (
-                                        <LanguagePost
-                                            key={languagePostData.postId}
-                                            userid={languagePostData.userid}
-                                            name={languagePostData.User.name}
-                                            id={languagePostData.postId}
-                                            nation={
-                                                languagePostData.User.nation
-                                            }
-                                            gender={languagePostData.User.gender}
-                                            firLang={
-                                                languagePostData.User.firLang
-                                            }
-                                            createdAt={
-                                                languagePostData.createdAt
-                                            }
-                                            content={languagePostData.content}
-                                            likeCount={languagePostData[1]}
-                                            isLiked={languagePostData[2]}
-                                            commentcount={languagePostData[3]}
-                                        />
-                                    ))
-                            ) : (
-                                <p>No matching language posts found.</p>
-                            )}
-                        </div>
-                    )}
-
-                    {showCulturePosts && (
-                        <div className="culture-posts-container">
-                            {searchCulturePosts.length > 0 ? (
-                                searchCulturePosts
-                                    .slice(0)
-                                    .reverse()
-                                    .map((culturePostData: any) => (
-                                        <CulturePost
-                                            key={culturePostData.postId}
-                                            id={culturePostData.postId}
-                                            userid={culturePostData.userid}
-                                            name={culturePostData.User.name}
-                                            nation={culturePostData.User.nation}
-                                            firLang={
-                                                culturePostData.User.firLang
-                                            }
-                                            learningLang={
-                                                culturePostData.User.firLang
-                                            }
-                                            gender={culturePostData.User.gender}
-                                            createdAt={
-                                                culturePostData.createdAt
-                                            }
-                                            content={culturePostData.content}
-                                            images={culturePostData}
-                                            likeCount={culturePostData[1]}
-                                            isLiked={culturePostData[2]}
-                                            commentcount={culturePostData[3]}
-
-                                        />
-                                    ))
-                            ) : (
-                                <p>No matching culture posts found.</p>
-                            )}
-                        </div>
-                    )}
-                </div>
-            )}
-
-            <Footer />
         </div>
-    </div>
     );
 }
 

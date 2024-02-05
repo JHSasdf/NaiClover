@@ -13,23 +13,23 @@ const customSplit = (str: string): string[] => {
     let i = -1;
     while (str[++i]) {
         if (
-            str[i] == '.' ||
-            str[i] == '?' ||
-            (str[i] == '!' && str[i + 1] == ' ')
+            (str[i] == '.' || str[i] == '?' || str[i] == '!') &&
+            (str[i + 1] == ' ' || str[i + 1] == '\n')
         ) {
             result.push(str.substring(0, i + 1));
             str = str.substring(i + 2);
             i = -1;
+        } else if (i != 0 && str[i] == '\n' && str[i + 1] != '\n') {
+            result.push(str.substring(0, i - 1));
+            str = str.substring(i + 1);
+            i = -1;
         }
-        // } else if (i != 0 && str[i] == '\n' && str[i + 1] != '\n') {
-        //     result.push(str.substring(0, i - 1));
-        //     str = str.substring(i + 1);
-        //     i = -1;
-        // }
     }
     if (!result[0]) {
         result[0] = str;
         return result;
+    } else {
+        result.push(str);
     }
     return result;
 };
@@ -54,32 +54,32 @@ function LanguageCorrectingPage(props: any) {
         }
     }, [cookies]);
     return (
-    <div className='correctingpage-container'>
-        <div className="correctingpage">
-            <Topbar />
-            <CorrectingPageHeader
-                cleanCookie={cleanCookie}
-                tempLines={tempLines}
-                setContent={setCorrectLines}
-                content={correctLines}
-                id={id}
-                postUserId={cookieId}
-                postType="lang"
-            />
-            <div className="sentences-container">
-                {tempLines.map((line, index) => (
-                    <SentenceCorrection
-                        key={index}
-                        index={index}
-                        line={line}
-                        content={correctLines}
-                        tempLines={tempLines}
-                        setTempLines={setTempLines}
-                    />
-                ))}
+        <div className="correctingpage-container">
+            <div className="correctingpage">
+                <Topbar />
+                <CorrectingPageHeader
+                    cleanCookie={cleanCookie}
+                    tempLines={tempLines}
+                    setContent={setCorrectLines}
+                    content={correctLines}
+                    id={id}
+                    postUserId={cookieId}
+                    postType="lang"
+                />
+                <div className="sentences-container">
+                    {tempLines.map((line, index) => (
+                        <SentenceCorrection
+                            key={index}
+                            index={index}
+                            line={line}
+                            content={correctLines}
+                            tempLines={tempLines}
+                            setTempLines={setTempLines}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
     );
 }
 

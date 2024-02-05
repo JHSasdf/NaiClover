@@ -137,7 +137,12 @@ function NewPostPage() {
                         placeholder="포스트 내용을 작성해 주세요..."
                         ref={textareaRef}
                         rows={1}
-                        onChange={handleResizeHeight}
+                        onChange={() => {
+                            handleResizeHeight();
+                            console.log(
+                                textareaRef.current.value.replace(/\n/g, '[')
+                            );
+                        }}
                     ></textarea>
                 </div>
 

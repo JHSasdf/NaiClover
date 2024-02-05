@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cookieConfig } from '../../utils/cookieConfig';
+import { getTimeObj } from '../../utils/getCurrentData';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -31,8 +32,8 @@ function CulturePost(props: any) {
     const culdeletemodal = deletemodal.current;
     const { id, likeCount, isLiked } = props;
     const [didLike, setDidLike] = useState(isLiked);
+    const contentInDiv = useRef<any>();
     const [likeCountState, setLikeCountState] = useState(likeCount);
-
 
     const modalShow = () => {
         culdeletemodal?.classList.remove('opacity');
@@ -89,6 +90,12 @@ function CulturePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
+        setTimeout(() => {
+            contentInDiv.current.innerHTML = props.content?.replace(
+                /\n/g,
+                '<br />'
+            );
+        }, 0);
     }, [props.id]);
 
     //문화 좋아요 버튼 토글
@@ -141,9 +148,13 @@ function CulturePost(props: any) {
 
                     <div className="cul-info-container">
                         <div className="cul-info">
-                            <div className={`cul-gender' ${
-                                props.gender==='f' ? 'cul-female' : 'cul-male'
-                            }`}></div>
+                            <div
+                                className={`cul-gender' ${
+                                    props.gender === 'f'
+                                        ? 'cul-female'
+                                        : 'cul-male'
+                                }`}
+                            ></div>
                             <Link
                                 className="cul-name"
                                 to={`/searchUser/${props.userid}`}
@@ -169,7 +180,14 @@ function CulturePost(props: any) {
                 </div>
 
                 <div className="cul-more-container">
-                    <div className="cul-time">{props.createdAt}</div>
+                    <div className="cul-time">
+                        {' '}
+                        {getTimeObj(props.createdAt).year}년{' '}
+                        {getTimeObj(props.createdAt).month}월{' '}
+                        {getTimeObj(props.createdAt).day}일{' '}
+                        {getTimeObj(props.createdAt).hour}시{' '}
+                        {getTimeObj(props.createdAt).minute}분
+                    </div>
                     {idCookie === props.userid ? (
                         <div>
                             <div
@@ -245,6 +263,7 @@ function CulturePost(props: any) {
                 <div
                     className="cul-content-text"
                     onClick={() => navigate(`/c-postdetail/${props.id}`)}
+                    ref={contentInDiv}
                 >
                     {props.content}
                 </div>

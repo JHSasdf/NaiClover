@@ -1,4 +1,3 @@
-
 import '../../styles/PostDetailComment.scss';
 import '../../styles/Font.scss';
 import { useCookies } from 'react-cookie';
@@ -6,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
+import { getTimeObj } from '../../utils/getCurrentData';
 
 interface LanguageRevisedCommentProps {
     index: number;
@@ -58,7 +58,9 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
         getMyPage();
     }, []);
 
-    const filteredContentArray = props.content.split('&&&&').filter(part => part.includes('/./'));
+    const filteredContentArray = props.content
+        .split('&&&&')
+        .filter((part) => part.includes('/./'));
 
     return (
         <>
@@ -119,7 +121,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                                                 __html: beforeContent,
                                             }}
                                         ></div>
-                                        <div className='beforecheck-emoji'></div>                                  
+                                        <div className="beforecheck-emoji"></div>
                                     </div>
                                     <div className="after-comment-content">
                                         <div
@@ -127,14 +129,21 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                                                 __html: afterContent,
                                             }}
                                         ></div>
-                                        <div className='correction-emoji'></div>
+                                        <div className="correction-emoji"></div>
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
                     <div className="comment-footer-container">
-                        <div className="comment-date">{props.time}</div>
+                        <div className="comment-date">
+                            {' '}
+                            {getTimeObj(props.time).year}년{' '}
+                            {getTimeObj(props.time).month}월{' '}
+                            {getTimeObj(props.time).day}일{' '}
+                            {getTimeObj(props.time).hour}시{' '}
+                            {getTimeObj(props.time).minute}분
+                        </div>
                     </div>
                 </div>
             </div>
