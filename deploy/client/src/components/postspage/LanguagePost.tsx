@@ -179,8 +179,9 @@ function LanguagePost(props: any) {
                                 <div
                                     className="delete-text"
                                     onClick={() => {
-                                        deletePost();
-                                        window.location.href = '/posts';
+                                        deletePost().then(() => {
+                                            props.getLanguagePosts();
+                                        });
                                     }}
                                 >
                                     <span>삭제하기</span>

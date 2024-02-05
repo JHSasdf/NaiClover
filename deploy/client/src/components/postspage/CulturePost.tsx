@@ -191,8 +191,9 @@ function CulturePost(props: any) {
                                 <div
                                     className="delete-text"
                                     onClick={() => {
-                                        deletePost();
-                                        window.location.href = '/posts';
+                                        deletePost().then(() => {
+                                            props.getCulturePost();
+                                        });
                                     }}
                                 >
                                     <span>삭제하기</span>
