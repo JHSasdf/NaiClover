@@ -36,7 +36,9 @@ function MulterMypage() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.profileImgPath);
+            setProfileImg(
+                `${process.env.REACT_APP_SERVERURL}${res.data.userDataObj.profileImgPath}`
+            );
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);
@@ -119,10 +121,7 @@ function MulterMypage() {
                     {/* 이미지 출력 공간 */}
                     <div className="profile-image">
                         {/* 페이지 렌더링 시 가지고 있는 이미지 표시 */}
-                        <img
-                            src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
-                            alt=""
-                        />
+                        <img src={`${profileImg}`} alt="" />
                     </div>
                     <form action="">
                         <label
