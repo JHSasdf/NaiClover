@@ -249,7 +249,6 @@ io.on('connection', (socket: Socket) => {
     });
 
     socket.on('leaveRoom', (room) => {
-        console.log('서버측 서버측 서버ㅡ');
         socket.leave(room);
         const roomClients = io.sockets.adapter.rooms.get(room);
         let numberOfClients;

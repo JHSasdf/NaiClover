@@ -93,7 +93,6 @@ const ChatRoomPage: React.FC = () => {
         const handleBeforeUnload = () => {
             socket.emit('leaveRoom', roomId);
         };
-
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         return () => {
