@@ -344,9 +344,14 @@ const ChatRoomPage: React.FC = () => {
                                                 ) : (
                                                     <div className="received-message">
                                                         <div className="received-message-header">
-                                                            <div className="received-message-image" onClick={() => {
-                                    navigate(`/searchUser/${elem.userid}`);
-                                }}>
+                                                            <div
+                                                                className="received-message-image"
+                                                                onClick={() => {
+                                                                    navigate(
+                                                                        `/searchUser/${elem.userid}`
+                                                                    );
+                                                                }}
+                                                            >
                                                                 <img
                                                                     src={
                                                                         elem
@@ -362,9 +367,14 @@ const ChatRoomPage: React.FC = () => {
                                                                     alt=""
                                                                 />
                                                             </div>
-                                                            <div className="received-message-username" onClick={() => {
-                                    navigate(`/searchUser/${elem.userid}`);
-                                }}>
+                                                            <div
+                                                                className="received-message-username"
+                                                                onClick={() => {
+                                                                    navigate(
+                                                                        `/searchUser/${elem.userid}`
+                                                                    );
+                                                                }}
+                                                            >
                                                                 <div>
                                                                     {
                                                                         elem
@@ -563,9 +573,14 @@ const ChatRoomPage: React.FC = () => {
                                                 ) : (
                                                     <div className="received-message">
                                                         <div className="received-message-header">
-                                                            <div className="received-message-image" onClick={() => {
-                                    navigate(`/searchUser/${elem.userid}`);
-                                }}>
+                                                            <div
+                                                                className="received-message-image"
+                                                                onClick={() => {
+                                                                    navigate(
+                                                                        `/searchUser/${elem.userid}`
+                                                                    );
+                                                                }}
+                                                            >
                                                                 <img
                                                                     src={
                                                                         elem
@@ -581,9 +596,14 @@ const ChatRoomPage: React.FC = () => {
                                                                     alt=""
                                                                 />
                                                             </div>
-                                                            <div className="received-message-username" onClick={() => {
-                                    navigate(`/searchUser/${elem.userid}`);
-                                }}>
+                                                            <div
+                                                                className="received-message-username"
+                                                                onClick={() => {
+                                                                    navigate(
+                                                                        `/searchUser/${elem.userid}`
+                                                                    );
+                                                                }}
+                                                            >
                                                                 <div>
                                                                     {
                                                                         elem
@@ -703,7 +723,10 @@ const ChatRoomPage: React.FC = () => {
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
+                            if (
+                                e.key === 'Enter' &&
+                                !e.nativeEvent.isComposing
+                            ) {
                                 handleSendMessage();
                                 console.log(e.key);
                             }
