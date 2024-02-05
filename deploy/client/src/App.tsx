@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+import './styles/App.scss';
 
 import PostsPage from './pages/PostsPage';
 import AlarmPage from './pages/AlarmPage';

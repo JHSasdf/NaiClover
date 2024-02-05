@@ -15,6 +15,8 @@ function SentenceCorrection(props: any) {
 
     const correctExec = (str1: string, str2: string): string[] => {
         const res: string[] = [];
+        //str1
+        // 3.36.62.47:22
         // 자~~ 작업 해볼까!!
         // 자~~ 작업 해볼까!!
         // 자~~ 작업 해볼까!!
@@ -31,7 +33,7 @@ function SentenceCorrection(props: any) {
         setTimeout(() => {
             afterDiv.current.innerHTML = res[1].replace(
                 /\{([^}]+)\}/g,
-                '<span style="color : green">$1</span>'
+                '<span style="margin-left: 24px; color : green">$1</span>'
             );
         }, 0);
         // const newLine = res[0] + '/./' + res[1];
@@ -103,6 +105,18 @@ function SentenceCorrection(props: any) {
                                 } else {
                                     setShowInput(true);
                                 }
+                            }}
+                            //만약 이미 한번 수정했는데 다시 수정하려고 한다면 input창에 before랑 after 포함한 html변환된 값이 들어와있음. 이때 다시 조정해주는 함수.
+                            onFocus={() => {
+                                setTimeout(() => {
+                                    if (after.current?.value.includes('/./')) {
+                                        let temp =
+                                            after.current.value.split('/./')[1];
+                                        temp = temp.replace(/{/g, '');
+                                        temp = temp.replace(/}/g, '');
+                                        after.current.value = temp;
+                                    }
+                                }, 0);
                             }}
                         />
                     </div>

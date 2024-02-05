@@ -16,4 +16,9 @@
     width: 390px;
     height: 640px;
     background-image: url('../img/rectangle2.png');
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
