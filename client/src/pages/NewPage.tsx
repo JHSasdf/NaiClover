@@ -242,8 +242,10 @@ const ChatRoomPage: React.FC = () => {
                         }
                         return (
                             <div key={elem.chatIndex}>
+                                {/* 모노 챗 */}
                                 {useridTo === 'monoChat' ? (
                                     <>
+                                        {/* 입장 알림 */}
                                         {elem.isFirst === true ? (
                                             <div className="alert-message-div">
                                                 <div className="user-id">
