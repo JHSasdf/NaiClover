@@ -146,7 +146,7 @@ function SearchUser() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <div>
+                    <div className="mypagePostItems-C">
                         <div className="addPostImg">
                             <Link to={'/newpost'}>
                                 <img src="/images/addpost.png" alt="" />
