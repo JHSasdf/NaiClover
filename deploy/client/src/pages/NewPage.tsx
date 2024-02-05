@@ -50,6 +50,7 @@ const ChatRoomPage: React.FC = () => {
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [roomName, setRoomName] = useState();
+    const [roomType, setRoomType] = useState();
     const [roomPeopleNum, setroomPeopleNum] = useState();
     const userid = cookies['id'];
 
@@ -89,6 +90,7 @@ const ChatRoomPage: React.FC = () => {
         socket.emit('userId', userIdFromCookie);
 
         const handleBeforeUnload = () => {
+            console.log('프론트 여기보세요!!!!');
             socket.emit('leaveRoom', roomId);
         };
 
@@ -109,6 +111,7 @@ const ChatRoomPage: React.FC = () => {
             });
             setChatLog(res.data.chatLog);
             setRoomName(res.data.roomInfo.roomName);
+            setRoomType(res.data.roomInfo.useridTo);
             setroomPeopleNum(res.data.chatNumber);
             console.log('챗로그', res.data);
         } catch (err: any) {
@@ -186,7 +189,11 @@ const ChatRoomPage: React.FC = () => {
                 <div className="chat-room-C-Header">
                     <div
                         onClick={() => {
-                            navigate(-1);
+                            {
+                                roomType === 'monoChat'
+                                    ? (window.location.href = '/monochat')
+                                    : (window.location.href = '/message');
+                            }
                         }}
                     >
                         <img src="/images/BackPoint.png" alt="" />
