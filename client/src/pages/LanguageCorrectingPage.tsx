@@ -40,7 +40,6 @@ function LanguageCorrectingPage(props: any) {
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
     const [tempLines, setTempLines] = useState<string[]>([]);
-    console.log(cookies['content']);
     const cleanCookie = () => {
         removeCookies('content', cookieConfig);
     };
@@ -50,36 +49,35 @@ function LanguageCorrectingPage(props: any) {
             const content = customSplit(cookies['content']);
             setCorrectLines(content);
             setTempLines(content);
-            console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
     return (
-    <div className='correctingpage-container'>
-        <div className="correctingpage">
-            <Topbar />
-            <CorrectingPageHeader
-                cleanCookie={cleanCookie}
-                tempLines={tempLines}
-                setContent={setCorrectLines}
-                content={correctLines}
-                id={id}
-                postUserId={cookieId}
-                postType="lang"
-            />
-            <div className="sentences-container">
-                {tempLines.map((line, index) => (
-                    <SentenceCorrection
-                        key={index}
-                        index={index}
-                        line={line}
-                        content={correctLines}
-                        tempLines={tempLines}
-                        setTempLines={setTempLines}
-                    />
-                ))}
+        <div className="correctingpage-container">
+            <div className="correctingpage">
+                <Topbar />
+                <CorrectingPageHeader
+                    cleanCookie={cleanCookie}
+                    tempLines={tempLines}
+                    setContent={setCorrectLines}
+                    content={correctLines}
+                    id={id}
+                    postUserId={cookieId}
+                    postType="lang"
+                />
+                <div className="sentences-container">
+                    {tempLines.map((line, index) => (
+                        <SentenceCorrection
+                            key={index}
+                            index={index}
+                            line={line}
+                            content={correctLines}
+                            tempLines={tempLines}
+                            setTempLines={setTempLines}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
     );
 }
 

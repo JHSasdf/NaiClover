@@ -72,9 +72,24 @@ function PersonalChatList() {
 
                                         <div className="chat-detail2">
                                             {/* 마지막 내용 */}
-                                            <div className="chat-lastcontent">
-                                                {elem.Chats[0].content}
-                                            </div>
+                                            {elem.Chats[0].content.includes(
+                                                '@@.,.@@'
+                                            ) ? (
+                                                <div>
+                                                    @
+                                                    {
+                                                        elem.Chats[0].content.split(
+                                                            '@@.,.@@'
+                                                        )[0]
+                                                    }
+                                                    님을 위한 수정 메세지
+                                                </div>
+                                            ) : (
+                                                <div className="chat-lastcontent">
+                                                    {elem.Chats[0].content}
+                                                </div>
+                                            )}
+
                                             <div
                                                 className={
                                                     elem.ChatCounts.length === 0
