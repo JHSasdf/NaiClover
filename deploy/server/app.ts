@@ -31,7 +31,7 @@ const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
     cors: {
-        origin: process.env.CLIENTURL,
+        origin: process.env.DEVCLIENTURL,
         methods: '*',
     },
 });
@@ -52,15 +52,14 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: process.env.CLIENTURL,
+        origin: [process.env.DEVCLIENTURL, 'http://3.34.47.72'],
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
 
 const connectedClients: Record<string, Socket> = {};
-app.get('/', function (req: Request, res: Response) {
-    res.sendFile(path.join(__dirname, '/../client/build/index.html'));
-});
+
+app.get('/', function (req: Request, res: Response) {});
 
 app.use(authRouter);
 app.use(myPageRouter);
@@ -250,6 +249,7 @@ io.on('connection', (socket: Socket) => {
     });
 
     socket.on('leaveRoom', (room) => {
+        console.log('서버측 서버측 서버ㅡ');
         socket.leave(room);
         const roomClients = io.sockets.adapter.rooms.get(room);
         let numberOfClients;
@@ -399,10 +399,7 @@ app.get('/api/chatRooms/:roomId', (req: Request, res: Response) => {
 
 // 에러처리 핸들러, 요청, 응답의 제일 아래가야함.
 app.use(handleErrors);
-
-app.get('*', function (req: Request, res: Response) {
-    res.sendFile(path.join(__dirname, '/../client/build/index.html'));
-});
+app.use(notFoundHandler);
 
 db.sequelize
     .sync({ force: false })

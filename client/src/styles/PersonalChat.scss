@@ -2,7 +2,7 @@
 .chatList-container {
     width: $all-width;
     height: 693px;
-    border: 1px solid red;
+    // border: 1px solid red;
 
     .chatList-C-Header {
         @include flex();
