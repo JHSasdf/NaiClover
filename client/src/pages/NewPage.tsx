@@ -271,7 +271,7 @@ const ChatRoomPage: React.FC = () => {
                 </div>
 
                 <div className="chating-content-area">
-<!--                     {chatLog.map((elem) => (
+                    {chatLog.map((elem) => (
                         <div key={elem.chatIndex}>
                             {/* 상단에 사용자 ID 표시 */}
                             {useridTo === 'monoChat' ? (
@@ -295,8 +295,8 @@ const ChatRoomPage: React.FC = () => {
                                 </>
                             )}
                         </div>
-                    ))} -->
-
+                    ))}
+                    {/* 수정해야 하는 부분 */}
                     {chatLog.map((elem) => {
                         let beforeLine = '';
                         let afterLine = '';
