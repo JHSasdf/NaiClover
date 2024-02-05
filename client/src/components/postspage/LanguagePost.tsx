@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { cookieConfig } from '../../utils/cookieConfig';
+import { getTimeObj } from '../../utils/getCurrentData';
 
 function LanguagePost(props: any) {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ function LanguagePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
+    const contentInDiv = useRef<any>();
     const shortName = (nation: string | undefined): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
@@ -54,6 +56,12 @@ function LanguagePost(props: any) {
     };
     useEffect(() => {
         getMyPage();
+        setTimeout(() => {
+            contentInDiv.current.innerHTML = props.content?.replace(
+                /\n/g,
+                '<br />'
+            );
+        }, 0);
     }, [props.id]);
 
     const deletemodal = useRef<any>();
@@ -127,9 +135,13 @@ function LanguagePost(props: any) {
 
                     <div className="lang-info-container">
                         <div className="lang-info">
-                            <div className={`cul-gender' ${
-                                props.gender==='f' ? 'cul-female' : 'cul-male'
-                            }`}></div>
+                            <div
+                                className={`cul-gender' ${
+                                    props.gender === 'f'
+                                        ? 'cul-female'
+                                        : 'cul-male'
+                                }`}
+                            ></div>
                             <Link
                                 className="lang-name"
                                 to={`/searchUser/${props.userid}`}
@@ -154,7 +166,13 @@ function LanguagePost(props: any) {
                 </div>
 
                 <div className="lang-more-container">
-                    <div className="lang-time">{props.createdAt}</div>
+                    <div className="lang-time">
+                        {getTimeObj(props.createdAt).year}년{' '}
+                        {getTimeObj(props.createdAt).month}월{' '}
+                        {getTimeObj(props.createdAt).day}일{' '}
+                        {getTimeObj(props.createdAt).hour}시{' '}
+                        {getTimeObj(props.createdAt).minute}분
+                    </div>
 
                     {idCookie === props.userid ? (
                         <div>
@@ -202,6 +220,7 @@ function LanguagePost(props: any) {
 
                 <div
                     className="lang-content-text"
+                    ref={contentInDiv}
                     onClick={() => navigate(`/l-postdetail/${props.id}`)}
                 >
                     {props.content}

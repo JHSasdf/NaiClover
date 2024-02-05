@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
-
+import { getTimeObj } from '../../utils/getCurrentData';
 function CultureComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const { id } = props;
@@ -86,7 +86,13 @@ function CultureComment(props: any) {
                     </div>
                     <div className="comment-content">{props.content}</div>
                     <div className="comment-footer-container">
-                        <div className="comment-date">{props.time}</div>
+                        <div className="comment-date">
+                            {getTimeObj(props.time).year}년{' '}
+                            {getTimeObj(props.time).month}월{' '}
+                            {getTimeObj(props.time).day}일{' '}
+                            {getTimeObj(props.time).hour}시{' '}
+                            {getTimeObj(props.time).minute}분
+                        </div>
                     </div>
                 </div>
             </div>
