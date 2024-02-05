@@ -50,8 +50,9 @@ const ChatRoomPage: React.FC = () => {
     const [chatLog, setChatLog] = useState<ChatLog[]>([]);
     const [allowedLanguage, setAllowedLanguage] = useState<string | null>(null);
     const [roomName, setRoomName] = useState();
-    const [roomType, setRoomType] = useState();
     const [roomPeopleNum, setroomPeopleNum] = useState();
+    const [useridTo, setUserIdTo] = useState();
+    const [roomType, setRoomType] = useState();
     const userid = cookies['id'];
 
     const navigate = useNavigate();
@@ -90,7 +91,6 @@ const ChatRoomPage: React.FC = () => {
         socket.emit('userId', userIdFromCookie);
 
         const handleBeforeUnload = () => {
-            console.log('프론트 여기보세요!!!!');
             socket.emit('leaveRoom', roomId);
         };
 
@@ -113,6 +113,7 @@ const ChatRoomPage: React.FC = () => {
             setRoomName(res.data.roomInfo.roomName);
             setRoomType(res.data.roomInfo.useridTo);
             setroomPeopleNum(res.data.chatNumber);
+            setUserIdTo(res.data.roomInfo.useridTo);
             console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -130,7 +131,6 @@ const ChatRoomPage: React.FC = () => {
             const res = await axios({
                 url: `${process.env.REACT_APP_SERVERURL}/fetch/language/${roomId}`,
                 method: 'get',
-                withCredentials: true,
             });
             const roomLanguage = res.data.language;
 
@@ -181,6 +181,9 @@ const ChatRoomPage: React.FC = () => {
         setNewMessage('');
     };
     scrollToBottom();
+
+    // 메시지 보내는 함수
+
     return (
         <>
             <Topbar />
@@ -189,12 +192,11 @@ const ChatRoomPage: React.FC = () => {
                 <div className="chat-room-C-Header">
                     <div
                         onClick={() => {
-                            {
-                                roomType === 'monoChat'
-                                    ? (window.location.href = '/monochat')
-                                    : (window.location.href = '/message');
-                            }
+                            roomType === 'monoChat'
+                                ? (window.location.href = '/monochat')
+                                : (window.location.href = '/message');
                         }}
+                        style={{ cursor: 'pointer' }}
                     >
                         <img src="/images/BackPoint.png" alt="" />
                     </div>
@@ -203,6 +205,12 @@ const ChatRoomPage: React.FC = () => {
                 </div>
 
                 <div className="chating-content-area">
+                    {chatLog.map((elem) => (
+                        <div key={elem.chatIndex}>
+                            {/* 상단에 사용자 ID 표시 */}
+                        </div>
+                    ))}
+
                     {chatLog.map((elem) => {
                         let beforeLine = '';
                         let afterLine = '';
@@ -239,203 +247,439 @@ const ChatRoomPage: React.FC = () => {
                         }
                         return (
                             <div key={elem.chatIndex}>
-                                {/* 상단에 사용자 ID 표시 */}
-                                {elem.isFirst === true ? (
-                                    <div className="alert-message-div">
-                                        <div className="user-id">
-                                            {elem.User.name} 님이 입장했습니다.
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="messages-container">
-                                        {elem.userid === userid ? (
-                                            <div className="sent-message">
-                                                <div className="sent-message-footer">
-                                                    <div className="sent-message-time">
-                                                        {getCurrentData3(
-                                                            new Date(
-                                                                elem.createdAt
-                                                            )
-                                                        )}
-                                                    </div>
-                                                    <div
-                                                        className={
-                                                            elem.chatCounting ===
-                                                            0
-                                                                ? 'sent-message-read hide'
-                                                                : 'sent-message-read'
-                                                        }
-                                                    >
-                                                        {elem.chatCounting}
-                                                    </div>
-                                                </div>
-                                                <div className="sent-message-content">
-                                                    <div className="sent-message-contentarea">
-                                                        {elem.isrevised ? (
-                                                            <div>
-                                                                <div
-                                                                    style={{
-                                                                        fontWeight:
-                                                                            'bold',
-                                                                    }}
-                                                                >
-                                                                    @{toWhom}
-                                                                </div>
-                                                                {correctedLines.map(
-                                                                    (
-                                                                        line: any
-                                                                    ) => (
-                                                                        <div
-                                                                            key={
-                                                                                line.index
-                                                                            }
-                                                                        >
-                                                                            <div
-                                                                                style={{
-                                                                                    display:
-                                                                                        'flex',
-                                                                                }}
-                                                                            >
-                                                                                <div
-                                                                                    dangerouslySetInnerHTML={{
-                                                                                        __html: line[0],
-                                                                                    }}
-                                                                                ></div>
-                                                                                <div className="beforecheck-emoji"></div>
-                                                                            </div>
-                                                                            <div
-                                                                                style={{
-                                                                                    display:
-                                                                                        'flex',
-                                                                                }}
-                                                                            >
-                                                                                <div
-                                                                                    dangerouslySetInnerHTML={{
-                                                                                        __html: line[1],
-                                                                                    }}
-                                                                                ></div>
-                                                                                <div className="correction-emoji"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    )
-                                                                )}
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                {elem.content}
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                {/* 모노 챗 */}
+                                {useridTo === 'monoChat' ? (
+                                    <>
+                                        {/* 입장 알림 */}
+                                        {elem.isFirst === true ? (
+                                            <div className="alert-message-div">
+                                                <div className="user-id">
+                                                    {elem.User.name} 님이
+                                                    입장했습니다.
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="received-message">
-                                                <div className="received-message-header">
-                                                    <div className="received-message-image">
-                                                        <img
-                                                            src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="received-message-flag">
-                                                        <img
-                                                            src={`/images/flag/${elem.User.nation}.png`}
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="received-message-username">
-                                                        <div>
-                                                            {elem.User.name}
+                                            <div className="messages-container">
+                                                {elem.userid === userid ? (
+                                                    <div className="sent-message">
+                                                        <div className="sent-message-footer">
+                                                            <div className="sent-message-time">
+                                                                {getCurrentData3(
+                                                                    new Date(
+                                                                        elem.createdAt
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    elem.chatCounting ===
+                                                                    0
+                                                                        ? 'sent-message-read hide'
+                                                                        : 'sent-message-read'
+                                                                }
+                                                            >
+                                                                {
+                                                                    elem.chatCounting
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div className="sent-message-content">
+                                                            <div className="sent-message-contentarea">
+                                                                {elem.isrevised ? (
+                                                                    <div>
+                                                                        <div
+                                                                            style={{
+                                                                                fontWeight:
+                                                                                    'bold',
+                                                                            }}
+                                                                        >
+                                                                            @
+                                                                            {
+                                                                                toWhom
+                                                                            }
+                                                                        </div>
+                                                                        {correctedLines.map(
+                                                                            (
+                                                                                line: any
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        line.index
+                                                                                    }
+                                                                                >
+                                                                                    <div
+                                                                                        style={{
+                                                                                            display:
+                                                                                                'flex',
+                                                                                        }}
+                                                                                    >
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[0],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="beforecheck-emoji"></div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        style={{
+                                                                                            display:
+                                                                                                'flex',
+                                                                                        }}
+                                                                                    >
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[1],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="correction-emoji"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
+                                                                ) : (
+                                                                    <div>
+                                                                        {
+                                                                            elem.content
+                                                                        }
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="received-message-middle">
-                                                    <div
-                                                        className="received-message-content"
-                                                        onClick={() => {
-                                                            if (
-                                                                !elem.isrevised
-                                                            ) {
-                                                                setCookies(
-                                                                    'content',
-                                                                    elem.content,
-                                                                    cookieConfig
-                                                                );
-                                                                navigate(
-                                                                    `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
-                                                                );
-                                                            }
-                                                        }}
-                                                    >
-                                                        <div className="received-message-contentarea">
-                                                            {elem.isrevised ? (
+                                                ) : (
+                                                    <div className="received-message">
+                                                        <div className="received-message-header">
+                                                            <div className="received-message-image">
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                            <div className="received-message-flag">
+                                                                <img
+                                                                    src={`/images/flag/${elem.User.nation}.png`}
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                            <div className="received-message-username">
                                                                 <div>
-                                                                    <div
-                                                                        style={{
-                                                                            fontWeight:
-                                                                                'bold',
-                                                                        }}
-                                                                    >
-                                                                        @
-                                                                        {toWhom}
-                                                                    </div>
-                                                                    {correctedLines.map(
-                                                                        (
-                                                                            line: any
-                                                                        ) => (
+                                                                    {
+                                                                        elem
+                                                                            .User
+                                                                            .name
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="received-message-middle">
+                                                            <div
+                                                                className="received-message-content"
+                                                                onClick={() => {
+                                                                    if (
+                                                                        !elem.isrevised
+                                                                    ) {
+                                                                        setCookies(
+                                                                            'content',
+                                                                            elem.content,
+                                                                            cookieConfig
+                                                                        );
+                                                                        navigate(
+                                                                            `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
+                                                                        );
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <div className="received-message-contentarea">
+                                                                    {elem.isrevised ? (
+                                                                        <div>
                                                                             <div
-                                                                                key={
-                                                                                    line.index
-                                                                                }
+                                                                                style={{
+                                                                                    fontWeight:
+                                                                                        'bold',
+                                                                                }}
                                                                             >
-                                                                                <div className="beforecheck-emoji"></div>
-                                                                                <div
-                                                                                    dangerouslySetInnerHTML={{
-                                                                                        __html: line[0],
-                                                                                    }}
-                                                                                ></div>
-                                                                                <div className="correction-emoji"></div>
-                                                                                <div
-                                                                                    dangerouslySetInnerHTML={{
-                                                                                        __html: line[1],
-                                                                                    }}
-                                                                                ></div>
+                                                                                @
+                                                                                {
+                                                                                    toWhom
+                                                                                }
                                                                             </div>
+                                                                            {correctedLines.map(
+                                                                                (
+                                                                                    line: any
+                                                                                ) => (
+                                                                                    <div
+                                                                                        key={
+                                                                                            line.index
+                                                                                        }
+                                                                                    >
+                                                                                        <div className="beforecheck-emoji"></div>
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[0],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="correction-emoji"></div>
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[1],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                    </div>
+                                                                                )
+                                                                            )}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div>
+                                                                            {
+                                                                                elem.content
+                                                                            }
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="received-message-footer">
+                                                                <div className="received-message-time">
+                                                                    {getCurrentData3(
+                                                                        new Date(
+                                                                            elem.createdAt
                                                                         )
                                                                     )}
                                                                 </div>
-                                                            ) : (
-                                                                <div>
+                                                                <div
+                                                                    className={
+                                                                        elem.chatCounting ===
+                                                                        0
+                                                                            ? 'received-message-read hide'
+                                                                            : 'received-message-read'
+                                                                    }
+                                                                >
                                                                     {
-                                                                        elem.content
+                                                                        elem.chatCounting
                                                                     }
                                                                 </div>
-                                                            )}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div className="received-message-footer">
-                                                        <div className="received-message-time">
-                                                            {getCurrentData3(
-                                                                new Date(
-                                                                    elem.createdAt
-                                                                )
-                                                            )}
-                                                        </div>
-                                                        <div
-                                                            className={
-                                                                elem.chatCounting ===
-                                                                0
-                                                                    ? 'received-message-read hide'
-                                                                    : 'received-message-read'
-                                                            }
-                                                        >
-                                                            {elem.chatCounting}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                )}
                                             </div>
                                         )}
-                                    </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* 1:1 대화창 */}
+                                        {/* 입장하셨습니다 없애기. */}
+                                        {elem.isFirst === true ? null : (
+                                            <div className="messages-container">
+                                                {elem.userid === userid ? (
+                                                    <div className="sent-message">
+                                                        <div className="sent-message-footer">
+                                                            <div className="sent-message-time">
+                                                                {getCurrentData3(
+                                                                    new Date(
+                                                                        elem.createdAt
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    elem.chatCounting ===
+                                                                    0
+                                                                        ? 'sent-message-read hide'
+                                                                        : 'sent-message-read'
+                                                                }
+                                                            >
+                                                                {
+                                                                    elem.chatCounting
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div className="sent-message-content">
+                                                            <div className="sent-message-contentarea">
+                                                                {elem.isrevised ? (
+                                                                    <div>
+                                                                        <div
+                                                                            style={{
+                                                                                fontWeight:
+                                                                                    'bold',
+                                                                            }}
+                                                                        >
+                                                                            @
+                                                                            {
+                                                                                toWhom
+                                                                            }
+                                                                        </div>
+                                                                        {correctedLines.map(
+                                                                            (
+                                                                                line: any
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        line.index
+                                                                                    }
+                                                                                >
+                                                                                    <div
+                                                                                        style={{
+                                                                                            display:
+                                                                                                'flex',
+                                                                                        }}
+                                                                                    >
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[0],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="beforecheck-emoji"></div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        style={{
+                                                                                            display:
+                                                                                                'flex',
+                                                                                        }}
+                                                                                    >
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[1],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="correction-emoji"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
+                                                                ) : (
+                                                                    <div>
+                                                                        {
+                                                                            elem.content
+                                                                        }
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="received-message">
+                                                        <div className="received-message-header">
+                                                            <div className="received-message-image">
+                                                                <img
+                                                                    src={
+                                                                        elem
+                                                                            .User
+                                                                            .profileImgPath
+                                                                    }
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                            <div className="received-message-flag">
+                                                                <img
+                                                                    src={`/images/flag/${elem.User.nation}.png`}
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                            <div className="received-message-username">
+                                                                <div>
+                                                                    {
+                                                                        elem
+                                                                            .User
+                                                                            .name
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="received-message-middle">
+                                                            <div
+                                                                className="received-message-content"
+                                                                onClick={() => {
+                                                                    if (
+                                                                        !elem.isrevised
+                                                                    ) {
+                                                                        setCookies(
+                                                                            'content',
+                                                                            elem.content,
+                                                                            cookieConfig
+                                                                        );
+                                                                        navigate(
+                                                                            `/chat/${elem.roomNum}/${elem.User.name}/${elem.userid}/correcting`
+                                                                        );
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <div className="received-message-contentarea">
+                                                                    {elem.isrevised ? (
+                                                                        <div>
+                                                                            <div
+                                                                                style={{
+                                                                                    fontWeight:
+                                                                                        'bold',
+                                                                                }}
+                                                                            >
+                                                                                @
+                                                                                {
+                                                                                    toWhom
+                                                                                }
+                                                                            </div>
+                                                                            {correctedLines.map(
+                                                                                (
+                                                                                    line: any
+                                                                                ) => (
+                                                                                    <div
+                                                                                        key={
+                                                                                            line.index
+                                                                                        }
+                                                                                    >
+                                                                                        <div className="beforecheck-emoji"></div>
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[0],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                        <div className="correction-emoji"></div>
+                                                                                        <div
+                                                                                            dangerouslySetInnerHTML={{
+                                                                                                __html: line[1],
+                                                                                            }}
+                                                                                        ></div>
+                                                                                    </div>
+                                                                                )
+                                                                            )}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div>
+                                                                            {
+                                                                                elem.content
+                                                                            }
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="received-message-footer">
+                                                                <div className="received-message-time">
+                                                                    {getCurrentData3(
+                                                                        new Date(
+                                                                            elem.createdAt
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                                <div
+                                                                    className={
+                                                                        elem.chatCounting ===
+                                                                        0
+                                                                            ? 'received-message-read hide'
+                                                                            : 'received-message-read'
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        elem.chatCounting
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         );

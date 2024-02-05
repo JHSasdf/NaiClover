@@ -19,6 +19,7 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
             const res = await axios({
                 url: '/fetch/monorooms',
                 method: 'get',
+                withCredentials: true,
             });
             console.log('monoRoomsData : ', res.data);
             setMonoRooms(res.data.monoRooms);

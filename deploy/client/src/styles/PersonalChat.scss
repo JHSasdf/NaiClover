@@ -1,8 +1,8 @@
 @import './Common.scss';
 .chatList-container {
     width: $all-width;
-    height: 800px;
-    border: 1px solid red;
+    height: 693px;
+    // border: 1px solid red;
 
     .chatList-C-Header {
         @include flex();
@@ -22,4 +22,4 @@
         }
     }
 }
-// 800-107-50
+// 800-107-50-44

@@ -13,6 +13,7 @@ function PersonalChatList() {
         const res = await axios({
             url: '/fetch/personalrooms',
             method: 'get',
+            withCredentials: true,
         });
         console.log('personalRoomsData : ', res.data);
         setPersonalRooms(res.data.personalRooms);
