@@ -118,21 +118,21 @@ function SignupPage() {
     };
     return (
         <div className="signup-or-login">
-            <header>
-                <img
-                    src="/images/backBtn.png"
-                    alt="back"
-                    className={
-                        !displayToggle ? 'dblock backbtn' : 'dnone backbtn'
-                    }
-                    onClick={(e: React.MouseEvent<HTMLElement>) => {
-                        Toggle(e);
-                    }}
-                />
-                <img src="/images/loginPageLogo.png" alt="logo" />
-            </header>
-            <h1 className="getgreen">User Information</h1>
             <div className="signupcontainer">
+                <header>
+                    <img
+                        src="/images/backBtn.png"
+                        alt="back"
+                        className={
+                            !displayToggle ? 'dblock backbtn' : 'dnone backbtn'
+                        }
+                        onClick={(e: React.MouseEvent<HTMLElement>) => {
+                            Toggle(e);
+                        }}
+                    />
+                    <img src="/images/loginPageLogo.png" alt="logo" />
+                </header>
+                <h1 className="getgreen">User Information</h1>
                 <form>
                     <fieldset className={displayToggle ? 'dblock' : 'dnone'}>
                         <input
@@ -290,16 +290,16 @@ function SignupPage() {
                             </select>
                             <span className="plus-and-minus-btn">
                                 <img
+                                    onClick={() => setLearningLang3Toggle(true)}
+                                    src="/images/elementplus.png"
+                                    alt="plus"
+                                />
+                                <img
                                     onClick={() =>
                                         setLearningLang2Toggle(false)
                                     }
                                     src="/images/elementminus.png"
                                     alt="minus"
-                                />
-                                <img
-                                    onClick={() => setLearningLang3Toggle(true)}
-                                    src="/images/elementplus.png"
-                                    alt="plus"
                                 />
                             </span>
                         </fieldset>
