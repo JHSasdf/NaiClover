@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/Footer.scss';
 import { Link } from 'react-router-dom';
 
@@ -17,6 +17,14 @@ function Footer() {
     const [hoveredDiv, setHoverdDiv] = useState('');
     const [clickedDiv, setClickedDiv] = useState('');
 
+    // 페이지 로드 시 로컬 스토리지에서 클릭된 상태 가져오기
+    useEffect(() => {
+        const storedClickedDiv = localStorage.getItem('clickedDiv');
+        if (storedClickedDiv) {
+            setClickedDiv(storedClickedDiv);
+        }
+    }, []);
+
     const onMouseOver = (divName: string) => {
         setHoverdDiv(divName);
     };
@@ -28,6 +36,8 @@ function Footer() {
     // 클릭 시 변경된 이미지 고정.
     const clickMouse = (divName: string) => {
         setClickedDiv(divName);
+        // 클릭된 상태를 로컬 스토리지에 저장
+        localStorage.setItem('clickedDiv', divName);
     };
 
     return (
