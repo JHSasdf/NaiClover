@@ -331,7 +331,14 @@ const ChatRoomPage: React.FC = () => {
                                         ) : (
                                             <div className="received-message">
                                                 <div className="received-message-header">
-                                                    <div className="received-message-image">
+                                                    <div
+                                                        className="received-message-image"
+                                                        onClick={() => {
+                                                            navigate(
+                                                                `/searchUser/${elem.userid}`
+                                                            );
+                                                        }}
+                                                    >
                                                         <img
                                                             src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
                                                             alt=""
@@ -343,7 +350,14 @@ const ChatRoomPage: React.FC = () => {
                                                             alt=""
                                                         />
                                                     </div>
-                                                    <div className="received-message-username">
+                                                    <div
+                                                        className="received-message-username"
+                                                        onClick={() => {
+                                                            navigate(
+                                                                `/searchUser/${elem.userid}`
+                                                            );
+                                                        }}
+                                                    >
                                                         <div>
                                                             {elem.User.name}
                                                         </div>
