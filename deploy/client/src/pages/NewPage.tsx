@@ -563,11 +563,7 @@ const ChatRoomPage: React.FC = () => {
                                                         <div className="received-message-header">
                                                             <div className="received-message-image">
                                                                 <img
-                                                                    src={
-                                                                        elem
-                                                                            .User
-                                                                            .profileImgPath
-                                                                    }
+                                                                    src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
                                                                     alt=""
                                                                 />
                                                             </div>

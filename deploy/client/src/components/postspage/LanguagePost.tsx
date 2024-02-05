@@ -13,7 +13,7 @@ import { cookieConfig } from '../../utils/cookieConfig';
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
-    const { id, likeCount, isLiked } = props;
+    const { id, likeCount, isLiked, getLanguagePosts } = props;
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
     const [profileImg, setProfileImg] = useState<string>('');
@@ -67,8 +67,9 @@ function LanguagePost(props: any) {
     };
 
     const deletePost = async () => {
+        let res;
         try {
-            const res = await axios({
+            res = await axios({
                 method: 'delete',
                 url: `${process.env.REACT_APP_SERVERURL}/lang/posts/${props.id}`,
                 data: {
@@ -76,6 +77,9 @@ function LanguagePost(props: any) {
                 },
                 withCredentials: true,
             });
+            if (res.data.isError === false) {
+                getLanguagePosts();
+            }
         } catch (error) {
             console.error('error', error);
         }
@@ -179,9 +183,7 @@ function LanguagePost(props: any) {
                                 <div
                                     className="delete-text"
                                     onClick={() => {
-                                        deletePost().then(() => {
-                                            props.getLanguagePosts();
-                                        });
+                                        deletePost();
                                     }}
                                 >
                                     <span>삭제하기</span>
