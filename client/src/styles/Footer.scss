@@ -1,12 +1,13 @@
 @import './Common.scss';
 
 .footer {
+    align-items: center;
     box-shadow: inset 0px 1px 0px rgba(192, 191, 191, 0.5);
     width: $all-width;
     height: 107px;
     top: 737px;
     display: flex;
-    position: fixed;
+    // position: fixed;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
