@@ -254,7 +254,12 @@ const ChatRoomPage: React.FC = () => {
                 <div className="messages-container">
                     <div className="received-message">
                         <div className="received-message-header">
-                            <div className="received-message-image">
+                            <div
+                                className="received-message-image"
+                                onClick={() => {
+                                    navigate(`/searchUser/${elem.userid}`);
+                                }}
+                            >
                                 <img src={elem.User.profileImgPath} alt="" />
                             </div>
 
@@ -264,7 +269,12 @@ const ChatRoomPage: React.FC = () => {
                                     alt=""
                                 />
                             </div>
-                            <div className="received-message-username">
+                            <div
+                                className="received-message-username"
+                                onClick={() => {
+                                    navigate(`/searchUser/${elem.userid}`);
+                                }}
+                            >
                                 <div>{elem.User.name}</div>
                             </div>
                         </div>
