@@ -29,7 +29,7 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
-    const { id, likeCount, isLiked } = props;
+    const { id, likeCount, isLiked, getCulturePosts } = props;
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
 
@@ -40,8 +40,9 @@ function CulturePost(props: any) {
         }, 5000);
     };
     const deletePost = async () => {
+        let res;
         try {
-            const res = await axios({
+            res = await axios({
                 method: 'delete',
                 url: `${process.env.REACT_APP_SERVERURL}/cul/posts/${props.id}`,
                 data: {
@@ -49,6 +50,9 @@ function CulturePost(props: any) {
                 },
                 withCredentials: true,
             });
+            if (res.data.isError === false) {
+                getCulturePosts();
+            }
         } catch (error) {
             console.error('error', error);
         }
@@ -191,9 +195,7 @@ function CulturePost(props: any) {
                                 <div
                                     className="delete-text"
                                     onClick={() => {
-                                        deletePost().then(() => {
-                                            props.getCulturePost();
-                                        });
+                                        deletePost();
                                     }}
                                 >
                                     <span>삭제하기</span>

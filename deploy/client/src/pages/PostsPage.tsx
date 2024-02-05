@@ -248,7 +248,7 @@ function PostsPage() {
                                         isLiked={culturePostData[2]}
                                         commentcount={culturePostData[3]}
                                         setLikeCount={setLikeCount}
-                                        getCulturePost={getCulturePosts}
+                                        getCulturePosts={getCulturePosts}
                                     />
                                 ))
                         ) : (
