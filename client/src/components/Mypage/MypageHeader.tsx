@@ -16,20 +16,26 @@ function MypageHeader(props: any) {
     useEffect(() => {
         const fetchFollowLists = async () => {
             try {
-                const resFollowers = await axios.get('/followListGet', {
-                    params: { userid: userData.userid },
-                    withCredentials: true,
-                });
+                const resFollowers = await axios.get(
+                    `${process.env.REACT_APP_SERVERURL}/followListGet`,
+                    {
+                        params: { userid: userData.userid },
+                        withCredentials: true,
+                    }
+                );
                 // 팔로워 목록에 ID 포함
                 const followerListWithId = resFollowers.data.followerList.map(
                     (user: any) => ({ ...user, id: user.userid })
                 );
                 setFollowerList(followerListWithId);
 
-                const resFollowing = await axios.get('/followListGet', {
-                    params: { userid: userData.userid },
-                    withCredentials: true,
-                });
+                const resFollowing = await axios.get(
+                    `${process.env.REACT_APP_SERVERURL}/followListGet`,
+                    {
+                        params: { userid: userData.userid },
+                        withCredentials: true,
+                    }
+                );
                 // 팔로잉 목록에 ID 포함
                 const followingListWithId = resFollowing.data.followingList.map(
                     (user: any) => ({ ...user, id: user.userid })
@@ -47,7 +53,7 @@ function MypageHeader(props: any) {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {
@@ -58,7 +64,6 @@ function MypageHeader(props: any) {
             return 'KR';
         }
     };
-    console.log(learningLang);
     return (
         <div className="mypageHeaderC">
             <div className="logoC">

@@ -1,4 +1,4 @@
-.send-comment-container{
+.send-comment-container {
     width: 390px;
     min-height: 45px;
     height: fit-content;
@@ -7,9 +7,8 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 34px;
-    
 
-    .type-comment{
+    .type-comment {
         width: 320px;
         min-height: 32px;
         height: fit-content;
@@ -19,27 +18,26 @@
         border: 1px solid lightgrey;
     }
 
-    .type-comment:focus{
+    .type-comment:focus {
         outline: none;
     }
 
-    .revise-post{
+    .revise-post {
         margin-left: 8px;
         width: 16px;
         height: 16px;
     }
 
-    .send-comment{
+    .send-comment {
         width: 24px;
         height: 24px;
         background-image: url('../img/Send.png');
         margin-left: 8px;
         cursor: pointer;
     }
-
 }
 
-.entire-comment-container{
-    position: absolute;
+.entire-comment-container {
+    position: relative;
     bottom: 0px;
 }

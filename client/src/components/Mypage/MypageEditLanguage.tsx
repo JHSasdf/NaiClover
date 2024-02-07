@@ -52,8 +52,6 @@ function MypageEditLanguage() {
             const thirdLangValue = chooseLangRef3.current?.value.trim();
             learningLangs.push(thirdLangValue);
         }
-        // 추출된 언어 배열 확인.
-        console.log(learningLangs);
         try {
             const res = await axios({
                 method: 'patch',

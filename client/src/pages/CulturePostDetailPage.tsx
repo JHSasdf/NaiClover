@@ -43,8 +43,6 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setCulturePost(res.data.posts);
-            console.log(culturePost);
-            console.log('getSingleCulturePost', res.data.posts);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);

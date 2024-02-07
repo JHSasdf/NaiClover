@@ -90,6 +90,7 @@ function PostsPage() {
                 },
                 withCredentials: true,
             });
+            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
             if (error.response.status) {
@@ -278,6 +279,10 @@ function PostsPage() {
                                                     languagePostData.User
                                                         .firLang
                                                 }
+                                                profileImgPath={
+                                                    languagePostData.User
+                                                        .profileImgPath
+                                                }
                                                 createdAt={
                                                     languagePostData.createdAt
                                                 }
@@ -320,6 +325,10 @@ function PostsPage() {
                                                 }
                                                 gender={
                                                     culturePostData.User.gender
+                                                }
+                                                profileImgPath={
+                                                    culturePostData.User
+                                                        .profileImgPath
                                                 }
                                                 createdAt={
                                                     culturePostData.createdAt

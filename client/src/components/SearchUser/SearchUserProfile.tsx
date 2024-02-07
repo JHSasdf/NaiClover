@@ -4,7 +4,6 @@ import '../../styles/MypageProfile.scss';
 function SearchUserProfile(props: any) {
     const { userData, learningLang } = props;
     const intro = useRef<HTMLTextAreaElement>(null);
-
     return (
         <div className="mypageProfile-C">
             <div className="introduce-C">

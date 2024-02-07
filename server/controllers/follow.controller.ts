@@ -1,7 +1,7 @@
 import { AlarmModel } from './../model/Alarm';
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-const User = db.User;
+const user = db.User;
 const Follow = db.Follow;
 const Alarm = db.Alarm;
 import { User } from '../../client/src/types/types';
@@ -11,12 +11,6 @@ const setAlarm = async (
     otherUserId: string,
     alarmType: number
 ) => {
-    console.log(
-        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-        userid,
-        otherUserId,
-        alarmType
-    );
     try {
         await Alarm.create({
             userid: userid,
@@ -40,8 +34,6 @@ export async function follow(
         userid = '';
     }
 
-    console.log('userid: ', userid);
-    console.log('followId: ', followId);
     try {
         const followCheck = await Follow.findOne({
             where: { userid: followId, followerId: userid },
@@ -90,8 +82,6 @@ export async function unfollow(
     next: NextFunction
 ): Promise<void | Response> {
     const { userid, followId } = req.body;
-    console.log('userid: ', userid);
-    console.log('followId: ', followId);
     try {
         const followCheck = await Follow.findOne({
             where: { userid: followId, followerId: userid },
@@ -167,14 +157,14 @@ export async function followListGet(
             where: { followerId: userid },
         });
         for (const obj of tempObj) {
-            tempUser = await User.findOne({ where: { userid: obj.userid } });
+            tempUser = await user.findOne({ where: { userid: obj.userid } });
             followingList.push(tempUser);
         }
         tempObj = await Follow.findAll({
             where: { userid: userid },
         });
         for (const obj of tempObj) {
-            tempUser = await User.findOne({ where: { userid: obj.userid } });
+            tempUser = await user.findOne({ where: { userid: obj.userid } });
             followerList.push(tempUser);
         }
         return res.json({

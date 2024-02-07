@@ -57,7 +57,6 @@ function NewPostPage() {
         const option = selectRef.current?.value;
         if (option === 'lang') {
             try {
-                console.log(`/${option}/posts/createpost`);
                 const res = await axios({
                     method: 'post',
                     url: `${process.env.REACT_APP_SERVERURL}/${option}/posts/createpost`,
@@ -136,9 +135,6 @@ function NewPostPage() {
                         rows={1}
                         onChange={() => {
                             handleResizeHeight();
-                            console.log(
-                                textareaRef.current.value.replace(/\n/g, '[')
-                            );
                         }}
                     ></textarea>
                 </div>
