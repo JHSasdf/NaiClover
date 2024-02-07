@@ -95,7 +95,10 @@ function MypageHeader(props: any) {
                 <div className="bDiv">
                     <div className="imageC">
                         <div className="profile-image">
-                            <img src={profileImg} alt="" />
+                            <img
+                                src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
+                                alt=""
+                            />
                         </div>
                         <div className="flag-image">
                             <img

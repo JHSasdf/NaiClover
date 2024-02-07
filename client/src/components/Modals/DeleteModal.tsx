@@ -20,8 +20,10 @@ function DeleteModal({ show, setShow, navigate }: any) {
         try {
             const res = await axios({
                 method: 'delete',
-                url: '/mypage/deleteuser',
+                url: `${process.env.REACT_APP_SERVERURL}/mypage/deleteuser`,
+                withCredentials: true,
             });
+
             console.log('res.data >', res.data);
         } catch (err) {
             console.log('error >', err);

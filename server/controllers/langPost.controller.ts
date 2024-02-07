@@ -122,13 +122,9 @@ export const createPost = async (
     res: Response,
     next: NextFunction
 ) => {
-    let { content } = req.body;
-    content = content.replace(/\n/g, '\\n');
-    console.log(
-        '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
-        content
-    );
+    const { content } = req.body;
     const userid = req.session.userid;
+
     if (!userid || userid.length < 4) {
         return res.json({
             msg: 'Please Login First!',

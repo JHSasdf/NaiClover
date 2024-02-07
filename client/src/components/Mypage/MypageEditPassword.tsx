@@ -33,7 +33,7 @@ function MypageEditPassword() {
         try {
             const res = await axios({
                 method: 'patch',
-                url: '/mypage/changeuserpassword',
+                url: `${process.env.REACT_APP_SERVERURL}/mypage/changeuserpassword`,
                 data: {
                     userid: idCookie,
                     currentPassword,

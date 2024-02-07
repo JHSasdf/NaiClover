@@ -14,7 +14,7 @@ function AlertsList(props: any) {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getAlarmList',
+                url: `${process.env.REACT_APP_SERVERURL}/getAlarmList`,
                 params: {
                     userid: userid,
                 },

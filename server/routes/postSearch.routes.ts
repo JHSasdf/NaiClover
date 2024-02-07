@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 import * as controller from '../controllers/searchPost.controller';
 export const postSearchRouter = express();
 

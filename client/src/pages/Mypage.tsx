@@ -16,7 +16,6 @@ import '../styles/MypagePost.scss';
 import LanguagePost from '../components/postspage/LanguagePost';
 import CulturePost from '../components/postspage/CulturePost';
 
-
 function Mypage() {
     const [showProfile, setShowProfile] = useState(true);
     const { errorHandler } = useErrorHandler();
@@ -41,7 +40,7 @@ function Mypage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `${process.env.REACT_APP_SERVERURL}/getMyPage`,
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
@@ -81,7 +80,7 @@ function Mypage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/followNumGet',
+                url: `${process.env.REACT_APP_SERVERURL}/followNumGet`,
                 params: {
                     userid: idCookie,
                 },
@@ -139,45 +138,49 @@ function Mypage() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <div>
-            <div className="addPostImg">
-                <Link to={'/newpost'}>
-                    <img src="/images/addpost.png" alt="" />
-                </Link>
-            </div>
-            <div className='mypage-post-container'>
-            {sortedPostData.map((post:any) => {
+                    <div className="mypagePostItems-C">
+                        <div className="addPostImg">
+                            <Link to={'/newpost'}>
+                                <img src="/images/addpost.png" alt="" />
+                            </Link>
+                        </div>
+                        <div className="mypage-post-container">
+                            {sortedPostData.map((post: any) => {
                                 return post.postType === 'c' ? (
                                     <CulturePost
-                                    key={post.postId}
-                                    userid={post.userid}
-                                    id={post.postId}
-                                    name={post.userid}
-                                    createdAt={post.createdAt}
-                                    content={post.content}
-                                    nation={post.User.nation}
-                                    gender={post.User.gender}
-                                    images={post}
-                                    profileImgPath={post.User.profileImgPath}
-                                    firLang={post.User.firLang}
+                                        key={post.postId}
+                                        userid={post.userid}
+                                        id={post.postId}
+                                        name={post.userid}
+                                        createdAt={post.createdAt}
+                                        content={post.content}
+                                        nation={post.User.nation}
+                                        gender={post.User.gender}
+                                        images={post}
+                                        profileImgPath={
+                                            post.User.profileImgPath
+                                        }
+                                        firLang={post.User.firLang}
                                     />
                                 ) : post.postType === 'l' ? (
-                                    <LanguagePost  
-                                    key={post.postId}
-                                    userid={post.userid}
-                                    name={post.userid}
-                                    id={post.postId}
-                                    createdAt={post.createdAt}
-                                    content={post.content}
-                                    nation={post.User.nation}
-                                    gender={post.User.gender}
-                                    profileImgPath={post.User.profileImgPath}
-                                    firLang={post.User.firLang}
+                                    <LanguagePost
+                                        key={post.postId}
+                                        userid={post.userid}
+                                        name={post.userid}
+                                        id={post.postId}
+                                        createdAt={post.createdAt}
+                                        content={post.content}
+                                        nation={post.User.nation}
+                                        gender={post.User.gender}
+                                        profileImgPath={
+                                            post.User.profileImgPath
+                                        }
+                                        firLang={post.User.firLang}
                                     />
-                                ) : null; 
+                                ) : null;
                             })}
-            </div>
-        </div>
+                        </div>
+                    </div>
                 )}
             </div>
             <Footer />

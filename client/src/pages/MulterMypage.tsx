@@ -29,14 +29,16 @@ function MulterMypage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `${process.env.REACT_APP_SERVERURL}/getMyPage`,
                 params: {
                     userid: idCookie,
                 },
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            setProfileImg(res.data.userDataObj.profileImgPath);
+            setProfileImg(
+                `${process.env.REACT_APP_SERVERURL}${res.data.userDataObj.profileImgPath}`
+            );
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);
@@ -71,7 +73,7 @@ function MulterMypage() {
         try {
             const res = await axios({
                 method: 'post',
-                url: '/multermypage',
+                url: `${process.env.REACT_APP_SERVERURL}/multermypage`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -119,7 +121,7 @@ function MulterMypage() {
                     {/* 이미지 출력 공간 */}
                     <div className="profile-image">
                         {/* 페이지 렌더링 시 가지고 있는 이미지 표시 */}
-                        <img src={profileImg} alt="" />
+                        <img src={`${profileImg}`} alt="" />
                     </div>
                     <form action="">
                         <label

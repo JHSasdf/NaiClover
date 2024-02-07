@@ -23,7 +23,7 @@ function FollowPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/followNumGet',
+                url: `${process.env.REACT_APP_SERVERURL}/followNumGet`,
                 params: {
                     userid: idCookie,
                 },
@@ -40,7 +40,7 @@ function FollowPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/followListGet',
+                url: `${process.env.REACT_APP_SERVERURL}/followListGet`,
                 params: {
                     userid: idCookie,
                 },
@@ -58,7 +58,7 @@ function FollowPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: 'newAlarmNumGet',
+                url: `${process.env.REACT_APP_SERVERURL}/newAlarmNumGet`,
                 params: {
                     userid: idCookie,
                 },
@@ -79,7 +79,7 @@ function FollowPage() {
     const follow = async () => {
         const res = await axios({
             method: 'post',
-            url: '/followexec',
+            url: `${process.env.REACT_APP_SERVERURL}/followexec`,
             data: {
                 userid: idCookie,
                 followId: followinput.current?.value,
@@ -90,7 +90,7 @@ function FollowPage() {
     const unfollow = async () => {
         const res = await axios({
             method: 'post',
-            url: '/unfollowexec',
+            url: `${process.env.REACT_APP_SERVERURL}/unfollowexec`,
             data: {
                 userid: idCookie,
                 followId: followinput.current?.value,
