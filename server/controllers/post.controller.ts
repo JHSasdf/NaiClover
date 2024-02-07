@@ -543,8 +543,14 @@ export const deleteComment = async (
     } catch (err) {
         return next(err);
     }
+    if (!existingUserid) {
+        return res.status(500).json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
 
-    if (userid !== existingUserid.userid) {
+    if (userid !== existingUserid.dataValues.userid) {
         return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,

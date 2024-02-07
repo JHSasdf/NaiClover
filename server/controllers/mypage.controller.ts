@@ -494,7 +494,6 @@ export const getRevisedLists = async (
             isError: false,
         });
     } catch (err) {
-        console.log('Error occurred:', err);
         next(err);
     }
 };

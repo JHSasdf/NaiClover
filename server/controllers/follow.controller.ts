@@ -164,7 +164,9 @@ export async function followListGet(
             where: { userid: userid },
         });
         for (const obj of tempObj) {
-            tempUser = await user.findOne({ where: { userid: obj.userid } });
+            tempUser = await user.findOne({
+                where: { userid: obj.followerId },
+            });
             followerList.push(tempUser);
         }
         return res.json({

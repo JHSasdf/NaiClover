@@ -82,8 +82,6 @@ const saveUserChatRoom = (userId: string, roomId: string) => {
     }
 
     userChatRooms[userId].push(roomId);
-
-    console.log(`User ${userId} joined room ${roomId}`);
 };
 
 // 사용자의 채팅방 정보를 제거하는 함수 (데이터베이스)
@@ -92,8 +90,6 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
         userChatRooms[userId] = userChatRooms[userId].filter(
             (r) => r !== roomId
         );
-
-        console.log(`User ${userId} left room ${roomId}`);
     }
 };
 //
@@ -276,12 +272,6 @@ io.on('connection', (socket: Socket) => {
     socket.emit('userId', socket.id);
 
     socket.on('chat message', (msg) => {
-        if (msg.text.startsWith(' ')) {
-            console.log(`You: ${msg.text}`);
-        } else {
-            console.log(`Server: ${msg.text}`);
-        }
-
         if (msg.room) {
             const serverMessage = `Server: ${msg.text}`;
             const isSentByMe = msg.isSentByMe || false;
@@ -308,7 +298,6 @@ io.on('connection', (socket: Socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
         delete connectedClients[socket.id];
     });
 
