@@ -97,61 +97,63 @@ function LanguagePostDetailPage() {
             <div className="postdetailpage">
                 <Topbar />
                 <PostDetailHeader />
-                <LanguagePost
-                    key={languagePost.postId}
-                    type={languagePost.postType}
-                    content={languagePost.content}
-                    createdAt={languagePost.createdAt}
-                    userid={languagePost.userid}
-                    profileImgPath={languagePost?.User?.profileImgPath}
-                    id={languagePost.postId}
-                    nation={languagePost.User?.nation}
-                    name={languagePost.User?.name}
-                    commentcount={languagePost.commentcount}
-                    gender={languagePost.User?.gender}
-                />
-                <div className="languagecomment-container">
-                    {comments?.map((comment, index) => {
-                        if (!comment.isrevised) {
-                            return (
-                                <LanguageComment
-                                    key={index}
-                                    index={comment.index}
-                                    type={languagePost.postType}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        } else {
-                            return (
-                                <LanguageRevisedComment
-                                    key={index}
-                                    index={comment.index}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        }
-                    })}
+                <div className="languagepost-detail-container">
+                    <LanguagePost
+                        key={languagePost.postId}
+                        type={languagePost.postType}
+                        content={languagePost.content}
+                        createdAt={languagePost.createdAt}
+                        userid={languagePost.userid}
+                        profileImgPath={languagePost?.User?.profileImgPath}
+                        id={languagePost.postId}
+                        nation={languagePost.User?.nation}
+                        name={languagePost.User?.name}
+                        commentcount={languagePost.commentcount}
+                        gender={languagePost.User?.gender}
+                    />
+                    <div className="languagecomment-container">
+                        {comments?.map((comment, index) => {
+                            if (!comment.isrevised) {
+                                return (
+                                    <LanguageComment
+                                        key={index}
+                                        index={comment.index}
+                                        type={languagePost.postType}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <LanguageRevisedComment
+                                        key={index}
+                                        index={comment.index}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
+                    <SendComment
+                        onSendComment={addComment}
+                        postUserId={languagePost.userid}
+                    />
                 </div>
-                <SendComment
-                    onSendComment={addComment}
-                    postUserId={languagePost.userid}
-                />
             </div>
         </div>
     );

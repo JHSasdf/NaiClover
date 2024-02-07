@@ -34,7 +34,7 @@ function SearchUserHeader(props: any) {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {

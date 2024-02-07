@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const CorrectingPageHeader = (props: any) => {
     const { cleanCookie, content, id, postUserId, tempLines, postType } = props;
     const navigate = useNavigate();
-
     const addComment = async (content: string) => {
         try {
             const res = await axios({
@@ -48,7 +47,13 @@ const CorrectingPageHeader = (props: any) => {
                     onClick={() => {
                         checkChangeAndSend();
                         cleanCookie();
-                        navigate(-1);
+                        if (postType === 'lang') {
+                            window.location.href = `/l-postdetail/${id}`;
+                        } else if (postType === 'cul') {
+                            window.location.href = `/c-postdetail/${id}`;
+                        } else {
+                            navigate(-1);
+                        }
                     }}
                 >
                     완료

@@ -52,7 +52,7 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: [process.env.CLIENTURL, 'http://3.34.47.72'],
+        origin: [process.env.CLIENTURL, `http://${process.env.SERVERIPNO}`],
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
@@ -126,7 +126,6 @@ async function createMonoRoomDb(
         console.log(err);
     }
     roomNumArr.push(result.roomNum);
-    roomNum = result.roomNum;
 }
 
 async function createPersonalRoomDb(
@@ -307,7 +306,7 @@ io.on('connection', (socket: Socket) => {
             } else {
                 createChatDb(msg.room, msg.userId, msg.text, msg.isrevised);
             }
-            socket.broadcast.emit('needReload', 'reload');
+            io.emit('needReload', 'reload');
         }
     });
 

@@ -43,7 +43,7 @@ function CulturePostDetailPage() {
                 withCredentials: true,
             });
             setCulturePost(res.data.posts);
-            console.log(culturePost);
+            console.log('sfsfsfs', culturePost);
             console.log('getSingleCulturePost', res.data.posts);
         } catch (error: any) {
             errorHandler(error.response.status);
@@ -98,59 +98,61 @@ function CulturePostDetailPage() {
             <div className="postdetailpage">
                 <Topbar />
                 <PostDetailHeader />
-                <CulturePost
-                    content={culturePost.content}
-                    userid={culturePost.userid}
-                    id={culturePost.postId}
-                    profileImgPath={culturePost?.User?.profileImgPath}
-                    createdAt={culturePost.createdAt}
-                    name={culturePost.User?.name}
-                    nation={culturePost.User?.nation}
-                    images={culturePost}
-                    gender={culturePost.User?.gender}
-                />
-                <div className="culturecomment-container">
-                    {comments?.map((comment, index) => {
-                        if (!comment.isrevised) {
-                            return (
-                                <CultureComment
-                                    key={index}
-                                    index={comment.index}
-                                    type={culturePost.postType}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        } else {
-                            return (
-                                <CultureRevisedComment
-                                    key={index}
-                                    index={comment.index}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        }
-                    })}
+                <div className="culturepost-detail-container">
+                    <CulturePost
+                        content={culturePost.content}
+                        userid={culturePost.userid}
+                        id={culturePost.postId}
+                        profileImgPath={culturePost?.User?.profileImgPath}
+                        createdAt={culturePost.createdAt}
+                        name={culturePost.User?.name}
+                        nation={culturePost.User?.nation}
+                        images={culturePost}
+                        gender={culturePost.User?.gender}
+                    />
+                    <div className="culturecomment-container">
+                        {comments?.map((comment, index) => {
+                            if (!comment.isrevised) {
+                                return (
+                                    <CultureComment
+                                        key={index}
+                                        index={comment.index}
+                                        type={culturePost.postType}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <CultureRevisedComment
+                                        key={index}
+                                        index={comment.index}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
+                    <SendComment
+                        onSendComment={addComment}
+                        postUserId={culturePost.userid}
+                    />
                 </div>
-                <SendComment
-                    onSendComment={addComment}
-                    postUserId={culturePost.userid}
-                />
             </div>
         </div>
     );
