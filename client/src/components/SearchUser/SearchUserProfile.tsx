@@ -4,33 +4,6 @@ import '../../styles/MypageProfile.scss';
 function SearchUserProfile(props: any) {
     const { userData, learningLang } = props;
     const intro = useRef<HTMLTextAreaElement>(null);
-<<<<<<< HEAD
-
-=======
-    const [isEdited, setIsEdited] = useState(false);
-    const editIntroduction = () => {
-        setIsEdited(true);
-        intro.current?.toggleAttribute('readOnly');
-        intro.current?.focus();
-    };
-    const submitIntroduction = async () => {
-        setIsEdited(false);
-        intro.current?.toggleAttribute('readOnly');
-        try {
-            const res = await axios({
-                method: 'patch',
-                url: `${process.env.REACT_APP_SERVERURL}/mypage/editIntroduction`,
-                data: {
-                    userid: userData.userid,
-                    content: intro.current?.value,
-                },
-                withCredentials: true,
-            });
-        } catch (error) {
-            console.error('error', error);
-        }
-    };
->>>>>>> feat_jihun
     return (
         <div className="mypageProfile-C">
             <div className="introduce-C">
