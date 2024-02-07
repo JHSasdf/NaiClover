@@ -1,7 +1,7 @@
 import { AlarmModel } from './../model/Alarm';
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
-const User = db.User;
+const user = db.User;
 const Follow = db.Follow;
 const Alarm = db.Alarm;
 import { User } from '../../client/src/types/types';
@@ -167,14 +167,14 @@ export async function followListGet(
             where: { followerId: userid },
         });
         for (const obj of tempObj) {
-            tempUser = await User.findOne({ where: { userid: obj.userid } });
+            tempUser = await user.findOne({ where: { userid: obj.userid } });
             followingList.push(tempUser);
         }
         tempObj = await Follow.findAll({
             where: { userid: userid },
         });
         for (const obj of tempObj) {
-            tempUser = await User.findOne({ where: { userid: obj.userid } });
+            tempUser = await user.findOne({ where: { userid: obj.userid } });
             followerList.push(tempUser);
         }
         return res.json({

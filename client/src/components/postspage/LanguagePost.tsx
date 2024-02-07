@@ -14,7 +14,7 @@ import { getTimeObj } from '../../utils/getCurrentData';
 function LanguagePost(props: any) {
     const navigate = useNavigate();
 
-    const { id, likeCount, isLiked } = props;
+    const { id, likeCount, isLiked, getLanguagePosts } = props;
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
     const [profileImg, setProfileImg] = useState<string>('');
@@ -23,11 +23,12 @@ function LanguagePost(props: any) {
     const [didLike, setDidLike] = useState(isLiked);
     const [likeCountState, setLikeCountState] = useState(likeCount);
     const contentInDiv = useRef<any>();
-    const shortName = (nation: string | undefined): string | undefined => {
+
+    const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {
@@ -42,7 +43,7 @@ function LanguagePost(props: any) {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/userinfo/${props.userid}`,
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
                 params: {
                     userid: props.name,
                 },
@@ -75,15 +76,19 @@ function LanguagePost(props: any) {
     };
 
     const deletePost = async () => {
+        let res;
         try {
-            const res = await axios({
+            res = await axios({
                 method: 'delete',
-                url: `/lang/posts/${props.id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/posts/${props.id}`,
                 data: {
                     userid: props.userid,
                 },
                 withCredentials: true,
             });
+            if (res.data.isError === false) {
+                getLanguagePosts();
+            }
         } catch (error) {
             console.error('error', error);
         }
@@ -93,7 +98,7 @@ function LanguagePost(props: any) {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/lang/posts/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/posts/${id}`,
                 data: {
                     userid: idCookie,
                 },
@@ -118,7 +123,7 @@ function LanguagePost(props: any) {
                     <div className="lang-image-container">
                         <img
                             className="lang-profile-image"
-                            src={props.profileImgPath}
+                            src={`${process.env.REACT_APP_SERVERURL}${props.profileImgPath}`}
                             alt=""
                             onClick={() => {
                                 window.location.href = `/searchUser/${props.userid}`;
@@ -194,7 +199,6 @@ function LanguagePost(props: any) {
                                     className="delete-text"
                                     onClick={() => {
                                         deletePost();
-                                        window.location.href = '/posts';
                                     }}
                                 >
                                     <span>삭제하기</span>

@@ -30,7 +30,8 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
-    const { id, likeCount, isLiked } = props;
+    const { id, likeCount, isLiked, getCulturePosts, userid } = props;
+
     const [didLike, setDidLike] = useState(isLiked);
     const contentInDiv = useRef<any>();
     const [likeCountState, setLikeCountState] = useState(likeCount);
@@ -42,25 +43,29 @@ function CulturePost(props: any) {
         }, 5000);
     };
     const deletePost = async () => {
+        let res;
         try {
-            const res = await axios({
+            res = await axios({
                 method: 'delete',
-                url: `/cul/posts/${props.id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/posts/${props.id}`,
                 data: {
                     userid: props.userid,
                 },
                 withCredentials: true,
             });
+            if (res.data.isError === false) {
+                getCulturePosts();
+            }
         } catch (error) {
             console.error('error', error);
         }
     };
 
-    const shortName = (nation: string | undefined): string | undefined => {
+    const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {
@@ -74,11 +79,12 @@ function CulturePost(props: any) {
     const getMyPage = async () => {
         try {
             // setProfileImg(props.profileImgPath);
+
             const res = await axios({
                 method: 'get',
-                url: `/userinfo/${props.userid}`,
-                data: {
-                    userid: idCookie,
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${userid}`,
+                params: {
+                    userid: props.name,
                 },
                 withCredentials: true,
             });
@@ -96,14 +102,14 @@ function CulturePost(props: any) {
                 '<br />'
             );
         }, 0);
-    }, [props.id]);
+    }, [props.id, userid]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/cul/posts/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/posts/${id}`,
                 data: {
                     userid: idCookie,
                 },
@@ -131,8 +137,7 @@ function CulturePost(props: any) {
                     <div className="cul-image-container">
                         <img
                             className="cul-profile-image"
-                            // src={profileImg}
-                            src={props.profileImgPath}
+                            src={`${process.env.REACT_APP_SERVERURL}${props.profileImgPath}`}
                             alt=""
                             onClick={() => {
                                 window.location.href = `/searchUser/${props.userid}`;
@@ -187,7 +192,7 @@ function CulturePost(props: any) {
                         {getTimeObj(props.createdAt).day}일{' '}
                         {getTimeObj(props.createdAt).hour}시{' '}
                         {getTimeObj(props.createdAt).minute}분
-                    </div>
+                    </div>{' '}
                     {idCookie === props.userid ? (
                         <div>
                             <div
@@ -208,7 +213,6 @@ function CulturePost(props: any) {
                                     className="delete-text"
                                     onClick={() => {
                                         deletePost();
-                                        window.location.href = '/posts';
                                     }}
                                 >
                                     <span>삭제하기</span>
@@ -246,10 +250,7 @@ function CulturePost(props: any) {
                                 (image: string, index: number) => (
                                     <SwiperSlide key={index}>
                                         <img
-                                            src={
-                                                props.images.PostImages[index]
-                                                    .path
-                                            }
+                                            src={`${process.env.REACT_APP_SERVERURL}${props.images.PostImages[index].path}`}
                                             alt={image}
                                             className="eachImage"
                                         />

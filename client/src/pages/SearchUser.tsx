@@ -11,12 +11,11 @@ import axios from 'axios';
 import { Post, User } from '../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import useErrorHandler from '../utils/useErrorHandler';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CulturePost from '../components/postspage/CulturePost';
 import LanguagePost from '../components/postspage/LanguagePost';
 
-
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 
 function SearchUser() {
     const navigate = useNavigate();
@@ -43,7 +42,7 @@ function SearchUser() {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/userinfo/${userid}`,
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${userid}`,
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
@@ -147,47 +146,50 @@ function SearchUser() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <div>
-            <div className="addPostImg">
-                <Link to={'/newpost'}>
-                    <img src="/images/addpost.png" alt="" />
-                </Link>
-            </div>
-            <div className='mypage-post-container'>
-            {sortedPostData !== undefined && sortedPostData.map((post:any) => {
-                                return post.postType === 'c' ? (
-                                    <CulturePost
-                                    key={post.postId}
-                                    userid={post.userid}
-                                    id={post.postId}
-                                    name={post.userid}
-                                    createdAt={post.createdAt}
-                                    content={post.content}
-                                    nation={post.User.nation}
-                                    gender={post.User.gender}
-                                    images={post}
-                                    profileImgPath={post.User.profileImgPath}
-                                    firLang={post.User.firLang}
-                                    />
-                                ) : post.postType === 'l' ? (
-                                    <LanguagePost  
-                                    key={post.postId}
-                                    userid={post.userid}
-                                    name={post.userid}
-                                    id={post.postId}
-                                    createdAt={post.createdAt}
-                                    content={post.content}
-                                    nation={post.User.nation}
-                                    gender={post.User.gender}
-                                    profileImgPath={post.User.profileImgPath}
-                                    firLang={post.User.firLang}
-                                    />
-                                ) : null; 
-                            })}
-
-                            
-            </div>
-        </div>
+                    <div className="mypagePostItems-C">
+                        <div className="addPostImg">
+                            <Link to={'/newpost'}>
+                                <img src="/images/addpost.png" alt="" />
+                            </Link>
+                        </div>
+                        <div className="mypage-post-container">
+                            {sortedPostData !== undefined &&
+                                sortedPostData.map((post: any) => {
+                                    return post.postType === 'c' ? (
+                                        <CulturePost
+                                            key={post.postId}
+                                            userid={post.userid}
+                                            id={post.postId}
+                                            name={post.userid}
+                                            createdAt={post.createdAt}
+                                            content={post.content}
+                                            nation={post.User.nation}
+                                            gender={post.User.gender}
+                                            images={post}
+                                            profileImgPath={
+                                                post.User.profileImgPath
+                                            }
+                                            firLang={post.User.firLang}
+                                        />
+                                    ) : post.postType === 'l' ? (
+                                        <LanguagePost
+                                            key={post.postId}
+                                            userid={post.userid}
+                                            name={post.userid}
+                                            id={post.postId}
+                                            createdAt={post.createdAt}
+                                            content={post.content}
+                                            nation={post.User.nation}
+                                            gender={post.User.gender}
+                                            profileImgPath={
+                                                post.User.profileImgPath
+                                            }
+                                            firLang={post.User.firLang}
+                                        />
+                                    ) : null;
+                                })}
+                        </div>
+                    </div>
                 )}
             </div>
             <Footer />

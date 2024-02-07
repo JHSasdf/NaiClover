@@ -37,7 +37,7 @@ interface userInterface {
     nation: string;
 }
 // 쿠키 아이디 저장
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 const USER_ID_COOKIE_KEY = 'id';
 
 const ChatRoomPage: React.FC = () => {
@@ -52,6 +52,7 @@ const ChatRoomPage: React.FC = () => {
     const [roomName, setRoomName] = useState();
     const [roomPeopleNum, setroomPeopleNum] = useState();
     const [useridTo, setUserIdTo] = useState();
+    const [roomType, setRoomType] = useState();
     const userid = cookies['id'];
 
     const navigate = useNavigate();
@@ -92,7 +93,6 @@ const ChatRoomPage: React.FC = () => {
         const handleBeforeUnload = () => {
             socket.emit('leaveRoom', roomId);
         };
-
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         return () => {
@@ -104,11 +104,13 @@ const ChatRoomPage: React.FC = () => {
     const fetchChatLog = async () => {
         try {
             const res = await axios({
-                url: `/getchatlog/${roomId}`,
+                url: `${process.env.REACT_APP_SERVERURL}/getchatlog/${roomId}`,
                 method: 'get',
+                withCredentials: true,
             });
             setChatLog(res.data.chatLog);
             setRoomName(res.data.roomInfo.roomName);
+            setRoomType(res.data.roomInfo.useridTo);
             setroomPeopleNum(res.data.chatNumber);
             setUserIdTo(res.data.roomInfo.useridTo);
             console.log('챗로그', res.data);
@@ -126,7 +128,7 @@ const ChatRoomPage: React.FC = () => {
     const fetchRoomLanguage = async () => {
         try {
             const res = await axios({
-                url: `/fetch/language/${roomId}`,
+                url: `${process.env.REACT_APP_SERVERURL}/fetch/language/${roomId}`,
                 method: 'get',
             });
             const roomLanguage = res.data.language;
@@ -180,6 +182,7 @@ const ChatRoomPage: React.FC = () => {
     scrollToBottom();
 
     // 메시지 보내는 함수
+
     return (
         <>
             <Topbar />
@@ -188,7 +191,9 @@ const ChatRoomPage: React.FC = () => {
                 <div className="chat-room-C-Header">
                     <div
                         onClick={() => {
-                            navigate(-1);
+                            roomType === 'monoChat'
+                                ? (window.location.href = '/monochat')
+                                : (window.location.href = '/message');
                         }}
                         style={{ cursor: 'pointer' }}
                     >
@@ -344,20 +349,9 @@ const ChatRoomPage: React.FC = () => {
                                                 ) : (
                                                     <div className="received-message">
                                                         <div className="received-message-header">
-                                                            <div
-                                                                className="received-message-image"
-                                                                onClick={() => {
-                                                                    navigate(
-                                                                        `/searchUser/${elem.userid}`
-                                                                    );
-                                                                }}
-                                                            >
+                                                            <div className="received-message-image">
                                                                 <img
-                                                                    src={
-                                                                        elem
-                                                                            .User
-                                                                            .profileImgPath
-                                                                    }
+                                                                    src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
                                                                     alt=""
                                                                 />
                                                             </div>
@@ -367,14 +361,7 @@ const ChatRoomPage: React.FC = () => {
                                                                     alt=""
                                                                 />
                                                             </div>
-                                                            <div
-                                                                className="received-message-username"
-                                                                onClick={() => {
-                                                                    navigate(
-                                                                        `/searchUser/${elem.userid}`
-                                                                    );
-                                                                }}
-                                                            >
+                                                            <div className="received-message-username">
                                                                 <div>
                                                                     {
                                                                         elem
@@ -582,11 +569,7 @@ const ChatRoomPage: React.FC = () => {
                                                                 }}
                                                             >
                                                                 <img
-                                                                    src={
-                                                                        elem
-                                                                            .User
-                                                                            .profileImgPath
-                                                                    }
+                                                                    src={`${process.env.REACT_APP_SERVERURL}${elem.User.profileImgPath}`}
                                                                     alt=""
                                                                 />
                                                             </div>

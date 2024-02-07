@@ -1,13 +1,13 @@
-import multer from 'multer';
-import path from 'path';
+const multer = require('multer');
+const path = require('path');
 
 export const getPostMulterConfig = () => {
     return {
         storage: multer.diskStorage({
-            destination(req, file, done) {
+            destination(req: any, file: any, done: any) {
                 done(null, 'public/posts/');
             },
-            filename(req, file, done) {
+            filename(req: any, file: any, done: any) {
                 const ext = path.extname(file.originalname);
                 done(null, (req.session.userid || 'userid') + Date.now() + ext);
             },
@@ -21,10 +21,10 @@ export const getPostMulterConfig = () => {
 export const getMyPageMulterConfig = () => {
     return {
         storage: multer.diskStorage({
-            destination(req, file, done) {
+            destination(req: any, file: any, done: any) {
                 done(null, 'public/mypage/');
             },
-            filename(req, file, done) {
+            filename(req: any, file: any, done: any) {
                 const ext = path.extname(file.originalname);
                 done(null, (req.session.userid || 'userid') + Date.now() + ext);
             },

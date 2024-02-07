@@ -28,7 +28,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
         try {
             const res = await axios({
                 method: 'delete',
-                url: `/cul/comments/${props.index}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/comments/${props.index}`,
                 withCredentials: true,
             });
             props.getcomment();
@@ -41,7 +41,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/userinfo/${props.userid}`,
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
                 params: {
                     userid: props.userid,
                 },
@@ -68,7 +68,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                 <div className="comment-image-container">
                     <img
                         className="comment-profile-pic"
-                        src={profileImg}
+                        src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
                         alt=""
                         onClick={() => {
                             window.location.href = `/searchUser/${props.userid}`;
@@ -143,7 +143,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
                             {getTimeObj(props.time).day}일{' '}
                             {getTimeObj(props.time).hour}시{' '}
                             {getTimeObj(props.time).minute}분
-                        </div>
+                        </div>{' '}
                     </div>
                 </div>
             </div>

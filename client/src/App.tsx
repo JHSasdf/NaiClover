@@ -1,11 +1,11 @@
 import React from 'react';
-import './styles/App.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { cookieConfig } from './utils/cookieConfig';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+import './styles/App.scss';
 
 import PostsPage from './pages/PostsPage';
 import AlarmPage from './pages/AlarmPage';
@@ -114,9 +114,9 @@ function App() {
                     />
 
                     <Route path="/monochat" element={<MonoChatPage />} />
-                    <Route path="*" element={<Error404 />} />
 
                     <Route path="/errorlog" element={<ErrorLogPage />} />
+                    <Route path="*" element={<Error404 />} />
                 </Routes>
             </BrowserRouter>
         </div>

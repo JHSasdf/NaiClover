@@ -1,5 +1,6 @@
 import * as session from 'express-session';
-import MySQLStore, { Options } from 'express-mysql-session';
+import { Options } from 'express-mysql-session';
+const MySQLStore = require('express-mysql-session');
 import 'dotenv/config';
 
 const MySQLStoreSession = MySQLStore(session);

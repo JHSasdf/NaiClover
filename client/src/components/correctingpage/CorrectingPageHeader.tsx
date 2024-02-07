@@ -1,17 +1,16 @@
 import axios from 'axios';
-import '../../styles/CorrectingPage.scss'
-import '../../styles/CorrectingPageHeader.scss'
+import '../../styles/CorrectingPage.scss';
+import '../../styles/CorrectingPageHeader.scss';
 import { useNavigate } from 'react-router-dom';
 
 const CorrectingPageHeader = (props: any) => {
     const { cleanCookie, content, id, postUserId, tempLines, postType } = props;
     const navigate = useNavigate();
-
     const addComment = async (content: string) => {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/${postType}/comments/createcomment/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/${postType}/comments/createcomment/${id}`,
                 data: {
                     content: content,
                     postUserId: postUserId,
@@ -48,7 +47,13 @@ const CorrectingPageHeader = (props: any) => {
                     onClick={() => {
                         checkChangeAndSend();
                         cleanCookie();
-                        navigate(-1);
+                        if (postType === 'lang') {
+                            window.location.href = `/l-postdetail/${id}`;
+                        } else if (postType === 'cul') {
+                            window.location.href = `/c-postdetail/${id}`;
+                        } else {
+                            navigate(-1);
+                        }
                     }}
                 >
                     완료

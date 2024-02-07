@@ -27,7 +27,7 @@ function MypageOption() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getMyPage',
+                url: `${process.env.REACT_APP_SERVERURL}/getMyPage`,
                 params: {
                     userid: idCookie,
                 },
@@ -52,7 +52,8 @@ function MypageOption() {
         try {
             const res = await axios({
                 method: 'post',
-                url: '/mypage/logout',
+                url: `${process.env.REACT_APP_SERVERURL}/mypage/logout`,
+                withCredentials: true,
             });
             removeCookies('id');
             navigate('/login');
@@ -101,7 +102,10 @@ function MypageOption() {
                 <div className="settingProfile">
                     <div className="imageC">
                         <div className="profile-image">
-                            <img src={profileImg} alt="" />
+                            <img
+                                src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
+                                alt=""
+                            />
                         </div>
                         <div className="flag-image">
                             <img

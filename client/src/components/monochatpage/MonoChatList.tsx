@@ -6,7 +6,7 @@ import useErrorHandler from '../../utils/useErrorHandler';
 import { Link } from 'react-router-dom';
 import { getCurrentData2, getCurrnetData } from '../../utils/getCurrentData';
 
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 interface MonoChatListProps {
     selectedLanguage: string;
 }
@@ -17,7 +17,7 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
     const fetchMonoRooms = async () => {
         try {
             const res = await axios({
-                url: '/fetch/monorooms',
+                url: `${process.env.REACT_APP_SERVERURL}/fetch/monorooms`,
                 method: 'get',
                 withCredentials: true,
             });
@@ -82,10 +82,7 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
                                                 <div className="all-participant-container">
                                                     <div className="all-participant">
                                                         <img
-                                                            src={
-                                                                elem.userInfo
-                                                                    .profileImgPath
-                                                            }
+                                                            src={`${process.env.REACT_APP_SERVERURL}${elem.userInfo.profileImgPath}`}
                                                             alt=""
                                                         />
                                                     </div>
