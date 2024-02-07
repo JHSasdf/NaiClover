@@ -5,13 +5,14 @@ declare module 'express-session' {
 }
 import 'dotenv/config';
 
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import session from 'express-session';
-import http from 'http';
+import { Request, Response } from 'express';
+const express = require('express');
+const cors = require('cors');
+const session = require('express-session');
+const http = require('http');
+const sequelize = require('sequelize');
 import { Server, Socket } from 'socket.io';
 import { Op } from 'sequelize';
-import sequelize from 'sequelize';
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -21,15 +22,16 @@ import { userSearchRouter } from './routes/userSearch.routes';
 import { chatRouter } from './routes/chat.routes';
 import { postSearchRouter } from './routes/postSearch.routes';
 import { db } from './model';
-import handleErrors from './middlewares/errorHandler.middleware';
-import notFoundHandler from './middlewares/notFound.middleware';
+const handleErrors = require('./middlewares/errorHandler.middleware');
+const notFoundHandler = require('./middlewares/notFound.middleware');
 import { getSessionConfig } from './config/session.config';
 import { generateUniqueId } from './public/utils/createChatsAndRoomsDb';
+const path = require('path');
 const app = express();
 export const server = http.createServer(app);
 export const io = new Server(server, {
     cors: {
-        origin: process.env.DEVCLIENTURL,
+        origin: process.env.CLIENTURL,
         methods: '*',
     },
 });
@@ -43,18 +45,21 @@ let roomNum: string;
 
 app.use('/public', express.static(__dirname + '/public'));
 app.use(session(getSessionConfig()));
+app.use(express.static(path.join(__dirname, '/../client/build')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: process.env.DEVCLIENTURL,
+        origin: [process.env.CLIENTURL, 'http://3.34.47.72'],
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
 
 const connectedClients: Record<string, Socket> = {};
+
+app.get('/', function (req: Request, res: Response) {});
 
 app.use(authRouter);
 app.use(myPageRouter);
@@ -399,7 +404,7 @@ db.sequelize
     .sync({ force: false })
     .then(() => {
         server.listen(process.env.SERVERPORT, () => {
-            console.log(`Server is running on ${process.env.DEVSERVERURL}`);
+            console.log(`Server is running on ${process.env.SERVERURL}`);
         });
     })
     .catch((err: Error) => {

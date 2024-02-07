@@ -1,6 +1,6 @@
 import axios from 'axios';
-import '../../styles/CorrectingPage.scss'
-import '../../styles/CorrectingPageHeader.scss'
+import '../../styles/CorrectingPage.scss';
+import '../../styles/CorrectingPageHeader.scss';
 import { useNavigate } from 'react-router-dom';
 
 const CorrectingPageHeader = (props: any) => {
@@ -11,7 +11,7 @@ const CorrectingPageHeader = (props: any) => {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/${postType}/comments/createcomment/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/${postType}/comments/createcomment/${id}`,
                 data: {
                     content: content,
                     postUserId: postUserId,

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { User } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { getTimeObj } from '../../utils/getCurrentData';
+
 function LanguageComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
@@ -26,7 +27,7 @@ function LanguageComment(props: any) {
         try {
             const res = await axios({
                 method: 'delete',
-                url: `/lang/comments/${props.index}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/comments/${props.index}`,
                 withCredentials: true,
             });
             props.getcomment();
@@ -38,7 +39,7 @@ function LanguageComment(props: any) {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/userinfo/${props.userid}`,
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
                 params: {
                     userid: props.userid,
                 },
@@ -59,7 +60,7 @@ function LanguageComment(props: any) {
                 <div className="comment-image-container">
                     <img
                         className="comment-profile-pic"
-                        src={profileImg}
+                        src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
                         alt=""
                         onClick={() => {
                             window.location.href = `/searchUser/${props.userid}`;

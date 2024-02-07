@@ -78,7 +78,7 @@ function SignupPage() {
         try {
             const res = await axios({
                 method: 'post',
-                url: '/signup',
+                url: `${process.env.REACT_APP_SERVERURL}/signup`,
                 data: {
                     userid: idRef.current?.value,
                     password: passwordRef.current?.value,
@@ -90,6 +90,7 @@ function SignupPage() {
                     firLang: firLangRef.current?.value,
                     learningLang: learningLangs,
                 },
+                withCredentials: true,
             });
             setSignupErrorMsg(res.data.msg);
             if (!res.data.isError) {
@@ -104,7 +105,7 @@ function SignupPage() {
         try {
             const res = await axios({
                 method: 'post',
-                url: '/existAlready',
+                url: `${process.env.REACT_APP_SERVERURL}/existAlready`,
                 data: {
                     userid: idRef.current?.value,
                 },

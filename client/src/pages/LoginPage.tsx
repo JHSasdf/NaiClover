@@ -23,7 +23,7 @@ function LoginPage() {
 
         try {
             const res = await axios({
-                url: '/login',
+                url: `${process.env.REACT_APP_SERVERURL}/login`,
                 method: 'post',
                 data: {
                     userid: idRef.current?.value,

@@ -18,7 +18,7 @@ function SearchUserProfile(props: any) {
         try {
             const res = await axios({
                 method: 'patch',
-                url: '/mypage/editIntroduction',
+                url: `${process.env.REACT_APP_SERVERURL}/mypage/editIntroduction`,
                 data: {
                     userid: userData.userid,
                     content: intro.current?.value,

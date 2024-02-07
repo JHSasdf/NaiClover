@@ -36,7 +36,7 @@ function LanguagePostDetailPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/lang/posts/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/posts/${id}`,
                 params: {
                     userid: idCookie,
                 },
@@ -56,7 +56,7 @@ function LanguagePostDetailPage() {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/lang/comments/createcomment/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/comments/createcomment/${id}`,
                 data: {
                     postUserId: languagePost.userid,
                     content: content,
@@ -76,7 +76,7 @@ function LanguagePostDetailPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/lang/comments/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/comments/${id}`,
                 withCredentials: true,
             });
             setComments(res.data.Comments);
@@ -93,7 +93,7 @@ function LanguagePostDetailPage() {
     }, []);
 
     return (
-        <div className='postdetailpage-container'>
+        <div className="postdetailpage-container">
             <div className="postdetailpage">
                 <Topbar />
                 <PostDetailHeader />

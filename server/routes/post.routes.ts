@@ -1,9 +1,8 @@
-import express from 'express';
+const express = require('express');
 import * as controller from '../controllers/post.controller';
 export const postsRouter = express();
 import { getPostMulterConfig } from '../config/multer.config';
-import multer from 'multer';
-
+const multer = require('multer');
 const postUploadDetail = multer(getPostMulterConfig());
 postsRouter.get('/cul/posts', controller.getPosts);
 

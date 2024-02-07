@@ -14,7 +14,7 @@ function ErrorLogPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/getRevisedLists',
+                url: `${process.env.REACT_APP_SERVERURL}/getRevisedLists`,
                 withCredentials: true,
             });
             setLangRevisedLists(res.data.langRes);
@@ -29,24 +29,24 @@ function ErrorLogPage() {
         getRevisedLists();
     }, []);
     return (
-    <div className='errorlogpage-container'>
-        <div className="errorlogpage">
-            <Topbar />
-            <ErrorLogHeader />
-            <div className="beforeafters-container">
-                {culRevisedLists.map((elem: any, index) => {
-                    return <BeforeAfter key={index} comment={elem} />;
-                })}
-                {langRevisedLists.map((elem: any, index) => {
-                    return <BeforeAfter key={index} comment={elem} />;
-                })}
-                {chatRevisedLists.map((elem: any, index) => {
-                    return <BeforeAfter key={index} comment={elem} />;
-                })}
+        <div className="errorlogpage-container">
+            <div className="errorlogpage">
+                <Topbar />
+                <ErrorLogHeader />
+                <div className="beforeafters-container">
+                    {culRevisedLists.map((elem: any, index) => {
+                        return <BeforeAfter key={index} comment={elem} />;
+                    })}
+                    {langRevisedLists.map((elem: any, index) => {
+                        return <BeforeAfter key={index} comment={elem} />;
+                    })}
+                    {chatRevisedLists.map((elem: any, index) => {
+                        return <BeforeAfter key={index} comment={elem} />;
+                    })}
+                </div>
+                <Footer />
             </div>
-            <Footer />
         </div>
-    </div>
     );
 }
 

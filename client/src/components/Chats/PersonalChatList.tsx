@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getCurrnetData } from '../../utils/getCurrentData';
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 
 function PersonalChatList() {
     const [personalRooms, setPersonalRooms] = useState<any>();
 
     const fetchPersonalRooms = async () => {
         const res = await axios({
-            url: '/fetch/personalrooms',
+            url: `${process.env.REACT_APP_SERVERURL}/fetch/personalrooms`,
             method: 'get',
             withCredentials: true,
         });
@@ -39,10 +39,7 @@ function PersonalChatList() {
                                     <div className="chat-ImageDiv">
                                         <div className="chat-ProfileImage">
                                             <img
-                                                src={
-                                                    elem.realRoomName[0]
-                                                        .profileImgPath
-                                                }
+                                                src={`${process.env.REACT_APP_SERVERURL}${elem.realRoomName[0].profileImgPath}`}
                                                 alt=""
                                             />
                                             {/* 데이트 쓰는 방법 */}

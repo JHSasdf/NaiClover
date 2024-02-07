@@ -11,7 +11,6 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import useErrorHandler from '../utils/useErrorHandler';
-
 function PostsPage() {
     const { errorHandler } = useErrorHandler();
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -45,7 +44,7 @@ function PostsPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/posts/results',
+                url: `${process.env.REACT_APP_SERVERURL}/posts/results`,
                 params: {
                     searchQuery: searchQuery,
                     userid: idCookie,
@@ -70,7 +69,7 @@ function PostsPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/cul/posts',
+                url: `${process.env.REACT_APP_SERVERURL}/cul/posts`,
                 params: {
                     userid: idCookie,
                 },
@@ -89,12 +88,13 @@ function PostsPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: '/lang/posts',
+                url: `${process.env.REACT_APP_SERVERURL}/lang/posts`,
                 params: {
                     userid: idCookie,
                 },
                 withCredentials: true,
             });
+            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
             if (error.response.status) {
@@ -108,7 +108,7 @@ function PostsPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: 'newAlarmNumGet',
+                url: `${process.env.REACT_APP_SERVERURL}/newAlarmNumGet`,
                 params: {
                     userid: idCookie,
                 },
@@ -120,7 +120,6 @@ function PostsPage() {
             console.log('error:', error);
         }
     };
-
     useEffect(() => {
         newAlarmNumGet();
         getLanguagePosts();
@@ -209,6 +208,7 @@ function PostsPage() {
                                         isLiked={languagePostData[2]}
                                         commentcount={languagePostData[3]}
                                         setLikeCount={setLikeCount}
+                                        getLanguagePosts={getLanguagePosts}
                                     />
                                 ))
                         ) : (
@@ -248,6 +248,7 @@ function PostsPage() {
                                         isLiked={culturePostData[2]}
                                         commentcount={culturePostData[3]}
                                         setLikeCount={setLikeCount}
+                                        getCulturePosts={getCulturePosts}
                                     />
                                 ))
                         ) : (

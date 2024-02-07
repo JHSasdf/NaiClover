@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 
 function CreateMonoChatModal({ show, setShow, navigate }: any) {
     const [newRoomName, setNewRoomName] = useState<string>('');

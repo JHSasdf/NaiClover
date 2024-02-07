@@ -57,7 +57,7 @@ function MypageEditLanguage() {
         try {
             const res = await axios({
                 method: 'patch',
-                url: '/mypage/changeuserlang',
+                url: `${process.env.REACT_APP_SERVERURL}/mypage/changeuserlang`,
                 data: {
                     userid: idCookie,
                     learningLangs: learningLangs,

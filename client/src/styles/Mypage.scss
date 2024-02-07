@@ -29,4 +29,13 @@
             border-bottom: 3px solid $primary-color;
         }
     }
+
+    .mypagePostItems-C {
+        height: 421px;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }

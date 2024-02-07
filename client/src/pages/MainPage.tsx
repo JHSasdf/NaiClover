@@ -8,7 +8,7 @@ import useErrorHandler from '../utils/useErrorHandler';
 
 import './App.css'; // Import the styling file
 
-const socket = io('http://localhost:4000');
+const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 
 const MainPage: React.FC = () => {
     const { errorHandler } = useErrorHandler();
@@ -28,8 +28,9 @@ const MainPage: React.FC = () => {
     const fetchPersonalRooms = async () => {
         try {
             const res = await axios({
-                url: '/fetch/personalrooms',
+                url: `${process.env.REACT_APP_SERVERURL}/fetch/personalrooms`,
                 method: 'get',
+                withCredentials: true,
             });
             console.log('personalRoomsData : ', res.data);
             setPersonalRooms(res.data.personalRooms);
@@ -41,8 +42,9 @@ const MainPage: React.FC = () => {
     const fetchMonoRooms = async () => {
         try {
             const res = await axios({
-                url: '/fetch/monorooms',
+                url: `${process.env.REACT_APP_SERVERURL}/fetch/monorooms`,
                 method: 'get',
+                withCredentials: true,
             });
             console.log('monoRoomsData : ', res.data);
             setMonoRooms(res.data.monoRooms);
@@ -193,7 +195,7 @@ const MainPage: React.FC = () => {
                                     <li>{elem.realRoomName[0].name}</li>
                                     <li>{elem.realRoomName[0].nation}</li>
                                     <li>
-                                        {elem.realRoomName[0].profileImgPath}
+                                        {`${process.env.REACT_APP_SERVERURL}${elem.realRoomName[0].profileImgPath}`}
                                     </li>
                                 </Link>
                             </ul>

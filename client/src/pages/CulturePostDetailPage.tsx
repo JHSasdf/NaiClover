@@ -36,7 +36,7 @@ function CulturePostDetailPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/cul/posts/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/posts/${id}`,
                 params: {
                     userid: idCookie,
                 },
@@ -57,7 +57,7 @@ function CulturePostDetailPage() {
         try {
             const res = await axios({
                 method: 'post',
-                url: `/cul/comments/createcomment/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/comments/createcomment/${id}`,
                 data: {
                     content: content,
                     postUserId: culturePost.userid,
@@ -77,7 +77,7 @@ function CulturePostDetailPage() {
         try {
             const res = await axios({
                 method: 'get',
-                url: `/cul/comments/${id}`,
+                url: `${process.env.REACT_APP_SERVERURL}/cul/comments/${id}`,
                 withCredentials: true,
             });
             setComments(res.data.Comments);
@@ -110,7 +110,7 @@ function CulturePostDetailPage() {
                     gender={culturePost.User?.gender}
                 />
                 <div className="culturecomment-container">
-                {comments?.map((comment, index) => {
+                    {comments?.map((comment, index) => {
                         if (!comment.isrevised) {
                             return (
                                 <CultureComment
@@ -130,7 +130,6 @@ function CulturePostDetailPage() {
                             );
                         } else {
                             return (
-
                                 <CultureRevisedComment
                                     key={index}
                                     index={comment.index}
@@ -144,7 +143,7 @@ function CulturePostDetailPage() {
                                     nation={comment.User?.nation}
                                     getcomment={getComments}
                                 />
-                            ); 
+                            );
                         }
                     })}
                 </div>

@@ -12,7 +12,7 @@ function PersonalChat() {
                 {/* 설정 헤드 부분 */}
                 <div className="chatList-C-Header">
                     <div>
-                        <img src="/images/chatList.png" alt="" />
+                        <img src="/images/ChatList.png" alt="" />
                     </div>
                 </div>
 

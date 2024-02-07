@@ -50,10 +50,11 @@ function SearchUserHeader(props: any) {
         try {
             const res = await axios({
                 method: 'post',
-                url: '/followexec',
+                url: `${process.env.REACT_APP_SERVERURL}/followexec`,
                 data: {
                     followId: userData.userid,
                 },
+                withCredentials: true,
             });
             console.log('res', res.data);
             setIsFollowing(!isFollowing);
@@ -101,7 +102,10 @@ function SearchUserHeader(props: any) {
                     {/* 프로필 이미지 */}
                     <div className="imageC">
                         <div className="profile-image">
-                            <img src={profileImg} alt="" />
+                            <img
+                                src={`${process.env.REACT_APP_SERVERURL}${profileImg}`}
+                                alt=""
+                            />
                         </div>
                         <div className="flag-image">
                             <img

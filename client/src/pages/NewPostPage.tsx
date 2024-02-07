@@ -11,7 +11,6 @@ import '../styles/NewPostPage.scss';
 import '../styles/NewPostPhotos.scss';
 import '../styles/NewPostWritePost.scss';
 import useErrorHandler from '../utils/useErrorHandler';
-import { text } from 'stream/consumers';
 function NewPostPage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
@@ -61,11 +60,12 @@ function NewPostPage() {
                 console.log(`/${option}/posts/createpost`);
                 const res = await axios({
                     method: 'post',
-                    url: `/${option}/posts/createpost`,
+                    url: `${process.env.REACT_APP_SERVERURL}/${option}/posts/createpost`,
                     data: {
                         userid: idCookie,
                         content: textareaRef.current?.value,
                     },
+                    withCredentials: true,
                 });
                 console.log(res.data);
                 if (res.data.isError === false) {
@@ -86,7 +86,7 @@ function NewPostPage() {
                 console.log(images.current.files);
                 const res = await axios({
                     method: 'post',
-                    url: `/${option}/posts/createpost`,
+                    url: `${process.env.REACT_APP_SERVERURL}/${option}/posts/createpost`,
                     data: formData,
                     headers: {
                         'Content-Type': 'multipart/form-data',

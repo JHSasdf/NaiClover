@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { db } from '../model';
 import { Op } from 'sequelize';
-import sequelize from 'sequelize';
+const sequelize = require('sequelize');
 const User = db.User;
 const Room = db.Room;
 const Chat = db.Chat;
