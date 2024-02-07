@@ -29,12 +29,8 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
-<<<<<<< HEAD
-    const { id, likeCount, isLiked, getCulturePosts } = props;
-=======
     const { id, likeCount, isLiked, getCulturePosts, userid } = props;
 
->>>>>>> feat_jihun
     const [didLike, setDidLike] = useState(isLiked);
     const contentInDiv = useRef<any>();
     const [likeCountState, setLikeCountState] = useState(likeCount);
@@ -81,21 +77,11 @@ function CulturePost(props: any) {
     };
     const getMyPage = async () => {
         try {
-<<<<<<< HEAD
             const res = await axios({
                 method: 'get',
                 url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
                 data: {
                     userid: idCookie,
-=======
-            // setProfileImg(props.profileImgPath);
-
-            const res = await axios({
-                method: 'get',
-                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${userid}`,
-                params: {
-                    userid: props.name,
->>>>>>> feat_jihun
                 },
                 withCredentials: true,
             });
