@@ -23,11 +23,15 @@ function LanguagePost(props: any) {
     const [likeCountState, setLikeCountState] = useState(likeCount);
     const contentInDiv = useRef<any>();
 
+<<<<<<< HEAD
     const shortName = (nation: string | undefined): string | undefined => {
+=======
+    const shortName = (nation: string): string | undefined => {
+>>>>>>> feat_jihun
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {

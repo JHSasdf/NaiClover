@@ -1,8 +1,8 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { v4 as uuidv4 } from 'uuid';
-import './styles/App.scss';
 
 import PostsPage from './pages/PostsPage';
 import SignupPage from './pages/SignupPage';

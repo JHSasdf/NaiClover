@@ -29,7 +29,12 @@ function CulturePost(props: any) {
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
     const culdeletemodal = deletemodal.current;
+<<<<<<< HEAD
     const { id, likeCount, isLiked, getCulturePosts } = props;
+=======
+    const { id, likeCount, isLiked, getCulturePosts, userid } = props;
+
+>>>>>>> feat_jihun
     const [didLike, setDidLike] = useState(isLiked);
     const contentInDiv = useRef<any>();
     const [likeCountState, setLikeCountState] = useState(likeCount);
@@ -59,11 +64,11 @@ function CulturePost(props: any) {
         }
     };
 
-    const shortName = (nation: string | undefined): string | undefined => {
+    const shortName = (nation: string): string | undefined => {
         if (nation === 'China' || nation === 'Chinese') {
             return 'CN';
         } else if (nation === 'America' || nation === 'English') {
-            return 'US';
+            return 'EN';
         } else if (nation === 'France' || nation === 'French') {
             return 'FR';
         } else if (nation === 'Germany' || nation === 'German') {
@@ -76,11 +81,21 @@ function CulturePost(props: any) {
     };
     const getMyPage = async () => {
         try {
+<<<<<<< HEAD
             const res = await axios({
                 method: 'get',
                 url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
                 data: {
                     userid: idCookie,
+=======
+            // setProfileImg(props.profileImgPath);
+
+            const res = await axios({
+                method: 'get',
+                url: `${process.env.REACT_APP_SERVERURL}/userinfo/${userid}`,
+                params: {
+                    userid: props.name,
+>>>>>>> feat_jihun
                 },
                 withCredentials: true,
             });
@@ -98,7 +113,7 @@ function CulturePost(props: any) {
                 '<br />'
             );
         }, 0);
-    }, [props.id]);
+    }, [props.id, userid]);
 
     //문화 좋아요 버튼 토글
     const culToggleLike = async () => {

@@ -23,6 +23,11 @@ function DeleteModal({ show, setShow, navigate }: any) {
                 url: `${process.env.REACT_APP_SERVERURL}/mypage/deleteuser`,
                 withCredentials: true,
             });
+<<<<<<< HEAD
+=======
+
+            console.log('res.data >', res.data);
+>>>>>>> feat_jihun
         } catch (err) {
             console.log(err);
         }
