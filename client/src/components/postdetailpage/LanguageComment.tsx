@@ -25,7 +25,7 @@ function LanguageComment(props: any) {
 
     const deleteComment = async () => {
         try {
-            const res = await axios({
+            await axios({
                 method: 'delete',
                 url: `${process.env.REACT_APP_SERVERURL}/lang/comments/${props.index}`,
                 withCredentials: true,
@@ -48,7 +48,7 @@ function LanguageComment(props: any) {
             setUserData(res.data.userDataObj);
             setProfileImg(props.profileImgPath);
         } catch (error) {
-            console.log('error???', error);
+            console.log('error', error);
         }
     };
     useEffect(() => {

@@ -2,7 +2,6 @@
 
 .multer-form-container {
     position: relative;
-    // margin-top: calc((100vh - 400px) / 2);
     height: calc(100% - 50px);
     @include flex-center();
     flex-direction: column;

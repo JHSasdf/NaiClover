@@ -50,7 +50,7 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
             setUserData(res.data.userDataObj);
             setProfileImg(props.profileImgPath);
         } catch (error) {
-            console.log('error???', error);
+            console.log('error', error);
         }
     };
 

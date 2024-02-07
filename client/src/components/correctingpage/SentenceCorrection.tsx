@@ -15,12 +15,6 @@ function SentenceCorrection(props: any) {
 
     const correctExec = (str1: string, str2: string): string[] => {
         const res: string[] = [];
-        //str1
-        // 3.36.62.47:22
-        // 자~~ 작업 해볼까!!
-        // 자~~ 작업 해볼까!!
-        // 자~~ 작업 해볼까!!
-        // 자~~ 작업 해볼까!!
         const beforeLine = `{${str1}}`;
         const afterLine = `{${str2}}`;
         res.push(beforeLine);
@@ -36,9 +30,6 @@ function SentenceCorrection(props: any) {
                 '<span style="margin-left: 24px; color : green">$1</span>'
             );
         }, 0);
-        // const newLine = res[0] + '/./' + res[1];
-        // tempLines[index] = newLine;
-        // setTempLines(tempLines);
 
         const newLine = res[0] + '/./' + res[1];
         const newTempLines = [...tempLines];

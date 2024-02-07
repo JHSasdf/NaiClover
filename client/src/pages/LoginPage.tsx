@@ -15,9 +15,6 @@ function LoginPage() {
     const [cookies, setCookies] = useCookies(['id']);
     const { errorHandler } = useErrorHandler();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _unusedCookies = cookies;
-
     const login = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 

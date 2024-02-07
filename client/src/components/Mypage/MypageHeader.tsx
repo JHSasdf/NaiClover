@@ -3,13 +3,6 @@ import '../../styles/MypageHeader.scss';
 import { useState, useEffect } from 'react';
 import FollowModal from '../Modals/FollowModal';
 import axios from 'axios';
-type FollowModalProps = {
-    closeModal: () => void;
-    userId: string;
-    modalContent: string | null;
-    title: string;
-    users: any[]; // 실제 타입에 따라 수정 필요
-};
 
 function MypageHeader(props: any) {
     const { followingNum, followerNum, userData, learningLang, profileImg } =
@@ -43,7 +36,7 @@ function MypageHeader(props: any) {
                 );
                 setFollowingList(followingListWithId);
             } catch (error) {
-                console.error('Error fetching follow lists:', error);
+                console.log(error);
             }
         };
 

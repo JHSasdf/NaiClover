@@ -63,7 +63,6 @@ function ChatCorrectingPage(props: any) {
                 tempLines={tempLines}
                 setContent={setCorrectLines}
                 content={correctLines}
-                // toWhom={toWhom}
                 toWhom={toWhomName}
                 toWhomId={toWhomId}
             />

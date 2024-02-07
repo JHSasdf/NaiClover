@@ -69,9 +69,8 @@ function MypageEditLanguage() {
             } else if (res.data.isError === true) {
                 setEditlangErrorMsg(res.data.msg);
             }
-            console.log(res.data);
         } catch (err) {
-            console.error('Error: ', err);
+            console.log(err);
         }
     };
 

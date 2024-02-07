@@ -51,15 +51,11 @@ function PostsPage() {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
             setSearchCulturePosts(res.data.SearchPosts.c);
             setSearchLanguagePosts(res.data.SearchPosts.l);
 
             //검색결과가 있을 때만 검색 결과를 보여주도록
             setShowSearchResults(true);
-
-            console.log('searchCulturePosts', searchCulturePosts);
-            console.log('searchLanguagePosts', searchLanguagePosts);
         } catch (error) {
             console.log('error', error);
         }
@@ -94,7 +90,6 @@ function PostsPage() {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
             if (error.response.status) {

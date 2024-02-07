@@ -7,11 +7,9 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import useErrorHandler from '../utils/useErrorHandler';
 import Topbar from '../components/Topbar';
-import { Link } from 'react-router-dom';
 import { getCurrentData3 } from '../utils/getCurrentData';
 import { cookieConfig } from '../utils/cookieConfig';
 
-//  유저 아이디 값을 널로 저장함으로 문제 해결
 interface Message {
     text: string;
     isSentByMe?: boolean;
@@ -78,9 +76,7 @@ const ChatRoomPage: React.FC = () => {
         socket.on('chat message', (msg: Message) => {
             if (msg.userId !== userIdFromCookie) {
                 setMessages((prevMessages) => [...prevMessages, msg]);
-                console.log(`You: ${msg.text}`);
             }
-            console.log(msg);
         });
 
         socket.on('needReload', () => {
@@ -113,7 +109,6 @@ const ChatRoomPage: React.FC = () => {
             setRoomType(res.data.roomInfo.useridTo);
             setroomPeopleNum(res.data.chatNumber);
             setUserIdTo(res.data.roomInfo.useridTo);
-            console.log('챗로그', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
         }
@@ -136,13 +131,12 @@ const ChatRoomPage: React.FC = () => {
             // 상단에 설정된 언어 표시
             setAllowedLanguage(roomLanguage);
         } catch (error) {
-            console.error('Error fetching room language:', error);
+            console.error('Error', error);
         }
     };
 
     const handleSendMessage = () => {
         const message = ` ${newMessage}`;
-        //??
         // 허용된 언어인지 확인
         if (allowedLanguage) {
             let regex;
@@ -181,8 +175,6 @@ const ChatRoomPage: React.FC = () => {
     };
     scrollToBottom();
 
-    // 메시지 보내는 함수
-
     return (
         <>
             <Topbar />
@@ -204,18 +196,9 @@ const ChatRoomPage: React.FC = () => {
                 </div>
 
                 <div className="chating-content-area">
-                    {chatLog.map((elem) => (
-                        <div key={elem.chatIndex}>
-                            {/* 상단에 사용자 ID 표시 */}
-                        </div>
-                    ))}
-
                     {chatLog.map((elem) => {
-                        let beforeLine = '';
-                        let afterLine = '';
                         let toWhom = '';
                         let correctedLines: any = [];
-                        console.log('???????????', elem.content);
                         if (elem.isrevised) {
                             const useridAndContent =
                                 elem.content.split('@@.,.@@');
@@ -467,7 +450,6 @@ const ChatRoomPage: React.FC = () => {
                                 ) : (
                                     <>
                                         {/* 1:1 대화창 */}
-                                        {/* 입장하셨습니다 없애기. */}
                                         {elem.isFirst === true ? null : (
                                             <div className="messages-container">
                                                 {elem.userid === userid ? (
@@ -711,7 +693,6 @@ const ChatRoomPage: React.FC = () => {
                                 !e.nativeEvent.isComposing
                             ) {
                                 handleSendMessage();
-                                console.log(e.key);
                             }
                         }}
                     />

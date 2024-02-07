@@ -21,7 +21,6 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
                 method: 'get',
                 withCredentials: true,
             });
-            console.log('monoRoomsData : ', res.data);
             setMonoRooms(res.data.monoRooms);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -129,7 +128,6 @@ function MonoChatList({ selectedLanguage }: MonoChatListProps) {
                             </div>
                         );
                     }
-                    // return null;
                 })}
         </>
     );

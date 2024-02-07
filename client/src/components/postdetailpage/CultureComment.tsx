@@ -10,20 +10,19 @@ import { getTimeObj } from '../../utils/getCurrentData';
 function CultureComment(props: any) {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const { id } = props;
-    console.log('디스이즈 프롭스', props);
     const idCookie = cookies['id'];
     const [userData, setUserData] = useState<User>();
     const [profileImg, setProfileImg] = useState<string>('');
     const deleteComment = async () => {
         try {
-            const res = await axios({
+            await axios({
                 method: 'delete',
                 url: `${process.env.REACT_APP_SERVERURL}/cul/comments/${props.index}`,
                 withCredentials: true,
             });
             props.getcomment();
         } catch (error) {
-            console.log('error', error);
+            console.log(error);
         }
     };
 
@@ -40,7 +39,7 @@ function CultureComment(props: any) {
             setUserData(res.data.userDataObj);
             setProfileImg(props.profileImgPath);
         } catch (error) {
-            console.log('error???', error);
+            console.log(error);
         }
     };
     useEffect(() => {

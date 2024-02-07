@@ -3,7 +3,6 @@ import Footer from '../components/Footer';
 import SearchUserHeader from '../components/SearchUser/SearchUserHeader';
 import Topbar from '../components/Topbar';
 import SearchUserProfile from '../components/SearchUser/SearchUserProfile';
-import MypagePost from '../components/Mypage/MypagePost';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
@@ -50,7 +49,6 @@ function SearchUser() {
             setFollowerNum(res.data.followerCount);
             setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
-            // isFollowing state 추가
             setIsFollowing(res.data.isFollowing);
             const { postCulDatas, postLangDatas } = res.data;
             for (const postCulData of postCulDatas) {
@@ -65,9 +63,6 @@ function SearchUser() {
                 const bDate = new Date(b.createdAt).getTime();
                 return bDate - aDate;
             });
-            // 요거 찍어보십쇼
-            console.log(res.data);
-            console.log('소티드포스트스데이타', sortedPostDatas);
             setSortedPostData(sortedPostDatas);
         } catch (error: any) {
             errorHandler(error.response.status);
@@ -122,7 +117,6 @@ function SearchUser() {
                     handleAddRoom={handleAddRoom}
                 />
                 <div className="clickDiv">
-                    {/* click 이벤트 추가 */}
                     <div
                         className={`profileClick ${
                             showProfile ? 'active changed' : ''

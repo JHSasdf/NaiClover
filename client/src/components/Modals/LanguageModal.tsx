@@ -1,5 +1,3 @@
-// LanguageModal.tsx
-
 import React, { useState } from 'react';
 
 interface LanguageModalProps {

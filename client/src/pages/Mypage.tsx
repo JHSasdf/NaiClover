@@ -4,11 +4,9 @@ import Footer from '../components/Footer';
 import MypageHeader from '../components/Mypage/MypageHeader';
 import Topbar from '../components/Topbar';
 import MypageProfile from '../components/Mypage/MypageProfile';
-import MypagePost from '../components/Mypage/MypagePost';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { ListFormat } from 'typescript';
 import { Post, User } from '../types/types';
 import useErrorHandler from '../utils/useErrorHandler';
 import '../styles/Font.scss';
@@ -44,15 +42,9 @@ function Mypage() {
                 withCredentials: true,
             });
             setUserData(res.data.userDataObj);
-            console.log(res.data.userDataObj);
             setProfileImg(res.data.userDataObj.profileImgPath);
             setLearningLang(res.data.learningLang);
-
-            console.log('res.data >', res.data.userDataObj);
-
             const { postCulDatas, postLangDatas } = res.data;
-            console.log('포스트컬데이타스', postCulDatas);
-            console.log('포스트랭데이타스', postLangDatas);
             for (const postCulData of postCulDatas) {
                 postCulData.type = 'cul';
             }
@@ -65,13 +57,9 @@ function Mypage() {
                 const bDate = new Date(b.createdAt).getTime();
                 return bDate - aDate;
             });
-            // 요거 찍어보십쇼
-            console.log(sortedPostDatas);
             setsortedPostData(sortedPostDatas);
-
-            console.log('>>>?', learningLang);
         } catch (error: any) {
-            console.log('error???', error);
+            console.log('error', error);
             errorHandler(error.response.status);
         }
     };
