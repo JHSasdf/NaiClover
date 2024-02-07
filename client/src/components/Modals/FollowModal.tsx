@@ -1,7 +1,5 @@
-// FollowModal.tsx
-
 import React from 'react';
-import { Link } from 'react-router-dom'; // 이 부분 추가
+import { Link } from 'react-router-dom';
 
 type FollowModalProps = {
     closeModal: () => void;

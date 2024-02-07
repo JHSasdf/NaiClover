@@ -1,24 +1,18 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { cookieConfig } from './utils/cookieConfig';
 import { useCookies } from 'react-cookie';
-import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import './styles/App.scss';
 
 import PostsPage from './pages/PostsPage';
-import AlarmPage from './pages/AlarmPage';
 import SignupPage from './pages/SignupPage';
 import NewPostPage from './pages/NewPostPage';
-import FollowPage from './pages/FollowPage';
 import MainPage from './pages/MainPage';
 import ChatRoomPage from './pages/NewPage'; // ChatRoomPage 추가
 import Mypage from './pages/Mypage';
 import LoginPage from './pages/LoginPage';
 import MypageOption from './components/Mypage/MypageOption';
 import MypageEditPassword from './components/Mypage/MypageEditPassword';
-import PostDetailPage from './pages/LanguagePostDetailPage';
 import CulturePostDetailPage from './pages/CulturePostDetailPage';
 import LanguagePostDetailPage from './pages/LanguagePostDetailPage';
 import AlertPage from './pages/AlertPage';
@@ -45,8 +39,6 @@ export const generateUniqueId = () => {
 function App() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _unusedCookies = setCookies;
     return (
         <div className="App">
             <BrowserRouter>
@@ -85,8 +77,6 @@ function App() {
                     <Route path="/message" element={<PersonalChat />} />
                     <Route path="/newpage" element={<ChatRoomPage />} />
                     <Route path="/mypage" element={<Mypage />} />
-                    <Route path="/follow" element={<FollowPage />} />
-                    <Route path="/alarm" element={<AlarmPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/mypage/option" element={<MypageOption />} />

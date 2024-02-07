@@ -33,7 +33,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
             });
             props.getcomment();
         } catch (error) {
-            console.log('error', error);
+            console.log(error);
         }
     };
 
@@ -50,7 +50,7 @@ function CultureRevisedComment(props: CultureRevisedCommentProps) {
             setUserData(res.data.userDataObj);
             setProfileImg(props.profileImgPath);
         } catch (error) {
-            console.log('error???', error);
+            console.log(error);
         }
     };
 

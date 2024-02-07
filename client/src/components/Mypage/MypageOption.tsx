@@ -37,7 +37,7 @@ function MypageOption() {
             setLearningLang(res.data.learningLang);
             setProfileImg(res.data.userDataObj.profileImgPath);
         } catch (error) {
-            console.log('error', error);
+            console.log(error);
         }
     };
     useEffect(() => {
@@ -50,16 +50,15 @@ function MypageOption() {
     // 로그아웃 요청
     const userlogout = async () => {
         try {
-            const res = await axios({
+            await axios({
                 method: 'post',
                 url: `${process.env.REACT_APP_SERVERURL}/mypage/logout`,
                 withCredentials: true,
             });
             removeCookies('id');
             navigate('/login');
-            console.log('res.data > ', res.data);
         } catch (err) {
-            console.log('error', err);
+            console.log(err);
         }
     };
 

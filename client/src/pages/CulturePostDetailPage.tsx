@@ -61,7 +61,6 @@ function CulturePostDetailPage() {
                 data: {
                     content: content,
                     postUserId: culturePost.userid,
-                    //일단 isrevised는 디폴트로 false해둘게요.
                     isrevised: false,
                     postType: culturePost.postType,
                 },
@@ -90,9 +89,7 @@ function CulturePostDetailPage() {
         getComments();
         getSingleCulturePost();
     }, []);
-    useEffect(() => {
-        console.log('???', culturePost); // culturePost가 변경될 때마다 로그 출력
-    }, [culturePost]);
+    useEffect(() => {}, [culturePost]);
     return (
         <div className="postdetailpage-container">
             <div className="postdetailpage">

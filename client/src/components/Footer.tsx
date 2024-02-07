@@ -46,7 +46,8 @@ function Footer() {
                 <div
                     className={`footer-div footerMessage ${
                         hoveredDiv === 'footerMessage' && 'hovered'
-                    } ${clickedDiv === 'footerMessage' && 'text-change'}`} // 클래스가 footerMessage 이면 hovered, text-change 클래스를 가진다.
+                        // 클래스가 footerMessage 이면 hovered, text-change 클래스를 가진다.
+                    } ${clickedDiv === 'footerMessage' && 'text-change'}`}
                     onMouseOver={() => onMouseOver('footerMessage')}
                     onMouseLeave={() => onMouseLeave()}
                     onClick={() => clickMouse('footerMessage')}

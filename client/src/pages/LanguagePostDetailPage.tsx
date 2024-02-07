@@ -43,7 +43,6 @@ function LanguagePostDetailPage() {
                 withCredentials: true,
             });
             setLanguagePost(res.data.posts);
-            console.log(languagePost);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);
@@ -80,7 +79,6 @@ function LanguagePostDetailPage() {
                 withCredentials: true,
             });
             setComments(res.data.Comments);
-            console.log('?????', res.data);
         } catch (error: any) {
             errorHandler(error.response.status);
             console.log('error', error);

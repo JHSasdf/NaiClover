@@ -1,4 +1,3 @@
-// SendComment.tsx
 import React, { useState, ChangeEvent } from 'react';
 import '../../styles/PostDetailSendComment.scss';
 

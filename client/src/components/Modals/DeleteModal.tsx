@@ -18,15 +18,13 @@ function DeleteModal({ show, setShow, navigate }: any) {
     // 계정 탈퇴 요청
     const userdelete = async () => {
         try {
-            const res = await axios({
+            await axios({
                 method: 'delete',
                 url: `${process.env.REACT_APP_SERVERURL}/mypage/deleteuser`,
                 withCredentials: true,
             });
-
-            console.log('res.data >', res.data);
         } catch (err) {
-            console.log('error >', err);
+            console.log(err);
         }
     };
     return (

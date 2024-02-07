@@ -62,13 +62,11 @@ function MulterMypage() {
             // URL.createObjectURL 함수 사용하여 이미지 파일 업로드 시 바로 사진 변경
             // 이미지 파일이 업로드시 변경
             setProfileImg(URL.createObjectURL(file));
-            console.log(URL.createObjectURL(file));
         }
     };
 
     const postMulter = async () => {
         const formData = new FormData();
-        console.log('이미지 파일 이름 출력', image.current.files[0].name);
         formData.append('file', image.current.files[0]);
         try {
             const res = await axios({
@@ -78,12 +76,10 @@ function MulterMypage() {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-
                 // 세션 쿠키 한번에
                 withCredentials: true,
             });
             handleConfirmModal();
-            console.log('res.data >', res.data);
         } catch (err: any) {
             errorHandler(err.response.status);
         }

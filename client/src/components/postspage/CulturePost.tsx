@@ -25,7 +25,6 @@ function CulturePost(props: any) {
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
-    const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const deletemodal = useRef<any>();
@@ -77,7 +76,6 @@ function CulturePost(props: any) {
     };
     const getMyPage = async () => {
         try {
-            // setProfileImg(props.profileImgPath);
             const res = await axios({
                 method: 'get',
                 url: `${process.env.REACT_APP_SERVERURL}/userinfo/${props.userid}`,
@@ -89,7 +87,7 @@ function CulturePost(props: any) {
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
         } catch (error) {
-            console.log('error???', error);
+            console.log('error', error);
         }
     };
     useEffect(() => {

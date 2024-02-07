@@ -6,8 +6,6 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import useErrorHandler from '../utils/useErrorHandler';
 
-import './App.css'; // Import the styling file
-
 const socket = io(`${process.env.REACT_APP_SERVERURL}`);
 
 const MainPage: React.FC = () => {
@@ -32,7 +30,6 @@ const MainPage: React.FC = () => {
                 method: 'get',
                 withCredentials: true,
             });
-            console.log('personalRoomsData : ', res.data);
             setPersonalRooms(res.data.personalRooms);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -46,7 +43,6 @@ const MainPage: React.FC = () => {
                 method: 'get',
                 withCredentials: true,
             });
-            console.log('monoRoomsData : ', res.data);
             setMonoRooms(res.data.monoRooms);
         } catch (err: any) {
             errorHandler(err.response.status);
@@ -116,7 +112,7 @@ const MainPage: React.FC = () => {
                 userid: userid,
                 // mono chat에선 = ''monoChat'
                 useridTo: useridTo,
-                restrictedLang: restrictedLang, // 이 부분 수정
+                restrictedLang: restrictedLang,
             });
             setNewRoomName('');
         }
@@ -191,7 +187,6 @@ const MainPage: React.FC = () => {
                         return (
                             <ul key={elem.roomNum}>
                                 <Link to={`/chat/${elem.roomNum}`}>
-                                    {/* name은 이렇게 접근하는데 nation,  */}
                                     <li>{elem.realRoomName[0].name}</li>
                                     <li>{elem.realRoomName[0].nation}</li>
                                     <li>
@@ -232,14 +227,12 @@ const MainPage: React.FC = () => {
                     value={newRoomName}
                     onChange={(e) => setNewRoomName(e.target.value)}
                 />
-                {/* 여기는 모노챗에선 필요없음 */}
                 <input
                     type="text"
                     placeholder="to userid"
                     value={useridTo}
                     onChange={(e) => setUseridTo(e.target.value)}
                 />
-                {/* Restricted Language를 셀렉트 박스로 변경 */}
                 <select
                     value={restrictedLang || ''}
                     onChange={(e) => setRestrictLang(e.target.value)}

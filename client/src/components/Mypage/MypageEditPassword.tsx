@@ -47,11 +47,8 @@ function MypageEditPassword() {
             } else if (res.data.isError === true) {
                 setEditPasswordErrorMsg(res.data.msg);
             }
-
-            console.log(res.data);
-            console.log(res.data.isError);
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     };
 

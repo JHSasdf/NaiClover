@@ -1,4 +1,3 @@
-// ChoosePhotos
 import '../../styles/NewPostPhotos.scss';
 import '../../styles/NewPostButton.scss';
 

@@ -17,7 +17,6 @@ function LanguagePost(props: any) {
     const { id, likeCount, isLiked, getLanguagePosts } = props;
     const [cookies, setCookies, removeCookies] = useCookies(['id', 'content']);
     const idCookie = cookies['id'];
-    const [profileImg, setProfileImg] = useState<string>('');
     const [userData, setUserData] = useState<User>();
     const [learningLang, setLearningLang] = useState();
     const [didLike, setDidLike] = useState(isLiked);
@@ -52,7 +51,7 @@ function LanguagePost(props: any) {
             setUserData(res.data.userDataObj);
             setLearningLang(res.data.learningLang);
         } catch (error) {
-            console.log('error???', error);
+            console.log('error', error);
         }
     };
     useEffect(() => {

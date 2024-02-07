@@ -67,7 +67,6 @@ function NewPostPage() {
                     },
                     withCredentials: true,
                 });
-                console.log(res.data);
                 if (res.data.isError === false) {
                     navigate('/posts');
                 }
@@ -83,7 +82,6 @@ function NewPostPage() {
                 }
                 formData.append('userid', idCookie);
                 formData.append('content', textareaRef.current?.value);
-                console.log(images.current.files);
                 const res = await axios({
                     method: 'post',
                     url: `${process.env.REACT_APP_SERVERURL}/${option}/posts/createpost`,
@@ -93,7 +91,6 @@ function NewPostPage() {
                     },
                     withCredentials: true,
                 });
-                console.log(res.data);
                 if (res.data.isError === false) {
                     navigate('/posts');
                 }
