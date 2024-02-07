@@ -90,7 +90,6 @@ function PostsPage() {
                 },
                 withCredentials: true,
             });
-            console.log(res.data);
             setLanguagePosts(res.data.PostsDatas);
         } catch (error: any) {
             if (error.response.status) {

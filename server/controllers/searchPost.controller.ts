@@ -97,6 +97,6 @@ export const getSearchPosts = async (
             isError: false,
         });
     } catch (error) {
-        console.log('error123', error);
+        console.log(error);
     }
 };

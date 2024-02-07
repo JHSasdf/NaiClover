@@ -89,26 +89,10 @@ function LanguageComment(props: any) {
                                 <div
                                     className="comment-more"
                                     onClick={() => {
-                                        modalShow();
+                                        deleteComment();
+                                        // modalShow();
                                     }}
                                 ></div>
-                                <div
-                                    className="modal-container opacity"
-                                    ref={deletemodal}
-                                >
-                                    <div className="edit-text">
-                                        <span>수정하기</span>
-                                    </div>
-                                    <div className="modal-line"></div>
-                                    <div
-                                        className="delete-text"
-                                        onClick={() => {
-                                            deleteComment();
-                                        }}
-                                    >
-                                        <span>삭제하기</span>
-                                    </div>
-                                </div>
                             </div>
                         ) : (
                             ''

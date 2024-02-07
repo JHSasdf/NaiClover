@@ -534,6 +534,13 @@ export const deleteComment = async (
         return next(err);
     }
 
+    if (!existingUserid) {
+        return res.status(500).json({
+            msg: `Something Went Wrong! Please try it later!`,
+            isError: true,
+        });
+    }
+
     if (userid !== existingUserid.userid) {
         return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,

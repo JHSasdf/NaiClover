@@ -26,9 +26,10 @@ function LanguageRevisedComment(props: LanguageRevisedCommentProps) {
 
     const deleteComment = async () => {
         try {
+            console.log('랭기지 리바이스드 인', props.index);
             const res = await axios({
                 method: 'delete',
-                url: `${process.env.REACT_APP_SERVERURL}/cul/comments/${props.index}`,
+                url: `${process.env.REACT_APP_SERVERURL}/lang/comments/${props.index}`,
                 withCredentials: true,
             });
             props.getcomment();
