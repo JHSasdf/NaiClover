@@ -54,7 +54,6 @@ function SearchUserHeader(props: any) {
                 },
                 withCredentials: true,
             });
-            console.log('res', res.data);
             setIsFollowing(!isFollowing);
             if (isFollowing === true) {
                 setFollowerNum(followerNum - 1);

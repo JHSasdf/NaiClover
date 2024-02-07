@@ -349,8 +349,6 @@ export const editIntroduction = async (
             { where: { userid: userid }, returning: true, plain: true }
         );
 
-        console.log(content);
-        console.log(userid);
         res.json({ msg: 'introduction change completed.', isError: false });
     } catch (err) {
         res.json({

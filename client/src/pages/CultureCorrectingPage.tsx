@@ -40,7 +40,6 @@ function CultureCorrectingPage(props: any) {
     const cookieId = cookies['id'];
     const [correctLines, setCorrectLines] = useState<string[]>([]);
     const [tempLines, setTempLines] = useState<string[]>([]);
-    console.log(cookies['content']);
     const cleanCookie = () => {
         removeCookies('content', cookieConfig);
     };
@@ -50,7 +49,6 @@ function CultureCorrectingPage(props: any) {
             const content = customSplit(cookies['content']);
             setCorrectLines(content);
             setTempLines(content);
-            console.log(content); // << content 확인해보세요
         }
     }, [cookies]);
     return (

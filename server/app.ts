@@ -166,7 +166,6 @@ async function createPersonalRoomDb(
     } catch (err) {
         console.log(err);
     }
-    console.log(result.dataValues.roomNum);
     roomNumArr.push(result.dataValues.roomNum);
     roomNum = result.roomNum;
     return;

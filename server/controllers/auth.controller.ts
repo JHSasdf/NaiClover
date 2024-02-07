@@ -146,7 +146,6 @@ export async function signup(
     }
 
     const hashPW: string = bcrypt.hashSync(password, 12);
-    console.log(userid, name, hashPW, gender, nation, firLang);
 
     try {
         const result = await User.create({
@@ -158,7 +157,6 @@ export async function signup(
             firLang: firLang,
         });
         for (const lang of learningLang) {
-            console.log(lang);
             await Lang.create({
                 userid: userid,
                 learningLang: lang,

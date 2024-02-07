@@ -369,12 +369,6 @@ const setAlarm = async (
     option1: string | number,
     option2: string | number
 ) => {
-    console.log(
-        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-        userid,
-        otherUserId,
-        alarmType
-    );
     try {
         await Alarm.create({
             userid: userid,

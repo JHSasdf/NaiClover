@@ -15,7 +15,6 @@ function PersonalChatList() {
             method: 'get',
             withCredentials: true,
         });
-        console.log('personalRoomsData : ', res.data);
         setPersonalRooms(res.data.personalRooms);
     };
 

@@ -24,7 +24,6 @@ function MypageHeader(props: any) {
                     }
                 );
                 // 팔로워 목록에 ID 포함
-                console.log('레스팔로워스', resFollowers);
                 const followerListWithId = resFollowers.data.followerList.map(
                     (user: any) => ({ ...user, id: user.userid })
                 );
@@ -65,7 +64,6 @@ function MypageHeader(props: any) {
             return 'KR';
         }
     };
-    console.log(learningLang);
     return (
         <div className="mypageHeaderC">
             <div className="logoC">

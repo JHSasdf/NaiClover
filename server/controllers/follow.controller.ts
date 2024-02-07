@@ -11,12 +11,6 @@ const setAlarm = async (
     otherUserId: string,
     alarmType: number
 ) => {
-    console.log(
-        'alarm check plazzzz>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-        userid,
-        otherUserId,
-        alarmType
-    );
     try {
         await Alarm.create({
             userid: userid,
@@ -40,8 +34,6 @@ export async function follow(
         userid = '';
     }
 
-    console.log('userid: ', userid);
-    console.log('followId: ', followId);
     try {
         const followCheck = await Follow.findOne({
             where: { userid: followId, followerId: userid },
@@ -90,8 +82,6 @@ export async function unfollow(
     next: NextFunction
 ): Promise<void | Response> {
     const { userid, followId } = req.body;
-    console.log('userid: ', userid);
-    console.log('followId: ', followId);
     try {
         const followCheck = await Follow.findOne({
             where: { userid: followId, followerId: userid },

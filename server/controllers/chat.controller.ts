@@ -131,7 +131,6 @@ export const getMonoRooms = async (
             ],
         });
         for (const result of results) {
-            console.log(result.dataValues.roomNum);
             let numberOfPeople = await Chat.count({
                 distinct: true,
                 col: 'userid',

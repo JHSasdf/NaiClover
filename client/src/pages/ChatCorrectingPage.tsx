@@ -46,9 +46,7 @@ function ChatCorrectingPage(props: any) {
     };
     useEffect(() => {
         if (cookies['content']) {
-            console.log('before', cookies['content']);
             const content = customSplit(cookies['content']);
-            console.log('after', content);
             setCorrectLines(content);
             setTempLines(content);
         }
