@@ -102,12 +102,12 @@ export const getPosts = async (
     let sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
         const aDate = a[0].dataValues.createdAt;
         const bDate = b[0].dataValues.createdAt;
-        return aDate - bDate;
+        return bDate - aDate;
     });
     sortedPostDatas = PostsDatas.sort(function (a: any, b: any) {
         const aIsFollowing = a[4];
         const bIsFollowing = b[4];
-        return aIsFollowing - bIsFollowing;
+        return bIsFollowing - aIsFollowing;
     });
 
     // map으로 render 가능하게 PostDatas[0][0] = allPosts, PostDatas[0][1] = likeCount, PostDatas[0][2] = myLikeData(boolean)
@@ -197,7 +197,7 @@ export const updatePost = async (
         return next(err);
     }
 
-    if (userid !== existingUserid.userid) {
+    if (!existingUserid || userid !== existingUserid.userid) {
         return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
@@ -246,7 +246,7 @@ export const deletePost = async (
         return next(err);
     }
 
-    if (userid !== existingUserid.userid) {
+    if (!existingUserid || userid !== existingUserid.userid) {
         return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,
@@ -495,7 +495,7 @@ export const updateComment = async (
         return next(err);
     }
 
-    if (userid !== existingUserid.userid) {
+    if (!existingUserid || userid !== existingUserid.userid) {
         return res.status(500).json({
             msg: `Something Went Wrong! Please try it later!`,
             isError: true,

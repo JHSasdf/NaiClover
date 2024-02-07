@@ -179,7 +179,6 @@ function PostsPage() {
                         {languagePosts?.length > 0 ? (
                             languagePosts
                                 .slice(0)
-                                .reverse()
                                 .map((languagePostData: any) => (
                                     <LanguagePost
                                         key={languagePostData[0].postId}
@@ -217,7 +216,6 @@ function PostsPage() {
                         {culturePosts?.length > 0 ? (
                             culturePosts
                                 .slice(0)
-                                .reverse()
                                 .map((culturePostData: any) => (
                                     <CulturePost
                                         key={culturePostData[0].postId}
