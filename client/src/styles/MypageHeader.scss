@@ -1,35 +1,27 @@
 @import './Common.scss';
 
 .mypageHeaderC {
-    width: $all-width;
-    height: 240px;
-    top: 44px;
-
-    .logoC {
-        height: 24px;
-        padding-left: 24px;
-        padding-right: 24px;
-        @include flex-space-between();
-    }
+    margin-top: 2em;
     .followC {
-        height: 132px;
-        margin-top: 32px;
-        margin-left: 40px;
-        margin-right: 40px;
+        min-width: 10em;
+        margin: 0 3em;
         @include flex-space-between();
         .aDiv {
-            width: 88px;
-            height: 68px;
+            width: 5em;
+
+            min-width: 5em;
+            height: 4em;
             @include flex-center();
 
             > div {
+                width: 100%;
                 @include flex-center();
-                width: 88px;
             }
         }
         .bDiv {
-            width: 100px;
-            height: 132px;
+            width: 6em;
+            min-width: 5em;
+            height: 8.25em;
             @include flex-center();
 
             .imageC {
@@ -48,9 +40,6 @@
             }
 
             .contentC {
-                width: 100px;
-                height: 60px;
-
                 .nameInfo {
                     @include flex-center();
                     flex-wrap: nowrap;

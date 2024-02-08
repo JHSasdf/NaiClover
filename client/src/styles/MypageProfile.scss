@@ -34,7 +34,7 @@
 
 .mypageProfile-C {
     padding: 0 16px;
-    height: 421px;
+    height: calc(100vh - 3em - 2em - 2em - 8.25em - 5em - 4px);
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -60,7 +60,7 @@
             border-radius: 5px;
 
             .introduce-textarea {
-                width: 319px;
+                width: 50em;
                 height: 91px;
                 background-color: #e9ffee;
                 border: none;

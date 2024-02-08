@@ -148,8 +148,6 @@ function Footer() {
                     <div className="text">MyPage</div>
                 </div>
             </Link>
-
-            <div className="edge"></div>
         </footer>
     );
 }

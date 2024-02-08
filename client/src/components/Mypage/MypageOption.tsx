@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { User } from '../../types/types';
 import DeleteModal from '../Modals/DeleteModal';
+import Footer from '../Footer';
 
 function MypageOption() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
@@ -71,32 +72,31 @@ function MypageOption() {
 
     return (
         <>
-            <Topbar />
             <DeleteModal
                 show={showDeleteModal.show}
                 setShow={setShowDeleteModal}
                 navigate={navigate}
             />
+            <div className="myPageOption-C-Header">
+                <Link to="/mypage">
+                    <div>
+                        <img src="/images/BackPoint.png" alt="" />
+                    </div>
+                </Link>
+                <div className="settingBack">Setting</div>
+                <div className="settingLogout">Logout</div>
+                <div className="settingLogoutImage">
+                    <img
+                        src="/images/Logout.png"
+                        alt=""
+                        onClick={() => {
+                            userlogout();
+                        }}
+                    />
+                </div>
+            </div>
             <div className="myPageOption-container">
                 {/* 설정 헤드 부분 */}
-                <div className="myPageOption-C-Header">
-                    <Link to="/mypage">
-                        <div>
-                            <img src="/images/BackPoint.png" alt="" />
-                        </div>
-                    </Link>
-                    <div className="settingBack">Setting</div>
-                    <div className="settingLogout">Logout</div>
-                    <div className="settingLogoutImage">
-                        <img
-                            src="/images/Logout.png"
-                            alt=""
-                            onClick={() => {
-                                userlogout();
-                            }}
-                        />
-                    </div>
-                </div>
                 {/* 프로필 수정 */}
                 <div className="settingProfile">
                     <div className="imageC">
@@ -238,6 +238,7 @@ function MypageOption() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

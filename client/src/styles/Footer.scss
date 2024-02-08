@@ -4,15 +4,16 @@
     align-items: center;
     box-shadow: inset 0px 1px 0px rgba(192, 191, 191, 0.5);
     width: $all-width;
-    height: 107px;
-    top: 737px;
+    height: 5em;
+    position: fixed;
+    bottom: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
     a {
-        width: 48px;
-        height: 67px;
+        width: 3em;
+        height: 5em;
         align-items: center; // 수직 정렬
         text-align: center;
         font-size: 12px;
@@ -32,10 +33,6 @@
             color: $primary-color;
         }
     }
-}
-.edge {
-    width: $all-width;
-    height: 40px;
 }
 .text-change {
     color: $primary-color;

@@ -1,10 +1,21 @@
 @import './Common.scss';
-
+.logoC {
+    height: 3em;
+    top: 0;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    position: fixed;
+    @include flex-space-between();
+    .gaerOption {
+        margin-left: auto;
+    }
+}
 .mypage-container {
-    width: $all-width;
-    top: 56px;
-    height: 693px;
-
+    width: 100%;
+    max-width: 40em;
+    margin-top: 3em;
+    height: calc(100vh - 3em - 5em);
+    border: 1px solid black;
     .clickDiv {
         @include flex-center();
         text-align: center;
@@ -12,8 +23,8 @@
 
         .profileClick {
             border-bottom: 1px solid lightgray;
-            width: 163px;
-            height: 32px;
+            width: 50%;
+            height: 2em;
             @include flex-center();
         }
         .postClick {
@@ -30,7 +41,8 @@
     }
 
     .mypagePostItems-C {
-        height: 421px;
+        padding: 0 16px;
+        height: calc(100vh - 3em - 2em - 2em - 8.25em - 5em - 4px);
         overflow: auto;
 
         &::-webkit-scrollbar {

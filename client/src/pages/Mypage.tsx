@@ -92,7 +92,16 @@ function Mypage() {
 
     return (
         <>
-            <Topbar />
+            <div className="logoC">
+                <div>
+                    <img src="images/MypageLogo.png" alt="" />
+                </div>
+                <Link to={'/mypage/option'}>
+                    <div className="gaerOption">
+                        <img src="images/Gear.png" alt="" />
+                    </div>
+                </Link>
+            </div>
             <div className="mypage-container">
                 <MypageHeader
                     followingNum={followingNum}
