@@ -89,23 +89,23 @@ $ npm i
 
 |메인페이지|
 |------|
-|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/0218834d-8969-4f36-b337-b0cdbd89674b" width= "250" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/545177b3-8fd0-4ff8-bcf4-0b2b94b42912" width= "250" height= "500"/>|
+|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/0218834d-8969-4f36-b337-b0cdbd89674b" width= "300" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/545177b3-8fd0-4ff8-bcf4-0b2b94b42912" width= "300" height= "500"/>|
 
 
 
 
 |로그인, 회원가입 페이지|
 |------|
-|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/4bc3b825-ebdd-4b56-8e6a-b3a0362a965b" width= "250" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/d655b49c-7411-49bc-9d7c-82684efab1b4" width= "250" height= "500"/>|
+|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/4bc3b825-ebdd-4b56-8e6a-b3a0362a965b" width= "300" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/d655b49c-7411-49bc-9d7c-82684efab1b4" width= "300" height= "500"/>|
 
 
 |1:1 채팅룸, 채팅방, monoChat 채팅룸, 채팅방|
 |------|
-|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/a0cd10fd-c3e9-4f03-81c6-a8aebb90bbb4" width= "230" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/3b8f8b18-d961-45f0-b158-d7c4d0c72721" width= "230" height= "500"/><img src="https://github.com/JHSasdf/NaiClover/assets/146299597/f022aa86-ab4b-40f3-9ca8-2b95a32ee49b" width= "230" height= "500"/> <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/9d4796b8-b465-47b7-b24a-abdad5074890" width= "230" height= "500"/>|
+|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/a0cd10fd-c3e9-4f03-81c6-a8aebb90bbb4" width= "300" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/3b8f8b18-d961-45f0-b158-d7c4d0c72721" width= "300" height= "500"/><img src="https://github.com/JHSasdf/NaiClover/assets/146299597/f022aa86-ab4b-40f3-9ca8-2b95a32ee49b" width= "300" height= "500"/> <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/9d4796b8-b465-47b7-b24a-abdad5074890" width= "300" height= "500"/>|
 
 |마이페이지, searchUser 페이지|
 |------|
-|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/1fea4b26-9643-4475-8bf9-b312c2b9deab" width= "250" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/10b21a2b-dcf5-44db-8c9f-2b0ebb1ff5e7" width= "250" height= "500"/>|
+|<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/1fea4b26-9643-4475-8bf9-b312c2b9deab" width= "300" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/10b21a2b-dcf5-44db-8c9f-2b0ebb1ff5e7" width= "300" height= "500"/>|
 
 ## DB 구조도
 
