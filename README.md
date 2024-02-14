@@ -6,6 +6,33 @@
 ## 배포 주소
 http://3.36.62.47 
 
+**Manual**
+*sign up can be possible
+|type|id|pw|
+|----|--|------|
+|guest|aaaa|111111|
+|guest|bbbb|111111|
+|guest|cccc|111111|
+|guest|dddd|111111|
+
+
+## DB 구조도
+
+![image](https://github.com/JHSasdf/NaiClover/assets/146299597/67df4336-e94b-41f4-bdce-4f78747005be)
+
+## API Address
+https://www.notion.so/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa?pvs=4
+
+## 주요 기능
+
+* post CRUD 기능, 댓글, 좋아요 토글 기능
+* post 검색 기능
+* follow에 따른 post 순서 변화
+* 1:1 채팅 기능
+* 모노채팅 기능, korean, english로 언어 제한, 현재 참여한 인원, 채팅 본 인원 체크 기능
+* 맞춤법 수정 기능과 수정된 로그들을 볼 수 있는 페이지
+* 마이페이지
+* 
 
 ## 개발팀 소개
 |이름|담당|역할|
@@ -46,16 +73,6 @@ $ npm i
 $ cd ../server
 $ npm i
 ```
-
-**Manual**
-*sign up can be possible
-|type|id|pw|
-|----|--|------|
-|guest|aaaa|111111|
-|guest|bbbb|111111|
-|guest|cccc|111111|
-|guest|dddd|111111|
-
 
 ## Stacks
 **Environment** 
@@ -107,22 +124,7 @@ $ npm i
 |------|
 |<img src="https://github.com/JHSasdf/NaiClover/assets/146299597/1fea4b26-9643-4475-8bf9-b312c2b9deab" width= "300" height= "500"/>  <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/10b21a2b-dcf5-44db-8c9f-2b0ebb1ff5e7" width= "300" height= "500"/>|
 
-## DB 구조도
 
-![image](https://github.com/JHSasdf/NaiClover/assets/146299597/67df4336-e94b-41f4-bdce-4f78747005be)
-
-## API Address
-https://www.notion.so/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa
-
-## 주요 기능
-
-* post CRUD 기능, 댓글, 좋아요 토글 기능
-* post 검색 기능
-* follow에 따른 post 순서 변화
-* 1:1 채팅 기능
-* 모노채팅 기능, korean, english로 언어 제한, 현재 참여한 인원, 채팅 본 인원 체크 기능
-* 맞춤법 수정 기능과 수정된 로그들을 볼 수 있는 페이지
-* 마이페이지
 
 
 ## 추가 사항
