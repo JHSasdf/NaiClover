@@ -61,7 +61,7 @@ our website will give you those following component.
 ## 시작 가이드
 **REQUIREMENTS**
 For building and running the application you need:
-* Node.js 20.9.0
+* Node.js 20.9.0 or lower
 * npm 10.1.0
 
 * **Installation**
