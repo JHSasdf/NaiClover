@@ -99,7 +99,7 @@ $ npm i
 
 **Deploy**
 
-<img src="https://img.shields.io/badge/Pm2-2B037A?style=for-the-badge&logo=Pm2&logoColor=white"> <img src="https://img.shields.io/badge/Ec2-FF9900?style=for-the-badge&logo=Amazon Ec2&logoColor=white"> <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> 
+<img src="https://img.shields.io/badge/Pm2-2B037A?style=for-the-badge&logo=Pm2&logoColor=white"> <img src="https://img.shields.io/badge/Ec2-FF9900?style=for-the-badge&logo=Amazon Ec2&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> 
 
 
 ## 화면구성
