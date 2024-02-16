@@ -17,8 +17,11 @@ http://3.36.62.47
 
 
 ## DB 구조도
-
 ![image](https://github.com/JHSasdf/NaiClover/assets/146299597/67df4336-e94b-41f4-bdce-4f78747005be)
+
+## 화면 흐름도
+![image](https://github.com/JHSasdf/NaiClover/assets/146299597/5bf549dd-ea63-4d6f-8918-6d6961c66fea)
+
 
 ## API Address
 [https://www.notion.so/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa?pvs=4](https://checker-mantis-1cc.notion.site/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa)
