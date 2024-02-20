@@ -27,14 +27,39 @@ http://3.36.62.47
 [https://www.notion.so/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa?pvs=4](https://checker-mantis-1cc.notion.site/naiClover-API-9394d7d1d1564d92a78fe17d050ca4aa)
 
 ## 주요 기능
-
+* 회원가입 기능
+  
+ ![naicloversignup](https://github.com/JHSasdf/NaiClover/assets/146299597/f50bb4c2-4868-446b-91db-05dece5c068b)
 * post CRUD 기능, 댓글, 좋아요 토글 기능
+  
+![naiclovercreatepost](https://github.com/JHSasdf/NaiClover/assets/146299597/7bcab441-15cb-44c9-bb4c-59bbe301bd55)
 * post 검색 기능
-* follow에 따른 post 순서 변화
+
+![NaiClova-query](https://github.com/JHSasdf/NaiClover/assets/146299597/38580aec-7c7a-424e-9109-5a916dd039ec)
+
+* follow 한 유저의 post를 top으로 올리는 기능
 * 1:1 채팅 기능
-* 모노채팅 기능, korean, english로 언어 제한, 현재 참여하고 있는 인원, 채팅 본 인원 체크 기능
+  
+![naiclover-userinfo-personalcaht](https://github.com/JHSasdf/NaiClover/assets/146299597/6565d9e9-5d20-461a-a0d6-2f9cbf1499cf)
+
+
+* 모노채팅 기능, korean, english로 언어 제한(토글 창으로 팝업되지만 gif에서는 안뜸), 채팅 본 인원 체크 기능
+
+![naiclovermonochatroom](https://github.com/JHSasdf/NaiClover/assets/146299597/fe8a2b1e-3755-47dc-b94f-487175000b2b)
+![naiclover-monochat](https://github.com/JHSasdf/NaiClover/assets/146299597/743fe5ec-7eab-443f-a2b2-0586f36aa13f)
+
+
+* 현재 참여하고 있는 인원 체크 기능
+  
+![nai-clover-currentnopim](https://github.com/JHSasdf/NaiClover/assets/146299597/f0710f81-86cd-4cd1-bd18-a404d47acd55)
+
 * 맞춤법 수정 기능과 수정된 로그들을 볼 수 있는 페이지
-* 마이페이지
+  
+![naiclovererrorlog](https://github.com/JHSasdf/NaiClover/assets/146299597/43b9a39c-b381-44c4-8c45-72e3aac37a53)
+* 채팅 autoFetch기능
+  
+![naicloverautofetch](https://github.com/JHSasdf/NaiClover/assets/146299597/766c685a-4585-413a-bd1c-8db70f94236b)
+
 
 ## 개발팀 소개
 |이름|담당|역할|
