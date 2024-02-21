@@ -1,8 +1,10 @@
 @import './Common.scss';
+.multer {
+    height: calc(100vh - 6em);
+}
 
 .multer-form-container {
-    position: relative;
-    height: calc(100% - 50px);
+    height: calc(100vh - 3em - 3em);
     @include flex-center();
     flex-direction: column;
     background-color: rgb(245, 245, 245);

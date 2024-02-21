@@ -95,24 +95,22 @@ function MulterMypage() {
 
     return (
         <>
-            <Topbar />
             {/* 모달 컴포넌트 */}
             <ConfirmModal
                 show={showConfirmModal.show}
                 setShow={setShowConfirmModal}
                 navigate={navigate}
             />
-
-            <div className="myPageOption-container">
-                {/* 설정 헤드 부분 */}
-                <div className="myPageOption-C-Header">
-                    <Link to="/mypage/option">
-                        <div>
-                            <img src="/images/BackPoint.png" alt="" />
-                        </div>
-                    </Link>
-                    <div className="settingBack">Edit Profile Image</div>
-                </div>
+            {/* 설정 헤드 부분 */}
+            <div className="myPageOption-C-Header">
+                <Link to="/mypage/option">
+                    <div>
+                        <img src="/images/BackPoint.png" alt="" />
+                    </div>
+                </Link>
+                <div className="settingBack">Edit Profile Image</div>
+            </div>
+            <div className="myPageOption-container multer">
                 <div className="multer-form-container">
                     {/* 이미지 출력 공간 */}
                     <div className="profile-image">
