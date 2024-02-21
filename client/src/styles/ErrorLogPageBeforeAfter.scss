@@ -1,5 +1,5 @@
-.beforeafter-container{
-    width: 390px;
+.beforeafter-container {
+    width: 100%;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -7,20 +7,20 @@
     align-items: center;
     margin-top: 24px;
 
-    .before-container{
+    .before-container {
         margin-top: 24px;
-        width: 326px;
+        width: 85%;
         height: 100px;
 
-        .before-text{
-            width: 54px;
+        .before-text {
+            width: 3.3em;
             height: 21px;
             background-image: url('../img/before.png');
         }
 
-        .before-content{
+        .before-content {
             margin-top: 4px;
-            width: 330px;
+            width: 100%;
             height: fit-content;
             border-radius: 8px;
             border: 1px solid lightgrey;
@@ -29,20 +29,20 @@
         }
     }
 
-    .after-container{
-        width: 326px;
+    .after-container {
+        width: 85%;
         height: 100px;
 
-        .after-text{
-            width: 54px;
+        .after-text {
+            width: 3.3em;
             height: 21px;
             background-image: url('../img/after.png');
             background-repeat: no-repeat;
         }
 
-        .after-content{
+        .after-content {
             margin-top: 4px;
-            width: 330px;
+            width: 100%;
             height: fit-content;
             border-radius: 8px;
             border: 1px solid lightgrey;
@@ -52,9 +52,8 @@
     }
 }
 
-.line{
+.line {
     width: 390px;
     height: 1px;
     color: lightgrey;
 }
-

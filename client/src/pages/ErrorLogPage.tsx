@@ -29,24 +29,25 @@ function ErrorLogPage() {
         getRevisedLists();
     }, []);
     return (
-        <div className="errorlogpage-container">
-            <div className="errorlogpage">
-                <Topbar />
-                <ErrorLogHeader />
-                <div className="beforeafters-container">
-                    {culRevisedLists.map((elem: any, index) => {
-                        return <BeforeAfter key={index} comment={elem} />;
-                    })}
-                    {langRevisedLists.map((elem: any, index) => {
-                        return <BeforeAfter key={index} comment={elem} />;
-                    })}
-                    {chatRevisedLists.map((elem: any, index) => {
-                        return <BeforeAfter key={index} comment={elem} />;
-                    })}
+        <>
+            <ErrorLogHeader />
+            <div className="errorlogpage-container">
+                <div className="errorlogpage">
+                    <div className="beforeafters-container">
+                        {culRevisedLists.map((elem: any, index) => {
+                            return <BeforeAfter key={index} comment={elem} />;
+                        })}
+                        {langRevisedLists.map((elem: any, index) => {
+                            return <BeforeAfter key={index} comment={elem} />;
+                        })}
+                        {chatRevisedLists.map((elem: any, index) => {
+                            return <BeforeAfter key={index} comment={elem} />;
+                        })}
+                    </div>
                 </div>
                 <Footer />
             </div>
-        </div>
+        </>
     );
 }
 

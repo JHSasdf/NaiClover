@@ -4,6 +4,7 @@
     top: 0;
     width: 100%;
     padding: 0.75rem 1rem;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
     position: fixed;
     @include flex-space-between();
     .gaerOption {
@@ -15,7 +16,6 @@
     max-width: 40em;
     margin-top: 3em;
     height: calc(100vh - 3em - 5em);
-    border: 1px solid black;
     .clickDiv {
         @include flex-center();
         text-align: center;
