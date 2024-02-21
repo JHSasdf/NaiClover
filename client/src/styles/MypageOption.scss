@@ -93,11 +93,13 @@
 .settingDetail-Content {
     margin-top: 16px;
     padding: 0 16px;
-    @include flex();
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
 
     .settingDetail-Content-items {
-        @include flex();
+        display: flex;
+        flex-wrap: wrap;
         height: 24px;
         margin-top: 16px;
 
