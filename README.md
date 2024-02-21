@@ -1,4 +1,4 @@
-# Project NaiClover
+# Project NaiClover ver 1.1
 개발기간: 1월 15일 ~ 2월 6일 (3주)
 
 <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/548b3c3a-8e12-4792-9427-41a65253d145" widht="400" height="350" />
@@ -155,5 +155,12 @@ $ npm i
 
 
 ## 추가 사항
+
+### ver.1.1
+1. 뒤로가기 시 현재 접속중 인원 반영 안되던 버그 수정
+2. 댓글로 Error Log 작성시 페이지 새로고침을 해야 반영되던 버그 수정
+3. language post에서 댓글 삭제 안되던 버그 수정
+4. 마이페이지 팔로우 한 사람 목록에서 상대방 이름이 아닌 내 이름 뜨던 버그 수정
+5. 마이페이지 내 post에서 내 이름이 아닌 id가 뜨는 버그 수정
 
 프로젝트 회고록 블로그 https://kimsunji.tistory.com/35
