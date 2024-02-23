@@ -1,23 +1,22 @@
 @import './Common.scss';
 .chatList-container {
-    width: $all-width;
-    height: 693px;
-
-    .chatList-C-Header {
-        @include flex();
-        padding: 12px 16px;
-        background-color: #f6f7c4a0;
-        height: 50px;
-
-        .hatList-text {
-            margin-left: 5px;
-        }
-    }
+    width: 100%;
+    max-width: 40em;
+    height: calc(100vh - 8em);
     .chatList-Content {
-        height: 643px;
+        height: calc(100vh - 8em);
         overflow: auto;
         &::-webkit-scrollbar {
             display: none;
         }
     }
+}
+.chatList-C-Header {
+    width: 100%;
+    @include flex();
+    padding: 12px 16px;
+    background-color: #f6f7c4a0;
+    height: 3em;
+
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
 }

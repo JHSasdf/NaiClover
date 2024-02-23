@@ -2,7 +2,7 @@ $main-color: #37af6a;
 $secondary-color: #888;
 
 .cul-post-container {
-    width: 390px;
+    width: 100%;
     height: fit-content;
     background-color: white;
     margin-bottom: 24px;
@@ -162,7 +162,7 @@ $secondary-color: #888;
 //작성시간 + 더보기 버튼
 .cul-more-container {
     margin-top: 8px;
-    width: 358px;
+    width: 100%;
     height: 16px;
     display: flex;
     flex-direction: row;
@@ -172,7 +172,7 @@ $secondary-color: #888;
 //포스팅 글자
 .cul-content-text {
     margin-top: 8px;
-    width: 358px;
+    width: 100%;
     height: fit-content;
     font-size: 14px;
 }
@@ -221,7 +221,7 @@ $secondary-color: #888;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 224px;
+    margin-left: auto;
     cursor: pointer;
 }
 
@@ -236,7 +236,7 @@ $secondary-color: #888;
 }
 
 .cul-reaction-container {
-    width: 358px;
+    width: 100%;
     height: 42px;
     display: flex;
     margin-top: 8px;
@@ -245,7 +245,6 @@ $secondary-color: #888;
 //포스트 전체
 .cul-post {
     position: relative;
-    width: fit-content;
     height: fit-content;
     margin-left: 16px;
     margin-right: 16px;
@@ -261,8 +260,8 @@ $secondary-color: #888;
 .eachImage {
     width: 100px;
     height: 100px;
-    margin-right: 16px;
-    margin-top: 16px;
+    margin-right: 1.5em;
+    margin-top: 1.5em;
     border: 1px solid lightgrey;
 }
 

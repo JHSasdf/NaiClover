@@ -1,21 +1,23 @@
 .monochat-header-container {
-    width: 390px;
-    height: 48px;
+    width: 100%;
+    height: 3em;
     display: flex;
+    padding: 10px;
     align-items: center;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
 
     .monochat-logo {
         background-image: url('../img/monochat.png');
         width: 107px;
         height: 20px;
-        margin-left: 24px;
+        margin-left: 12px;
     }
 
     .create-monochat {
         background-image: url('../img/createmonochat.png');
         width: 40px;
         height: 40px;
-        margin-left: 195px;
+        margin-left: auto;
         cursor: pointer;
     }
 }

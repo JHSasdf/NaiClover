@@ -1,8 +1,9 @@
 .header-container {
-    width: 390px;
-    height: 48px;
+    width: 100%;
+    height: 3em;
     display: flex;
     align-items: center;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
 }
 
 .posts-title {
@@ -11,7 +12,7 @@
     background-image: url('../img/posts-title.png');
     background-size: cover;
     cursor: pointer;
-    margin-left: 24px;
+    margin-left: 12px;
 }
 
 .alertArrived {
@@ -20,7 +21,7 @@
     background-image: url('../img/alert.png');
     background-size: cover;
     cursor: pointer;
-    margin-left: 196px;
+    margin-left: auto;
 }
 
 .alertAllChecked {
@@ -29,7 +30,7 @@
     background-image: url('../img/alertnone.png');
     background-size: cover;
     cursor: pointer;
-    margin-left: 196px;
+    margin-left: auto;
 }
 
 .create-post {
@@ -39,5 +40,6 @@
     background-size: cover;
     cursor: pointer;
     margin-left: 24px;
+    margin-right: 6px;
     border: none;
 }

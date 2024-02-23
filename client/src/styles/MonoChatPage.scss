@@ -1,11 +1,12 @@
 .monochatpage {
-    width: 390px;
-    height: 844px;
+    width: 100%;
+    max-width: 40em;
+    height: calc(100vh - 8em);
 }
 
 .monochatpage-container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: calc(100vh - 8em);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -13,11 +14,10 @@
 }
 
 .change-language-container {
-    width: 390px;
-    height: 53px;
+    width: 100%;
+    height: 3em;
     display: flex;
     padding-left: 10px;
-    margin-bottom: 5px;
     border-bottom: 0.5px solid #cacaca;
     overflow: scroll;
 
@@ -56,10 +56,10 @@
 }
 
 .chatroom-container {
-    width: 390px;
-    height: 520px;
+    width: 100%;
+    height: calc(100vh - 5em - 3em - 3em - 2em - 2em);
     padding: 36px 20px 0px 20px;
-    background-image: url('../img/background.png');
+    background-color: #f8f8f8;
     overflow: scroll;
 }
 

@@ -1,18 +1,19 @@
-.alert-header-container{
-    width: 390px;
-    height: 48px;
+.alert-header-container {
+    width: 100%;
+    height: 3em;
     display: flex;
     align-items: center;
     background-color: white;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
 
-    .back-arrow{
+    .back-arrow {
         width: 24px;
         height: 24px;
         background-image: url('../img/backarrow.png');
         margin-left: 16px;
     }
 
-    .alert-header-text{
+    .alert-header-text {
         margin-left: 8px;
         font-size: 16px;
         font-weight: bold;

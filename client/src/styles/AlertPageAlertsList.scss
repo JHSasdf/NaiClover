@@ -1,5 +1,9 @@
-.alertslist-container{
-    width: 390px;
-    height: fit-content;
-    margin-top: 24px;
+.alertslist-container {
+    width: 100%;
+    height: calc(100vh - 8em);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

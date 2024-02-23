@@ -1,5 +1,5 @@
 .monotalkalert-container {
-    width: 390px;
+    width: 100%;
     height: fit-content;
     padding: 20px 24px;
     background-color: #e9ffee;
@@ -20,20 +20,20 @@
 }
 
 .monotalkalert-oldcontainer {
-    width: 390px;
+    width: 100%;
     height: fit-content;
     padding: 20px 24px;
     background-color: white;
 
     .monotalkalert-title {
-        width: 390px;
+        width: 100%;
         height: fit-content;
         font-size: 14px;
         color: #000;
     }
 
     .monotalkalert-content {
-        width: 390px;
+        width: 100%;
         height: fit-content;
         font-size: 14px;
         color: #888;

@@ -2,7 +2,7 @@ $main-color: #37af6a;
 $secondary-color: #888;
 
 .lang-post-container {
-    width: 390px;
+    width: 100%;
     height: fit-content;
     background-color: white;
     margin-bottom: 24px;
@@ -163,8 +163,8 @@ $secondary-color: #888;
 //작성시간 + 더보기 버튼
 .lang-more-container {
     margin-top: 8px;
-    width: 358px;
-    height: 16px;
+    width: 100%;
+    height: 1em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -173,7 +173,7 @@ $secondary-color: #888;
 //포스팅 글자
 .lang-content-text {
     margin-top: 8px;
-    width: 358px;
+    width: 100%;
     height: fit-content;
     font-size: 14px;
 }
@@ -222,7 +222,7 @@ $secondary-color: #888;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 224px;
+    margin-left: auto;
     cursor: pointer;
 }
 
@@ -237,7 +237,7 @@ $secondary-color: #888;
 }
 
 .lang-reaction-container {
-    width: 358px;
+    width: 100%;
     height: 42px;
     display: flex;
     margin-top: 8px;
@@ -246,14 +246,13 @@ $secondary-color: #888;
 //포스트 전체
 .lang-post {
     position: relative;
-    width: fit-content;
     height: fit-content;
     margin-left: 16px;
     margin-right: 16px;
 }
 
 .lang-line {
-    width: 390px;
+    width: 100%;
     height: 0.5px;
     background-color: lightgrey;
     margin-top: 24px;

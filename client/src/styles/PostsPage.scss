@@ -1,8 +1,8 @@
 @import './Common.scss';
 
 .language-posts-container {
-    width: 390px;
-    height: 512px;
+    width: 100%;
+    height: calc(100vh - 8em - 4em - 45px);
     overflow: auto;
 }
 
@@ -11,23 +11,23 @@
 }
 
 .culture-posts-container {
-    width: 390px;
-    height: 512px;
+    width: 100%;
+    height: calc(100vh - 8em - 4em - 45px);
     overflow: auto;
 }
-
 .culture-posts-container::-webkit-scrollbar {
     display: none;
 }
 
 .postspage {
-    width: 390px;
-    height: 844px;
+    width: 100%;
+    max-width: 40em;
+    height: calc(100vh - 8em);
 }
 
-.postspage-container{
-    width: 100vw;
-    height: 100vh;
+.postspage-container {
+    width: 100%;
+    height: calc(100vh - 8em);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -36,15 +36,16 @@
 
 .category-component {
     @include flex-center();
+    width: 100%;
     .btn_lang {
         @include flex-center();
-        width: 171px;
-        height: 32px;
+        width: 50%;
+        height: 2em;
         color: #808080;
         border-radius: 0;
         margin: 0;
         padding: 0;
-        margin-bottom: 34px;
+        margin-bottom: 0.5em;
         border-bottom: 1px solid #808080;
         cursor: pointer;
         background-color: white;
