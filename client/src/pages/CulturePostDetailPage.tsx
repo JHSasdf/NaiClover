@@ -4,7 +4,6 @@ import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import Topbar from '../components/Topbar';
 import CultureComment from '../components/postdetailpage/CultureComment';
 import PostDetailHeader from '../components/postdetailpage/PostDetailHeader';
 import SendComment from '../components/postdetailpage/SendComment';
@@ -89,65 +88,66 @@ function CulturePostDetailPage() {
     }, []);
     useEffect(() => {}, [culturePost]);
     return (
-        <div className="postdetailpage-container">
-            <div className="postdetailpage">
-                <Topbar />
-                <PostDetailHeader />
-                <CulturePost
-                    content={culturePost.content}
-                    userid={culturePost.userid}
-                    id={culturePost.postId}
-                    profileImgPath={culturePost?.User?.profileImgPath}
-                    createdAt={culturePost.createdAt}
-                    name={culturePost.User?.name}
-                    nation={culturePost.User?.nation}
-                    images={culturePost}
-                    gender={culturePost.User?.gender}
-                />
-                <div className="culturecomment-container">
-                    {comments?.map((comment, index) => {
-                        if (!comment.isrevised) {
-                            return (
-                                <CultureComment
-                                    key={index}
-                                    index={comment.index}
-                                    type={culturePost.postType}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        } else {
-                            return (
-                                <CultureRevisedComment
-                                    key={index}
-                                    index={comment.index}
-                                    profileImgPath={
-                                        comment.User?.profileImgPath
-                                    }
-                                    content={comment.content}
-                                    userid={comment.userid}
-                                    time={comment.createdAt}
-                                    name={comment.User?.name}
-                                    nation={comment.User?.nation}
-                                    getcomment={getComments}
-                                />
-                            );
-                        }
-                    })}
+        <>
+            <PostDetailHeader />
+            <div className="postdetailpage-container">
+                <div className="postdetailpage">
+                    <CulturePost
+                        content={culturePost.content}
+                        userid={culturePost.userid}
+                        id={culturePost.postId}
+                        profileImgPath={culturePost?.User?.profileImgPath}
+                        createdAt={culturePost.createdAt}
+                        name={culturePost.User?.name}
+                        nation={culturePost.User?.nation}
+                        images={culturePost}
+                        gender={culturePost.User?.gender}
+                    />
+                    <div className="culturecomment-container">
+                        {comments?.map((comment, index) => {
+                            if (!comment.isrevised) {
+                                return (
+                                    <CultureComment
+                                        key={index}
+                                        index={comment.index}
+                                        type={culturePost.postType}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <CultureRevisedComment
+                                        key={index}
+                                        index={comment.index}
+                                        profileImgPath={
+                                            comment.User?.profileImgPath
+                                        }
+                                        content={comment.content}
+                                        userid={comment.userid}
+                                        time={comment.createdAt}
+                                        name={comment.User?.name}
+                                        nation={comment.User?.nation}
+                                        getcomment={getComments}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
                 </div>
                 <SendComment
                     onSendComment={addComment}
                     postUserId={culturePost.userid}
                 />
             </div>
-        </div>
+        </>
     );
 }
 

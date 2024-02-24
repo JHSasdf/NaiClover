@@ -82,25 +82,22 @@ function MypageEditLanguage() {
 
     return (
         <>
-            <Topbar />
             {/* 모달 컴포넌트 */}
             <ConfirmModal
                 show={showConfirmModal.show}
                 setShow={setShowConfirmModal}
                 navigate={navigate}
             />
-
-            <div className="myPageOption-container">
-                {/* 설정 헤드 부분 */}
-                <div className="myPageOption-C-Header">
-                    <Link to="/mypage/option">
-                        <div>
-                            <img src="/images/BackPoint.png" alt="" />
-                        </div>
-                    </Link>
-                    <div className="settingBack">Edit Language</div>
-                </div>
-
+            {/* 설정 헤드 부분 */}
+            <div className="myPageOption-C-Header">
+                <Link to="/mypage/option">
+                    <div>
+                        <img src="/images/BackPoint.png" alt="" />
+                    </div>
+                </Link>
+                <div className="settingBack">Edit Language</div>
+            </div>
+            <div className="myPageOption-container multer2">
                 {/* 내용 */}
                 <div className="editLanguage-Container">
                     <div className="editContainer-title">Language</div>

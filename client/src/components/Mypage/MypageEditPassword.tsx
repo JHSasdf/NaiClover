@@ -62,24 +62,22 @@ function MypageEditPassword() {
 
     return (
         <>
-            <Topbar />
             {/* 모달 컴포넌트 */}
             <ConfirmModal
                 show={showConfirmModal.show}
                 setShow={setShowConfirmModal}
                 navigate={navigate}
             />
-            <div className="myPageOption-container">
-                {/* 설정 헤드 부분 */}
-                <div className="myPageOption-C-Header">
-                    <Link to="/mypage/option">
-                        <div>
-                            <img src="/images/BackPoint.png" alt="" />
-                        </div>
-                    </Link>
-                    <div className="settingBack">Edit Password</div>
-                </div>
-
+            {/* 설정 헤드 부분 */}
+            <div className="myPageOption-C-Header">
+                <Link to="/mypage/option">
+                    <div>
+                        <img src="/images/BackPoint.png" alt="" />
+                    </div>
+                </Link>
+                <div className="settingBack">Edit Password</div>
+            </div>
+            <div className="myPageOption-container multer2">
                 {/* 내용 */}
                 <div className="editPassword-Container">
                     <div className="editContainer-title">Password</div>

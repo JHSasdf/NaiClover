@@ -1,9 +1,10 @@
 @import './Common.scss';
 .correctingpage-container {
-    width: $all-width;
+    width: 100%;
+    max-width: 40em;
     display: flex;
     flex-direction: column;
-    height: 800px;
+    height: 100vh;
     background-color: #f4f4f4;
 
     .sentences-container {

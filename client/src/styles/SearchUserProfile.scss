@@ -1,40 +1,8 @@
-@import '../styles/Common.scss';
-
-// 각 컨테이너 헤더 부분
-@mixin C-Header() {
-    @include flex();
-    font-weight: bold;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-// 수정 이미지 & text
-@mixin modify-C() {
-    margin-left: auto;
-    @include flex();
-    .modifyImg {
-        width: 24px;
-        height: 24px;
-        padding-bottom: 2px;
-    }
-    .modify-title {
-        color: $primary-color;
-    }
-}
-
-// 언어 결과 div
-@mixin lang-result() {
-    border: 1px solid green;
-    border-radius: 20px;
-    width: fit-content;
-    height: fit-content;
-    padding: 8px;
-    margin-right: 12px;
-}
-
-.mypageProfile-C {
+@import './Common.scss';
+@import './MypageProfile.scss';
+.userpageProfile-C {
     padding: 0 16px;
-    height: calc(100vh - 3em - 2em - 2em - 8.25em - 5em - 4px);
+    height: calc(100vh - 5em - 3em - 2em - 2em - 172px - 1em);
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -127,8 +95,4 @@
             border-radius: 5%;
         }
     }
-}
-
-.header-title {
-    color: $sub-color;
 }

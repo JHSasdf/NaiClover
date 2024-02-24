@@ -1,7 +1,7 @@
 import '../styles/Mypage.scss';
+import '../styles/SearchUser.scss';
 import Footer from '../components/Footer';
 import SearchUserHeader from '../components/SearchUser/SearchUserHeader';
-import Topbar from '../components/Topbar';
 import SearchUserProfile from '../components/SearchUser/SearchUserProfile';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
@@ -103,8 +103,21 @@ function SearchUser() {
 
     return (
         <>
-            <Topbar />
-            <div className="mypage-container">
+            <div className="logoC_user">
+                <img
+                    className="userPageBack"
+                    src="/images/BackPoint.png"
+                    alt=""
+                    onClick={() => navigate(-1)}
+                />
+                <img
+                    className="userPageLogo"
+                    src="/images/userPage.png"
+                    alt=""
+                />
+            </div>
+
+            <div className="userpage-container">
                 <SearchUserHeader
                     followingNum={followingNum}
                     followerNum={followerNum}
@@ -140,7 +153,7 @@ function SearchUser() {
                         learningLang={learningLang}
                     />
                 ) : (
-                    <div className="mypagePostItems-C">
+                    <div className="userpagePostItems-C">
                         <div className="addPostImg">
                             <Link to={'/newpost'}>
                                 <img src="/images/addpost.png" alt="" />

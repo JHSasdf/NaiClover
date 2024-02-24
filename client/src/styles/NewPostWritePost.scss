@@ -1,5 +1,5 @@
-.writepost-container{
-    max-width: 390px;
+.writepost-container {
+    max-width: 100%;
     height: fit-content;
     margin: 0;
     padding: 4px;
@@ -10,27 +10,27 @@
     flex-direction: column;
     align-items: flex-start;
 
-    .writepost-title{
+    .writepost-title {
         margin-left: 12px;
         margin-bottom: 8px;
         font-size: 16px;
         font-weight: bold;
-        color: #37AF6A;
+        color: #37af6a;
     }
-    .writepost-inner-container{
-        width: 390px;
+    .writepost-inner-container {
+        width: 100%;
         display: flex;
         justify-content: space-between;
     }
-    textarea{
+    textarea {
         margin: 0;
         margin-top: 8px;
-        margin-left: 12px;
         padding: 8px;
         padding-bottom: 4px;
-        width: 358px;
-        min-height: 232px;
-        max-height: 232px;
+        width: 100%;
+        min-height: 15em;
+        max-height: 30em;
+        height: fit-content;
         font-size: 14px;
         outline: none;
         border: none;
@@ -38,7 +38,11 @@
         border: 1px solid lightgrey;
         border-radius: 8px;
     }
-    textarea::placeholder{
+    textarea::placeholder {
         font-size: 14px;
     }
+}
+
+.categoryBox {
+    margin-right: 8px;
 }

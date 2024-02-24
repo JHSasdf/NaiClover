@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import useErrorHandler from '../utils/useErrorHandler';
-import Topbar from '../components/Topbar';
 import { getCurrentData3 } from '../utils/getCurrentData';
 import { cookieConfig } from '../utils/cookieConfig';
 
@@ -177,7 +176,6 @@ const ChatRoomPage: React.FC = () => {
 
     return (
         <>
-            <Topbar />
             <div className="chat-room-container">
                 {/* 설정 헤드 부분 */}
                 <div className="chat-room-C-Header">

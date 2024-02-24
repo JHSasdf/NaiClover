@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-import Topbar from '../components/Topbar';
 import CorrectingPageHeader from '../components/correctingpage/CorrectingPageHeader';
 import SentenceCorrection from '../components/correctingpage/SentenceCorrection';
 import '../styles/CorrectingPage.scss';
@@ -54,7 +53,6 @@ function CultureCorrectingPage(props: any) {
     return (
         <div className="correctingpage-container">
             <div className="correctingpage">
-                <Topbar />
                 <CorrectingPageHeader
                     cleanCookie={cleanCookie}
                     tempLines={tempLines}

@@ -1,12 +1,17 @@
 .newpost-photos-container {
-    width: 370px;
+    width: calc(100% - 1.5em);
     height: fit-content;
     overflow: scroll;
     margin-top: 10px;
-    margin-left: 23px;
-    margin-right: 23px;
+    margin-left: 1.5em;
     display: flex;
     flex-flow: wrap;
+
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     .camera {
         width: 104px;

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import '../styles/Mypage.scss';
 import Footer from '../components/Footer';
 import MypageHeader from '../components/Mypage/MypageHeader';
-import Topbar from '../components/Topbar';
 import MypageProfile from '../components/Mypage/MypageProfile';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
@@ -92,7 +91,16 @@ function Mypage() {
 
     return (
         <>
-            <Topbar />
+            <div className="logoC">
+                <div>
+                    <img src="images/MypageLogo.png" alt="" />
+                </div>
+                <Link to={'/mypage/option'}>
+                    <div className="gaerOption">
+                        <img src="images/Gear.png" alt="" />
+                    </div>
+                </Link>
+            </div>
             <div className="mypage-container">
                 <MypageHeader
                     followingNum={followingNum}

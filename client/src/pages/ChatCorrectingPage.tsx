@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-import Topbar from '../components/Topbar';
 import ChatCorrectingPageHeader from '../components/correctingpage/ChatCorrectingPageHeader';
 import SentenceCorrection from '../components/correctingpage/SentenceCorrection';
 import '../styles/CorrectingPage.scss';
@@ -53,7 +52,6 @@ function ChatCorrectingPage(props: any) {
     }, [cookies]);
     return (
         <div className="correctingpage-container">
-            <Topbar />
             <ChatCorrectingPageHeader
                 roomNum={roomNum}
                 userid={cookieId}

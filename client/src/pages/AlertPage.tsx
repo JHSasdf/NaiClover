@@ -1,4 +1,4 @@
-import Topbar from '../components/Topbar';
+import Footer from '../components/Footer';
 import AlertPageHeader from '../components/alertpage/AlertPageHeader';
 import AlertsList from '../components/alertpage/AlertsList';
 import '../styles/AlertPage.scss';
@@ -8,13 +8,15 @@ function AlertPage() {
     const [cookies, setCookies, removeCookies] = useCookies(['id']);
     const idCookie = cookies['id'];
     return (
-        <div className="alertpage-container">
-            <div className="alertpage">
-                <Topbar />
-                <AlertPageHeader />
-                <AlertsList userid={idCookie} />
+        <>
+            <AlertPageHeader />
+            <div className="alertpage-container">
+                <div className="alertpage">
+                    <AlertsList userid={idCookie} />
+                </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 }
 

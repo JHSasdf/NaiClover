@@ -1,5 +1,4 @@
 import React from 'react';
-import Topbar from '../components/Topbar';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useCookies } from 'react-cookie';
@@ -101,75 +100,73 @@ function NewPostPage() {
     }
 
     return (
-        <div className="newpostpage-container">
-            <div className="newpostpage">
-                <Topbar />
-                <img src="/public\\posts\\aaaa1706235325370.jpg" alt="" />
-                <div className="newpost-header-container">
-                    <div
-                        className="back-arrow"
-                        onClick={() => navigate(-1)}
-                    ></div>
-                    <div className="newpost-header-text">새 포스트</div>
-                </div>
+        <>
+            <div className="newpost-header-container">
+                <div className="back-arrow" onClick={() => navigate(-1)}></div>
+                <div className="newpost-header-text">새 포스트</div>
+            </div>
+            <div className="newpostpage-container">
+                <div className="newpostpage">
+                    <img src="/public\\posts\\aaaa1706235325370.jpg" alt="" />
 
-                <div className="writepost-container">
-                    <div className="writepost-inner-container">
-                        <div className="writepost-title">포스트 내용</div>
-                        <select
-                            name="category"
-                            required
-                            ref={selectRef}
-                            value={selectedCategory}
-                            onChange={(e) =>
-                                setSelectedCategory(e.target.value)
-                            }
-                        >
-                            <option value="lang">language</option>
-                            <option value="cul">culture</option>
-                        </select>
+                    <div className="writepost-container">
+                        <div className="writepost-inner-container">
+                            <div className="writepost-title">포스트 내용</div>
+                            <select
+                                className="categoryBox"
+                                name="category"
+                                required
+                                ref={selectRef}
+                                value={selectedCategory}
+                                onChange={(e) =>
+                                    setSelectedCategory(e.target.value)
+                                }
+                            >
+                                <option value="lang">language</option>
+                                <option value="cul">culture</option>
+                            </select>
+                        </div>
+                        <textarea
+                            placeholder="포스트 내용을 작성해 주세요..."
+                            ref={textareaRef}
+                            rows={1}
+                            onChange={() => {
+                                handleResizeHeight();
+                            }}
+                        ></textarea>
                     </div>
-                    <textarea
-                        placeholder="포스트 내용을 작성해 주세요..."
-                        ref={textareaRef}
-                        rows={1}
-                        onChange={() => {
-                            handleResizeHeight();
-                        }}
-                    ></textarea>
-                </div>
 
-                {selectedCategory === 'cul' ? (
-                    <div className="newpost-photos-container">
-                        <input
-                            type="file"
-                            multiple
-                            ref={images}
-                            accept=".jpg, .png, .jpeg"
-                            onChange={handleImageChange}
-                            style={{ display: 'none' }}
-                        />
-
-                        <div
-                            className="camera"
-                            onClick={handleCameraClick}
-                        ></div>
-                        {uploadedImages.map((imageUrl, index) => (
-                            <img
-                                className="image"
-                                key={index}
-                                src={imageUrl}
-                                alt={`Uploaded ${index + 1}`}
+                    {selectedCategory === 'cul' ? (
+                        <div className="newpost-photos-container">
+                            <input
+                                type="file"
+                                multiple
+                                ref={images}
+                                accept=".jpg, .png, .jpeg"
+                                onChange={handleImageChange}
+                                style={{ display: 'none' }}
                             />
-                        ))}
-                    </div>
-                ) : null}
 
+                            <div
+                                className="camera"
+                                onClick={handleCameraClick}
+                            ></div>
+                            {uploadedImages.map((imageUrl, index) => (
+                                <img
+                                    className="image"
+                                    key={index}
+                                    src={imageUrl}
+                                    alt={`Uploaded ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+                    ) : null}
+                </div>
                 <div className="newpost-button-container">
                     <button onClick={() => submitPost()}>포스팅</button>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 export default NewPostPage;
