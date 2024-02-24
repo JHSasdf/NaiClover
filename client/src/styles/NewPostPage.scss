@@ -1,13 +1,18 @@
-.newpostpage{
-    width: 390px;
-    height: 844px;
+.newpostpage {
+    width: 100%;
+    max-width: 40em;
+    height: calc(100vh - 3em - 3em);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-.newpostpage-container{
-    width: 100vw;
-    height: 100vh;
+.newpostpage-container {
+    width: 100%;
+    height: calc(100vh - 3em);
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
 }
