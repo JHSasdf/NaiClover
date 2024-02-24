@@ -5,10 +5,10 @@ $secondary-color: #888;
     width: 100%;
     height: fit-content;
     background-color: white;
-    margin-bottom: 24px;
 }
 
 .lang-post {
+    padding-top: 10px;
     background-color: white;
     font-family: 'Poppins', sans-serif;
 }
@@ -253,9 +253,8 @@ $secondary-color: #888;
 
 .lang-line {
     width: 100%;
-    height: 0.5px;
+    height: 1px;
     background-color: lightgrey;
-    margin-top: 24px;
 }
 
 .liked {

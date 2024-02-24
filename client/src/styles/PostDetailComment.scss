@@ -1,5 +1,5 @@
 .comment-container {
-    width: 390px;
+    width: 100%;
     min-height: fit-content;
     max-height: none;
     background-color: white;
@@ -35,14 +35,14 @@
 }
 
 .comment-inside-container {
-    width: 286px;
+    width: 100%;
     height: fit-content;
     display: flex;
     flex-direction: column;
 }
 
 .comment-header-container {
-    width: 286px;
+    width: 100%;
     height: 24px;
     display: flex;
     align-items: center;
@@ -52,10 +52,9 @@
         text-decoration-line: none;
         font-size: 14px;
         font-weight: bold;
-        margin-right: 200px;
-        width: 60px;
+        width: 100%;
         height: fit-content;
-        font-family: "Poppins", sans-serif;
+        font-family: 'Poppins', sans-serif;
     }
 
     .comment-more {
@@ -67,17 +66,16 @@
 }
 
 .comment-content {
-    min-width: 286px;
-    max-width: 286px;
+    width: 100%;
     height: auto;
     font-size: 14px;
     overflow: hidden;
     word-wrap: break-word;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .comment-footer-container {
-    width: 286px;
+    width: 100%;
     height: 28px;
     display: flex;
     align-items: center;
@@ -96,13 +94,13 @@
     border: 1px solid lightgrey;
     border-radius: 8px;
     z-index: 1000;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 
     .edit-text:hover {
         span {
             background-color: #e9ffee;
             cursor: pointer;
-            font-family: "Poppins", sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
     }
 
@@ -116,7 +114,7 @@
         span {
             background-color: #e9ffee;
             cursor: pointer;
-            font-family: "Poppins", sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
     }
 }
@@ -129,26 +127,28 @@
     position: relative;
 }
 
-.beforecheck-emoji{
+.beforecheck-emoji {
     width: 20px;
     height: 20px;
     background-image: url('../img/X.png');
     margin-left: 8px;
 }
 
-.correction-emoji{
+.correction-emoji {
     width: 20px;
     height: 20px;
     background-image: url('../img/Check.png');
     margin-left: 8px;
 }
 
-.before-comment-content{
+.before-comment-content {
     display: flex;
     margin-left: 8px;
+    margin-top: 0.5em;
 }
 
-.after-comment-content{
+.after-comment-content {
     display: flex;
     margin-left: 8px;
+    margin-top: 0.5em;
 }
