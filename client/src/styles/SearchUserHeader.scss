@@ -1,17 +1,10 @@
 @import './Common.scss';
 @import './MypageHeader.scss';
 @import './Mypage.scss';
-
 .mypageHeaderC {
-    .searchUserHeader {
-        @include flex();
-        height: 24px;
-        padding-top: 10px;
-        margin-left: 10px;
-    }
-
     .personal-container {
         @include flex-center();
+        height: 2em;
         margin: 10px 0px;
         > button {
             border-radius: 5px;

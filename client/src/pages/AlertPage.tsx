@@ -1,5 +1,4 @@
 import Footer from '../components/Footer';
-import Topbar from '../components/Topbar';
 import AlertPageHeader from '../components/alertpage/AlertPageHeader';
 import AlertsList from '../components/alertpage/AlertsList';
 import '../styles/AlertPage.scss';

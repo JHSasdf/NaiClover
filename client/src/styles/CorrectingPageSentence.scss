@@ -1,41 +1,50 @@
-.sentence-container{
-    width: 390px;
+.sentence-container {
+    width: 100%;
     height: fit-content;
     display: flex;
     flex-direction: column;
     background-color: white;
-    border-bottom: 1px solid #D7D7D7;
+    border-bottom: 1px solid #d7d7d7;
 }
 
-.sentence-header{
-    width: 390px;
-    min-height: 52px;
+.sentence-header {
+    width: 100%;
+    min-height: 4em;
     display: flex;
     align-items: center;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
 
-    .sentence-content{
-        width: 300px;
-        height: fit-content;
-        font-size: 14px;
+    .sentence-content {
+        width: 100%;
+        max-height: 4em;
+        font-size: 16px;
         margin-left: 24px;
     }
-    .correcting{
+    .correcting {
         width: 24px;
         height: 24px;
         background-image: url('../img/Pen.png');
-        margin-right: 24px;
+        margin-left: auto;
+        margin-right: 1em;
+    }
+    .corrctingadd {
+        min-width: 30px;
+        min-height: 24px;
+        margin-right: 1em;
+        margin-left: auto;
+        color: green;
     }
 }
 
-.inputcorrecting{
-    width: 300px;
-    height: fit-content;
-    font-size: 14px;
-    margin-left: 24px;
-    margin-bottom: 8px;
+.inputcorrecting {
+    width: 100%;
+    height: 4em;
+    font-size: 16px;
     border: none;
+    background-color: #f7f7f7;
+    padding-left: 24px;
 }
 
-.inputcorrecting:focus{
+.inputcorrecting:focus {
     outline: none;
 }

@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import '../../styles/MypageProfile.scss';
+import '../../styles/SearchUserProfile.scss';
 
 function SearchUserProfile(props: any) {
     const { userData, learningLang } = props;
     const intro = useRef<HTMLTextAreaElement>(null);
     return (
-        <div className="mypageProfile-C">
+        <div className="userpageProfile-C">
             <div className="introduce-C">
                 <div className="introduce-C-Header">
                     <div className="header-title">자기 소개</div>

@@ -27,7 +27,7 @@ function SentenceCorrection(props: any) {
         setTimeout(() => {
             afterDiv.current.innerHTML = res[1].replace(
                 /\{([^}]+)\}/g,
-                '<span style="margin-left: 24px; color : green">$1</span>'
+                '<span style="margin-left: 24px; color : green; height: 4em;">$1</span>'
             );
         }, 0);
 
@@ -54,6 +54,7 @@ function SentenceCorrection(props: any) {
                     </div>
                     {showInput && isFixed ? (
                         <div
+                            className="corrctingadd"
                             onClick={() => {
                                 correctLines();
                             }}

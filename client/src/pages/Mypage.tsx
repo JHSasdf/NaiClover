@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import '../styles/Mypage.scss';
 import Footer from '../components/Footer';
 import MypageHeader from '../components/Mypage/MypageHeader';
-import Topbar from '../components/Topbar';
 import MypageProfile from '../components/Mypage/MypageProfile';
 import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';

@@ -1,0 +1,69 @@
+@import './Common.scss';
+
+.logoC_user {
+    @include flex();
+    height: 3em;
+    top: 0;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    box-shadow: inset 0px 0px 5px rgba(192, 191, 191, 0.5);
+    position: fixed;
+    > .userPageLogo {
+        width: 7em;
+        height: 1.3em;
+        margin-left: 10px;
+    }
+    > .userPageBack {
+        height: 1.5em;
+    }
+}
+
+.userpage-container {
+    width: 100%;
+    max-width: 40em;
+    margin-top: 3em;
+    height: calc(100vh - 3em - 5em);
+    .clickDiv {
+        @include flex-center();
+        text-align: center;
+        cursor: pointer;
+
+        .profileClick {
+            border-bottom: 1px solid lightgray;
+            width: 50%;
+            height: 2em;
+            @include flex-center();
+        }
+        .postClick {
+            @extend .profileClick;
+        }
+
+        // 컴포넌트 변경시
+        .changed {
+            color: $primary-color;
+            font-weight: bolder;
+            font-size: large;
+            border-bottom: 3px solid $primary-color;
+        }
+    }
+
+    .mypagePostItems-C {
+        padding: 0 16px;
+        height: calc(100vh - 3em - 2em - 2em - 8.25em - 5em - 4px);
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .userpagePostItems-C {
+        padding: 0 16px;
+        height: calc(100vh - 5em - 3em - 2em - 2em - 172px - 1em);
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

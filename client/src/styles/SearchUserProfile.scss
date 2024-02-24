@@ -1,0 +1,98 @@
+@import './Common.scss';
+@import './MypageProfile.scss';
+.userpageProfile-C {
+    padding: 0 16px;
+    height: calc(100vh - 5em - 3em - 2em - 2em - 172px - 1em);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    // 자기 소개 부분
+    .introduce-C {
+        margin-top: 39px;
+
+        .introduce-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+            }
+        }
+
+        .textarea-C {
+            padding: 12px;
+            background-color: #e9ffee;
+            @include flex-center();
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+
+            .introduce-textarea {
+                width: 50em;
+                height: 91px;
+                background-color: #e9ffee;
+                border: none;
+                outline: none;
+                resize: none;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+        }
+    }
+    // 모국어 부분
+    .nativLang-C {
+        margin-top: 39px;
+
+        .nativLang-C-Header {
+            @include C-Header();
+        }
+        .native-result-c {
+            @include flex();
+            .nativeResultDiv {
+                @include lang-result();
+            }
+        }
+    }
+    // 학습 언어 부분
+    .learnLang-C {
+        margin-top: 39px;
+        .learnLang-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+                > a {
+                    text-decoration-line: none; // a 링크 밑줄 제거
+                    color: inherit; // a 링크 글자색 없애기
+                }
+            }
+        }
+        .learn-result-c {
+            @include flex();
+            .learnResultDiv {
+                @include lang-result();
+            }
+        }
+    }
+    // 위치 부분
+    .location-C {
+        margin-top: 39px;
+        margin-bottom: 20px;
+        .location-C-Header {
+            @include C-Header();
+
+            .modify-C {
+                @include modify-C();
+            }
+        }
+        iframe {
+            width: calc(100%);
+            height: 350px;
+            border: none;
+            border-radius: 5%;
+        }
+    }
+}
