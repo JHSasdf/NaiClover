@@ -30,7 +30,7 @@ export async function login(
     try {
         existingUser = await User.findOne({ where: { userid: userid } });
     } catch (err) {
-        return res.json({
+        return res.status(500).json({
             msg: 'An Error Occurred ',
             isLoggedin: false,
             userid: null,

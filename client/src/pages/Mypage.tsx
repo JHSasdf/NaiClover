@@ -147,7 +147,7 @@ function Mypage() {
                                         key={post.postId}
                                         userid={post.userid}
                                         id={post.postId}
-                                        name={post.userid}
+                                        name={post.User.name}
                                         createdAt={post.createdAt}
                                         content={post.content}
                                         nation={post.User.nation}
