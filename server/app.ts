@@ -10,9 +10,9 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const http = require('http');
-const sequelize = require('sequelize');
+
 import { Server, Socket } from 'socket.io';
-import { Op } from 'sequelize';
+
 import { authRouter } from './routes/auth.routes';
 import { myPageRouter } from './routes/mypage.routes';
 import { followRouter } from './routes/follow.routes';
@@ -25,7 +25,12 @@ import { db } from './model';
 const handleErrors = require('./middlewares/errorHandler.middleware');
 const notFoundHandler = require('./middlewares/notFound.middleware');
 import { getSessionConfig } from './config/session.config';
-import { generateUniqueId } from './public/utils/createChatsAndRoomsDb';
+import {
+    createMonoRoomDb,
+    updatePeopleInMonoRoom,
+    createChatDb,
+    createPersonalRoomDb,
+} from './utils/createChatsAndRoomsDb';
 const path = require('path');
 const app = express();
 export const server = http.createServer(app);
@@ -36,12 +41,7 @@ export const io = new Server(server, {
     },
 });
 
-const Chat = db.Chat;
 const Room = db.Room;
-const ChatCount = db.ChatCount;
-const CurrentNOPIM = db.CurrentNOPIM;
-
-let roomNum: string;
 
 app.use('/public', express.static(__dirname + '/public'));
 app.use(session(getSessionConfig()));
@@ -92,116 +92,7 @@ const removeUserChatRoom = (userId: string, roomId: string) => {
         );
     }
 };
-//
 
-async function createMonoRoomDb(
-    roomName: string,
-    userid: string,
-    useridTo: string,
-    restrictedLang: string,
-    roomNumArr: Array<String>
-) {
-    let result;
-    const genaratedUniqueId = generateUniqueId();
-    try {
-        result = await Room.create({
-            roomNum: genaratedUniqueId,
-            roomName: roomName,
-            userid: userid,
-            useridTo: useridTo,
-            restrictedLang: restrictedLang,
-        });
-
-        await CurrentNOPIM.create({
-            roomNum: genaratedUniqueId,
-            numberOfPeople: 0,
-        });
-    } catch (err) {
-        console.log(err);
-    }
-    roomNumArr.push(result.roomNum);
-}
-
-async function createPersonalRoomDb(
-    roomName: string,
-    userid: string,
-    useridTo: string,
-    roomNumArr: Array<String>
-) {
-    let result;
-    const genaratedUniqueId = generateUniqueId();
-    try {
-        const validCheck = await Room.findOne({
-            where: {
-                userid: userid,
-                useridTo: useridTo,
-            },
-        });
-
-        const validCheck2 = await Room.findOne({
-            where: {
-                userid: useridTo,
-                useridTo: userid,
-            },
-        });
-
-        if (validCheck) {
-            return roomNumArr.push(validCheck.dataValues.roomNum);
-        }
-        if (validCheck2) {
-            return roomNumArr.push(validCheck2.dataValues.roomNum);
-        }
-
-        result = await Room.create({
-            roomNum: genaratedUniqueId,
-            roomName: roomName,
-            userid: userid,
-            useridTo: useridTo,
-            restrictedLang: null,
-        });
-    } catch (err) {
-        console.log(err);
-    }
-    roomNumArr.push(result.dataValues.roomNum);
-    roomNum = result.roomNum;
-    return;
-}
-
-async function createChatDb(
-    roomNum: string,
-    userid: string,
-    content: string,
-    isrevised: boolean = false,
-    toWhom: string | null = null
-) {
-    let result;
-    try {
-        result = await Chat.create({
-            roomNum: roomNum,
-            userid: userid,
-            content: content,
-            isrevised: isrevised,
-            toWhom: toWhom,
-        });
-        const peopleInChatRoom = await Chat.findAll({
-            attributes: [[sequelize.literal('DISTINCT userid'), 'userid']],
-            where: {
-                roomNum: roomNum,
-                [Op.not]: [{ userid: userid }],
-            },
-        });
-        for (const personInChatRoom of peopleInChatRoom) {
-            ChatCount.create({
-                roomNum: roomNum,
-                chatIndex: result.dataValues.chatIndex,
-                userid: userid,
-                useridTo: personInChatRoom.dataValues.userid,
-            });
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
 app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     const roomId = req.params.roomId;
     const room = await Room.findOne({ where: { roomNum: roomId } });
@@ -213,16 +104,6 @@ app.get('/fetch/language/:roomId', async (req: Request, res: Response) => {
     }
 });
 
-function updatePeopleInMonoRoom(roomClients: number, room: string) {
-    CurrentNOPIM.update(
-        {
-            numberOfPeople: roomClients,
-        },
-        {
-            where: { roomNum: room },
-        }
-    );
-}
 const chatRoomLanguages: Record<string, string> = {};
 io.on('connection', (socket: Socket) => {
     socket.on('joinRoom', (room) => {
@@ -316,29 +197,31 @@ io.on('connection', (socket: Socket) => {
                 : createPersonalRoomDb(roomName, userid, useridTo, roomNumArr)
             ).then(() => {
                 const inviteCode = generateInviteCode();
-                chatRooms[roomNum] = {
-                    id: roomNum,
+                chatRooms[roomNumArr[roomNumArr.length - 1]] = {
+                    id: roomNumArr[roomNumArr.length - 1],
                     name: roomName,
                     inviteCode,
                 };
 
                 socket.emit('roomCreated', {
-                    roomNum,
+                    roomNum: roomNumArr[roomNumArr.length - 1],
                     roomName,
                     roomNumArr,
                 });
                 // userId 추가
-                io.to(roomNum).emit('roomCreated', {
-                    roomNum,
+                io.to(roomNumArr[roomNumArr.length - 1]).emit('roomCreated', {
+                    roomNum: roomNumArr[roomNumArr.length - 1],
                     roomName,
                     roomNumArr,
                     userId: socket.id,
                 });
 
-                saveUserChatRoom(socket.id, roomNum); // 사용자의 채팅방 정보 저장
+                saveUserChatRoom(socket.id, roomNumArr[roomNumArr.length - 1]); // 사용자의 채팅방 정보 저장
 
                 console.log(
-                    `User ${socket.id} created and joined room ${roomNum}`
+                    `User ${socket.id} created and joined room ${
+                        roomNumArr[roomNumArr.length - 1]
+                    }`
                 );
             });
         }
