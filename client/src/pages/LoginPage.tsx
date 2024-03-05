@@ -59,11 +59,13 @@ function LoginPage() {
                 />{' '}
                 <br />
                 <img
+                    className="loginbtn"
                     src="/images/signinBtn.png"
                     alt="login-btn"
                     onClick={(e: React.MouseEvent<HTMLElement>) => login(e)}
                 />
             </form>
+            <br />
             <p className="signupMessage">
                 Don't have an account? <a href="/signup">Sign up</a>
             </p>

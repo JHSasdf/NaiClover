@@ -118,8 +118,8 @@ function SignupPage() {
         }
     };
     return (
-        <div className="signup-or-login">
-            <div className="signupcontainer">
+        <div className="signupcontainer signup-or-login">
+            <div className="">
                 <header>
                     <img
                         src="/images/backBtn.png"
@@ -176,6 +176,7 @@ function SignupPage() {
                                 Toggle(e);
                             }}
                         />
+                        <br />
                         <p>
                             Already have an account? <a href="/login">Log In</a>
                         </p>
@@ -262,12 +263,12 @@ function SignupPage() {
                                 <option value="Japanese">Japanese</option>
                                 <option value="Korean">Korean</option>
                             </select>
-                            <span
+                            <div
                                 className="plus-and-minus-btn"
                                 onClick={() => setLearningLang2Toggle(true)}
                             >
                                 <img src="/images/elementplus.png" alt="plus" />
-                            </span>
+                            </div>
                         </fieldset>
                         <fieldset
                             className={
