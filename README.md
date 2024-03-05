@@ -1,4 +1,4 @@
-# Project NaiClover ver 1.1
+# Project NaiClover ver 1.2
 개발기간: 1월 15일 ~ 2월 6일 (3주)
 
 <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/548b3c3a-8e12-4792-9427-41a65253d145" widht="400" height="350" />
@@ -163,4 +163,8 @@ $ npm i
 4. 마이페이지 팔로우 한 사람 목록에서 상대방 이름이 아닌 내 이름 뜨던 버그 수정
 5. 마이페이지 내 post에서 내 이름이 아닌 id가 뜨는 버그 수정
 
+### ver.1.2
+1. app.ts 리팩토링
+2. 프론트 편의성 개선
+   
 프로젝트 회고록 블로그 https://kimsunji.tistory.com/35
