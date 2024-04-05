@@ -43,7 +43,7 @@ http://3.34.47.72/
 ![naiclover-userinfo-personalcaht](https://github.com/JHSasdf/NaiClover/assets/146299597/6565d9e9-5d20-461a-a0d6-2f9cbf1499cf)
 
 
-* 모노채팅 기능, korean, english로 언어 제한(토글 창으로 팝업되지만 gif에서는 안뜸), 채팅 본 인원 체크 기능
+* 모노채팅 기능, korean, english로 언어 제한, 채팅 확인 인원 체크 기능
 
 ![naiclovermonochatroom](https://github.com/JHSasdf/NaiClover/assets/146299597/fe8a2b1e-3755-47dc-b94f-487175000b2b)
 ![naiclover-monochat](https://github.com/JHSasdf/NaiClover/assets/146299597/743fe5ec-7eab-443f-a2b2-0586f36aa13f)
