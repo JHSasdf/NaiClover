@@ -37,7 +37,7 @@ http://3.34.47.72/
 
 ![NaiClova-query](https://github.com/JHSasdf/NaiClover/assets/146299597/38580aec-7c7a-424e-9109-5a916dd039ec)
 
-* follow 한 유저의 post를 top으로 올리는 기능
+* post순서를 follow한 유저를 기준으로 올리는 기능
 * 1:1 채팅 기능
   
 ![naiclover-userinfo-personalcaht](https://github.com/JHSasdf/NaiClover/assets/146299597/6565d9e9-5d20-461a-a0d6-2f9cbf1499cf)
