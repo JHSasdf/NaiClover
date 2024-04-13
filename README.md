@@ -127,7 +127,7 @@ $ npm i
 
 **Deploy**
 
-<img src="https://img.shields.io/badge/Pm2-2B037A?style=for-the-badge&logo=Pm2&logoColor=white"> <img src="https://img.shields.io/badge/Ec2-FF9900?style=for-the-badge&logo=Amazon Ec2&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> 
+<img src="https://img.shields.io/badge/Pm2-2B037A?style=for-the-badge&logo=Pm2&logoColor=white"> <img src="https://img.shields.io/badge/Ec2-FF9900?style=for-the-badge&logo=Amazon Ec2&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> <img src="https://img.shields.io/badge/AWS Elastic Load Balancing-8C4FFF?style=for-the-badge&logo=awselasticloadbalancing&logoColor=white"> <img src="https://img.shields.io/badge/amazon route 53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white"> 
 
 
 ## 화면구성
