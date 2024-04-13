@@ -51,9 +51,16 @@ function LoginPage() {
                 />
             </div>
             <form>
-                <input type="text" placeholder="ID" ref={idRef} /> <br />
+                <input
+                    type="text"
+                    placeholder="ID"
+                    ref={idRef}
+                    value={'aaaa'}
+                />{' '}
+                <br />
                 <input
                     type="password"
+                    value={'111111'}
                     placeholder="Password"
                     ref={passwordRef}
                 />{' '}
