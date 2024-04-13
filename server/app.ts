@@ -52,7 +52,7 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: [process.env.CLIENTURL, `http://${process.env.SERVERIPNO}`],
+        origin: [process.env.CLIENTURL, `https://${process.env.SERVERIPNO}`],
         methods: ['GET', 'POST', 'PATCH', 'DELETE'], // 'patch' 대신 'PATCH' 사용
     })
 );
