@@ -4,7 +4,8 @@
 <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/548b3c3a-8e12-4792-9427-41a65253d145" widht="400" height="350" />
 
 ## 배포 주소
-https://naiclover.shop
+~~https://naiclover.shop~~
+http://3.34.47.72:4000
 
 **Manual**
 *sign up can be possible
