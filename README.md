@@ -1,10 +1,10 @@
-# Project NaiClover ver 1.2
+# Project NaiClover ver 1.3
 개발기간: 1월 15일 ~ 2월 6일 (3주)
 
 <img src="https://github.com/JHSasdf/NaiClover/assets/146299597/548b3c3a-8e12-4792-9427-41a65253d145" widht="400" height="350" />
 
 ## 배포 주소
-http://3.34.47.72/
+https://naiclover.shop
 
 **Manual**
 *sign up can be possible
@@ -166,5 +166,9 @@ $ npm i
 ### ver.1.2
 1. app.ts 리팩토링
 2. 프론트 편의성 개선
+
+### ver.1.3
+1. 도메인 추가, https적용
+   
    
 프로젝트 회고록 블로그 https://kimsunji.tistory.com/35
