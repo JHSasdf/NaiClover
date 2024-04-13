@@ -169,7 +169,7 @@ $ npm i
 2. 프론트 편의성 개선
 
 ### ver.1.3
-1. 도메인 추가, https적용
+1. 도메인 추가, https적용(비용문제로 닫음)
    
    
 프로젝트 회고록 블로그 https://kimsunji.tistory.com/35
