@@ -18,7 +18,8 @@ http://3.34.47.72:4000
 
 
 ## 시스템 아키텍처
-![image](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/78cc6df7-9a5c-4c20-9279-bd2f3d3efcfe)
+![naiclover_Architecture drawio](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/9b93f526-97cf-4bbb-8b80-945b8fea4cc1)
+
 
 
 ## DB 구조도
