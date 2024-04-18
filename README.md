@@ -17,6 +17,10 @@ http://3.34.47.72:4000
 |guest|dddd|111111|
 
 
+## 시스템 아키텍처
+![image](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/78cc6df7-9a5c-4c20-9279-bd2f3d3efcfe)
+
+
 ## DB 구조도
 ![image](https://github.com/JHSasdf/NaiClover/assets/146299597/67df4336-e94b-41f4-bdce-4f78747005be)
 
@@ -60,7 +64,6 @@ http://3.34.47.72:4000
 * 채팅 autoFetch기능
   
 ![naicloverautofetch](https://github.com/JHSasdf/NaiClover/assets/146299597/766c685a-4585-413a-bd1c-8db70f94236b)
-
 
 ## 개발팀 소개
 |이름|담당|역할|
