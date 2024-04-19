@@ -18,7 +18,8 @@ http://3.34.47.72:4000
 
 
 ## 시스템 아키텍처
-![naiclover_Architecture drawio](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/9b93f526-97cf-4bbb-8b80-945b8fea4cc1)
+![naiclover_Architecture drawio](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/cad14426-ae9d-47af-a149-1f832a3f5d06)
+
 
 
 
