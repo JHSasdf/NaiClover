@@ -21,7 +21,8 @@ https://naiclover.shop
 
 
 ## 시스템 아키텍처
-![naiclover_Architecture drawio](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/cad14426-ae9d-47af-a149-1f832a3f5d06)
+![naiclover_Architecture drawio (1)](https://github.com/JHSasdf/Project3_NaiClover/assets/146299597/02cf5427-6199-47fe-8682-ebaedb060df2)
+
 
 
 
