@@ -5,8 +5,8 @@
 
 ## 배포 주소
 ~~https://naiclover.shop~~
-http://3.34.47.72:4000
-
+~~http:3.34.47.72~~
+https://naiclover.shop
 **Manual**
 *sign up can be possible
 |type|id|pw|
